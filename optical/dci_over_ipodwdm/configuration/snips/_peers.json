@@ -1,0 +1,666 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "876d55deebab4dc3e339ef9f3de0f0dfba95f3248503615ed87059681639cd71",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "6888f68debcc74e2114dceeea58cab488764f309938c630de042ee5b0c87495a",
+    "devices": 3,
+    "snips": 49,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "evo/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 4,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 466
+          }
+        }
+      ]
+    },
+    "evo/interfaces/ifd-flexible-ethernet-services-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-ethernet-services.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-lag-member-ether-wavelength.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/per-flow-load-balance.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/bgp-ibgp-inet-vpn-2-peers.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 2111
+          }
+        }
+      ]
+    },
+    "evo/protocols/mpls-te-200-lsp-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 2715
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-area0-loopback-2-p2p-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 2721
+          }
+        }
+      ]
+    },
+    "evo/protocols/ospf-traffic-engineering.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 2717
+          }
+        }
+      ]
+    },
+    "evo/protocols/rsvp-interface-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rsvp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rsvp",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 2727
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 200,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 502
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 200,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 494
+          }
+        }
+      ]
+    },
+    "evo/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/maximum-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/system/login-2-users-super-user.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "dci1_ptx10001-36mr",
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 11
+          }
+        }
+      ]
+    },
+    "evo/system/ntp-server.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci1_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 29
+          }
+        }
+      ]
+    },
+    "evo/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci1_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 25
+          }
+        }
+      ]
+    },
+    "evo/system/processes-ntp-enable.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci1_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 27
+          }
+        }
+      ]
+    },
+    "evo/system/services-grpc-clear-text-netconf-ssh.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci1_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 22
+          }
+        }
+      ]
+    },
+    "evo/system/services-netconf-ssh-grpc-clear-text.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci3_acx7100-48l"
+          ],
+          "witness": {
+            "device": "dci3_acx7100-48l",
+            "sourceId": 22
+          }
+        }
+      ]
+    },
+    "evo/system/time-zone.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci1_ptx10001-36mr"
+          ],
+          "witness": {
+            "device": "dci1_ptx10001-36mr",
+            "sourceId": 23
+          }
+        }
+      ]
+    },
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-mx304-5x400g-1x100g-1x4x10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 482
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-flexible-ethernet-services.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-gigether-wavelength.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-flow-load-balance.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-ibgp-inet-vpn-2-peers.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 2127
+          }
+        }
+      ]
+    },
+    "junos/protocols/mpls-te-200-lsp-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:mpls"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:mpls",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 2731
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-area0-loopback-2-p2p-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "physical-topology-not-in-configuration",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 2737
+          }
+        }
+      ]
+    },
+    "junos/protocols/ospf-traffic-engineering.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:ospf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ospf",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 2733
+          }
+        }
+      ]
+    },
+    "junos/protocols/rsvp-interface-2-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rsvp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rsvp",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 2743
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 100,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 518
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 100,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 510
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/maximum-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/system/login-2-users-super-user.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 11
+          }
+        }
+      ]
+    },
+    "junos/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 24
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-grpc-clear-text.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 22
+          }
+        }
+      ]
+    },
+    "junos/system/syslog-file-messages-pfe-any.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dci2_mx304"
+          ],
+          "witness": {
+            "device": "dci2_mx304",
+            "sourceId": 27
+          }
+        }
+      ]
+    }
+  }
+}

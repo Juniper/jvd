@@ -1,75 +1,44 @@
-# BYOAI — Data Center Interconnect over IPoDWDM (dci-ipodwdm)
+# BYOAI — Data Center Interconnect over IPoDWDM
 
-**Bring Your Own AI.** This folder turns any capable LLM (Claude, ChatGPT, Gemini,
-a local model) into an assistant for the Juniper **Data Center Interconnect over
-IPoDWDM** Validated Design (JVD-OPTICS-BASE-01-01) — Converged Optical Routing
-Architecture (CORA), where Juniper 400G Coherent Optics plug directly into the
-router and connect to the DWDM line system with no external transponder.
-
-The assistant has **two modes**:
-
-- **Configuration mode** — generates validated Junos / Junos Evolved config from
-  this JVD's snippet library (9 snips). Strict and hallucination-free.
-- **Design mode** — explains the architecture, grounded in the JVD documentation
-  corpus, with citations.
-
-This JVD spans **two operating systems**: PTX10001-36MR and ACX7100-48L run Junos
-OS Evolved (`evo/`); MX304 runs Junos OS (`junos/`).
-
----
+**Bring Your Own AI** assistant bundle for the Data Center Interconnect over IPoDWDM JVD. Works with any AI that has web-fetch capability (ChatGPT Plus, Claude Pro, Gemini Advanced, local models with browsing).
 
 ## Quick start
 
-1. Open `SYSTEM_PROMPT.md`. Copy **only the fenced block** into your AI's
-   system-prompt slot (or paste it as your first message in a fresh chat).
-2. The assistant greets you with a **mode menu**. Pick Configuration or Design
-   (or just describe what you need).
-3. **Configuration mode:** it fetches the snip bundle (`jvd-dci-ipodwdm-snips.md`)
-   and runs a short interview (feature / devices / form), then emits
-   ready-to-deploy config.
-4. **Design mode:** it fetches the documentation datasheet first, then the fuller
-   docs as needed, and answers with citations.
+1. Open a fresh chat in your AI of choice.
+2. Paste the fenced block from [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt (or as the first user message).
+3. The AI will greet you with the mode menu. Pick **Configuration** or **Design**.
 
-No web access on your AI account? See **Offline / no-fetch** below.
+Or use the one-click launch links: `./make-launch-links.sh`
 
-## What's in this folder
+## Files
 
 | File | Purpose |
 |------|---------|
-| `SYSTEM_PROMPT.md` | The system prompt. Paste the fenced block into your AI. |
-| `TIERS.md` | Feature → snip-set mapping for `minimum` / `as-deployed`. |
-| `DEFAULTS.md` | Deterministic JVD lab values for `auto` mode. |
-| `OUTPUT_FORMAT.md` | Exact output shape (Inputs Used + per-device blocks + Notes). |
-| `MENU.md` | Browser-facing catalog of what the assistant can do. |
-| `README.md` | This file. |
-| `regenerate-bundle.sh` | Rebuilds `jvd-dci-ipodwdm-snips.md` from the corpus. |
-| `make-manifest.py` | Emits `MANIFEST.json` (snip inventory + fetch URLs). |
-| `make-launch-links.sh` | Prints ready-to-click launch URLs for hosted AIs. |
-| `jvd-dci-ipodwdm-snips.md` | Generated single-file bundle (all snip bodies + refs). |
-| `jvd-dci-ipodwdm-byoai-prompt.txt` | Generated plain-text system prompt. |
+| `SYSTEM_PROMPT.md` | The prompt (fenced block = paste this into your AI) |
+| `TIERS.md` | Generated service → snip-set per form tier and device. Only `minimum` is qualified and selectable for this JVD (see below) |
+| `DEFAULTS.md` | Lab auto-fill values (device inventory, DWDM core links, VRF values, numbering conventions) |
+| `OUTPUT_FORMAT.md` | Required output shape |
+| `MENU.md` | Browser-facing catalog of generation asks |
+| `jvd-dci-ipodwdm-snips.md` | Full snip bundle (Config-mode corpus); each snip lists its Needs and, where the validated configuration lacks a referenced object, what is Not included |
+| `jvd-dci-ipodwdm-byoai-prompt.txt` | Extracted prompt (standalone, for launch URLs) |
+| `MANIFEST.json` | Per-snip fetch manifest with each snip's same-device requirements and the references it cannot include |
+| `regenerate-bundle.sh` | Rebuilds TIERS.md, MANIFEST.json, snips.md and prompt.txt after changes |
+| `make-manifest.py` | Generates `MANIFEST.json` with the private builder |
+| `make-launch-links.sh` | Prints ChatGPT/Claude/Gemini launch URLs |
 
-## Offline / no-fetch
+## Configuration mode vs Design mode
 
-If your AI can't browse the web:
+**Configuration mode** generates source-backed building blocks from the [snip library](../). The AI fetches `jvd-dci-ipodwdm-snips.md` once, then renders per your request. Service: L3VPN VRFs with an eBGP session to the customer side, in the `minimum` form: the service construct only, on a device that already runs its prerequisites, which the assistant lists. The larger tiers that [`TIERS.md`](TIERS.md) lists (`self-contained`, `as-deployed`) are **not qualified and not selectable** for this JVD, so the assistant never offers or renders them. The [device configurations](../../conf/) are the as-captured reference. Known limitations of the published configurations are in the library README [Scope](../README.md#scope).
 
-- **Configuration mode:** paste the contents of `jvd-dci-ipodwdm-snips.md` (run
-  `regenerate-bundle.sh` to build it) after the system prompt. Or use the portal
-  [Config Generator](https://juniper.github.io/jvd/portal/#generator).
-- **Design mode:** paste `../../../documentation/datasheet.md` (it's short) — the
-  assistant will tell you it's running from a pasted corpus, not a fetched one.
+**Design mode** answers architecture questions from the [documentation corpus](../../../documentation/). It fetches the [datasheet](../../../documentation/datasheet.md) first, then the [design guide](../../../documentation/design-guide.md), [solution overview](../../../documentation/solution-overview.md) and [test report brief](../../../documentation/test-report-brief.md) on demand.
 
-## Regenerating the bundle
+## Regenerate
 
-```sh
-./regenerate-bundle.sh      # rebuilds jvd-dci-ipodwdm-snips.md + prompt txt
-python3 make-manifest.py    # rebuilds MANIFEST.json
-./make-launch-links.sh      # prints launch URLs
+After any change to the snip library:
+
+```bash
+cd optical/dci_over_ipodwdm/configuration/snips
+JVD_BUILDER=<git-jvd-builder checkout> ./byoai/regenerate-bundle.sh
 ```
 
-## Scope
-
-This library covers the **IPoDWDM transport layer**: coherent 400G optics, DWDM
-aggregated-ethernet core links, chassis enablement (aggregated-devices, MX
-channelization), and the loopback. The routing/underlay (BGP, MPLS/RSVP, VRF)
-used in the validation test bed is deployment-specific scaffolding and is out of
-scope; see the full device configs under [../../conf/](../../conf/).
+The script regenerates `TIERS.md` from the service forms and dependency projection in [`_composition.json`](../_composition.json) and `MANIFEST.json` with the private builder, then assembles the bundle with each snip's Needs and Not included blocks and the tier-qualification note above. Then run `JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs` to update the portal mirror.

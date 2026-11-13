@@ -4,6 +4,122 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-13
+
+The **DCI over IPoDWDM** snippet library is rebuilt from the three validated router
+configurations with measured dependencies, and the Config Explorer Roles view now
+includes it.
+
+### New content
+
+- **[DCI over IPoDWDM snippet library](optical/dci_over_ipodwdm/configuration/snips)**:
+  49 snippets (23 Junos, 26 Junos Evolved) measured from the three published router
+  configurations replace the earlier 9 transport-only snippets. They cover the 400G
+  coherent optics and DWDM core aggregates, OSPF with traffic engineering, RSVP and the
+  MPLS LSP mesh, iBGP for VPNv4 routes, the 100 L3VPN routing instances on each router,
+  and system settings, on PTX10001-36MR, MX304 and ACX7100-48L platforms. Every active
+  statement on the three routers is reproduced by a snippet; the published
+  configurations contain no `traceoptions` and no deactivated configuration, so nothing
+  is excluded. Each snippet lists the devices it was validated on and its source
+  instance count.
+- **DCI over IPoDWDM dependencies**: 10 snippets carry 12 typed requirements, for
+  example an L3VPN routing instance needs its customer-facing logical interface and the
+  forwarding-table export needs its load-balance policy. Each refers to its object
+  through a `$VAR` value, so no snippet needs a fixed `Pair with` prerequisite. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 18 answers
+  for this JVD, all resolved. The assistant bundle was regenerated from the new library:
+  it lists each snippet's Needs, ships `MANIFEST.json` and `TIERS.md`, and offers the
+  `minimum` form (the L3VPN routing instance itself).
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes DCI over
+  IPoDWDM, grouping its snippets under DCI Edge, as named in the new Device roles table
+  of the [JVD datasheet](optical/dci_over_ipodwdm/documentation/datasheet.md#device-roles).
+
+### Fixes and maintenance
+
+- The measurement records (`_bindings.json`, `_peers.json`) of the Metro Ethernet
+  Business Services, Broadband Edge and four Enterprise WAN snippet libraries are
+  refreshed. No snippet, binding, peer or dependency result changed.
+
+### Known limitations
+
+- The published dci2 configuration carries a malformed `ae12` address
+  (`10.12..1.2/30`), and dci3 uses 11.1.1.x addresses while dci1 and dci2 address it as
+  10.1.1.3. The snippets reproduce each router as configured. The MPLS snippet carries
+  all 200 LSPs of a router, the validated scale configuration. See the library
+  [README](optical/dci_over_ipodwdm/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+
+### What this means for you
+
+- Build DCI over IPoDWDM configurations from snippets that match the published routers
+  exactly, with `$VAR` placeholders for deployment values; see the library
+  [README](optical/dci_over_ipodwdm/configuration/snips/README.md) and
+  [variable glossary](optical/dci_over_ipodwdm/configuration/snips/_variables.md).
+- For needs that depend on your router's configuration, use the Needs list in the JVD
+  AI Assistant bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier DCI over IPoDWDM snippet file names no longer
+  resolve; use the topic index in the library
+  [README](optical/dci_over_ipodwdm/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 10 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Broadband Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Finance | 0 | 0 | 0 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 55 | 0 | 9 | 16 | 3 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **55** | **0** | **9** | **41** | **4** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Metro Ethernet Business Services | 3 | 3 | 0 |
+| Service Provider / Broadband Edge | 2 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 2 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 2 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 2 | 2 | 0 |
+| Enterprise WAN / Finance | 2 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 9833 | 1972 | +7861 |
+| Portal | 15243 | 3404 | +11839 |
+| **Total** | **25089** | **5389** | **+19700** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding assistant bundles) | 78 | 4657 |
+| JVD AI Assistant bundles (with portal copies) | 22 | 10442 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 9781 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 183 |
+| JVD README and datasheet | 2 | 26 |
+| **Total** | **105** | **25089** |
+
+</details>
+
+---
+
 ## 2026-11-10
 
 The **Enterprise WAN: Advanced Core and Edge Services** snippet library is rebuilt from

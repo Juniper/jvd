@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Print the one-click "Open in ChatGPT" / "Open in Claude" launch
-# URLs that bootstrap an AI chat with the DCI-over-IPoDWDM BYOAI system prompt.
+# URLs that bootstrap an AI chat with the BYOAI system prompt.
 #
 # These URLs ship a short bootstrap message that tells the AI to
 # fetch jvd-dci-ipodwdm-byoai-prompt.txt from GitHub and adopt it as its

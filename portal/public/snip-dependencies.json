@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "09dabfc0364e4ef784776720ef58303694d3433cd0919ecb2ab87548014fbab7",
+  "libraryDigest": "39c4c85708b0ceb640b914146240aaa650f67ff191a19de663bea035e6b6a429",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-11T01:21:13.030Z",
+  "generatedAt": "2026-11-13T02:30:29.790Z",
   "resolutions": [
     {
       "jvd": "broadband_edge",
@@ -1645,6 +1645,186 @@
       "status": "resolved",
       "providers": [
         "broadband_edge/evo/interfaces/ifl-inet-inet6"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifd-core-aggregate-min-links-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-lag-member-ether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-core-aggregate-min-links-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-lag-member-ether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-flexible-ethernet-services"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci1_ptx10001-36mr",
+      "snip": "dci_over_ipodwdm/evo/routing-options/forwarding-table-pplb-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/policy-options/policy-statement/per-flow-load-balance"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/interfaces/ifd-core-aggregate-min-links-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/interfaces/ifd-lag-member-gigether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/interfaces/ifd-core-aggregate-min-links-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/interfaces/ifd-lag-member-gigether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/interfaces/ifd-flexible-ethernet-services"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci2_mx304",
+      "snip": "dci_over_ipodwdm/junos/routing-options/forwarding-table-pplb-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/junos/policy-options/policy-statement/per-flow-load-balance"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifd-core-aggregate-min-links-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-lag-member-ether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-core-aggregate-min-links-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-core-inet-mpls-max-labels-5",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-lag-member-ether-wavelength"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifd-flexible-ethernet-services-100g"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "dci_over_ipodwdm",
+      "device": "dci3_acx7100-48l",
+      "snip": "dci_over_ipodwdm/evo/routing-options/forwarding-table-pplb-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "dci_over_ipodwdm/evo/policy-options/policy-statement/per-flow-load-balance"
       ]
     },
     {
@@ -25019,5 +25199,5 @@
       ]
     }
   ],
-  "exportDigest": "d6ffa47de09e7783eaeeb1d18570b0324c0872eab58fffe0de3783b6346d69c2"
+  "exportDigest": "3d1a58044fc9dec691f927981e6f5fe4c7dbb756f1008ccd0668d5280daed478"
 }
