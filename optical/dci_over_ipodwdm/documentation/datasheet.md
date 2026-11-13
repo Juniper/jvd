@@ -34,6 +34,12 @@ IP and optical management operate as a single domain.
 Any third-party OLS with ≥75 GHz channel spacing for 400G coherent signals is
 expected to interoperate.
 
+## Device roles
+
+| Role | In the network |
+|---|---|
+| **DCI Edge** | Router with built-in 400G coherent optics that plug directly into the DWDM line system, with no external transponder. All three validated routers (PTX10001-36MR, MX304, ACX7100-48L) take this role; each carries the 100 VPNv4 routing instances over RSVP-signalled MPLS LSPs to the other two. |
+
 ## Key technical attributes validated
 
 - **Amplified links:** minimum receive OSNR, maximum chromatic dispersion
@@ -51,16 +57,20 @@ expected to interoperate.
 
 ## Configuration building blocks
 
-The [snip library](../configuration/snips/) covers the IPoDWDM transport layer:
+The [snip library](../configuration/snips/) reproduces every validated router
+configuration, Junos OS (MX304) and Junos OS Evolved (PTX10001-36MR,
+ACX7100-48L):
 
-- **Coherent optics port** — `optics-options wavelength` on the built-in 400G
-  coherent interface (EVO: `ether-options` LAG membership; Junos/MX:
-  `gigether-options`)
-- **Port channelization** (MX) — `chassis fpc/pic/port` speed + number-of-sub-ports
-- **DWDM AE bundle** — LACP aggregated-ethernet core link carrying `inet` + `mpls`
-- **aggregated-devices** — chassis enablement for the AE pool
-- **Loopback** — lo0 router-id
+- **Coherent optics port** — the built-in 400G coherent interface as an
+  aggregated Ethernet member with its `optics-options wavelength` (EVO:
+  `ether-options`; Junos/MX: `gigether-options`)
+- **DWDM core link** — LACP aggregated Ethernet bundle carrying `inet` and
+  `mpls`, plus `chassis aggregated-devices` and the MX304 port speeds
+- **Transport** — OSPF with traffic engineering, RSVP, and MPLS with the
+  100 LSPs to each of the other two routers
+- **Services** — iBGP `inet-vpn` between the three routers and the 100 L3VPN
+  VRFs, each with an eBGP session on a VLAN unit of the customer-facing port
+- **System** — loopback, router ID and AS, load-balancing, NETCONF and gRPC
+  for telemetry, NTP and syslog
 
-The routing/underlay (BGP, MPLS/RSVP, VRF) is deployment-specific scaffolding and
-out of scope for the snip library; see the full device configs under
-[configuration/conf/](../configuration/conf/).
+The full device configs are under [configuration/conf/](../configuration/conf/).

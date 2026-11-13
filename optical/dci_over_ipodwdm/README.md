@@ -46,8 +46,9 @@ Published (juniper.net):
 
 ## Configuration snippets
 
-Templated, validated config fragments for the IPoDWDM transport layer — coherent
-400G optics, DWDM aggregated-ethernet core links, and chassis enablement — are in
+Templated, validated config fragments that reproduce every router configuration —
+coherent 400G optics and DWDM core links, the OSPF/RSVP/MPLS transport, iBGP and the
+100 L3VPN VRFs — are in
 [configuration/snips/](configuration/snips/) (see its
 [README](configuration/snips/README.md) and
 [_variables.md](configuration/snips/_variables.md)). A

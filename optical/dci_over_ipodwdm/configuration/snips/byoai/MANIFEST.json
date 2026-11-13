@@ -1,130 +1,1026 @@
 {
-  "schema_version": 1,
-  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules and byoai/CATALOG.md for the funnel map.",
+  "schema_version": 2,
+  "contract_versions": {
+    "dependencies": 3,
+    "relationships": 2
+  },
+  "dependency_declaration_sha256": "f06ad1397f1b9a155bcb34feb10b66aebaf8fd5445555b433a5dcc3d4c26fe88",
+  "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips",
-  "snip_count": 9,
+  "snip_count": 49,
   "snips": [
     {
-      "path": "evo/chassis/aggregated-devices.conf",
+      "path": "evo/chassis/aggregated-devices-ethernet.conf",
       "os": "evo",
       "category": "chassis",
-      "name": "aggregated-devices",
-      "topic": "Enable aggregated-ethernet (chassis device-count)",
-      "seen_on": [],
-      "size_bytes": 699,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/chassis/aggregated-devices.conf"
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device count",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 534,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/interfaces/coherent-optics-port.conf",
+      "path": "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
       "os": "evo",
       "category": "interfaces",
-      "name": "coherent-optics-port",
-      "topic": "Coherent 400G DWDM interface (optics-options / wavelength)",
-      "seen_on": [],
-      "size_bytes": 1432,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/coherent-optics-port.conf"
+      "name": "ifd-core-aggregate-min-links-lacp-fast",
+      "topic": "Aggregated Ethernet core bundle with minimum links and fast active LACP",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 663,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-wavelength.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "evo/interfaces/dwdm-ae-bundle.conf",
+      "path": "evo/interfaces/ifd-flexible-ethernet-services-100g.conf",
       "os": "evo",
       "category": "interfaces",
-      "name": "dwdm-ae-bundle",
-      "topic": "DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)",
-      "seen_on": [],
-      "size_bytes": 1491,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/dwdm-ae-bundle.conf"
+      "name": "ifd-flexible-ethernet-services-100g",
+      "topic": "Port at 100G with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 539,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifd-flexible-ethernet-services-100g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "evo/interfaces/loopback.conf",
+      "path": "evo/interfaces/ifd-flexible-ethernet-services.conf",
       "os": "evo",
       "category": "interfaces",
-      "name": "loopback",
-      "topic": "Loopback lo0 addressing (router-id)",
-      "seen_on": [],
-      "size_bytes": 695,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/loopback.conf"
+      "name": "ifd-flexible-ethernet-services",
+      "topic": "Port with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 569,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifd-flexible-ethernet-services.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/chassis/aggregated-devices.conf",
+      "path": "evo/interfaces/ifd-lag-member-ether-wavelength.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifd-lag-member-ether-wavelength",
+      "topic": "Coherent optics port as an aggregated Ethernet member, with its DWDM wavelength",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 846,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifd-lag-member-ether-wavelength.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-core-inet-mpls-max-labels-5",
+      "topic": "Core logical interface with IPv4 and MPLS",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 711,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-lag-member-ether-wavelength.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/interfaces/ifl-loopback-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet",
+      "topic": "Loopback unit with one IPv4 address",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 510,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifl-loopback-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/interfaces/ifl-vlan-inet.conf",
+      "os": "evo",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "VLAN-tagged IPv4 unit",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 573,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-flexible-ethernet-services-100g.conf",
+            "evo/interfaces/ifd-flexible-ethernet-services.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/policy-options/policy-statement/per-flow-load-balance.conf",
+      "os": "evo",
+      "category": "policy-options",
+      "name": "policy-statement/per-flow-load-balance",
+      "topic": "Per-flow load-balance policy",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 543,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/policy-options/policy-statement/per-flow-load-balance.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/bgp-ibgp-inet-vpn-2-peers.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "bgp-ibgp-inet-vpn-2-peers",
+      "topic": "iBGP group for L3VPN with two loopback neighbors",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 870,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/protocols/bgp-ibgp-inet-vpn-2-peers.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/mpls-te-200-lsp-2-core.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "mpls-te-200-lsp-2-core",
+      "topic": "MPLS traffic engineering with 200 RSVP LSPs and two core interfaces",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 30877,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/protocols/mpls-te-200-lsp-2-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-area0-loopback-2-p2p-core.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-area0-loopback-2-p2p-core",
+      "topic": "OSPF backbone area with a passive loopback and two point-to-point core interfaces",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 692,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/protocols/ospf-area0-loopback-2-p2p-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/ospf-traffic-engineering.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "ospf-traffic-engineering",
+      "topic": "OSPF traffic-engineering extensions",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 400,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/protocols/ospf-traffic-engineering.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/protocols/rsvp-interface-2-core.conf",
+      "os": "evo",
+      "category": "protocols",
+      "name": "rsvp-interface-2-core",
+      "topic": "RSVP on two core interfaces",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 426,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/protocols/rsvp-interface-2-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "os": "evo",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-ebgp-local-as-vrf-target",
+      "topic": "L3VPN VRF with an eBGP CE session that sets a local AS, and a route target",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 1652,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "evo/interfaces/ifl-vlan-inet.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/autonomous-system.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Autonomous system number",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 355,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-nh-evpn",
+      "topic": "Forwarding-table load-balance export with chained composite next hops for EVPN",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 704,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/per-flow-load-balance.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "evo/routing-options/maximum-ecmp.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "maximum-ecmp",
+      "topic": "Maximum ECMP paths",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 347,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/routing-options/maximum-ecmp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/routing-options/router-id.conf",
+      "os": "evo",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 347,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/login-2-users-super-user.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "login-2-users-super-user",
+      "topic": "Two local super-user accounts with encrypted passwords",
+      "seen_on": [
+        "dci1_ptx10001-36mr",
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 1134,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/login-2-users-super-user.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/ntp-server.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "ntp-server",
+      "topic": "NTP server",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 303,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/ntp-server.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/ports-console-log-out.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 345,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/processes-ntp-enable.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "processes-ntp-enable",
+      "topic": "NTP process enabled",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 237,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/processes-ntp-enable.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/services-grpc-clear-text-netconf-ssh.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "services-grpc-clear-text-netconf-ssh",
+      "topic": "Clear-text gRPC for telemetry and NETCONF over SSH",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 736,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/services-grpc-clear-text-netconf-ssh.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/services-netconf-ssh-grpc-clear-text.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "services-netconf-ssh-grpc-clear-text",
+      "topic": "NETCONF over SSH and clear-text gRPC for telemetry",
+      "seen_on": [
+        "dci3_acx7100-48l"
+      ],
+      "size_bytes": 774,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/services-netconf-ssh-grpc-clear-text.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "evo/system/time-zone.conf",
+      "os": "evo",
+      "category": "system",
+      "name": "time-zone",
+      "topic": "System time zone",
+      "seen_on": [
+        "dci1_ptx10001-36mr"
+      ],
+      "size_bytes": 296,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/evo/system/time-zone.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/aggregated-devices-ethernet.conf",
       "os": "junos",
       "category": "chassis",
-      "name": "aggregated-devices",
-      "topic": "Enable aggregated-ethernet (chassis device-count)",
-      "seen_on": [],
-      "size_bytes": 662,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/aggregated-devices.conf"
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device count",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 469,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/chassis/port-channelization.conf",
+      "path": "junos/chassis/fpc-mx304-5x400g-1x100g-1x4x10g.conf",
       "os": "junos",
       "category": "chassis",
-      "name": "port-channelization",
-      "topic": "Port speed / channelization (chassis fpc-pic-port)",
-      "seen_on": [],
-      "size_bytes": 1156,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/port-channelization.conf"
+      "name": "fpc-mx304-5x400g-1x100g-1x4x10g",
+      "topic": "MX304 port speeds for 400G coherent optics",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 978,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/chassis/fpc-mx304-5x400g-1x100g-1x4x10g.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/coherent-optics-port.conf",
+      "path": "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "coherent-optics-port",
-      "topic": "Coherent 400G DWDM interface (optics-options / wavelength)",
-      "seen_on": [],
-      "size_bytes": 1512,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/coherent-optics-port.conf"
+      "name": "ifd-core-aggregate-min-links-lacp-fast",
+      "topic": "Aggregated Ethernet core bundle with minimum links and fast active LACP",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 598,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether-wavelength.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/interfaces/dwdm-ae-bundle.conf",
+      "path": "junos/interfaces/ifd-flexible-ethernet-services.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "dwdm-ae-bundle",
-      "topic": "DWDM aggregated-ethernet bundle (LACP + inet/mpls core link)",
-      "seen_on": [],
-      "size_bytes": 1458,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/dwdm-ae-bundle.conf"
+      "name": "ifd-flexible-ethernet-services",
+      "topic": "Port with flexible VLAN tagging and flexible Ethernet services",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 545,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifd-flexible-ethernet-services.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/interfaces/loopback.conf",
+      "path": "junos/interfaces/ifd-lag-member-gigether-wavelength.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "loopback",
-      "topic": "Loopback lo0 addressing (router-id)",
-      "seen_on": [],
-      "size_bytes": 656,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/loopback.conf"
+      "name": "ifd-lag-member-gigether-wavelength",
+      "topic": "Coherent optics port as an aggregated Ethernet member, with its DWDM wavelength",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 779,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifd-lag-member-gigether-wavelength.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-core-inet-mpls-max-labels-5",
+      "topic": "Core logical interface with IPv4 and MPLS",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 647,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether-wavelength.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet",
+      "topic": "Loopback unit with one IPv4 address",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 445,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifl-loopback-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "VLAN-tagged IPv4 unit",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 506,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-ethernet-services.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-flow-load-balance.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-flow-load-balance",
+      "topic": "Per-flow load-balance policy",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 478,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/policy-options/policy-statement/per-flow-load-balance.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-ibgp-inet-vpn-2-peers.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-ibgp-inet-vpn-2-peers",
+      "topic": "iBGP group for L3VPN with two loopback neighbors",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 805,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/protocols/bgp-ibgp-inet-vpn-2-peers.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/mpls-te-200-lsp-2-core.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "mpls-te-200-lsp-2-core",
+      "topic": "MPLS traffic engineering with 200 RSVP LSPs and two core interfaces",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 30812,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/protocols/mpls-te-200-lsp-2-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf-area0-loopback-2-p2p-core.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf-area0-loopback-2-p2p-core",
+      "topic": "OSPF backbone area with a passive loopback and two point-to-point core interfaces",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 627,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/protocols/ospf-area0-loopback-2-p2p-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/ospf-traffic-engineering.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "ospf-traffic-engineering",
+      "topic": "OSPF traffic-engineering extensions",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 343,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/protocols/ospf-traffic-engineering.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/rsvp-interface-2-core.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "rsvp-interface-2-core",
+      "topic": "RSVP on two core interfaces",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 361,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/protocols/rsvp-interface-2-core.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-l3vpn-ebgp-local-as-vrf-target",
+      "topic": "L3VPN VRF with an eBGP CE session that sets a local AS, and a route target",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 1585,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-inet.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/autonomous-system.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Autonomous system number",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 290,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-chained-nh-evpn",
+      "topic": "Forwarding-table load-balance export with chained composite next hops for EVPN",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 639,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/per-flow-load-balance.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/maximum-ecmp.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "maximum-ecmp",
+      "topic": "Maximum ECMP paths",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 290,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/routing-options/maximum-ecmp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/router-id.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Router ID",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 282,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/login-2-users-super-user.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "login-2-users-super-user",
+      "topic": "Two local super-user accounts with encrypted passwords",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 1069,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/system/login-2-users-super-user.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/ports-console-log-out.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 329,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/services-netconf-ssh-grpc-clear-text.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "services-netconf-ssh-grpc-clear-text",
+      "topic": "NETCONF over SSH and clear-text gRPC for telemetry",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 762,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/system/services-netconf-ssh-grpc-clear-text.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/syslog-file-messages-pfe-any.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "syslog-file-messages-pfe-any",
+      "topic": "Syslog messages file with all PFE events",
+      "seen_on": [
+        "dci2_mx304"
+      ],
+      "size_bytes": 274,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/junos/system/syslog-file-messages-pfe-any.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     }
   ],
   "reference_files": [
     {
       "path": "_variables.md",
       "kind": "glossary",
-      "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/_variables.md"
-    },
-    {
-      "path": "byoai/CATALOG.md",
-      "kind": "reference",
-      "topic": "Funnel map: service profile + deployment + attributes -> exact service / interface / filter snip per OS",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/CATALOG.md"
+      "topic": "Template variable glossary",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/_variables.md",
+      "size_bytes": 5027,
+      "sha256": "613da029f41c7027f2b1b3d3bf91a52e5e806ca84f65912ece5232a7262de3b6"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
-      "topic": "Per-tier snip lists for `minimum` / `with-cos` / `as-deployed` configuration form",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/TIERS.md"
+      "topic": "Generated service tier and selection requirements",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/TIERS.md",
+      "size_bytes": 2142,
+      "sha256": "549b0d22b622b73c4aa86b4bbad17d9fdb8e37679edb4d39830dbf161ae369b0"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
-      "topic": "Auto-fill rules: lab-default instance names, RDs, RTs, VLAN/unit sequences, ESI shape, device selection",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/DEFAULTS.md"
+      "topic": "Validated lab defaults",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/DEFAULTS.md",
+      "size_bytes": 3613,
+      "sha256": "86b944ae97952a2d6cc4b41ecce305eec1ab25cb304a869fe7d49bff5f9f72e2"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
-      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/OUTPUT_FORMAT.md"
+      "topic": "Required output format",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/optical/dci_over_ipodwdm/configuration/snips/byoai/OUTPUT_FORMAT.md",
+      "size_bytes": 2185,
+      "sha256": "ba82a184005b88ae8ea81dfc010a8b887502d90567883daed1fd1294f857a6ee"
     }
   ]
 }

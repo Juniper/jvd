@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "dependencyContractVersion": 3,
+  "osScopedMirrors": [
+    {
+      "junos": "junos/chassis/aggregated-devices-ethernet.conf",
+      "evo": "evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
+      "evo": "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-flexible-ethernet-services.conf",
+      "evo": "evo/interfaces/ifd-flexible-ethernet-services.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "evo": "evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-inet.conf",
+      "evo": "evo/interfaces/ifl-loopback-inet.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-inet.conf",
+      "evo": "evo/interfaces/ifl-vlan-inet.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/per-flow-load-balance.conf",
+      "evo": "evo/policy-options/policy-statement/per-flow-load-balance.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-ibgp-inet-vpn-2-peers.conf",
+      "evo": "evo/protocols/bgp-ibgp-inet-vpn-2-peers.conf"
+    },
+    {
+      "junos": "junos/protocols/mpls-te-200-lsp-2-core.conf",
+      "evo": "evo/protocols/mpls-te-200-lsp-2-core.conf"
+    },
+    {
+      "junos": "junos/protocols/ospf-area0-loopback-2-p2p-core.conf",
+      "evo": "evo/protocols/ospf-area0-loopback-2-p2p-core.conf"
+    },
+    {
+      "junos": "junos/protocols/ospf-traffic-engineering.conf",
+      "evo": "evo/protocols/ospf-traffic-engineering.conf"
+    },
+    {
+      "junos": "junos/protocols/rsvp-interface-2-core.conf",
+      "evo": "evo/protocols/rsvp-interface-2-core.conf"
+    },
+    {
+      "junos": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "evo": "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf"
+    },
+    {
+      "junos": "junos/routing-options/autonomous-system.conf",
+      "evo": "evo/routing-options/autonomous-system.conf"
+    },
+    {
+      "junos": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "evo": "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf"
+    },
+    {
+      "junos": "junos/routing-options/maximum-ecmp.conf",
+      "evo": "evo/routing-options/maximum-ecmp.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    },
+    {
+      "junos": "junos/system/login-2-users-super-user.conf",
+      "evo": "evo/system/login-2-users-super-user.conf"
+    },
+    {
+      "junos": "junos/system/ports-console-log-out.conf",
+      "evo": "evo/system/ports-console-log-out.conf"
+    },
+    {
+      "junos": "junos/system/services-netconf-ssh-grpc-clear-text.conf",
+      "evo": "evo/system/services-netconf-ssh-grpc-clear-text.conf"
+    }
+  ]
+}

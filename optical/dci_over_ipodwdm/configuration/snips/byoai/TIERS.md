@@ -1,87 +1,46 @@
-# Configuration form tiers — DCI over IPoDWDM
+# Configuration form tiers
 
-Maps each **feature** the user can ask for to the **snip set** to emit for
-`minimum` vs `as-deployed`. Slugs are paths under `snips/`. Read this alongside
-the snip bodies. Emit exactly the listed snips for the chosen tier — and only
-those — unless the user asks for more.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd optical/dci_over_ipodwdm`. -->
 
-This JVD spans **two OS trees**. Use `evo/` snips for `dci1_ptx10001-36mr` and
-`dci3_acx7100-48l` (Junos OS Evolved); use `junos/` snips for `dci2_mx304`
-(Junos OS). The tables below list the EVO path; substitute the matching `junos/`
-path for the MX (the MX coherent port additionally supports port-channelization,
-which EVO does not use).
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
----
+## What the tiers mean
 
-## Feature: dwdm-core-link (bring up a coherent DWDM interconnect)
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-- **minimum**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-- **as-deployed**
-  - `evo/chassis/aggregated-devices.conf`
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/interfaces/loopback.conf`
-  - *(MX only, additionally)* `junos/chassis/port-channelization.conf`
-
-## Feature: coherent-optics (tune a coherent 400G port)
-
-- **minimum**
-  - `evo/interfaces/coherent-optics-port.conf`
-- **as-deployed**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/chassis/aggregated-devices.conf`
-  - *(MX only)* `junos/chassis/port-channelization.conf`
-
-## Feature: dwdm-ae-bundle (the aggregated-ethernet core link)
-
-- **minimum**
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-- **as-deployed**
-  - `evo/interfaces/coherent-optics-port.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-  - `evo/chassis/aggregated-devices.conf`
-
-## Feature: aggregated-devices (enable the ae pool)
-
-- **minimum**
-  - `evo/chassis/aggregated-devices.conf`
-- **as-deployed**
-  - `evo/chassis/aggregated-devices.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
-
-## Feature: port-channelization (MX rate / breakout — Junos only)
-
-- **minimum**
-  - `junos/chassis/port-channelization.conf`
-- **as-deployed**
-  - `junos/chassis/port-channelization.conf`
-  - `junos/interfaces/coherent-optics-port.conf`
-
-## Feature: loopback (lo0 router-id)
-
-- **minimum**
-  - `evo/interfaces/loopback.conf`
-- **as-deployed**
-  - `evo/interfaces/loopback.conf`
-  - `evo/interfaces/dwdm-ae-bundle.conf`
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-### Notes for the assistant
+## L3VPN VRF with an eBGP session to the CE
 
-- **Match the tree to the OS.** For MX targets, replace each `evo/…` slug with
-  the corresponding `junos/…` slug (coherent-optics-port, dwdm-ae-bundle,
-  aggregated-devices, loopback), and add `junos/chassis/port-channelization.conf`
-  when the port is rate-selectable/channelized. EVO DWDM ports are used natively
-  at 400G.
-- **as-deployed always pulls the paired prerequisites** listed in each snip's
-  `Pair with:` header. If you omit a paired snip, call it out in `Notes:`.
-- A coherent DWDM core link is not usable until it has the tuned coherent members
-  (`optics-options wavelength`), the AE bundle (LACP + inet/mpls), and the
-  `aggregated-devices` chassis enablement.
-- The **BGP / MPLS-RSVP / VRF underlay** is out of scope for this library. If the
-  user asks for it, point them to the full device configs under
-  `configuration/conf/`.
+Family l3vpn, form l3vpn-ebgp-vrf. OS mode MIXED. Attachment: VLAN-tagged IPv4 unit on the customer-facing port; one of the 100 VPNv4 instances carried over the DWDM core.
+
+### dci1_ptx10001-36mr (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### dci3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### dci2_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---

@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "jvd": "dci_over_ipodwdm",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "roles": {
+    "dci": "DCI Edge"
+  },
+  "forms": [
+    {
+      "id": "l3vpn-ebgp-vrf",
+      "family": "l3vpn",
+      "form": "l3vpn-ebgp-vrf",
+      "aliases": [
+        "L3VPN VRF with an eBGP session to the CE"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "VLAN-tagged IPv4 unit on the customer-facing port; one of the 100 VPNv4 instances carried over the DWDM core",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$ASN",
+        "$AC_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$RT_ID"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#l3vpn-vrf-with-an-ebgp-session-to-the-ce",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-coherent-dwdm-link",
+      "aliases": [
+        "Add a 400G coherent DWDM link to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped transport add (coherent port as an aggregate member with its wavelength, the aggregate and its core unit); no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "f06ad1397f1b9a155bcb34feb10b66aebaf8fd5445555b433a5dcc3d4c26fe88"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-wavelength.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-lag-member-ether-wavelength.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-flexible-ethernet-services-100g.conf",
+        "evo/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-flow-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-wavelength.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-core-aggregate-min-links-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mpls-max-labels-5.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether-wavelength.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-ethernet-services.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-local-as-vrf-target.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$AC_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-flow-load-balance.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}
