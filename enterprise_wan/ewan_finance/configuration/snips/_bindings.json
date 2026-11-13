@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "ewan_finance",
- "generatedFrom": {"inputsSha256":"da1fbd56ac0f1117a2e8c5f44e92f6a86b527523a8e15635fa217f33ce96dbc5","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"c67a17e63024fdfcc6f490ae98723316d4fac6b1547abef966a09c78d5eb35d5","devices":9,"snips":118},
+ "generatedFrom": {"inputsSha256":"da1fbd56ac0f1117a2e8c5f44e92f6a86b527523a8e15635fa217f33ce96dbc5","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"6888f68debcc74e2114dceeea58cab488764f309938c630de042ee5b0c87495a","devices":9,"snips":118},
  "deviceInventory": ["ap1_mx304","ap2_mx10004","cr1_acx7100-48l","cr2_mx480","l2-l3_edge_acx7100","p1_ptx10003-80c","p2_ptx10001-36mr","wanedge1_mx304","wanedge2_mx10004"],
  "snips": {
   "evo/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"cr1_acx7100-48l":1,"l2-l3_edge_acx7100":1,"p1_ptx10003-80c":1,"p2_ptx10001-36mr":1},"instances":{"cr1_acx7100-48l":[{"binding":["25"],"equivalentBindings":1}],"l2-l3_edge_acx7100":[{"binding":["25"],"equivalentBindings":1}],"p1_ptx10003-80c":[{"binding":["25"],"equivalentBindings":1}],"p2_ptx10001-36mr":[{"binding":["25"],"equivalentBindings":1}]}},
