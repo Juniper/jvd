@@ -437,6 +437,307 @@
       "example": "124.1.10.1/32",
       "notes": "Accepted by Kevin Brown on 2026-10-10; introduced by EWAN Core/Edge.",
       "establishedFrom": "enterprise_wan/ewan_core_edge/configuration/snips/junos/routing-instances/l3vpn/ri-l3vpn-mvpn-rp-static-group-range.conf"
+    },
+    "AREA_IFL_A": {
+      "intent": "First interface (with unit) of an OSPF or OSPFv3 area in a scale form; `_A`, `_B` order the members.",
+      "use": "Lettered _A, _B for the interfaces of one area in a scale form, in configuration order.",
+      "example": "ae4.2801",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area-2-interface-p2p.conf"
+    },
+    "DST_PFX": {
+      "intent": "Destination IPv4 prefix matched by a firewall filter term.",
+      "use": "Used by 4 snippets, for example `evo/firewall/filter-interface-specific-destination-address-next-interface.conf`.",
+      "example": "217.217.5.100/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-interface.conf"
+    },
+    "DST_PORT": {
+      "intent": "TCP destination port matched by a firewall filter term.",
+      "use": "Used by 4 snippets, for example `evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf`.",
+      "example": "23",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-destination-port-next-interface.conf"
+    },
+    "FILTER_NAME": {
+      "intent": "Firewall filter name; also its counter name.",
+      "use": "Used by 16 snippets, for example `evo/firewall/filter-interface-specific-destination-address-next-interface.conf`.",
+      "example": "filter_ip_match_dest2",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-interface.conf"
+    },
+    "FLOW_DSCP_SRC_PFX": {
+      "intent": "Source prefix matched, with DSCP 10, by the `descp_match` flow route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "211.216.2.2/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "FLOW_DST_PFX": {
+      "intent": "Destination prefix matched by the `dest_ip` BGP flow specification route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "211.212.1.2/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "FLOW_DST_PORT": {
+      "intent": "TCP destination port matched by the `proto_tcp_dest_port_match` flow route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "23",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "FLOW_ICMP_SRC_PFX": {
+      "intent": "Source prefix matched, with ICMP type 8 code 1, by the `icmp_match` flow route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "211.215.2.2/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "FLOW_SRC_PFX": {
+      "intent": "Source prefix matched by the `source_ip` BGP flow specification route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "211.211.2.2/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "FLOW_SRC_PORT": {
+      "intent": "TCP source port matched by the `proto_tcp_source_port_match` flow route.",
+      "use": "Used by 2 snippets, for example `evo/routing-options/flow-route-6-match-accept.conf`.",
+      "example": "65074",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/routing-options/flow-route-6-match-accept.conf"
+    },
+    "LSP_TO_A": {
+      "intent": "Egress address (`to`) of the first label-switched path: a remote PE loopback.",
+      "use": "Lettered _A, _B for the egress addresses of the LSP groups of one form.",
+      "example": "2.2.2.2",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/mpls-te-2-lsp-3-core.conf"
+    },
+    "MTU": {
+      "intent": "Interface MTU in bytes.",
+      "use": "Used by `evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf`.",
+      "example": "1522",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/interfaces/ifd-ae-description-flexible-mtu-lacp-fast.conf"
+    },
+    "NEXT_INTERFACE": {
+      "intent": "Interface (`next-interface`) to which a filter term forwards matching packets.",
+      "use": "Used by 8 snippets, for example `evo/firewall/filter-interface-specific-destination-address-next-interface.conf`.",
+      "example": "et-1/0/2",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-interface.conf"
+    },
+    "NEXT_IP": {
+      "intent": "Next-hop IPv4 address (`next-ip`) to which a filter term forwards matching packets.",
+      "use": "Used by 8 snippets, for example `evo/firewall/filter-interface-specific-destination-address-next-ip.conf`.",
+      "example": "192.168.91.2/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-destination-address-next-ip.conf"
+    },
+    "NODE_SID_INDEX": {
+      "intent": "Segment routing node SID index of this router (`node-segment ipv4-index`).",
+      "use": "Used by 2 snippets, for example `evo/protocols/ospf-backup-spf-options-traffic-engineering-sr-mapping-server.conf`.",
+      "example": "103",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-backup-spf-options-traffic-engineering-sr-mapping-server.conf"
+    },
+    "OSPF_AREA": {
+      "intent": "OSPF or OSPFv3 area identifier (dotted decimal).",
+      "use": "Used by 8 snippets, for example `evo/protocols/ospf-area-2-interface-p2p.conf`.",
+      "example": "0.0.0.1",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/ospf-area-2-interface-p2p.conf"
+    },
+    "PE1_V4": {
+      "intent": "IPv4 loopback of a route-reflector client (WAN edge PE); `PE1`…`PE4` order the clients.",
+      "use": "PE1_V4 to PE4_V4 number the WAN-edge PEs in a fixed order; the number is the PE, not a list position.",
+      "example": "2.2.2.2",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/bgp-overlay-rr-cluster-evpn-route-target-multipath.conf"
+    },
+    "SLA_PROFILE_DELAY": {
+      "intent": "Name of the CFM SLA iterator profile that measures two-way delay.",
+      "use": "Used by 2 snippets, for example `evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf`.",
+      "example": "i1",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf"
+    },
+    "SLA_PROFILE_SLM": {
+      "intent": "Name of the CFM SLA iterator profile that measures synthetic loss (SLM).",
+      "use": "Used by 2 snippets, for example `evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf`.",
+      "example": "i2",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/protocols/oam-cfm-perf-mon-two-way-delay-slm.conf"
+    },
+    "SRC_PFX": {
+      "intent": "Source IPv4 prefix matched by a firewall filter term.",
+      "use": "Used by 4 snippets, for example `evo/firewall/filter-interface-specific-source-address-next-interface.conf`.",
+      "example": "218.218.6.100/32",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-source-address-next-interface.conf"
+    },
+    "SRC_PORT": {
+      "intent": "TCP source port matched by a firewall filter term.",
+      "use": "Used by 4 snippets, for example `evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf`.",
+      "example": "65001",
+      "notes": "Registered on 2026-11-13; introduced by EWAN Advanced Core and Edge Services. Backfilled: the library was published before this entry.",
+      "establishedFrom": "enterprise_wan/ewan_adv_core_edge/configuration/snips/evo/firewall/filter-interface-specific-tcp-source-port-next-interface.conf"
+    },
+    "ENCRYPTED_PASSWORD": {
+      "intent": "Encrypted (hashed) login password; secret, supplied by the operator (the published value is sanitized).",
+      "use": "Used by 2 snippets, for example `evo/system/login-2-users-super-user.conf`.",
+      "example": "\"<ENCRYPTED_PASSWORD>\"",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/system/login-2-users-super-user.conf"
+    },
+    "LOGIN_UID_1": {
+      "intent": "Numeric user ID (`uid`) of the login account with the same number.",
+      "use": "Numbered to match the LOGIN_USER_n account it belongs to.",
+      "example": "2002",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/system/login-2-users-super-user.conf"
+    },
+    "LOGIN_USER_1": {
+      "intent": "Name of a local login account; `_1`, `_2` order the accounts.",
+      "use": "Numbered _1.._n for the login accounts of one form, in configuration order.",
+      "example": "gnmi_user",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/system/login-2-users-super-user.conf"
+    },
+    "NTP_SERVER": {
+      "intent": "IPv4 address of an NTP server.",
+      "use": "Used by `evo/system/ntp-server.conf`.",
+      "example": "66.129.233.81",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/system/ntp-server.conf"
+    },
+    "TIME_ZONE": {
+      "intent": "System time zone (IANA time-zone name).",
+      "use": "Used by `evo/system/time-zone.conf`.",
+      "example": "America/Los_Angeles",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/system/time-zone.conf"
+    },
+    "WAVELENGTH": {
+      "intent": "DWDM wavelength in nanometres of a coherent optic (`optics-options wavelength`); both ends of a link use the same value.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifd-lag-member-ether-wavelength.conf`.",
+      "example": "1547.72",
+      "notes": "Registered on 2026-11-13; introduced by DCI over IPoDWDM. Backfilled: the library was published before this entry.",
+      "establishedFrom": "optical/dci_over_ipodwdm/configuration/snips/evo/interfaces/ifd-lag-member-ether-wavelength.conf"
+    },
+    "ASN_INTER_AS": {
+      "intent": "Autonomous-system number of the inter-AS eBGP peers (the other AS of the design).",
+      "use": "Used by 6 snippets, for example `evo/protocols/bgp-group-ebgp-lu-route-target-import-export-1-peer.conf`.",
+      "example": "63536",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. In the ASN family; distinct from ASN_CUSTOMER and ASN_PROVIDER.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/protocols/bgp-group-ebgp-lu-route-target-import-export-1-peer.conf"
+    },
+    "BGP_GROUP_V4": {
+      "intent": "Name of the IPv4 eBGP group toward the CE in a VRF.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`.",
+      "example": "v4ixia",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. Distinct from BGP_GROUP: the IPv4 and IPv6 CE groups coexist in one VRF.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf"
+    },
+    "BGP_GROUP_V6": {
+      "intent": "Name of the IPv6 eBGP group toward the CE in a VRF.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`.",
+      "example": "v6ixia",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. Distinct from BGP_GROUP: the IPv4 and IPv6 CE groups coexist in one VRF.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf"
+    },
+    "CLUSTER_ID": {
+      "intent": "Route-reflector cluster identifier (`cluster`) of an iBGP group.",
+      "use": "Used by 3 snippets, for example `evo/protocols/bgp-group-ibgp-rr-lu-export-as-out-2-peers.conf`.",
+      "example": "192.168.1.9",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/protocols/bgp-group-ibgp-rr-lu-export-as-out-2-peers.conf"
+    },
+    "INPUT_FILTER_V4": {
+      "intent": "Name of an IPv4 firewall filter: defines the filter and applies it as an input filter.",
+      "use": "Used by 5 snippets, for example `evo/firewall/filter-inet-mfc-dscp-forwarding-class.conf`.",
+      "example": "FF-MFC-IPV4-L3VPN-BD-IRB",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. Distinct from INPUT_FILTER: the IPv4 and IPv6 input filters coexist on one IRB unit, and the filter definitions use the same names.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/firewall/filter-inet-mfc-dscp-forwarding-class.conf"
+    },
+    "INPUT_FILTER_V6": {
+      "intent": "Name of an IPv6 firewall filter: defines the filter and applies it as an input filter.",
+      "use": "Used by 5 snippets, for example `evo/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf`.",
+      "example": "FF-MFC-IPV6-L3VPN-BD-IRB",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. Distinct from INPUT_FILTER: the IPv4 and IPv6 input filters coexist on one IRB unit, and the filter definitions use the same names.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf"
+    },
+    "INTER_AS_PEER_V4": {
+      "intent": "IPv4 address of an inter-AS eBGP neighbor in the other autonomous system of the design (Option B or C): a link address or a loopback for multihop sessions.",
+      "use": "Numbered _1/_2 when a group has several inter-AS neighbors, in neighbor order.",
+      "example": "10.10.0.54",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G. Distinct from IBGP_PEER_V4, PE_PEER_V4 and CE_PEER_V4: a neighbor in the other autonomous system of an inter-AS (Option B or C) design.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/protocols/bgp-group-ebgp-lu-route-target-import-export-1-peer.conf"
+    },
+    "IRB_IFL": {
+      "intent": "IRB logical interface (`irb.<unit>`): the Layer 3 interface of a VLAN or bridge domain, or a VRF member.",
+      "use": "Used by 5 snippets, for example `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`.",
+      "example": "irb.101",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf"
+    },
+    "IRB_MAC": {
+      "intent": "MAC address configured on an IRB unit (`mac`).",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf`.",
+      "example": "00:00:00:00:00:a7",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf"
+    },
+    "LOOPBACK_ALT_V4_PFX": {
+      "intent": "Additional lo0 IPv4 address with prefix length, besides the primary (design) and management loopbacks.",
+      "use": "Used by `junos/interfaces/ifl-loopback-description-primary-secondary.conf`.",
+      "example": "172.17.17.7/32",
+      "notes": "Registered on 2026-11-13; used by Broadband Edge, EWAN DC Edge and EWAN Core and Edge before this entry, and reused by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/junos/interfaces/ifl-loopback-description-primary-secondary.conf"
+    },
+    "LOOPBACK_ALT_V6_PFX": {
+      "intent": "Secondary IPv6 address with prefix length on loopback unit 0.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf`.",
+      "example": "2001:db8::1:1:10:3/128",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf"
+    },
+    "PE_LOCAL_V6": {
+      "intent": "Local IPv6 address of the PE side of a CE eBGP session (`local-address`).",
+      "use": "Used by 4 snippets, for example `evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf`.",
+      "example": "2001:0:0:0:13:3:0:1",
+      "notes": "Registered on 2026-11-13; used by Metro Ethernet Business Services before this entry, and reused by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+    },
+    "STATIC_ARP_V4": {
+      "intent": "IPv4 address of a static ARP entry on an IRB unit.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf`.",
+      "example": "10.31.167.2",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf"
+    },
+    "STATIC_NDP_V6": {
+      "intent": "IPv6 address of a static NDP entry on an IRB unit.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf`.",
+      "example": "2001:db8::1fa6:12",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf"
+    },
+    "TS_PIC": {
+      "intent": "PIC slot that hosts tunnel services.",
+      "use": "Used by `junos/chassis/tunnel-services.conf`.",
+      "example": "0",
+      "notes": "Registered on 2026-11-13; used by Metro Ethernet Business Services before this entry, and reused by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/tunnel-services.conf"
+    },
+    "VGA_V6": {
+      "intent": "IPv6 virtual gateway address shared by the routers of an anycast IRB gateway.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-irb-inet-inet6-virtual-gateway-filter.conf`.",
+      "example": "2001:db8::15a6:11",
+      "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
+      "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-irb-inet-inet6-virtual-gateway-filter.conf"
     }
   },
   "notes": [

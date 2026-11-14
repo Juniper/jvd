@@ -6,6 +6,122 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-11-13
 
+The **Low Latency QoS Design for 5G** snippet library is rebuilt from the thirteen
+validated device configurations with measured dependencies, the Config Explorer Roles
+view now includes it, and the shared variable glossary gains the names used by the three
+most recent libraries.
+
+### New content
+
+- **[Low Latency QoS Design for 5G snippet library](service_provider/low_latency_queueing/configuration/snips)**:
+  215 snippets (84 Junos, 131 Junos Evolved) measured from the thirteen published device
+  configurations replace the earlier 70 topic snippets. They cover the eight-class CoS
+  model (forwarding classes, schedulers, classifiers, rewrite rules and their bindings on
+  interfaces and units), multifield filters, IS-IS segment routing, BGP labeled unicast,
+  VPN and EVPN groups across the two autonomous systems, MPLS, Ethernet CFM, EVPN-VPWS
+  and flexible cross-connect, L2 circuits, EVPN-ELAN, BGP-VPLS and L3VPN instances, on
+  ACX7024, ACX7100-48L, ACX7100-32C, ACX7509, PTX10001-36MR, MX204, MX480, MX304 and
+  QFX5210 platforms. Every active statement on the thirteen devices is reproduced by a
+  snippet; the published configurations contain no `traceoptions` and no deactivated
+  configuration, so nothing is excluded. Each snippet lists the devices it was validated
+  on, its source instance count and, where verified, its peer on another device.
+- **Low Latency QoS dependencies**: 52 snippets list a measured `Pair with`
+  prerequisite, and 57 snippets carry 69 typed requirements. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 184 answers
+  for this JVD, each resolved (180) or not needed on its router (4). The assistant bundle
+  was regenerated from the new library: it lists each snippet's Needs and offers the
+  `minimum` form of ten services.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes Low Latency QoS
+  Design for 5G, grouping its snippets under Access Node / Cell Site Router, Aggregation
+  (hub site and helper routers), Core Router, Services Aggregation Gateway and O-DU
+  switch, as named in the Device roles table of the
+  [JVD datasheet](service_provider/low_latency_queueing/documentation/datasheet.md#device-roles),
+  which now matches the published devices.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 43 entries: the names this library introduces, and names the EWAN Advanced Core
+  and Edge Services and DCI over IPoDWDM libraries introduced earlier.
+
+### Fixes and maintenance
+
+- **Low Latency QoS configurations**: the published ag2_1, ag3_1 and du configurations no
+  longer begin with the command used to capture them (`show configuration | no-more`),
+  which was not configuration.
+
+### Known limitations
+
+- The L3VPN instances' eBGP peers and the attachment circuits face a test traffic
+  generator, and the du switch stands in for the O-DU side. The family ccc multifield
+  filters match the MAC addresses of the lab endpoints; replace them for a deployment.
+  The sag loopback carries the same ISO address as cr2. See the library
+  [README](service_provider/low_latency_queueing/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+
+### What this means for you
+
+- Build Low Latency QoS Design for 5G configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values; see the
+  library [README](service_provider/low_latency_queueing/configuration/snips/README.md)
+  and [variable glossary](service_provider/low_latency_queueing/configuration/snips/_variables.md).
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier Low Latency QoS snippet file names no longer
+  resolve; use the topic index in the library
+  [README](service_provider/low_latency_queueing/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the earlier November 13 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Service Provider / Low Latency QoS Design for 5G | 216 | 5 | 65 | 17 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **216** | **5** | **65** | **31** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Service Provider / Low Latency QoS Design for 5G | 26611 | 7602 | +19009 |
+| Shared variable glossary | 301 | 0 | +301 |
+| Portal | 42574 | 10185 | +32389 |
+| **Total** | **69486** | **17787** | **+51699** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding assistant bundles) | 288 | 12851 |
+| JVD AI Assistant bundles (with portal copies) | 21 | 27636 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 26817 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 1879 |
+| Device configurations (`configuration/conf/`) | 3 | 0 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 301 |
+| JVD datasheet | 1 | 2 |
+| **Total** | **317** | **69486** |
+
+</details>
+
+---
+
+## 2026-11-13
+
 The **DCI over IPoDWDM** snippet library is rebuilt from the three validated router
 configurations with measured dependencies, and the Config Explorer Roles view now
 includes it.
