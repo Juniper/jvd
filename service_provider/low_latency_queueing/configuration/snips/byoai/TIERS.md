@@ -1,171 +1,333 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet
-files to include for each service kind at each verbosity tier. It is bundled into
-[`jvd-llq-snips.md`](jvd-llq-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd service_provider/low_latency_queueing`. -->
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier —
-and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate
-file under `junos/` or `evo/` for the target device:
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
-- **EVO** (ACX7024/7100/7509 access & aggregation, PTX10001-36MR core) → `evo/…`
-- **Junos** (MX204/MX480 aggregation, MX304 SAG) → `junos/…`
+## What the tiers mean
 
-This is a **5G xHaul Class-of-Service** JVD — CoS is not an afterthought, it is
-the point. Every service's `as-deployed` tier therefore includes the full CoS
-baseline. Fronthaul services (eCPRI) are the primary use of the low-latency queue
-(FC-LLQ, queue 6) and, on ACX, the `schedulers-low-latency` scheduler.
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
----
-
-## Shared underlay baseline (referenced by every `as-deployed`)
-
-The SR-MPLS transport + policy + CoS every device needs end-to-end. Factor this
-once; every service's `as-deployed` = its `with-overlay` set + this baseline.
-
-**Transport**
-- `transport/isis-global.conf` (IS-IS SR, SRGB, TI-LFA backup)
-- `transport/isis-interface.conf` (level-2, TI-LFA, BFD, p2p)
-- `transport/mpls-global.conf` (PCE LSPs, TTL, ICMP/IPv6 tunneling)
-- `transport/bgp-internal.conf` (iBGP labeled-unicast + route-reflector)
-- `transport/load-balance-pplb.conf` (chained-composite-next-hop)
-- `transport/forwarding-options-hash.conf` (EVO only — L3+L4+MPLS hashing)
-
-**Policy**
-- `policy/allow-loopback.conf`, `policy/next-hop-self.conf`, `policy/pplb.conf`,
-  `policy/sr-nonzero-loopbacks.conf`
-
-**CoS baseline (transport marking)**
-- `cos/forwarding-classes.conf` (8-class O-RAN model)
-- `cos/classifier-exp.conf` + `cos/rewrite-exp.conf` (MPLS EXP core)
-- `cos/scheduler-map.conf`
-- `cos/schedulers-low-latency.conf` (EVO ACX — FC-LLQ = low-latency) **or**
-  `cos/schedulers-strict-high.conf` (Junos MX + EVO PTX core — FC-LLQ = strict-high)
-- `cos/cos-binding-transport.conf` (EXP classify + rewrite on core AE units)
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## EVPN-VPWS (5G fronthaul eCPRI / L2 MBH point-to-point)
+## EVPN-VPWS point-to-point service
 
-EVO = multi-homed (eCPRI fronthaul, ESI on the AG-facing LAG). Junos = single-homed
-(midhaul/backhaul to SAG).
+Family e-line, form evpn-vpws. OS mode EVO. Attachment: VLAN CCC unit toward the cell site or hub site attachment..
 
-**minimum** (just the service)
-- flavor: `evo/services/evpn-vpws-vlan-based-mh.conf` **or**
-  `junos/services/evpn-vpws-vlan-based-sh.conf`
-- `evo/interfaces/lag-esi.conf` (EVO — ESI LAG) **or**
-  `junos/interfaces/vlan-ccc.conf` (Junos — vlan-ccc AC unit)
-- `evo/interfaces/vlan-ccc.conf` (EVO AC unit) if not on the ESI LAG
-- fronthaul CoS: `evo/cos/cos-binding-l2-fronthaul-static.conf` (static FC-LLQ) +
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (MAC-based eCPRI steering)
+### ag1_1_acx7509 (evo)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-internal.conf` (assert iBGP family for EVPN)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### ag1_2_acx7100-32c (evo)
 
----
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-## EVPN-FXC vlan-aware (Flexible Cross-Connect, fronthaul/midhaul)
+### an1_acx7100-48l (evo)
 
-**minimum**
-- `services/evpn-fxc-vlan-aware.conf`
-- `interfaces/vlan-ccc.conf` (+ `evo/interfaces/lag-esi.conf` for EVO multihoming)
-- fronthaul CoS: `evo/cos/cos-binding-l2-fronthaul-static.conf` +
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (EVO)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### an3_acx7100-48l (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
----
+### an4_acx7024 (evo)
 
-## EVPN-ELAN (multipoint L2 fronthaul)
-
-EVO = `evpn-elan-vlan-based.conf` (mac-vrf, simple). Junos = `evpn-elan-vlan-based-irb.conf`
-(mac-vrf + IRB — see the IRB service below).
-
-**minimum**
-- `evo/services/evpn-elan-vlan-based.conf`
-- `interfaces/vlan-bridge.conf` (+ `evo/interfaces/lag-esi.conf` for multihoming)
-- L2 CoS: `evo/cos/cos-binding-l2-fronthaul.conf` (802.1p classify)
-
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ---
 
-## EVPN-ELAN with IRB + L3VPN (integrated L2 + L3 midhaul)
+## EVPN-VPWS service with static flow labels (FAT pseudowire)
 
-The DU→SAG midhaul anycast-gateway pattern: bridge domain + IRB routed into an
-L3VPN VRF.
+Family e-line, form evpn-vpws-flow-label-static. OS mode MIXED. Attachment: VLAN CCC unit toward the cell site or service edge attachment..
 
-**minimum**
-- `services/evpn-elan-vlan-based-irb.conf` (Junos) **or**
-  `evo/services/evpn-elan-vlan-based.conf` + `evo/cos/cos-binding-irb.conf` (EVO)
-- `services/l3vpn-irb.conf` (the VRF that binds `irb.<unit>`)
-- `interfaces/vlan-bridge.conf` (AC units)
-- IRB CoS: `evo/cos/cos-binding-irb.conf` (static FC-REALTIME on IRB) (EVO)
-- IRB firewall MF: `firewall/filter-mfc-ipv4-l3vpn-irb.conf` +
-  `firewall/filter-mfc-ipv6-l3vpn-irb.conf`
+### an4_acx7024 (evo)
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
-**as-deployed** (= with-overlay + shared underlay baseline + full L3 CoS:
-`cos/classifier-dscp.conf`, `cos/classifier-dscp-ipv6.conf`,
-`cos/rewrite-dscp.conf`, `cos/rewrite-dscp-ipv6.conf`,
-`cos/cos-binding-l3-service.conf`)
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
-## L3VPN with IRB (anycast gateway, standalone)
+## EVPN flexible cross-connect, VLAN-aware, two attachment circuits
 
-**minimum**
-- `services/l3vpn-irb.conf`
-- `interfaces/vlan-bridge.conf` (the AC/IRB attachment)
-- `cos/cos-binding-l3-service.conf` (DSCP classify/rewrite per unit) +
-  `firewall/filter-mfc-ipv4-l3vpn-irb.conf` + `firewall/filter-mfc-ipv6-l3vpn-irb.conf`
+Family e-line, form evpn-fxc-vlan-aware-2-uni. OS mode MIXED. Attachment: Two VLAN CCC units on the attachment port..
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### ag1_1_acx7509 (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline + full L3 CoS:
-`cos/classifier-dscp*.conf`, `cos/rewrite-dscp*.conf`)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
 
 ---
 
-## BGP-VPLS (multipoint L2 MBH, RFC 4761)
+## Layer 2 circuit (LDP pseudowire) with control word
 
-**minimum**
-- `services/bgp-vpls-vsi.conf`
-- `interfaces/vlan-bridge.conf`
-- L2 CoS: `evo/cos/cos-binding-l2-fronthaul.conf` (EVO)
-- OAM (optional): `evo/oam/cfm-maintenance-domain.conf`
+Family e-line, form l2circuit-control-word. OS mode MIXED. Attachment: VLAN CCC unit toward the attachment..
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### an1_acx7100-48l (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
-## Add-a-feature requests (no full service)
+## Layer 2 circuit with control word and static flow labels (FAT pseudowire)
 
-When the user asks to add a supporting feature to an existing device, emit ONLY
-that snip set (OS-appropriate):
+Family e-line, form l2circuit-control-word-flow-label-static. OS mode MIXED. Attachment: VLAN CCC unit toward the attachment..
 
-- **CoS (full 8-class 5G model)** → `cos/forwarding-classes.conf` +
-  `cos/scheduler-map.conf` + (`cos/schedulers-low-latency.conf` for EVO ACX /
-  `cos/schedulers-strict-high.conf` for Junos MX + EVO PTX) + all classifiers
-  (`cos/classifier-ieee-802.1.conf`, `cos/classifier-exp.conf`,
-  `cos/classifier-dscp.conf`, `cos/classifier-dscp-ipv6.conf`) + all rewrites
-  (`cos/rewrite-ieee-802.1.conf`, `cos/rewrite-exp.conf`, `cos/rewrite-dscp.conf`,
-  `cos/rewrite-dscp-ipv6.conf`) + the relevant `cos/cos-binding-*.conf`
-- **Low-latency fronthaul CoS binding** → `evo/cos/cos-binding-l2-fronthaul-static.conf`
-  (static FC-LLQ) or `evo/cos/cos-binding-l2-fronthaul.conf` (802.1p) +
-  `evo/cos/schedulers-low-latency.conf` + `evo/firewall/filter-mf-ecpri-fronthaul.conf`
-- **OAM/CFM** → `evo/oam/cfm-maintenance-domain.conf`
-- **Firewall / MF classification** → `firewall/filter-mfc-ipv4-l3vpn-irb.conf` +
-  `firewall/filter-mfc-ipv6-l3vpn-irb.conf` (L3VPN IRB) or
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (eCPRI fronthaul)
-- **Load-balancing** → `policy/pplb.conf` + `transport/load-balance-pplb.conf` +
-  `evo/transport/forwarding-options-hash.conf` (EVO)
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN-ELAN MAC-VRF, VLAN-based service
+
+Family e-lan, form evpn-elan-vlan-based. OS mode EVO. Attachment: VLAN bridge unit on the attachment port..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN MAC-VRF, VLAN-based service, with an IRB interface
+
+Family e-lan, form evpn-elan-vlan-based-irb. OS mode MIXED. Attachment: VLAN bridge unit on the attachment port and an IRB unit for the Layer 3 gateway..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## BGP-signalled VPLS with flow labels (FAT pseudowire)
+
+Family e-lan, form bgp-vpls-flow-label. OS mode MIXED. Attachment: VLAN bridge unit on the attachment port..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## L3VPN VRF with an IRB interface
+
+Family l3vpn, form l3vpn-irb. OS mode MIXED. Attachment: IRB unit that is the Layer 3 interface of a midhaul bridge domain..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+---
+
+## L3VPN VRF with IPv4 and IPv6 eBGP to the CE
+
+Family l3vpn, form l3vpn-ebgp-v4-v6. OS mode MIXED. Attachment: Dual-stack VLAN unit toward the CE..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---

@@ -1,96 +1,84 @@
-# JVD Low Latency QoS for 5G (LLQ) snippet library
+# JVD Low Latency QoS Design for 5G snippet library
 
-## evo/cos/classifier-dscp-ipv6.conf
+## evo/chassis/aggregated-devices-ethernet.conf
 
 ```
 /*
- * Topic:   DSCP-IPv6 classifier (CL-DSCP-IPV6) — ingress IPv6 packet-to-FC mapping
- * Variant: Evolved-OS (EVO)
+ * Topic: Aggregated Ethernet device-count for the chassis
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Identical classification logic to CL-DSCP but applied to IPv6 traffic
- *  - Required when inet6 traffic is classified separately from inet
- *  - Applied to L3 service interfaces alongside CL-DSCP
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/cos-binding-l3-service.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/classifier-dscp.conf          (IPv4 counterpart)
- *  - evo/cos/rewrite-dscp-ipv6.conf        (egress IPv6 FC → DSCP marking)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $AE_DEVICE_COUNT  e.g. 25
  */
-
-class-of-service {
-    classifiers {
-        dscp-ipv6 CL-DSCP-IPV6 {
-            import default;
-            forwarding-class FC-BEST-EFFORT {
-                loss-priority high code-points be;
-            }
-            forwarding-class FC-CONTROL {
-                loss-priority low code-points cs7;
-            }
-            forwarding-class FC-HIGH {
-                loss-priority high code-points af33;
-                loss-priority low code-points [ cs3 af31 ];
-                loss-priority medium-high code-points af32;
-            }
-            forwarding-class FC-LLQ {
-                loss-priority high code-points af43;
-                loss-priority low code-points [ cs4 af41 ];
-                loss-priority medium-high code-points af42;
-            }
-            forwarding-class FC-LOW {
-                loss-priority high code-points af13;
-                loss-priority low code-points [ cs1 af11 ];
-                loss-priority medium-high code-points af12;
-            }
-            forwarding-class FC-MEDIUM {
-                loss-priority high code-points af23;
-                loss-priority low code-points [ cs2 af21 ];
-                loss-priority medium-high code-points af22;
-            }
-            forwarding-class FC-REALTIME {
-                loss-priority low code-points ef;
-            }
-            forwarding-class FC-SIGNALING {
-                loss-priority high code-points cs5;
-                loss-priority low code-points cs6;
-            }
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
         }
     }
 }
 ```
 
-## evo/cos/classifier-dscp.conf
+## evo/chassis/network-services-enhanced-ip.conf
 
 ```
 /*
- * Topic:   DSCP classifier (CL-DSCP) — ingress packet-to-FC mapping
- * Variant: Evolved-OS (EVO)
+ * Topic: Enhanced IP chassis network-services mode
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - AF per-hop behavior: AF4x → FC-LLQ, AF3x → FC-HIGH, AF2x → FC-MEDIUM,
- *    AF1x → FC-LOW, EF → FC-REALTIME, CS6/CS7 → FC-SIGNALING/CONTROL
- *  - 3-level loss-priority (low/medium-high/high) for AFxy drop-precedence
- *  - import default covers unmapped code-points → FC-BEST-EFFORT
- *  - Applied to L3 service interfaces via interface cos-binding
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/classifier-dscp-ipv6.conf
- *  - evo/cos/cos-binding-l3-service.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/forwarding-classes.conf       (FC queue-num definitions)
- *  - evo/cos/rewrite-dscp.conf             (egress FC → DSCP marking)
+ *   EVO: ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+chassis {
+  network-services enhanced-ip;
+}
+```
 
+## evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+
+```
+/*
+ * Topic: DSCP, DSCP IPv6, MPLS EXP and IEEE 802.1p behavior aggregate classifiers for the eight forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
 class-of-service {
     classifiers {
         dscp CL-DSCP {
@@ -129,36 +117,42 @@ class-of-service {
                 loss-priority low code-points cs6;
             }
         }
-    }
-}
-```
-
-## evo/cos/classifier-exp.conf
-
-```
-/*
- * Topic:   MPLS EXP classifier (CL-MPLS) — ingress MPLS-to-FC mapping
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Maps 3-bit MPLS EXP field to 8 forwarding classes
- *  - EXP 4 → FC-LLQ, EXP 5 → FC-REALTIME, EXP 6 → FC-SIGNALING
- *  - Applied on MPLS transport interfaces (ae units with family mpls)
- *  - All loss-priority = low (EXP has no drop-precedence encoding)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/cos-binding-transport.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/forwarding-classes.conf   (FC queue-num definitions)
- *  - evo/cos/rewrite-exp.conf          (egress FC → EXP marking)
- */
-
-class-of-service {
-    classifiers {
+        dscp-ipv6 CL-DSCP-IPV6 {
+            import default;
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority high code-points af33;
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority high code-points af43;
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+            }
+            forwarding-class FC-LOW {
+                loss-priority high code-points af13;
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority high code-points af23;
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-SIGNALING {
+                loss-priority high code-points cs5;
+                loss-priority low code-points cs6;
+            }
+        }
         exp CL-MPLS {
             import default;
             forwarding-class FC-BEST-EFFORT {
@@ -186,36 +180,6 @@ class-of-service {
                 loss-priority low code-points 110;
             }
         }
-    }
-}
-```
-
-## evo/cos/classifier-ieee-802.1.conf
-
-```
-/*
- * Topic:   802.1p classifier (CL-8021P) — ingress VLAN-tag-to-FC mapping
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Maps 3-bit 802.1p PCP field to 8 forwarding classes
- *  - PCP 4 → FC-LLQ, PCP 5 → FC-REALTIME, PCP 6 → FC-SIGNALING
- *  - Applied on L2 access/trunk interfaces (EVPN-VPWS, ELAN)
- *  - All loss-priority = low (PCP has no drop-precedence encoding)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/cos-binding-l2-fronthaul.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/forwarding-classes.conf       (FC queue-num definitions)
- *  - evo/cos/rewrite-ieee-802.1.conf       (egress FC → PCP marking)
- */
-
-class-of-service {
-    classifiers {
         ieee-802.1 CL-8021P {
             import default;
             forwarding-class FC-BEST-EFFORT {
@@ -247,254 +211,27 @@ class-of-service {
 }
 ```
 
-## evo/cos/cos-binding-irb.conf
+## evo/class-of-service/forwarding-classes/fc-8class-model.conf
 
 ```
 /*
- * Topic:   CoS interface binding — IRB with static FC-REALTIME + DSCP rewrite
- * Variant: Evolved-OS (EVO)
+ * Topic: Eight forwarding classes mapped to queues 0 to 7, aligned with the O-RAN multiple priority queues
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Static forwarding-class FC-REALTIME for IRB units — guarantees strict
- *    priority queuing for routed traffic on EVPN-ELAN IRB interfaces
- *  - DSCP rewrite ensures L3-routed packets leaving the IRB carry correct
- *    DSCP marking (EF for realtime) into the L3VPN domain
- *  - Used on IRB units associated with EVPN-ELAN + IRB services where
- *    the bridge domain carries time-sensitive traffic
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/scheduler-map.conf
- *  - evo/firewall/filter-mfc-ipv4-l3vpn-irb.conf
- *  - evo/firewall/filter-mfc-ipv6-l3vpn-irb.conf
- *  - evo/services/l3vpn-irb.conf
- *  - evo/cos/forwarding-classes.conf   (FC-REALTIME definition)
- *  - evo/cos/rewrite-dscp.conf         (RR-DSCP definition)
- *  - evo/cos/rewrite-dscp-ipv6.conf    (RR-DSCP-IPV6 definition)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
-class-of-service {
-    interfaces {
-        <interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit <unit-number> {
-                forwarding-class FC-REALTIME;
-                rewrite-rules {
-                    dscp RR-DSCP;
-                    dscp-ipv6 RR-DSCP-IPV6;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/cos/cos-binding-l2-fronthaul-static.conf
-
-```
-/*
- * Topic:   CoS interface binding — L2 fronthaul with static FC-LLQ (guaranteed low-latency)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Static forwarding-class FC-LLQ forces ALL traffic on this unit into
- *    the low-latency queue regardless of packet marking
- *  - Paired with 802.1p rewrite so downstream L2 devices see correct PCP
- *  - Used on dedicated eCPRI fronthaul units where classification is
- *    unnecessary (all traffic is fronthaul by VLAN assignment)
- *  - The key differentiator from cos-binding-l2-fronthaul.conf: this
- *    variant bypasses classification entirely for deterministic queuing
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/scheduler-map.conf
- *  - evo/firewall/filter-mf-ecpri-fronthaul.conf
- *  - evo/services/evpn-vpws-vlan-based-mh.conf
- *  - evo/cos/forwarding-classes.conf    (FC-LLQ definition)
- *  - evo/cos/rewrite-ieee-802.1.conf   (RR-8021P definition)
- *  - evo/cos/schedulers-low-latency.conf (SC-LLQ with priority low-latency)
- */
-
-class-of-service {
-    interfaces {
-        <interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit <unit-number> {
-                forwarding-class FC-LLQ;
-                rewrite-rules {
-                    ieee-802.1 RR-8021P;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/cos/cos-binding-l2-fronthaul.conf
-
-```
-/*
- * Topic:   CoS interface binding — L2 fronthaul with 802.1p classification
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Per-unit 802.1p PCP classification and rewrite (CL-8021P / RR-8021P)
- *  - Applied to EVPN-VPWS/ELAN L2 service units carrying eCPRI fronthaul
- *  - PCP bits classify directly into FC-LLQ (PCP 4) for low-latency queuing
- *  - No static FC — relies on dynamic 802.1p classification from DU tagging
- *  - Compare with cos-binding-l2-fronthaul-static.conf where FC is pinned
- *
- * Pair with:
- *  - evo/cos/scheduler-map.conf
- *  - evo/interfaces/lag-esi.conf
- *  - evo/oam/cfm-maintenance-domain.conf
- *  - evo/services/bgp-vpls-vsi.conf
- *  - evo/services/evpn-elan-vlan-based.conf
- *  - evo/cos/classifier-ieee-802.1.conf (CL-8021P definition)
- *  - evo/cos/rewrite-ieee-802.1.conf    (RR-8021P definition)
- */
-
-class-of-service {
-    interfaces {
-        <interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit <unit-number> {
-                classifiers {
-                    ieee-802.1 CL-8021P;
-                }
-                rewrite-rules {
-                    ieee-802.1 RR-8021P;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/cos/cos-binding-l3-service.conf
-
-```
-/*
- * Topic:   CoS interface binding — L3 service (DSCP classifier + rewrite per unit)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Per-unit DSCP + DSCP-IPv6 classification and rewrite
- *  - No static forwarding-class — traffic is classified dynamically
- *  - Applied to L3VPN service units (inet/inet6 traffic)
- *  - Scheduler-map is applied at the interface level (not shown per-unit)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/scheduler-map.conf
- *  - evo/cos/classifier-dscp.conf      (CL-DSCP definition)
- *  - evo/cos/classifier-dscp-ipv6.conf (CL-DSCP-IPV6 definition)
- *  - evo/cos/rewrite-dscp.conf         (RR-DSCP definition)
- *  - evo/cos/rewrite-dscp-ipv6.conf    (RR-DSCP-IPV6 definition)
- */
-
-class-of-service {
-    interfaces {
-        <interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit <unit-number> {
-                classifiers {
-                    dscp CL-DSCP;
-                    dscp-ipv6 CL-DSCP-IPV6;
-                }
-                rewrite-rules {
-                    dscp RR-DSCP;
-                    dscp-ipv6 RR-DSCP-IPV6;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/cos/cos-binding-transport.conf
-
-```
-/*
- * Topic:   CoS interface binding — MPLS transport (EXP classifier + rewrite)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Applies scheduler-map SM-5G-SCHEDULER at interface level
- *  - Classifies inbound MPLS traffic via EXP bits (CL-MPLS)
- *  - Rewrites outbound EXP bits (RR-MPLS) to preserve QoS marking
- *  - Applied on ae interface unit 0 (transport backbone links)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/classifier-exp.conf   (CL-MPLS definition)
- *  - evo/cos/rewrite-exp.conf      (RR-MPLS definition)
- *  - evo/cos/scheduler-map.conf    (SM-5G-SCHEDULER definition)
- */
-
-class-of-service {
-    interfaces {
-        <ae-interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit 0 {
-                classifiers {
-                    exp CL-MPLS;
-                }
-                rewrite-rules {
-                    exp RR-MPLS;
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/cos/forwarding-classes.conf
-
-```
-/*
- * Topic:   8-class forwarding-class model (O-RAN multi-priority alignment)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - 8 forwarding classes aligned to O-RAN multi-priority queuing model
- *  - FC-LLQ (queue 6) is the low-latency queue for eCPRI/fronthaul
- *  - FC-REALTIME (queue 5) for strict priority real-time flows (PTP, sync)
- *  - FC-SIGNALING (queue 7) for control-plane signaling
- *  - Queue numbering is consistent across all platforms in this JVD
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/classifier-dscp.conf
- *  - evo/cos/classifier-exp.conf
- *  - evo/cos/classifier-ieee-802.1.conf
- *  - evo/cos/cos-binding-irb.conf
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf
- *  - evo/cos/rewrite-dscp.conf
- *  - evo/cos/rewrite-exp.conf
- *  - evo/cos/rewrite-ieee-802.1.conf
- *  - evo/cos/schedulers-low-latency.conf    (ACX: LLQ with priority low-latency)
- *  - evo/cos/schedulers-strict-high.conf    (PTX: LLQ with priority strict-high)
- *  - evo/cos/scheduler-map.conf             (FC → scheduler binding)
- */
-
 class-of-service {
     forwarding-classes {
         class FC-BEST-EFFORT queue-num 0;
@@ -509,98 +246,395 @@ class-of-service {
 }
 ```
 
-## evo/cos/rewrite-dscp-ipv6.conf
+## evo/class-of-service/interfaces/ifd-scheduler-map.conf
 
 ```
 /*
- * Topic:   DSCP-IPv6 rewrite rule (RR-DSCP-IPV6) — egress FC-to-DSCP marking for IPv6
- * Variant: Evolved-OS (EVO)
+ * Topic: Scheduler map on an interface
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Identical marking logic to RR-DSCP but applied to IPv6 egress
- *  - Required when inet6 traffic is rewritten separately from inet
- *  - Body is byte-identical to the Junos sibling
- *
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 8
+ *   ag1_2_acx7100-32c 8
+ *   an1_acx7100-48l 3
+ *   an3_acx7100-48l 4
+ *   an4_acx7024 4
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 4
+ *   total 35
  * Pair with:
- *  - evo/cos/cos-binding-irb.conf
- *  - evo/cos/cos-binding-l3-service.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/classifier-dscp-ipv6.conf (ingress counterpart)
- *  - evo/cos/rewrite-dscp.conf         (IPv4 counterpart)
+ *  - evo/class-of-service/scheduler-maps/sm-5g-scheduler.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. ae19
  */
-
 class-of-service {
-    rewrite-rules {
-        dscp-ipv6 RR-DSCP-IPV6 {
-            forwarding-class FC-BEST-EFFORT {
-                loss-priority high code-point be;
-                loss-priority low code-point be;
-            }
-            forwarding-class FC-CONTROL {
-                loss-priority high code-point cs7;
-                loss-priority low code-point cs7;
-            }
-            forwarding-class FC-HIGH {
-                loss-priority high code-point af33;
-                loss-priority low code-point af31;
-                loss-priority medium-high code-point af32;
-            }
-            forwarding-class FC-LLQ {
-                loss-priority high code-point af43;
-                loss-priority low code-point af41;
-                loss-priority medium-high code-point af42;
-            }
-            forwarding-class FC-LOW {
-                loss-priority high code-point af13;
-                loss-priority low code-point af11;
-                loss-priority medium-high code-point af12;
-            }
-            forwarding-class FC-MEDIUM {
-                loss-priority high code-point af23;
-                loss-priority low code-point af21;
-                loss-priority medium-high code-point af22;
-            }
-            forwarding-class FC-REALTIME {
-                loss-priority high code-point ef;
-                loss-priority low code-point ef;
-            }
-            forwarding-class FC-SIGNALING {
-                loss-priority high code-point cs5;
-                loss-priority low code-point cs6;
+    interfaces {
+        $COS_INTF {
+            scheduler-map SM-5G-SCHEDULER;
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-dscp-classifier-rewrite.conf
+
+```
+/*
+ * Topic: DSCP classifier and rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an4_acx7024 1
+ *   total 3
+ * Pair with:
+ *  - evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. et-1/0/7
+ *   $UNIT      e.g. 3801
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                classifiers {
+                    dscp CL-DSCP;
+                }
+                rewrite-rules {
+                    dscp RR-DSCP;
+                }
             }
         }
     }
 }
 ```
 
-## evo/cos/rewrite-dscp.conf
+## evo/class-of-service/interfaces/ifl-dscp-dscp-ipv6-classifier-rewrite.conf
 
 ```
 /*
- * Topic:   DSCP rewrite rule (RR-DSCP) — egress FC-to-DSCP marking
- * Variant: Evolved-OS (EVO)
+ * Topic: DSCP and DSCP IPv6 classifiers and rewrite rules on a logical unit
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Rewrites outgoing DSCP based on FC + loss-priority at egress
- *  - AF4x codes for FC-LLQ, EF for FC-REALTIME (matches classifier in reverse)
- *  - Applied on L3 service interface units via cos-binding
- *  - Body is byte-identical to the Junos sibling
- *
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 266
+ *   ag1_2_acx7100-32c 266
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 100
+ *   total 832
  * Pair with:
- *  - evo/cos/cos-binding-irb.conf
- *  - evo/cos/cos-binding-l3-service.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/rewrite-dscp-ipv6.conf
- *  - evo/cos/classifier-dscp.conf      (ingress counterpart)
- *  - evo/cos/forwarding-classes.conf   (FC definitions)
+ *  - evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. et-1/0/1
+ *   $UNIT      e.g. 1
  */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                classifiers {
+                    dscp CL-DSCP;
+                    dscp-ipv6 CL-DSCP-IPV6;
+                }
+                rewrite-rules {
+                    dscp RR-DSCP;
+                    dscp-ipv6 RR-DSCP-IPV6;
+                }
+            }
+        }
+    }
+}
+```
 
+## evo/class-of-service/interfaces/ifl-forwarding-class-high-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-HIGH with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 50
+ *   total 250
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $COS_INTF  e.g. et-0/0/2
+ *   $UNIT      e.g. 1301
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-HIGH;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-forwarding-class-llq-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-LLQ with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 150
+ *   ag1_2_acx7100-32c 150
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 100
+ *   total 600
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. et-1/0/1
+ *   $UNIT      e.g. 3501
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-LLQ;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-forwarding-class-low-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-LOW with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 50
+ *   an3_acx7100-48l 50
+ *   an4_acx7024 25
+ *   total 125
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $COS_INTF  e.g. et-0/0/2
+ *   $UNIT      e.g. 1451
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-LOW;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-forwarding-class-medium-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-MEDIUM with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 50
+ *   an3_acx7100-48l 50
+ *   an4_acx7024 25
+ *   total 125
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $COS_INTF  e.g. et-0/0/2
+ *   $UNIT      e.g. 1401
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-MEDIUM;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf
+
+```
+/*
+ * Topic: IEEE 802.1p classifier and rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 200
+ *   ag1_2_acx7100-32c 150
+ *   an1_acx7100-48l 450
+ *   an3_acx7100-48l 450
+ *   an4_acx7024 500
+ *   total 1750
+ * Pair with:
+ *  - evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. ae26
+ *   $UNIT      e.g. 1501
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/ifl-unit-0-exp-classifier-rewrite.conf
+
+```
+/*
+ * Topic: MPLS EXP classifier and rewrite rule on unit 0 of a core interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 5
+ *   ag1_2_acx7100-32c 6
+ *   an1_acx7100-48l 2
+ *   an3_acx7100-48l 2
+ *   an4_acx7024 2
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 4
+ *   total 25
+ * Pair with:
+ *  - evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $COS_INTF  e.g. ae19
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/interfaces/irb-forwarding-class-realtime-dscp-dscp-ipv6-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-REALTIME with DSCP and DSCP IPv6 rewrite rules on a logical unit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 166
+ *   ag1_2_acx7100-32c 166
+ *   total 332
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $UNIT  e.g. 101
+ */
+class-of-service {
+    interfaces {
+        irb {
+            unit $UNIT {
+                forwarding-class FC-REALTIME;
+                rewrite-rules {
+                    dscp RR-DSCP;
+                    dscp-ipv6 RR-DSCP-IPV6;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/class-of-service/rewrite-rules/rr-dscp-dscp-ipv6-exp-ieee8021p.conf
+
+```
+/*
+ * Topic: DSCP, DSCP IPv6, MPLS EXP and IEEE 802.1p rewrite rules for the eight forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with:
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
 class-of-service {
     rewrite-rules {
         dscp RR-DSCP {
@@ -641,37 +675,44 @@ class-of-service {
                 loss-priority low code-point cs6;
             }
         }
-    }
-}
-```
-
-## evo/cos/rewrite-exp.conf
-
-```
-/*
- * Topic:   MPLS EXP rewrite rule (RR-MPLS) — egress FC-to-EXP marking
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Rewrites outgoing MPLS EXP bits based on FC + loss-priority
- *  - EXP 4 ← FC-LLQ, EXP 5 ← FC-REALTIME, EXP 6 ← FC-SIGNALING
- *  - All loss-priority levels map to the same code-point per FC (3 bits
- *    cannot encode drop-precedence)
- *  - Applied on MPLS transport AE interfaces
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/cos-binding-transport.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/classifier-exp.conf       (ingress counterpart)
- *  - evo/cos/forwarding-classes.conf   (FC definitions)
- */
-
-class-of-service {
-    rewrite-rules {
+        dscp-ipv6 RR-DSCP-IPV6 {
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-point be;
+                loss-priority low code-point be;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority high code-point cs7;
+                loss-priority low code-point cs7;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority high code-point af33;
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority high code-point af43;
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+            }
+            forwarding-class FC-LOW {
+                loss-priority high code-point af13;
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority high code-point af23;
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority high code-point ef;
+                loss-priority low code-point ef;
+            }
+            forwarding-class FC-SIGNALING {
+                loss-priority high code-point cs5;
+                loss-priority low code-point cs6;
+            }
+        }
         exp RR-MPLS {
             forwarding-class FC-BEST-EFFORT {
                 loss-priority high code-point 000;
@@ -710,37 +751,6 @@ class-of-service {
                 loss-priority low code-point 110;
             }
         }
-    }
-}
-```
-
-## evo/cos/rewrite-ieee-802.1.conf
-
-```
-/*
- * Topic:   802.1p rewrite rule (RR-8021P) — egress FC-to-PCP marking
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Rewrites outgoing 802.1p PCP bits based on FC + loss-priority
- *  - PCP 4 ← FC-LLQ, PCP 5 ← FC-REALTIME, PCP 6 ← FC-SIGNALING
- *  - All loss-priority levels map to the same code-point per FC
- *  - Applied on L2 service interfaces (EVPN-VPWS access ports)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf
- *  - evo/cos/cos-binding-l2-fronthaul.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/classifier-ieee-802.1.conf (ingress counterpart)
- *  - evo/cos/forwarding-classes.conf    (FC definitions)
- */
-
-class-of-service {
-    rewrite-rules {
         ieee-802.1 RR-8021P {
             forwarding-class FC-BEST-EFFORT {
                 loss-priority high code-point 000;
@@ -783,32 +793,29 @@ class-of-service {
 }
 ```
 
-## evo/cos/scheduler-map.conf
+## evo/class-of-service/scheduler-maps/sm-5g-scheduler.conf
 
 ```
 /*
- * Topic:   Scheduler-map binding FCs to schedulers (SM-5G-SCHEDULER)
- * Variant: Evolved-OS (EVO)
+ * Topic: Scheduler map SM-5G-SCHEDULER binding the eight forwarding classes to their schedulers
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Maps all 8 forwarding classes to their corresponding schedulers
- *  - Referenced by interface CoS bindings (scheduler-map SM-5G-SCHEDULER)
- *  - The scheduler-map itself is identical across all devices; the
- *    underlying scheduler behavior (low-latency vs strict-high) is
- *    determined by the scheduler definition, not the map
- *  - Body is byte-identical to the Junos sibling
- *
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
  * Pair with:
- *  - evo/cos/cos-binding-transport.conf
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/forwarding-classes.conf        (FC definitions)
- *  - evo/cos/schedulers-low-latency.conf    (ACX scheduler priorities)
- *  - evo/cos/schedulers-strict-high.conf    (PTX scheduler priorities)
+ *  - evo/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     scheduler-maps {
         SM-5G-SCHEDULER {
@@ -825,33 +832,28 @@ class-of-service {
 }
 ```
 
-## evo/cos/schedulers-low-latency.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `scheduler` (`SC-BEST-EFFORT`, `SC-CONTROL`, `SC-HIGH`, `SC-LLQ`, `SC-LOW`, `SC-MEDIUM`, `SC-REALTIME`, `SC-SIGNALING`): required, for each reference; one of `class-of-service/schedulers/schedulers-8class-llq-low-latency`, `class-of-service/schedulers/schedulers-8class-llq-strict-high`
+
+## evo/class-of-service/schedulers/schedulers-8class-llq-low-latency.conf
 
 ```
 /*
- * Topic:   Scheduler definitions with priority low-latency (ACX LLQ)
- * Variant: Evolved-OS (EVO)
+ * Topic: Schedulers for the eight forwarding classes: SC-LLQ shaped at priority low-latency, SC-SIGNALING strict-high, SC-REALTIME medium-high
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - SC-LLQ uses `priority low-latency` — the ACX-specific hardware LLQ
- *    scheduler that guarantees sub-10µs per-hop latency under congestion
- *  - SC-REALTIME uses `priority medium-high` (shaped strict priority)
- *  - SC-SIGNALING uses `priority strict-high` (highest strict priority
- *    after low-latency; protects control-plane even under LLQ load)
- *  - SC-HIGH/MEDIUM/LOW/BEST-EFFORT are WFQ with transmit-rate percentages
- *  - Compare with junos/cos/schedulers-strict-high.conf where LLQ falls
- *    back to strict-high (MX/PTX do not support priority low-latency)
- *
- * Pair with:
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf
- *  - evo/firewall/filter-mf-ecpri-fronthaul.conf
- *  - evo/cos/forwarding-classes.conf   (FC definitions these schedulers serve)
- *  - evo/cos/scheduler-map.conf        (FC → scheduler binding)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     schedulers {
         SC-BEST-EFFORT {
@@ -901,30 +903,22 @@ class-of-service {
 }
 ```
 
-## evo/cos/schedulers-strict-high.conf
+## evo/class-of-service/schedulers/schedulers-8class-llq-strict-high.conf
 
 ```
 /*
- * Topic:   Scheduler definitions with priority strict-high (PTX core transit)
- * Variant: Evolved-OS (EVO)
+ * Topic: Schedulers for the eight forwarding classes: SC-LLQ shaped at priority strict-high, SC-SIGNALING high, SC-REALTIME medium-high
  * Seen on:
- *   EVO:   cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - SC-LLQ uses `priority strict-high` — PTX does not support the ACX
- *    `priority low-latency` hardware scheduler; strict-high is the
- *    highest available strict priority on this platform
- *  - SC-SIGNALING uses `priority high` (one tier below strict-high)
- *  - All other schedulers (rates, buffer-size) are identical to the
- *    ACX low-latency variant — only the priority keywords differ
- *  - Body is byte-identical to the Junos (MX) sibling
- *  - Core routers are transit-only; CoS preserves marking end-to-end
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf   (FC definitions these schedulers serve)
- *  - evo/cos/scheduler-map.conf        (FC → scheduler binding)
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     schedulers {
         SC-BEST-EFFORT {
@@ -974,39 +968,24 @@ class-of-service {
 }
 ```
 
-## evo/firewall/filter-mf-ecpri-fronthaul.conf
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-an1.conf
 
 ```
 /*
- * Topic:   Multi-field eCPRI filter — MAC-based FC classification for fronthaul (CCC)
- * Variant: Evolved-OS (EVO)
+ * Topic: Multifield family ccc filter on AN1: 802.1p and source and destination MAC terms to forwarding classes
  * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - Family CCC (circuit cross-connect) filter for EVPN-VPWS fronthaul
- *  - Multi-field classification using MAC addresses to steer eCPRI flows:
- *    - learn-vlan-1p-priority 3 → FC-HIGH (management plane)
- *    - learn-vlan-1p-priority 7 → FC-BEST-EFFORT (low-priority sync)
- *    - source-mac <ecpri-user-plane> → FC-LLQ (fronthaul user-plane)
- *    - source-mac <ecpri-ctrl-plane> → FC-SIGNALING (eCPRI C-plane)
- *    - source-mac <ecpri-sync>       → FC-CONTROL (synchronization)
- *    - destination-mac <timing-sync> → FC-REALTIME (PTP/timing)
- *  - MAC addresses are lab-specific; replace with site MAC pools
- *  - interface-specific allows per-unit counters
- *  - AG variant names per-AN: FF-MF-EVPN-VPWS-MH-TO-AN{1,3,4}
- *  - AN variant name: FF-MF-EVPN-VPWS-MH (applied ingress on DU-facing ports)
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf  (static FC-LLQ binding)
- *  - evo/cos/schedulers-low-latency.conf           (SC-LLQ low-latency)
- *  - evo/services/evpn-vpws-vlan-based-mh.conf     (EVPN-VPWS service)
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
 firewall {
     family ccc {
-        filter <filter-name> {
+        filter FF-MF-EVPN-VPWS-MH {
             interface-specific;
             term 1 {
                 from {
@@ -1023,9 +1002,22 @@ firewall {
             term 3 {
                 from {
                     source-mac-address {
-                        <ecpri-user-plane-mac-1>/48;
-                        <ecpri-user-plane-mac-2>/48;
-                        /* ... additional eCPRI user-plane source MACs ... */
+                        00:0c:0d:00:00:01/48;
+                        00:0c:0d:00:00:02/48;
+                        00:0c:0d:00:00:03/48;
+                        00:0c:0d:00:00:04/48;
+                        00:0c:0d:00:00:05/48;
+                        00:0c:0d:00:00:06/48;
+                        00:0c:0d:00:00:07/48;
+                        00:0c:0d:00:00:08/48;
+                        00:0c:0d:00:00:09/48;
+                        00:0c:0d:00:00:0a/48;
+                        00:0c:0d:00:00:0b/48;
+                        00:0c:0d:00:00:0c/48;
+                        00:0c:0d:00:00:0d/48;
+                        00:0c:0d:00:00:0e/48;
+                        00:0c:0d:00:00:0f/48;
+                        00:0c:0d:00:00:10/48;
                     }
                 }
                 then forwarding-class FC-LLQ;
@@ -1033,9 +1025,22 @@ firewall {
             term 4 {
                 from {
                     source-mac-address {
-                        <ecpri-ctrl-plane-mac-1>/48;
-                        <ecpri-ctrl-plane-mac-2>/48;
-                        /* ... additional eCPRI control-plane source MACs ... */
+                        00:0c:0e:00:00:01/48;
+                        00:0c:0e:00:00:02/48;
+                        00:0c:0e:00:00:03/48;
+                        00:0c:0e:00:00:04/48;
+                        00:0c:0e:00:00:05/48;
+                        00:0c:0e:00:00:06/48;
+                        00:0c:0e:00:00:07/48;
+                        00:0c:0e:00:00:08/48;
+                        00:0c:0e:00:00:09/48;
+                        00:0c:0e:00:00:0a/48;
+                        00:0c:0e:00:00:0b/48;
+                        00:0c:0e:00:00:0c/48;
+                        00:0c:0e:00:00:0d/48;
+                        00:0c:0e:00:00:0e/48;
+                        00:0c:0e:00:00:0f/48;
+                        00:0c:0e:00:00:10/48;
                     }
                 }
                 then forwarding-class FC-SIGNALING;
@@ -1043,9 +1048,22 @@ firewall {
             term 5 {
                 from {
                     source-mac-address {
-                        <ecpri-sync-mac-1>/48;
-                        <ecpri-sync-mac-2>/48;
-                        /* ... additional eCPRI sync source MACs ... */
+                        00:0c:0f:00:00:01/48;
+                        00:0c:0f:00:00:02/48;
+                        00:0c:0f:00:00:03/48;
+                        00:0c:0f:00:00:04/48;
+                        00:0c:0f:00:00:05/48;
+                        00:0c:0f:00:00:06/48;
+                        00:0c:0f:00:00:07/48;
+                        00:0c:0f:00:00:08/48;
+                        00:0c:0f:00:00:09/48;
+                        00:0c:0f:00:00:0a/48;
+                        00:0c:0f:00:00:0b/48;
+                        00:0c:0f:00:00:0c/48;
+                        00:0c:0f:00:00:0d/48;
+                        00:0c:0f:00:00:0e/48;
+                        00:0c:0f:00:00:0f/48;
+                        00:0c:0f:00:00:10/48;
                     }
                 }
                 then forwarding-class FC-CONTROL;
@@ -1053,9 +1071,22 @@ firewall {
             term 6 {
                 from {
                     destination-mac-address {
-                        <timing-sync-mac-1>/48;
-                        <timing-sync-mac-2>/48;
-                        /* ... additional PTP/timing destination MACs ... */
+                        00:0c:22:00:00:01/48;
+                        00:0c:22:00:00:02/48;
+                        00:0c:22:00:00:03/48;
+                        00:0c:22:00:00:04/48;
+                        00:0c:22:00:00:05/48;
+                        00:0c:22:00:00:06/48;
+                        00:0c:22:00:00:07/48;
+                        00:0c:22:00:00:08/48;
+                        00:0c:22:00:00:09/48;
+                        00:0c:22:00:00:0a/48;
+                        00:0c:22:00:00:0b/48;
+                        00:0c:22:00:00:0c/48;
+                        00:0c:22:00:00:0d/48;
+                        00:0c:22:00:00:0e/48;
+                        00:0c:22:00:00:0f/48;
+                        00:0c:22:00:00:10/48;
                     }
                 }
                 then forwarding-class FC-REALTIME;
@@ -1065,33 +1096,669 @@ firewall {
 }
 ```
 
-## evo/firewall/filter-mfc-ipv4-l3vpn-irb.conf
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-an3.conf
 
 ```
 /*
- * Topic:   Multi-field classifier — IPv4 DSCP-to-FC (L3VPN IRB ingress)
- * Variant: Evolved-OS (EVO)
+ * Topic: Multifield family ccc filter on AN3: 802.1p and source and destination MAC terms to forwarding classes
  * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c
- *
- * Highlights:
- *  - Interface-specific filter applied on IRB units (input direction)
- *  - Overrides CoS classifier: forces FC based on DSCP for traffic
- *    entering the L3VPN from a bridged domain
- *  - cs1 → FC-REALTIME, cs2 → FC-HIGH, cs3 → FC-MEDIUM, cs4 → FC-LOW
- *  - Default term accepts unmatched traffic (uses CoS classifier instead)
- *  - Two named variants in the JVD: FF-MFC-IPV4-L3VPN-BD-IRB (bridged-domain
- *    IRB) and FF-MFC-IPV4-L3VPN-EVPN-IRB (EVPN IRB) — bodies identical
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf
- *  - evo/firewall/filter-mfc-ipv6-l3vpn-irb.conf  (IPv6 counterpart)
- *  - evo/cos/cos-binding-irb.conf                  (CoS binding on IRB units)
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+firewall {
+    family ccc {
+        filter FF-MF-EVPN-VPWS-MH {
+            interface-specific;
+            term 1 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then forwarding-class FC-HIGH;
+            }
+            term 2 {
+                from {
+                    learn-vlan-1p-priority 7;
+                }
+                then forwarding-class FC-BEST-EFFORT;
+            }
+            term 3 {
+                from {
+                    source-mac-address {
+                        00:0c:01:00:00:01/48;
+                        00:0c:01:00:00:02/48;
+                        00:0c:01:00:00:03/48;
+                        00:0c:01:00:00:04/48;
+                        00:0c:01:00:00:05/48;
+                        00:0c:01:00:00:06/48;
+                        00:0c:01:00:00:07/48;
+                        00:0c:01:00:00:08/48;
+                        00:0c:01:00:00:09/48;
+                        00:0c:01:00:00:0a/48;
+                        00:0c:01:00:00:0b/48;
+                        00:0c:01:00:00:0c/48;
+                        00:0c:01:00:00:0d/48;
+                        00:0c:01:00:00:0e/48;
+                        00:0c:01:00:00:0f/48;
+                        00:0c:01:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-LLQ;
+            }
+            term 4 {
+                from {
+                    source-mac-address {
+                        00:0c:02:00:00:01/48;
+                        00:0c:02:00:00:02/48;
+                        00:0c:02:00:00:03/48;
+                        00:0c:02:00:00:04/48;
+                        00:0c:02:00:00:05/48;
+                        00:0c:02:00:00:06/48;
+                        00:0c:02:00:00:07/48;
+                        00:0c:02:00:00:08/48;
+                        00:0c:02:00:00:09/48;
+                        00:0c:02:00:00:0a/48;
+                        00:0c:02:00:00:0b/48;
+                        00:0c:02:00:00:0c/48;
+                        00:0c:02:00:00:0d/48;
+                        00:0c:02:00:00:0e/48;
+                        00:0c:02:00:00:0f/48;
+                        00:0c:02:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-SIGNALING;
+            }
+            term 5 {
+                from {
+                    source-mac-address {
+                        00:0c:03:00:00:01/48;
+                        00:0c:03:00:00:02/48;
+                        00:0c:03:00:00:03/48;
+                        00:0c:03:00:00:04/48;
+                        00:0c:03:00:00:05/48;
+                        00:0c:03:00:00:06/48;
+                        00:0c:03:00:00:07/48;
+                        00:0c:03:00:00:08/48;
+                        00:0c:03:00:00:09/48;
+                        00:0c:03:00:00:0a/48;
+                        00:0c:03:00:00:0b/48;
+                        00:0c:03:00:00:0c/48;
+                        00:0c:03:00:00:0d/48;
+                        00:0c:03:00:00:0e/48;
+                        00:0c:03:00:00:0f/48;
+                        00:0c:03:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-CONTROL;
+            }
+            term 6 {
+                from {
+                    destination-mac-address {
+                        00:0c:16:00:00:01/48;
+                        00:0c:16:00:00:02/48;
+                        00:0c:16:00:00:03/48;
+                        00:0c:16:00:00:04/48;
+                        00:0c:16:00:00:05/48;
+                        00:0c:16:00:00:06/48;
+                        00:0c:16:00:00:07/48;
+                        00:0c:16:00:00:08/48;
+                        00:0c:16:00:00:09/48;
+                        00:0c:16:00:00:0a/48;
+                        00:0c:16:00:00:0b/48;
+                        00:0c:16:00:00:0c/48;
+                        00:0c:16:00:00:0d/48;
+                        00:0c:16:00:00:0e/48;
+                        00:0c:16:00:00:0f/48;
+                        00:0c:16:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-REALTIME;
+            }
+        }
+    }
+}
+```
 
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-an4.conf
+
+```
+/*
+ * Topic: Multifield family ccc filter on AN4: 802.1p and source and destination MAC terms to forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+firewall {
+    family ccc {
+        filter FF-MF-EVPN-VPWS-MH {
+            interface-specific;
+            term 1 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then forwarding-class FC-HIGH;
+            }
+            term 2 {
+                from {
+                    learn-vlan-1p-priority 7;
+                }
+                then forwarding-class FC-BEST-EFFORT;
+            }
+            term 3 {
+                from {
+                    source-mac-address {
+                        00:0c:07:00:00:01/48;
+                        00:0c:07:00:00:02/48;
+                        00:0c:07:00:00:03/48;
+                        00:0c:07:00:00:04/48;
+                        00:0c:07:00:00:05/48;
+                        00:0c:07:00:00:06/48;
+                        00:0c:07:00:00:07/48;
+                        00:0c:07:00:00:08/48;
+                        00:0c:07:00:00:09/48;
+                        00:0c:07:00:00:0a/48;
+                        00:0c:07:00:00:0b/48;
+                        00:0c:07:00:00:0c/48;
+                        00:0c:07:00:00:0d/48;
+                        00:0c:07:00:00:0e/48;
+                        00:0c:07:00:00:0f/48;
+                        00:0c:07:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-LLQ;
+            }
+            term 4 {
+                from {
+                    source-mac-address {
+                        00:0c:08:00:00:01/48;
+                        00:0c:08:00:00:02/48;
+                        00:0c:08:00:00:03/48;
+                        00:0c:08:00:00:04/48;
+                        00:0c:08:00:00:05/48;
+                        00:0c:08:00:00:06/48;
+                        00:0c:08:00:00:07/48;
+                        00:0c:08:00:00:08/48;
+                        00:0c:08:00:00:09/48;
+                        00:0c:08:00:00:0a/48;
+                        00:0c:08:00:00:0b/48;
+                        00:0c:08:00:00:0c/48;
+                        00:0c:08:00:00:0d/48;
+                        00:0c:08:00:00:0e/48;
+                        00:0c:08:00:00:0f/48;
+                        00:0c:08:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-SIGNALING;
+            }
+            term 5 {
+                from {
+                    source-mac-address {
+                        00:0c:09:00:00:01/48;
+                        00:0c:09:00:00:02/48;
+                        00:0c:09:00:00:03/48;
+                        00:0c:09:00:00:04/48;
+                        00:0c:09:00:00:05/48;
+                        00:0c:09:00:00:06/48;
+                        00:0c:09:00:00:07/48;
+                        00:0c:09:00:00:08/48;
+                        00:0c:09:00:00:09/48;
+                        00:0c:09:00:00:0a/48;
+                        00:0c:09:00:00:0b/48;
+                        00:0c:09:00:00:0c/48;
+                        00:0c:09:00:00:0d/48;
+                        00:0c:09:00:00:0e/48;
+                        00:0c:09:00:00:0f/48;
+                        00:0c:09:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-CONTROL;
+            }
+            term 6 {
+                from {
+                    destination-mac-address {
+                        00:0c:1c:00:00:01/48;
+                        00:0c:1c:00:00:02/48;
+                        00:0c:1c:00:00:03/48;
+                        00:0c:1c:00:00:04/48;
+                        00:0c:1c:00:00:05/48;
+                        00:0c:1c:00:00:06/48;
+                        00:0c:1c:00:00:07/48;
+                        00:0c:1c:00:00:08/48;
+                        00:0c:1c:00:00:09/48;
+                        00:0c:1c:00:00:0a/48;
+                        00:0c:1c:00:00:0b/48;
+                        00:0c:1c:00:00:0c/48;
+                        00:0c:1c:00:00:0d/48;
+                        00:0c:1c:00:00:0e/48;
+                        00:0c:1c:00:00:0f/48;
+                        00:0c:1c:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-REALTIME;
+            }
+        }
+    }
+}
+```
+
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-to-an1.conf
+
+```
+/*
+ * Topic: Multifield family ccc filter toward AN1: 802.1p and source and destination MAC terms to forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+firewall {
+    family ccc {
+        filter FF-MF-EVPN-VPWS-MH-TO-AN1 {
+            interface-specific;
+            term 1 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then forwarding-class FC-HIGH;
+            }
+            term 2 {
+                from {
+                    learn-vlan-1p-priority 7;
+                }
+                then forwarding-class FC-BEST-EFFORT;
+            }
+            term 3 {
+                from {
+                    source-mac-address {
+                        00:0c:13:00:00:01/48;
+                        00:0c:13:00:00:02/48;
+                        00:0c:13:00:00:03/48;
+                        00:0c:13:00:00:04/48;
+                        00:0c:13:00:00:05/48;
+                        00:0c:13:00:00:06/48;
+                        00:0c:13:00:00:07/48;
+                        00:0c:13:00:00:08/48;
+                        00:0c:13:00:00:09/48;
+                        00:0c:13:00:00:0a/48;
+                        00:0c:13:00:00:0b/48;
+                        00:0c:13:00:00:0c/48;
+                        00:0c:13:00:00:0d/48;
+                        00:0c:13:00:00:0e/48;
+                        00:0c:13:00:00:0f/48;
+                        00:0c:13:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-LLQ;
+            }
+            term 4 {
+                from {
+                    source-mac-address {
+                        00:0c:14:00:00:01/48;
+                        00:0c:14:00:00:02/48;
+                        00:0c:14:00:00:03/48;
+                        00:0c:14:00:00:04/48;
+                        00:0c:14:00:00:05/48;
+                        00:0c:14:00:00:06/48;
+                        00:0c:14:00:00:07/48;
+                        00:0c:14:00:00:08/48;
+                        00:0c:14:00:00:09/48;
+                        00:0c:14:00:00:0a/48;
+                        00:0c:14:00:00:0b/48;
+                        00:0c:14:00:00:0c/48;
+                        00:0c:14:00:00:0d/48;
+                        00:0c:14:00:00:0e/48;
+                        00:0c:14:00:00:0f/48;
+                        00:0c:14:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-SIGNALING;
+            }
+            term 5 {
+                from {
+                    source-mac-address {
+                        00:0c:15:00:00:01/48;
+                        00:0c:15:00:00:02/48;
+                        00:0c:15:00:00:03/48;
+                        00:0c:15:00:00:04/48;
+                        00:0c:15:00:00:05/48;
+                        00:0c:15:00:00:06/48;
+                        00:0c:15:00:00:07/48;
+                        00:0c:15:00:00:08/48;
+                        00:0c:15:00:00:09/48;
+                        00:0c:15:00:00:0a/48;
+                        00:0c:15:00:00:0b/48;
+                        00:0c:15:00:00:0c/48;
+                        00:0c:15:00:00:0d/48;
+                        00:0c:15:00:00:0e/48;
+                        00:0c:15:00:00:0f/48;
+                        00:0c:15:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-CONTROL;
+            }
+            term 6 {
+                from {
+                    destination-mac-address {
+                        00:0c:04:00:00:01/48;
+                        00:0c:04:00:00:02/48;
+                        00:0c:04:00:00:03/48;
+                        00:0c:04:00:00:04/48;
+                        00:0c:04:00:00:05/48;
+                        00:0c:04:00:00:06/48;
+                        00:0c:04:00:00:07/48;
+                        00:0c:04:00:00:08/48;
+                        00:0c:04:00:00:09/48;
+                        00:0c:04:00:00:0a/48;
+                        00:0c:04:00:00:0b/48;
+                        00:0c:04:00:00:0c/48;
+                        00:0c:04:00:00:0d/48;
+                        00:0c:04:00:00:0e/48;
+                        00:0c:04:00:00:0f/48;
+                        00:0c:04:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-REALTIME;
+            }
+        }
+    }
+}
+```
+
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-to-an3.conf
+
+```
+/*
+ * Topic: Multifield family ccc filter toward AN3: 802.1p and source and destination MAC terms to forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+firewall {
+    family ccc {
+        filter FF-MF-EVPN-VPWS-MH-TO-AN3 {
+            interface-specific;
+            term 1 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then forwarding-class FC-HIGH;
+            }
+            term 2 {
+                from {
+                    learn-vlan-1p-priority 7;
+                }
+                then forwarding-class FC-BEST-EFFORT;
+            }
+            term 3 {
+                from {
+                    source-mac-address {
+                        00:0c:1f:00:00:01/48;
+                        00:0c:1f:00:00:02/48;
+                        00:0c:1f:00:00:03/48;
+                        00:0c:1f:00:00:04/48;
+                        00:0c:1f:00:00:05/48;
+                        00:0c:1f:00:00:06/48;
+                        00:0c:1f:00:00:07/48;
+                        00:0c:1f:00:00:08/48;
+                        00:0c:1f:00:00:09/48;
+                        00:0c:1f:00:00:0a/48;
+                        00:0c:1f:00:00:0b/48;
+                        00:0c:1f:00:00:0c/48;
+                        00:0c:1f:00:00:0d/48;
+                        00:0c:1f:00:00:0e/48;
+                        00:0c:1f:00:00:0f/48;
+                        00:0c:1f:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-LLQ;
+            }
+            term 4 {
+                from {
+                    source-mac-address {
+                        00:0c:20:00:00:01/48;
+                        00:0c:20:00:00:02/48;
+                        00:0c:20:00:00:03/48;
+                        00:0c:20:00:00:04/48;
+                        00:0c:20:00:00:05/48;
+                        00:0c:20:00:00:06/48;
+                        00:0c:20:00:00:07/48;
+                        00:0c:20:00:00:08/48;
+                        00:0c:20:00:00:09/48;
+                        00:0c:20:00:00:0a/48;
+                        00:0c:20:00:00:0b/48;
+                        00:0c:20:00:00:0c/48;
+                        00:0c:20:00:00:0d/48;
+                        00:0c:20:00:00:0e/48;
+                        00:0c:20:00:00:0f/48;
+                        00:0c:20:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-SIGNALING;
+            }
+            term 5 {
+                from {
+                    source-mac-address {
+                        00:0c:21:00:00:01/48;
+                        00:0c:21:00:00:02/48;
+                        00:0c:21:00:00:03/48;
+                        00:0c:21:00:00:04/48;
+                        00:0c:21:00:00:05/48;
+                        00:0c:21:00:00:06/48;
+                        00:0c:21:00:00:07/48;
+                        00:0c:21:00:00:08/48;
+                        00:0c:21:00:00:09/48;
+                        00:0c:21:00:00:0a/48;
+                        00:0c:21:00:00:0b/48;
+                        00:0c:21:00:00:0c/48;
+                        00:0c:21:00:00:0d/48;
+                        00:0c:21:00:00:0e/48;
+                        00:0c:21:00:00:0f/48;
+                        00:0c:21:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-CONTROL;
+            }
+            term 6 {
+                from {
+                    destination-mac-address {
+                        00:0c:10:00:00:01/48;
+                        00:0c:10:00:00:02/48;
+                        00:0c:10:00:00:03/48;
+                        00:0c:10:00:00:04/48;
+                        00:0c:10:00:00:05/48;
+                        00:0c:10:00:00:06/48;
+                        00:0c:10:00:00:07/48;
+                        00:0c:10:00:00:08/48;
+                        00:0c:10:00:00:09/48;
+                        00:0c:10:00:00:0a/48;
+                        00:0c:10:00:00:0b/48;
+                        00:0c:10:00:00:0c/48;
+                        00:0c:10:00:00:0d/48;
+                        00:0c:10:00:00:0e/48;
+                        00:0c:10:00:00:0f/48;
+                        00:0c:10:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-REALTIME;
+            }
+        }
+    }
+}
+```
+
+## evo/firewall/filter-ccc-mf-evpn-vpws-mh-to-an4.conf
+
+```
+/*
+ * Topic: Multifield family ccc filter toward AN4: 802.1p and source and destination MAC terms to forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+firewall {
+    family ccc {
+        filter FF-MF-EVPN-VPWS-MH-TO-AN4 {
+            interface-specific;
+            term 1 {
+                from {
+                    learn-vlan-1p-priority 3;
+                }
+                then forwarding-class FC-HIGH;
+            }
+            term 2 {
+                from {
+                    learn-vlan-1p-priority 7;
+                }
+                then forwarding-class FC-BEST-EFFORT;
+            }
+            term 3 {
+                from {
+                    source-mac-address {
+                        00:0c:19:00:00:01/48;
+                        00:0c:19:00:00:02/48;
+                        00:0c:19:00:00:03/48;
+                        00:0c:19:00:00:04/48;
+                        00:0c:19:00:00:05/48;
+                        00:0c:19:00:00:06/48;
+                        00:0c:19:00:00:07/48;
+                        00:0c:19:00:00:08/48;
+                        00:0c:19:00:00:09/48;
+                        00:0c:19:00:00:0a/48;
+                        00:0c:19:00:00:0b/48;
+                        00:0c:19:00:00:0c/48;
+                        00:0c:19:00:00:0d/48;
+                        00:0c:19:00:00:0e/48;
+                        00:0c:19:00:00:0f/48;
+                        00:0c:19:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-LLQ;
+            }
+            term 4 {
+                from {
+                    source-mac-address {
+                        00:0c:1a:00:00:01/48;
+                        00:0c:1a:00:00:02/48;
+                        00:0c:1a:00:00:03/48;
+                        00:0c:1a:00:00:04/48;
+                        00:0c:1a:00:00:05/48;
+                        00:0c:1a:00:00:06/48;
+                        00:0c:1a:00:00:07/48;
+                        00:0c:1a:00:00:08/48;
+                        00:0c:1a:00:00:09/48;
+                        00:0c:1a:00:00:0a/48;
+                        00:0c:1a:00:00:0b/48;
+                        00:0c:1a:00:00:0c/48;
+                        00:0c:1a:00:00:0d/48;
+                        00:0c:1a:00:00:0e/48;
+                        00:0c:1a:00:00:0f/48;
+                        00:0c:1a:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-SIGNALING;
+            }
+            term 5 {
+                from {
+                    source-mac-address {
+                        00:0c:1b:00:00:01/48;
+                        00:0c:1b:00:00:02/48;
+                        00:0c:1b:00:00:03/48;
+                        00:0c:1b:00:00:04/48;
+                        00:0c:1b:00:00:05/48;
+                        00:0c:1b:00:00:06/48;
+                        00:0c:1b:00:00:07/48;
+                        00:0c:1b:00:00:08/48;
+                        00:0c:1b:00:00:09/48;
+                        00:0c:1b:00:00:0a/48;
+                        00:0c:1b:00:00:0b/48;
+                        00:0c:1b:00:00:0c/48;
+                        00:0c:1b:00:00:0d/48;
+                        00:0c:1b:00:00:0e/48;
+                        00:0c:1b:00:00:0f/48;
+                        00:0c:1b:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-CONTROL;
+            }
+            term 6 {
+                from {
+                    destination-mac-address {
+                        00:0c:0a:00:00:01/48;
+                        00:0c:0a:00:00:02/48;
+                        00:0c:0a:00:00:03/48;
+                        00:0c:0a:00:00:04/48;
+                        00:0c:0a:00:00:05/48;
+                        00:0c:0a:00:00:06/48;
+                        00:0c:0a:00:00:07/48;
+                        00:0c:0a:00:00:08/48;
+                        00:0c:0a:00:00:09/48;
+                        00:0c:0a:00:00:0a/48;
+                        00:0c:0a:00:00:0b/48;
+                        00:0c:0a:00:00:0c/48;
+                        00:0c:0a:00:00:0d/48;
+                        00:0c:0a:00:00:0e/48;
+                        00:0c:0a:00:00:0f/48;
+                        00:0c:0a:00:00:10/48;
+                    }
+                }
+                then forwarding-class FC-REALTIME;
+            }
+        }
+    }
+}
+```
+
+## evo/firewall/filter-inet-mfc-dscp-forwarding-class.conf
+
+```
+/*
+ * Topic: Interface-specific IPv4 multifield filter mapping DSCP code points to forwarding classes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 2
+ *   ag1_2_acx7100-32c 2
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $INPUT_FILTER_V4  e.g. FF-MFC-IPV4-L3VPN-BD-IRB
+ */
 firewall {
     family inet {
-        filter <filter-name> {
+        filter $INPUT_FILTER_V4 {
             interface-specific;
             term fc-realtime {
                 from {
@@ -1125,31 +1792,26 @@ firewall {
 }
 ```
 
-## evo/firewall/filter-mfc-ipv6-l3vpn-irb.conf
+## evo/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf
 
 ```
 /*
- * Topic:   Multi-field classifier — IPv6 traffic-class-to-FC (L3VPN IRB ingress)
- * Variant: Evolved-OS (EVO)
+ * Topic: Interface-specific IPv6 multifield filter mapping traffic-class code points to forwarding classes
  * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c
- *
- * Highlights:
- *  - IPv6 counterpart of filter-mfc-ipv4-l3vpn-irb.conf
- *  - Uses `traffic-class` (IPv6 traffic class field) instead of `dscp`
- *  - Same FC assignment: cs1→REALTIME, cs2→HIGH, cs3→MEDIUM, cs4→LOW
- *  - Interface-specific, applied input on IRB units
- *  - Two named variants: FF-MFC-IPV6-L3VPN-BD-IRB / FF-MFC-IPV6-L3VPN-EVPN-IRB
- *
- * Pair with:
- *  - evo/cos/forwarding-classes.conf
- *  - evo/firewall/filter-mfc-ipv4-l3vpn-irb.conf  (IPv4 counterpart)
- *  - evo/cos/cos-binding-irb.conf                  (CoS binding on IRB units)
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 2
+ *   ag1_2_acx7100-32c 2
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $INPUT_FILTER_V6  e.g. FF-MFC-IPV6-L3VPN-BD-IRB
  */
-
 firewall {
     family inet6 {
-        filter <filter-name> {
+        filter $INPUT_FILTER_V6 {
             interface-specific;
             term fc-realtime {
                 from {
@@ -1183,660 +1845,24 @@ firewall {
 }
 ```
 
-## evo/interfaces/lag-esi.conf
+## evo/forwarding-options/hash-key-inet-inet6-layer-3-4-mpls-all-labels-payload-ip.conf
 
 ```
 /*
- * Topic:   LAG interface with ESI for EVPN multi-homing
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - Aggregated Ethernet with flexible-vlan-tagging for multi-service
- *  - LACP active with fast periodic (1s) for sub-second LAG failover
- *  - system-id must match across AG pair for EVPN-MH ESI
- *  - Per-unit ESI with all-active for active-active multi-homing
- *  - vlan-ccc encapsulation for EVPN-VPWS units (L2 circuit)
- *  - vlan-bridge encapsulation for EVPN-ELAN units (bridged)
- *  - Each unit maps to one routing-instance (EVPN-VPWS or mac-vrf)
- *
- * Pair with:
- *  - evo/services/evpn-vpws-vlan-based-mh.conf (VPWS service)
- *  - evo/services/evpn-elan-vlan-based.conf    (ELAN service)
- *  - evo/services/l3vpn-irb.conf           (L3VPN hosting IRB)
- *  - evo/cos/cos-binding-l2-fronthaul.conf     (CoS per-unit)
- */
-
-interfaces {
-    <ae-interface> {
-        description <description>;
-        flexible-vlan-tagging;
-        encapsulation flexible-ethernet-services;
-        aggregated-ether-options {
-            lacp {
-                active;
-                periodic fast;
-                system-id <lacp-system-id>;
-            }
-        }
-        /* repeat per EVPN-VPWS service */
-        unit <unit-number> {
-            description <vpws-service-description>;
-            encapsulation vlan-ccc;
-            vlan-id <vlan-id>;
-            esi {
-                <esi-value>;
-                all-active;
-            }
-            family ccc {
-                filter {
-                    input <firewall-filter>;
-                }
-            }
-        }
-        /* repeat per EVPN-ELAN / L3VPN-IRB service */
-        unit <unit-number> {
-            description <elan-service-description>;
-            encapsulation vlan-bridge;
-            vlan-id <vlan-id>;
-            esi {
-                <esi-value>;
-                all-active;
-            }
-        }
-    }
-}
-```
-
-## evo/interfaces/vlan-bridge.conf
-
-```
-/*
- * Topic:   Service sub-interface with vlan-bridge encapsulation
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c
- *
- * Highlights:
- *  - Physical (non-LAG) interface for single-homed L2 services
- *  - flexible-vlan-tagging + flexible-ethernet-services: multi-encap parent
- *  - vlan-bridge encapsulation: unit is placed into a virtual-switch or mac-vrf
- *  - Used for BGP-VPLS midhaul circuits toward SAG
- *  - No ESI: directly connected (single-homed path)
- *  - speed 10g configured where port supports multi-rate
- *
- * Pair with:
- *  - evo/services/bgp-vpls-vsi.conf  (virtual-switch service)
- *  - evo/services/evpn-elan-vlan-based.conf     (mac-vrf ELAN)
- *  - evo/cos/cos-binding-l2-fronthaul.conf      (CoS per-unit)
- */
-
-interfaces {
-    <interface> {
-        description <description>;
-        flexible-vlan-tagging;
-        speed 10g;
-        encapsulation flexible-ethernet-services;
-        /* repeat per BGP-VPLS / ELAN service */
-        unit <unit-number> {
-            description <service-description>;
-            encapsulation vlan-bridge;
-            vlan-id <vlan-id>;
-        }
-    }
-}
-```
-
-## evo/interfaces/vlan-ccc.conf
-
-```
-/*
- * Topic:   Service sub-interface with vlan-ccc encapsulation
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c
- *
- * Highlights:
- *  - Physical (non-LAG) interface for single-homed EVPN-VPWS circuits
- *  - flexible-vlan-tagging + flexible-ethernet-services: multi-encap parent
- *  - vlan-ccc encapsulation: unit carries L2 circuit for EVPN-VPWS
- *  - family ccc enables circuit cross-connect forwarding
- *  - No ESI: directly connected (single-homed path)
- *  - speed 10g configured where port supports multi-rate
- *
- * Pair with:
- *  - evo/services/evpn-vpws-vlan-based-mh.conf      (VPWS service)
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf   (static FC-LLQ)
- */
-
-interfaces {
-    <interface> {
-        description <description>;
-        flexible-vlan-tagging;
-        speed 10g;
-        encapsulation flexible-ethernet-services;
-        /* repeat per EVPN-VPWS service */
-        unit <unit-number> {
-            description <service-description>;
-            encapsulation vlan-ccc;
-            vlan-id <vlan-id>;
-            family ccc;
-        }
-    }
-}
-```
-
-## evo/oam/cfm-maintenance-domain.conf
-
-```
-/*
- * Topic:   CFM maintenance-domain with continuity-check MEPs (802.1ag OAM)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - CFM (Connectivity Fault Management, IEEE 802.1ag) for L2 service monitoring
- *  - MD level 5 with 2-octet short-name format maintenance-associations
- *  - Continuity-check (CC): 1-second interval, loss-threshold 10 (10s detect)
- *  - MEP direction: up (monitors the VPLS/ELAN service path, not the link)
- *  - One maintenance-association per service (mapped to interface unit)
- *  - Enables proactive fault detection on midhaul BGP-VPLS circuits
- *
- * Pair with:
- *  - evo/services/bgp-vpls-vsi.conf (monitored service)
- *  - evo/cos/cos-binding-l2-fronthaul.conf     (CoS on monitored units)
- */
-
-protocols {
-    oam {
-        ethernet {
-            connectivity-fault-management {
-                maintenance-domain <md-name> {
-                    level <level>;
-                    name-format none;
-                    maintenance-association <ma-id> {
-                        short-name-format 2octet;
-                        continuity-check {
-                            interval 1s;
-                            loss-threshold 10;
-                            hold-interval 1;
-                        }
-                        mep <local-mep-id> {
-                            interface <interface>.<unit>;
-                            direction up;
-                            remote-mep <remote-mep-id>;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/policy/allow-loopback.conf
-
-```
-/*
- * Topic:   ALLOW_LOOPBACK — rib-group import filter for labeled-unicast
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Permits loopback routes (host routes /32) to be imported from inet.3 to inet.0
- *  - Used by rib-group inet3-to-inet0 in BGP labeled-unicast
- *  - Ensures MPLS next-hops resolve via the IGP for service overlays
- *  - orlonger matches /32 and any more-specific (effectively any host route)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/bgp-internal.conf   (rib-group referencing this policy)
- */
-
-policy-options {
-    policy-statement ALLOW_LOOPBACK {
-        from {
-            route-filter 0.0.0.0/32 orlonger;
-        }
-        then accept;
-    }
-}
-```
-
-## evo/policy/next-hop-self.conf
-
-```
-/*
- * Topic:   next-hop-self BGP export policy
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Forces next-hop-self on all advertised BGP routes
- *  - Applied as export policy on iBGP groups (transport and service families)
- *  - Ensures remote peers can resolve next-hop via local IGP
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/bgp-internal.conf   (iBGP group referencing this policy)
- */
-
-policy-options {
-    policy-statement next-hop-self {
-        then {
-            next-hop self;
-            accept;
-        }
-    }
-}
-```
-
-## evo/policy/pplb.conf
-
-```
-/*
- * Topic:   Per-packet load-balance policy (PPLB)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Enables per-flow (per-packet) ECMP load-balancing in the forwarding table
- *  - Applied via routing-options forwarding-table export PPLB
- *  - Despite the name, modern Junos treats this as per-flow (5-tuple hash)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/load-balance-pplb.conf       (forwarding-table export)
- *  - evo/transport/forwarding-options-hash.conf  (hash-key tuning)
- */
-
-policy-options {
-    policy-statement PPLB {
-        then {
-            load-balance per-packet;
-            accept;
-        }
-    }
-}
-```
-
-## evo/policy/sr-nonzero-loopbacks.conf
-
-```
-/*
- * Topic:   SR non-zero loopback advertisement (IPv4 + IPv6 prefix-segment)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Advertises additional loopback addresses (beyond lo0.0 primary) into
- *    IS-IS with SR prefix-segment indices
- *  - Allows anycast or per-service loopbacks to be SR-reachable
- *  - Exported via ISIS export policy (protocols isis export [... SR_NONZERO_...])
- *  - Index values are per-device; coordinate with SID allocation plan
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/isis-global.conf    (ISIS export referencing these policies)
- */
-
-policy-options {
-    policy-statement SR_NONZERO_LOOPBACKS_V4 {
-        term t1 {
-            from {
-                route-filter <secondary-loopback-v4>/32 exact;
-            }
-            then {
-                prefix-segment {
-                    index <ipv4-secondary-sid-index>;
-                }
-                accept;
-            }
-        }
-    }
-    policy-statement SR_NONZERO_LOOPBACKS_V6 {
-        term t1 {
-            from {
-                family inet6;
-                route-filter <secondary-loopback-v6>/128 exact;
-            }
-            then {
-                prefix-segment {
-                    index <ipv6-secondary-sid-index>;
-                }
-                accept;
-            }
-        }
-    }
-}
-```
-
-## evo/services/bgp-vpls-vsi.conf
-
-```
-/*
- * Topic:   BGP-VPLS virtual-switch with FAT pseudowire (midhaul L2)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - instance-type virtual-switch with BGP-VPLS signaling (RFC 4761)
- *  - FAT pseudowire via flow-label-transmit / flow-label-receive for
- *    entropy-based LAG/ECMP load-balancing on midhaul circuits
- *  - site / site-identifier for auto-discovery and split-horizon
- *  - site-range 65534, label-block-size 4 (capacity planning)
- *  - no-tunnel-services: uses inline MPLS (no tunnel PIC needed)
- *  - vlans stanza maps one VLAN per instance (vlan-based model)
- *  - Hundreds of instances: one per midhaul service to SAG
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/interfaces/vlan-bridge.conf         (vlan-bridge access units)
- *  - evo/oam/cfm-maintenance-domain.conf
- *  - evo/cos/cos-binding-l2-fronthaul.conf  (802.1p on access units)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type virtual-switch;
-        protocols {
-            vpls {
-                site <site-name> {
-                    site-identifier <site-id>;
-                }
-                site-range 65534;
-                label-block-size 4;
-                no-tunnel-services;
-                flow-label-transmit;
-                flow-label-receive;
-            }
-        }
-        description <description>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-        vlans {
-            <vlan-name> {
-                vlan-id <vlan-id>;
-                interface <interface>.<unit>;
-            }
-        }
-    }
-}
-```
-
-## evo/services/evpn-elan-vlan-based.conf
-
-```
-/*
- * Topic:   EVPN-ELAN VLAN-based (mac-vrf, multi-homed fronthaul)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - mac-vrf instance with EVPN for multipoint L2 bridging
- *  - service-type vlan-based (one VLAN per bridge-domain, one BD per instance)
- *  - Used for fronthaul multipoint services where multiple DUs/O-RUs share a VLAN
- *  - Simple form: no IRB, no default-gateway — pure L2 bridging
- *  - vlans stanza maps VLAN-ID to interface attachment
- *
- * Pair with:
- *  - evo/interfaces/lag-esi.conf            (ESI LAG for MH)
- *  - evo/interfaces/vlan-bridge.conf        (non-LAG bridge units)
- *  - evo/services/l3vpn-irb.conf
- *  - evo/cos/cos-binding-l2-fronthaul.conf  (802.1p classification)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type mac-vrf;
-        protocols {
-            evpn;
-        }
-        service-type vlan-based;
-        interface <interface>.<unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-        vlans {
-            <bridge-domain-name> {
-                vlan-id <vlan-id>;
-                interface <interface>.<unit>;
-            }
-        }
-    }
-}
-```
-
-## evo/services/evpn-fxc-vlan-aware.conf
-
-```
-/*
- * Topic:   EVPN-VPWS Flexible Cross-Connect (FXC, multi-homed)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - EVPN-VPWS with flexible-cross-connect-vlan-aware for multi-endpoint
- *    bundling (two VLANs cross-connected through the same VPWS instance)
- *  - Two interface/vpws-service-id pairs per instance: each sub-interface
- *    gets its own local/remote pseudowire ID within the same RD/RT
- *  - Used for eCPRI fronthaul where O-RU control-plane and user-plane
- *    VLANs are paired into a single VPWS FXC instance
- *  - Multi-homed: on ae26 LAG with ESI (AG pair)
- *  - Also present as single-homed (SH on et-1/0/1) for AN4
- *
- * Pair with:
- *  - evo/interfaces/lag-esi.conf                    (ESI LAG for MH)
- *  - evo/interfaces/vlan-ccc.conf                   (non-LAG CCC units)
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf   (static FC-LLQ)
- *  - evo/firewall/filter-mf-ecpri-fronthaul.conf    (MAC-based FC filter)
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type evpn-vpws;
-        protocols {
-            evpn {
-                interface <interface-a>.<unit-a> {
-                    vpws-service-id {
-                        local <local-id-a>;
-                        remote <remote-id-a>;
-                    }
-                }
-                interface <interface-b>.<unit-b> {
-                    vpws-service-id {
-                        local <local-id-b>;
-                        remote <remote-id-b>;
-                    }
-                }
-                flexible-cross-connect-vlan-aware;
-            }
-        }
-        interface <interface-a>.<unit-a>;
-        interface <interface-b>.<unit-b>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-    }
-}
-```
-
-## evo/services/evpn-vpws-vlan-based-mh.conf
-
-```
-/*
- * Topic:   EVPN-VPWS VLAN-based multi-homed (eCPRI fronthaul)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - Point-to-point EVPN-VPWS for dedicated eCPRI fronthaul circuits
- *  - Multi-homed: AN dual-homed to AG pair (ESI on the AG-facing LAG)
- *  - vpws-service-id local/remote identifies the pseudowire endpoints
- *  - Hundreds of instances per device (one per O-RU/antenna element)
- *  - No flow-label (not needed for point-to-point single-flow circuits)
- *  - Combined with static FC-LLQ CoS binding for guaranteed low-latency
- *
- * Pair with:
- *  - evo/interfaces/lag-esi.conf                    (ESI LAG for MH)
- *  - evo/interfaces/vlan-ccc.conf                   (non-LAG CCC units)
- *  - evo/cos/cos-binding-l2-fronthaul-static.conf   (static FC-LLQ)
- *  - evo/firewall/filter-mf-ecpri-fronthaul.conf    (MAC-based FC filter)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type evpn-vpws;
-        protocols {
-            evpn {
-                interface <interface>.<unit> {
-                    vpws-service-id {
-                        local <local-id>;
-                        remote <remote-id>;
-                    }
-                }
-            }
-        }
-        interface <interface>.<unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-    }
-}
-```
-
-## evo/services/l3vpn-irb.conf
-
-```
-/*
- * Topic:   L3VPN VRF with IRB (anycast gateway, vrf-table-label)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
- *
- * Highlights:
- *  - instance-type vrf for L3VPN routing
- *  - IRB interface provides routing for EVPN-ELAN bridge-domains
- *  - vrf-table-label allocates a single MPLS label for the VRF
- *    (simplifies PE-to-PE label allocation)
- *  - router-id set explicitly per-instance (required for multi-VRF ECMP)
- *  - Anycast gateway model: same IRB IP on multiple PEs for active-active
- *
- * Pair with:
- *  - evo/interfaces/lag-esi.conf            (vlan-bridge access units)
- *  - evo/services/evpn-elan-vlan-based.conf (mac-vrf bridging to this VRF)
- *  - evo/cos/cos-binding-irb.conf           (FC-REALTIME on IRB units)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type vrf;
-        routing-options {
-            router-id <router-id>;
-        }
-        description <description>;
-        interface irb.<irb-unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-        vrf-table-label;
-    }
-}
-```
-
-## evo/transport/bgp-internal.conf
-
-```
-/*
- * Topic:   BGP internal (iBGP) — labeled-unicast + route-reflector
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - iBGP with inet/inet6 labeled-unicast for inter-area MPLS connectivity
- *  - rib-group inet3-to-inet0 installs labeled routes into inet.0 (for next-hop resolution)
- *  - CR devices act as route-reflectors (cluster-id = own router-id)
- *  - log-updown + multipath enabled at group or global level
- *  - export next-hop-self on iBGP peering sessions
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/policy/next-hop-self.conf     (BGP export policy)
- *  - evo/policy/allow-loopback.conf    (rib-group import filter)
- *  - evo/transport/isis-global.conf    (underlay providing next-hop reachability)
- */
-
-protocols {
-    bgp {
-        group <group-name> {
-            type internal;
-            local-address <loopback-address>;
-            family inet {
-                labeled-unicast {
-                    rib-group inet3-to-inet0;
-                    rib {
-                        inet.3;
-                    }
-                }
-            }
-            family inet6 {
-                labeled-unicast {
-                    rib {
-                        inet6.3;
-                    }
-                }
-            }
-            export next-hop-self;
-            neighbor <peer-address>;
-        }
-        log-updown;
-        multipath;
-    }
-}
-```
-
-## evo/transport/forwarding-options-hash.conf
-
-```
-/*
- * Topic:   Forwarding-options hash-key — ECMP/LAG hashing (L3+L4+MPLS)
- * Variant: Evolved-OS (EVO)
+ * Topic: Hash key on Layer 3 and Layer 4 fields for IPv4 and IPv6, and on all MPLS labels plus the IP payload
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr2_ptx10001-36mr
- *
- * Highlights:
- *  - inet/inet6: layer-3 + layer-4 hashing for fine-grained ECMP/LAG
- *  - MPLS: all-labels + payload ip — hashes entire label stack plus
- *    inner IP header for MPLS-encapsulated ECMP load-sharing
- *  - Critical for 5G xHaul where many EVPN-VPWS services share
- *    the same LAG members
- *
- * Pair with:
- *  - evo/transport/load-balance-pplb.conf
- *  - evo/transport/mpls-global.conf    (MPLS interface enablement)
- *  - evo/policy/pplb.conf              (per-packet load-balance policy)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
 forwarding-options {
     hash-key {
         family inet {
@@ -1857,86 +1883,2631 @@ forwarding-options {
 }
 ```
 
-## evo/transport/isis-global.conf
+## evo/forwarding-options/hash-key-inet-inet6-layer-3-4-mpls-labels-1-3-payload.conf
 
 ```
 /*
- * Topic:   IS-IS global — segment routing, SPF tuning, TI-LFA backup
- * Variant: Evolved-OS (EVO)
+ * Topic: Hash key on Layer 3 and Layer 4 fields for IPv4 and IPv6, and on the first three MPLS labels plus the pseudowire and IP payload
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Segment Routing: SRGB 16000 + 80000 range, node-segment with IPv4/IPv6 indices
- *  - explicit-null for penultimate-hop transparency (preserves QoS to egress)
- *  - Level 2 wide-metrics-only (required for TE and SR)
- *  - SPF delay 100ms with 5 rapid runs before dampening
- *  - Backup SPF: TI-LFA with up to 5 labels, uses source-packet-routing
- *  - Exports SR_NONZERO_LOOPBACKS_V4/V6 for multi-loopback SR advertisement
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/policy/sr-nonzero-loopbacks.conf
- *  - evo/transport/bgp-internal.conf
- *  - evo/transport/mpls-global.conf
- *  - evo/transport/isis-interface.conf         (per-interface config)
- *  - evo/policy/sr-nonzero-loopbacks.conf      (SR prefix-segment export)
+ *   EVO: cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            label-1;
+            label-2;
+            label-3;
+            payload {
+                ether-pseudowire;
+                ip {
+                    port-data {
+                        source-msb;
+                        source-lsb;
+                        destination-msb;
+                        destination-lsb;
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
+## evo/forwarding-options/hash-key-mpls-all-labels.conf
+
+```
+/*
+ * Topic: Load-balance hash key across IPv4, IPv6, MPLS all-labels and Layer 2
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            all-labels;
+            payload {
+                ip;
+            }
+        }
+        family multiservice {
+            source-mac;
+            destination-mac;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-ae-description-flexible-lacp-fast-system-id.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet with flexible services, fast LACP and system ID
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. ae26
+ *   $DESCRIPTION  e.g. TO-DU
+ *   $LACP_SYS_ID  e.g. 00:00:00:00:00:01
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+                system-id $LACP_SYS_ID;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-speed-10g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifd-ae-description-mtu-lacp-fast.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet interface with a description, MTU and LACP active with fast periodic
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 5
+ *   ag1_2_acx7100-32c 5
+ *   an1_acx7100-48l 2
+ *   an3_acx7100-48l 2
+ *   an4_acx7024 2
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 4
+ *   total 24
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. ae4
+ *   $DESCRIPTION  e.g. To-AG1.2
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        mtu 9190;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-100g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifd-breakout-4x10g.conf
+
+```
+/*
+ * Topic: Four-subport 10G physical interface breakout
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $IFD  e.g. et-0/0/2
+ */
+interfaces {
+  $IFD {
+    number-of-sub-ports 4;
+    speed 10g;
+  }
+}
+```
+
+## evo/interfaces/ifd-description-mtu.conf
+
+```
+/*
+ * Topic: Port with a description and MTU
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 2
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from an4_acx7024):
+ *   $IFD          e.g. et-0/0/1
+ *   $DESCRIPTION  e.g. To-AN1
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        mtu 9190;
+    }
+}
+```
+
+## evo/interfaces/ifd-description-speed-100g-mtu.conf
+
+```
+/*
+ * Topic: 100GbE port with a description and MTU
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $IFD  e.g. et-0/0/49
+ */
+interfaces {
+    $IFD {
+        description To-AN4;
+        speed 100g;
+        mtu 9190;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet-services-description-speed-10g.conf
+
+```
+/*
+ * Topic: 10G port with flexible services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. et-1/0/1
+ *   $DESCRIPTION  e.g. To-RT3-L2-MIDHAUL-L2CKT-1000
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        speed 10g;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet-services-description.conf
+
+```
+/*
+ * Topic: Described port with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $IFD          e.g. et-0/0/2:0
+ *   $DESCRIPTION  e.g. To-RT4-L2-MIDHAUL-L2CKT-1000
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet-services-speed-10g.conf
+
+```
+/*
+ * Topic: 10GbE port with flexible VLAN tagging and flexible-ethernet-services encapsulation
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD  e.g. et-1/0/7
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        speed 10g;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-flexible-ethernet.conf
+
+```
+/*
+ * Topic: Flexible VLAN tagging with flexible Ethernet services
+ * Seen on:
+ *   Junos: du_qfx5210 sag_mx304
+ *   EVO: ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   an4_acx7024 1
+ *   du_qfx5210 1
+ *   sag_mx304 2
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $IFD  e.g. et-0/0/2:3
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether-100g.conf
+
+```
+/*
+ * Topic: 100G aggregated Ethernet member link through ether-options
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 2
+ *   an3_acx7100-48l 2
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $IFD        e.g. et-0/0/50
+ *   $AE_BUNDLE  e.g. ae19
+ */
+interfaces {
+    $IFD {
+        speed 100g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether-speed-10g.conf
+
+```
+/*
+ * Topic: 10GbE port as a LAG member
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD        e.g. et-1/0/0
+ *   $AE_BUNDLE  e.g. ae26
+ */
+interfaces {
+    $IFD {
+        speed 10g;
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-lag-member-ether.conf
+
+```
+/*
+ * Topic: Core aggregate member interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 5
+ *   ag1_2_acx7100-32c 7
+ *   an4_acx7024 2
+ *   cr1_ptx10001-36mr 7
+ *   cr2_ptx10001-36mr 7
+ *   total 28
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD        e.g. et-5/0/1
+ *   $AE_BUNDLE  e.g. ae19
+ */
+interfaces {
+    $IFD {
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifd-speed-100g.conf
+
+```
+/*
+ * Topic: Port speed 100G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 2
+ *   an3_acx7100-48l 3
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $IFD  e.g. et-0/0/51
+ */
+interfaces {
+    $IFD {
+        speed 100g;
+    }
+}
+```
+
+## evo/interfaces/ifd-speed-10g.conf
+
+```
+/*
+ * Topic: Interface device at 10G
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 6
+ *   ag1_2_acx7100-32c 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD  e.g. et-1/0/2
+ */
+interfaces {
+    $IFD {
+        speed 10g;
+    }
+}
+```
+
+## evo/interfaces/ifd-unused.conf
+
+```
+/*
+ * Topic: Unused physical port
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c
+ * Count:
+ *   ag1_2_acx7100-32c 2
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $IFD  e.g. et-0/0/3
+ */
+interfaces {
+    $IFD {
+        unused;
+    }
+}
+```
+
+## evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+
+```
+/*
+ * Topic: Core logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 5
+ *   ag1_2_acx7100-32c 5
+ *   an1_acx7100-48l 3
+ *   an3_acx7100-48l 3
+ *   an4_acx7024 4
+ *   cr1_ptx10001-36mr 4
+ *   cr2_ptx10001-36mr 4
+ *   total 28
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD           e.g. ae22
+ *   $UNIT          e.g. 0
+ *   $CORE_V4_ADDR  e.g. 10.10.0.10/30
+ *   $CORE_V6_ADDR  e.g. 2001:db8::10:10:0:b/126
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-mtu-lacp-fast`, `interfaces/ifd-description-mtu`, `interfaces/ifd-description-speed-100g-mtu`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-100g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter.conf
+
+```
+/*
+ * Topic: IRB unit with IPv4 and IPv6 input filters, addresses, a static ARP and NDP entry, and a fixed MAC address
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 84
+ *   ag1_2_acx7100-32c 84
+ *   total 168
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IRB_UNIT         e.g. 517
+ *   $DESCRIPTION      e.g. 5G-MIDHAUL-L3VPN-BD-IRB-167
+ *   $INPUT_FILTER_V4  e.g. FF-MFC-IPV4-L3VPN-BD-IRB
+ *   $AC_ADDR_V4       e.g. 10.31.167.1/24
+ *   $STATIC_ARP_V4    e.g. 10.31.167.2
+ *   $AC_IFL           e.g. ae26.517
+ *   $STATIC_MAC       e.g. 00:99:00:00:00:a7
+ *   $INPUT_FILTER_V6  e.g. FF-MFC-IPV6-L3VPN-BD-IRB
+ *   $AC_ADDR_V6       e.g. 2001:db8::1fa6:11/112
+ *   $STATIC_NDP_V6    e.g. 2001:db8::1fa6:12
+ *   $IRB_MAC          e.g. 00:00:00:00:00:a7
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                filter {
+                    input $INPUT_FILTER_V4;
+                }
+                address $AC_ADDR_V4 {
+                    arp $STATIC_ARP_V4 l2-interface $AC_IFL mac $STATIC_MAC;
+                }
+            }
+            family inet6 {
+                filter {
+                    input $INPUT_FILTER_V6;
+                }
+                address $AC_ADDR_V6 {
+                    ndp $STATIC_NDP_V6 l2-interface $AC_IFL mac $STATIC_MAC;
+                }
+            }
+            mac $IRB_MAC;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `filter` (`$INPUT_FILTER_V4`, `$INPUT_FILTER_V6`): required, for each reference; one of `firewall/filter-inet-mfc-dscp-forwarding-class`, `firewall/filter-inet6-mfc-traffic-class-forwarding-class`
+
+## evo/interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac.conf
+
+```
+/*
+ * Topic: IRB unit with IPv4 and IPv6 addresses, a static ARP and NDP entry, and a fixed MAC address
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 166
+ *   ag1_2_acx7100-32c 166
+ *   total 332
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IRB_UNIT       e.g. 351
+ *   $DESCRIPTION    e.g. 5G-MIDHAUL-L3VPN-BD-IRB-1
+ *   $AC_ADDR_V4     e.g. 10.31.1.1/24
+ *   $STATIC_ARP_V4  e.g. 10.31.1.2
+ *   $AC_IFL         e.g. ae26.351
+ *   $STATIC_MAC     e.g. 00:99:00:00:00:01
+ *   $AC_ADDR_V6     e.g. 2001:db8::1f00:11/112
+ *   $STATIC_NDP_V6  e.g. 2001:db8::1f00:12
+ *   $IRB_MAC        e.g. 00:00:00:00:00:01
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                address $AC_ADDR_V4 {
+                    arp $STATIC_ARP_V4 l2-interface $AC_IFL mac $STATIC_MAC;
+                }
+            }
+            family inet6 {
+                address $AC_ADDR_V6 {
+                    ndp $STATIC_NDP_V6 l2-interface $AC_IFL mac $STATIC_MAC;
+                }
+            }
+            mac $IRB_MAC;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-irb-inet-inet6-virtual-gateway-filter.conf
+
+```
+/*
+ * Topic: IRB unit with IPv4 and IPv6 input filters, addresses and virtual gateway addresses
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 84
+ *   ag1_2_acx7100-32c 84
+ *   total 168
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IRB_UNIT         e.g. 267
+ *   $DESCRIPTION      e.g. 5G-MIDHAUL-L3VPN-EVPN-IRB-167
+ *   $INPUT_FILTER_V4  e.g. FF-MFC-IPV4-L3VPN-EVPN-IRB
+ *   $AC_ADDR_V4       e.g. 10.21.167.3/24
+ *   $VGA              e.g. 10.21.167.1
+ *   $INPUT_FILTER_V6  e.g. FF-MFC-IPV6-L3VPN-EVPN-IRB
+ *   $AC_ADDR_V6       e.g. 2001:db8::15a6:13/112
+ *   $VGA_V6           e.g. 2001:db8::15a6:11
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                filter {
+                    input $INPUT_FILTER_V4;
+                }
+                address $AC_ADDR_V4 {
+                    virtual-gateway-address $VGA;
+                }
+            }
+            family inet6 {
+                filter {
+                    input $INPUT_FILTER_V6;
+                }
+                address $AC_ADDR_V6 {
+                    virtual-gateway-address $VGA_V6;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `filter` (`$INPUT_FILTER_V4`, `$INPUT_FILTER_V6`): required, for each reference; one of `firewall/filter-inet-mfc-dscp-forwarding-class`, `firewall/filter-inet6-mfc-traffic-class-forwarding-class`
+
+## evo/interfaces/ifl-irb-inet-inet6-virtual-gateway.conf
+
+```
+/*
+ * Topic: IRB unit with IPv4 and IPv6 addresses and virtual gateway addresses
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 166
+ *   ag1_2_acx7100-32c 166
+ *   total 332
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IRB_UNIT     e.g. 101
+ *   $DESCRIPTION  e.g. 5G-MIDHAUL-L3VPN-EVPN-IRB-1
+ *   $AC_ADDR_V4   e.g. 10.21.1.3/24
+ *   $VGA          e.g. 10.21.1.1
+ *   $AC_ADDR_V6   e.g. 2001:db8::1500:13/112
+ *   $VGA_V6       e.g. 2001:db8::1500:11
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                address $AC_ADDR_V4 {
+                    virtual-gateway-address $VGA;
+                }
+            }
+            family inet6 {
+                address $AC_ADDR_V6 {
+                    virtual-gateway-address $VGA_V6;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic: Loopback unit 0 with primary and secondary IPv4 addresses, an ISO address, primary and secondary IPv6 addresses, and family mpls
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $LOOPBACK_V4_PFX      e.g. 192.168.1.3/32
+ *   $LOOPBACK_ALT_V4_PFX  e.g. 192.168.10.3/32
+ *   $ISIS_NET             e.g. 49.1022.1001.0000.0008.00
+ *   $LOOPBACK_V6_PFX      e.g. 2001:db8::1:1:0:3/128
+ *   $LOOPBACK_ALT_V6_PFX  e.g. 2001:db8::1:1:10:3/128
+ */
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ALT_V4_PFX;
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ALT_V6_PFX;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## evo/interfaces/ifl-vlan-bridge-description.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-bridge encapsulation and a description
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 750
+ *   ag1_2_acx7100-32c 750
+ *   an1_acx7100-48l 450
+ *   an3_acx7100-48l 450
+ *   an4_acx7024 150
+ *   total 2550
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. ae26
+ *   $UNIT         e.g. 351
+ *   $DESCRIPTION  e.g. 5G-MIDHAUL-L3VPN-BD-IRB-1
+ *   $VLAN         e.g. 351
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-description-flexible-lacp-fast-system-id`, `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-speed-10g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifl-vlan-bridge-esi-all-active.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-bridge encapsulation and an all-active ESI
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 300
+ *   ag1_2_acx7100-32c 300
+ *   total 600
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. ae26
+ *   $UNIT         e.g. 1501
+ *   $DESCRIPTION  e.g. 5G-FRONTHAUL-EVPN-ELAN-MH-1
+ *   $VLAN         e.g. 1501
+ *   $ESI          e.g. 00:88:11:11:11:11:11:00:00:00
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                all-active;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-description-flexible-lacp-fast-system-id`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-speed-10g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifl-vlan-ccc-description.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-ccc encapsulation and a description
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 250
+ *   ag1_2_acx7100-32c 150
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 500
+ *   total 1100
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. et-1/0/1
+ *   $UNIT         e.g. 2501
+ *   $DESCRIPTION  e.g. 5G-FRONTHAUL-EVPN-FXC-SH-TO-AN4-1
+ *   $VLAN         e.g. 2501
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`
+
+## evo/interfaces/ifl-vlan-ccc-esi-all-active-filter.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-ccc encapsulation, an all-active ESI and a family ccc input filter
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 300
+ *   ag1_2_acx7100-32c 300
+ *   total 600
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD           e.g. ae26
+ *   $UNIT          e.g. 901
+ *   $DESCRIPTION   e.g. FRONTHAUL-EVPN-VPWS-MH-AN1-1
+ *   $VLAN          e.g. 901
+ *   $ESI           e.g. 00:33:11:11:11:11:11:00:00:00
+ *   $INPUT_FILTER  e.g. FF-MF-EVPN-VPWS-MH-TO-AN1
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                all-active;
+            }
+            family ccc {
+                filter {
+                    input $INPUT_FILTER;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-description-flexible-lacp-fast-system-id`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-speed-10g`, `interfaces/ifd-lag-member-ether`
+- `filter` (`$INPUT_FILTER`): required, for each reference; one of `firewall/filter-ccc-mf-evpn-vpws-mh-to-an1`, `firewall/filter-ccc-mf-evpn-vpws-mh-to-an3`, `firewall/filter-ccc-mf-evpn-vpws-mh-to-an4`
+
+## evo/interfaces/ifl-vlan-ccc-esi-all-active.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-ccc encapsulation and an all-active ESI
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 300
+ *   ag1_2_acx7100-32c 300
+ *   total 600
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. ae26
+ *   $UNIT         e.g. 2601
+ *   $DESCRIPTION  e.g. 5G-FRONTHAUL-EVPN-FXC-MH-1
+ *   $VLAN         e.g. 2601
+ *   $ESI          e.g. 00:44:11:11:11:11:11:00:00:00
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+            esi {
+                $ESI;
+                all-active;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-description-flexible-lacp-fast-system-id`
+- `lag-member`: when the router's configuration has it, all related; one of `interfaces/ifd-lag-member-ether-speed-10g`, `interfaces/ifd-lag-member-ether`
+
+## evo/interfaces/ifl-vlan-ccc-family-ccc.conf
+
+```
+/*
+ * Topic: Single-tagged cross-connect logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1000
+ *   ag1_2_acx7100-32c 1000
+ *   an1_acx7100-48l 200
+ *   an3_acx7100-48l 200
+ *   an4_acx7024 100
+ *   total 2500
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD   e.g. et-1/0/1
+ *   $UNIT  e.g. 1501
+ *   $VLAN  e.g. 1501
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+            family ccc;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`
+
+## evo/interfaces/ifl-vlan-ccc-filter.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-ccc encapsulation and a family ccc input filter
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 100
+ *   total 300
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from an1_acx7100-48l):
+ *   $IFD           e.g. et-0/0/2
+ *   $UNIT          e.g. 1101
+ *   $DESCRIPTION   e.g. FRONTHAUL-EVPN-VPWS-MH-1
+ *   $VLAN          e.g. 1101
+ *   $INPUT_FILTER  e.g. FF-MF-EVPN-VPWS-MH
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
+            family ccc {
+                filter {
+                    input $INPUT_FILTER;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
+- `filter` (`$INPUT_FILTER`): required, for each reference; one of `firewall/filter-ccc-mf-evpn-vpws-mh-an1`, `firewall/filter-ccc-mf-evpn-vpws-mh-an3`, `firewall/filter-ccc-mf-evpn-vpws-mh-an4`
+
+## evo/interfaces/ifl-vlan-inet-inet6-description.conf
+
+```
+/*
+ * Topic: VLAN unit with a description and IPv4 and IPv6 addresses
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 100
+ *   ag1_2_acx7100-32c 100
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 100
+ *   total 500
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD          e.g. et-1/0/1
+ *   $UNIT         e.g. 1
+ *   $DESCRIPTION  e.g. To-RT3-L3-MBH-AND-5G-FRONTHAUL-L3VPN-1
+ *   $VLAN         e.g. 1
+ *   $AC_ADDR_V4   e.g. 10.16.7.205/30
+ *   $AC_ADDR_V6   e.g. 2001:db8::16:1:7:7cd/112
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+            family inet6 {
+                address $AC_ADDR_V6;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`
+
+## evo/interfaces/ifl-vlan-inet.conf
+
+```
+/*
+ * Topic: Single-tagged routed logical interface carrying an IPv4 customer address
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 2
+ *   ag1_2_acx7100-32c 2
+ *   an4_acx7024 2
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $IFD         e.g. et-1/0/1
+ *   $UNIT        e.g. 3801
+ *   $VLAN        e.g. 3801
+ *   $AC_ADDR_V4  e.g. 10.92.1.1/24
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-flexible-ethernet-services-description-speed-10g`, `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services-speed-10g`, `interfaces/ifd-flexible-ethernet`
+
+## evo/policy-options/community/community-fronthaul.conf
+
+```
+/*
+ * Topic: FRONTHAUL community
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    community FRONTHAUL members 65535:200;
+}
+```
+
+## evo/policy-options/community/community-service-edge.conf
+
+```
+/*
+ * Topic: SERVICE-EDGE community
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    community SERVICE-EDGE members 63536:100;
+}
+```
+
+## evo/policy-options/community/community-xhaul.conf
+
+```
+/*
+ * Topic: xHAUL community
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    community xHAUL members 65535:100;
+}
+```
+
+## evo/policy-options/policy-statement/per-packet-load-balance.conf
+
+```
+/*
+ * Topic: Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+policy-options {
+    policy-statement $PPLB_NAME {
+        then {
+            load-balance per-packet;
+            accept;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-as-in-sag-allow.conf
+
+```
+/*
+ * Topic: Inter-AS import policy accepting only SERVICE-EDGE routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with:
+ *  - evo/policy-options/community/community-service-edge.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement as63536-in {
+        term SAG-ALLOW {
+            from community SERVICE-EDGE;
+            then accept;
+        }
+        term reject {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-as-out-loop-prevent.conf
+
+```
+/*
+ * Topic: Inter-AS export policy rejecting FRONTHAUL routes and setting next-hop self on SERVICE-EDGE routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with:
+ *  - evo/policy-options/community/community-fronthaul.conf
+ *  - evo/policy-options/community/community-service-edge.conf
+ *  - evo/policy-options/community/community-xhaul.conf
+ *  - evo/policy-options/prefix-list/prefix-list-mbh-region.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement as3536-out {
+        term LOOP_PREVENT {
+            from community FRONTHAUL;
+            then reject;
+        }
+        term FROM-SAG {
+            from community SERVICE-EDGE;
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+        term loopbacks {
+            from {
+                prefix-list MBH-REGION;
+            }
+            then {
+                community add xHAUL;
+                accept;
+            }
+        }
+        term REJECT {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-bgp-export-reject-inet3.conf
+
+```
+/*
+ * Topic: BGP export policy rejecting routes from inet.3
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement bgp-export {
+        term 1 {
+            from rib inet.3;
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-do-not-readvertise-evpn-routes.conf
+
+```
+/*
+ * Topic: Policy rejecting BGP-learned EVPN routes
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement DO-NOT-READVERTISE-EVPN-ROUTES {
+        term 1 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-loc-pref.conf
+
+```
+/*
+ * Topic: Policy setting local preference 200
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement LOC-PREF {
+        term 1 {
+            then {
+                local-preference 200;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-loopback-allow.conf
+
+```
+/*
+ * Topic: Single-term policy accepting a prefix and its more-specifics
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $POLICY_NAME  e.g. ALLOW_LOOPBACK
+ *   $PREFIX       e.g. 0.0.0.0/32
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX orlonger;
+        }
+        then accept;
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-next-hop-self.conf
+
+```
+/*
+ * Topic: Next-hop-self acceptance policy
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+  policy-statement next-hop-self {
+    then {
+      next-hop self;
+      accept;
+    }
+  }
+}
+```
+
+## evo/policy-options/policy-statement/ps-nhs-commu-out-load-balance-per-packet.conf
+
+```
+/*
+ * Topic: Next-hop-self policy with per-packet load balancing that adds the FRONTHAUL community and accepts BGP EVPN routes unchanged
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an3_acx7100-48l
+ * Count:
+ *   an3_acx7100-48l 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/community/community-fronthaul.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs_commu_out {
+        term SET-REGION {
+            then {
+                community add FRONTHAUL;
+                next term;
+            }
+        }
+        term term2 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term nhs {
+            then {
+                next-hop self;
+                load-balance per-packet;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-nhs-commu-out.conf
+
+```
+/*
+ * Topic: Next-hop-self policy that adds the FRONTHAUL community and accepts BGP EVPN routes unchanged
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 2
+ * Pair with:
+ *  - evo/policy-options/community/community-fronthaul.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs_commu_out {
+        term SET-REGION {
+            then {
+                community add FRONTHAUL;
+                next term;
+            }
+        }
+        term term2 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term nhs {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-nhs-evpn-accept.conf
+
+```
+/*
+ * Topic: Next-hop-self policy that accepts BGP EVPN routes unchanged
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement nhs {
+        term 1 {
+            from {
+                family evpn;
+                protocol bgp;
+            }
+            then accept;
+        }
+        term nhs {
+            then {
+                next-hop self;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-ospf-summary-reject.conf
+
+```
+/*
+ * Topic: Policy accepting one prefix and longer, rejecting everything else
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $PREFIX  e.g. 192.168.1.5/32
+ */
+policy-options {
+    policy-statement ospf_summary_reject {
+        term t1 {
+            from {
+                route-filter $PREFIX orlonger;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+
+```
+/*
+ * Topic: Policy SR_NONZERO_LOOPBACKS_V4 attaching a prefix segment to the IPv4 SR loopback
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $LOOPBACK_SR_V4  e.g. 192.168.10.3
+ *   $SR_INDEX_V4     e.g. 208
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V4 {
+        term t1 {
+            from {
+                route-filter $LOOPBACK_SR_V4/32 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V4;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+
+```
+/*
+ * Topic: Policy SR_NONZERO_LOOPBACKS_V6 attaching a prefix segment to the IPv6 SR loopback
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $LOOPBACK_SR_V6  e.g. 2001:db8::1:1:10:3
+ *   $SR_INDEX_V6     e.g. 308
+ */
+policy-options {
+    policy-statement SR_NONZERO_LOOPBACKS_V6 {
+        term t1 {
+            from {
+                family inet6;
+                route-filter $LOOPBACK_SR_V6/128 exact;
+            }
+            then {
+                prefix-segment {
+                    index $SR_INDEX_V6;
+                }
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/prefix-list/prefix-list-mbh-region.conf
+
+```
+/*
+ * Topic: MBH-REGION prefix list of three loopback addresses
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    prefix-list MBH-REGION {
+        192.168.1.9/32;
+        192.168.1.10/32;
+        192.168.1.11/32;
+    }
+}
+```
+
+## evo/protocols/bgp-advertise-from-main-vpn-tables-log-updown-multipath.conf
+
+```
+/*
+ * Topic: BGP global settings: advertise-from-main-vpn-tables, log-updown and multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        advertise-from-main-vpn-tables;
+        log-updown;
+        multipath;
+    }
+}
+```
+
+## evo/protocols/bgp-advertise-from-main-vpn-tables-vpn-apply-export-log-updown-multipath.conf
+
+```
+/*
+ * Topic: BGP global settings: advertise-from-main-vpn-tables, vpn-apply-export, log-updown and multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        advertise-from-main-vpn-tables;
+        vpn-apply-export;
+        log-updown;
+        multipath;
+    }
+}
+```
+
+## evo/protocols/bgp-family-inet-unicast-log-updown-multipath.conf
+
+```
+/*
+ * Topic: BGP global settings: family inet unicast, log-updown and multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        family inet {
+            unicast;
+        }
+        log-updown;
+        multipath;
+    }
+}
+```
+
+## evo/protocols/bgp-group-ebgp-lu-route-target-import-export-1-peer.conf
+
+```
+/*
+ * Topic: eBGP group with one peer for labeled unicast and route-target families, import as63536-in, export next-hop-self and bgp-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-as-in-sag-allow.conf
+ *  - evo/policy-options/policy-statement/ps-bgp-export-reject-inet3.conf
+ *  - evo/policy-options/policy-statement/ps-next-hop-self.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Peers with:
+ *   [cr2_ptx10001-36mr] <-> [sag_mx304]
+ * Variables (example values from cr2_ptx10001-36mr):
+ *   $BGP_GROUP         e.g. ebgp_sag
+ *   $ASN_INTER_AS      e.g. 63536
+ *   $INTER_AS_PEER_V4  e.g. 10.10.0.54
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            import as63536-in;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family route-target;
+            export [ next-hop-self bgp-export ];
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ebgp-multihop-lu-route-target-import-export-1-peer.conf
+
+```
+/*
+ * Topic: Multihop eBGP group with one peer for labeled unicast and route-target families, import as63536-in, export next-hop-self and bgp-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-as-in-sag-allow.conf
+ *  - evo/policy-options/policy-statement/ps-bgp-export-reject-inet3.conf
+ *  - evo/policy-options/policy-statement/ps-next-hop-self.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Variables (example values from cr1_ptx10001-36mr):
+ *   $BGP_GROUP         e.g. ebgp_sag
+ *   $ASN_INTER_AS      e.g. 63536
+ *   $INTER_AS_PEER_V4  e.g. 10.10.0.50
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multihop;
+            import as63536-in;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family route-target;
+            export [ next-hop-self bgp-export ];
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ebgp-multihop-vpn-evpn-1-peer.conf
+
+```
+/*
+ * Topic: Multihop eBGP group (no-nexthop-change) with one peer for VPN, L2VPN, EVPN and route-target families, exporting nhs
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-nhs-evpn-accept.conf
+ *
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $BGP_GROUP         e.g. ebgp_sag_mpbgp
+ *   $LOOPBACK_V4       e.g. 192.168.1.4
+ *   $ASN_INTER_AS      e.g. 63536
+ *   $INTER_AS_PEER_V4  e.g. 192.168.1.11
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address $LOOPBACK_V4;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            export nhs;
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ebgp-multihop-vpn-evpn-vpn-apply-export-1-peer.conf
+
+```
+/*
+ * Topic: Multihop eBGP group (no-nexthop-change) with one peer for VPN, L2VPN, EVPN and route-target families, exporting nhs, with vpn-apply-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-nhs-evpn-accept.conf
+ *
+ * Variables (example values from ag1_1_acx7509):
+ *   $BGP_GROUP         e.g. ebgp_sag_mpbgp
+ *   $LOOPBACK_V4       e.g. 192.168.1.3
+ *   $ASN_INTER_AS      e.g. 63536
+ *   $INTER_AS_PEER_V4  e.g. 192.168.1.11
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multihop {
+                no-nexthop-change;
+            }
+            local-address $LOOPBACK_V4;
+            family inet-vpn {
+                unicast;
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            export nhs;
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4;
+            vpn-apply-export;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-evpn-route-target-1-peer.conf
+
+```
+/*
+ * Topic: iBGP group with one peer for EVPN and route-target families
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $BGP_GROUP     e.g. ibgp_pag
+ *   $LOOPBACK_V4   e.g. 192.168.1.3
+ *   $IBGP_PEER_V4  e.g. 192.168.1.4
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            neighbor $IBGP_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-lu-export-next-hop-self-1-peer.conf
+
+```
+/*
+ * Topic: iBGP group with one peer for IPv4 and IPv6 labeled unicast, exporting next-hop-self
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-next-hop-self.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Peers with:
+ *   [cr1_ptx10001-36mr] <-> [cr2_ptx10001-36mr]
+ * Variables (example values from cr2_ptx10001-36mr):
+ *   $BGP_GROUP     e.g. ibgp_cr
+ *   $LOOPBACK_V4   e.g. 192.168.1.10
+ *   $IBGP_PEER_V4  e.g. 192.168.1.9
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            export next-hop-self;
+            neighbor $IBGP_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-lu-export-next-hop-self-2-peers.conf
+
+```
+/*
+ * Topic: iBGP group with two peers for IPv4 and IPv6 labeled unicast, exporting next-hop-self
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-next-hop-self.conf
+ *
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [cr1_ptx10001-36mr]
+ *   [ag1_1_acx7509] <-> [cr2_ptx10001-36mr]
+ *   [ag1_2_acx7100-32c] <-> [cr1_ptx10001-36mr]
+ *   [ag1_2_acx7100-32c] <-> [cr2_ptx10001-36mr]
+ * Variables (example values from ag1_1_acx7509):
+ *   $BGP_GROUP    e.g. ibgp_meg
+ *   $LOOPBACK_V4  e.g. 192.168.1.3
+ *   $RR1_V4       e.g. 192.168.1.9
+ *   $RR2_V4       e.g. 192.168.1.10
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            export next-hop-self;
+            neighbor $RR1_V4;
+            neighbor $RR2_V4;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `rib-group` (`inet3-to-inet0`): required, for each reference; one of `routing-options/rib-groups-inet3-to-inet0-inet6-3`, `routing-options/rib-groups-inet3-to-inet0`
+
+## evo/protocols/bgp-group-ibgp-lu-inet-unicast-export-next-hop-self-1-peer.conf
+
+```
+/*
+ * Topic: iBGP group with one peer for IPv4 labeled unicast and unicast and IPv6 labeled unicast, exporting next-hop-self
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-next-hop-self.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Peers with:
+ *   [cr1_ptx10001-36mr] <-> [cr2_ptx10001-36mr]
+ * Variables (example values from cr1_ptx10001-36mr):
+ *   $BGP_GROUP     e.g. ibgp_cr
+ *   $LOOPBACK_V4   e.g. 192.168.1.9
+ *   $IBGP_PEER_V4  e.g. 192.168.1.10
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            export next-hop-self;
+            neighbor $IBGP_PEER_V4;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-lu-vpn-evpn-export-nhs-commu-out-2-peers.conf
+
+```
+/*
+ * Topic: iBGP group with two peers for labeled unicast, VPN, L2VPN, EVPN and route-target families, exporting nhs_commu_out
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 3
+ * Pair with:
+ *  - evo/routing-options/rib-groups-inet3-to-inet0.conf
+ *
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [an1_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an3_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an4_acx7024]
+ *   [ag1_2_acx7100-32c] <-> [an1_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an3_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an4_acx7024]
+ * Variables (example values from an1_acx7100-48l):
+ *   $BGP_GROUP    e.g. ibgp_pag
+ *   $LOOPBACK_V4  e.g. 192.168.1.1
+ *   $RR1_V4       e.g. 192.168.1.3
+ *   $RR2_V4       e.g. 192.168.1.4
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            export nhs_commu_out;
+            neighbor $RR1_V4;
+            neighbor $RR2_V4;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`nhs_commu_out`): required, for each reference; one of `policy-options/policy-statement/ps-nhs-commu-out-load-balance-per-packet`, `policy-options/policy-statement/ps-nhs-commu-out`
+
+## evo/protocols/bgp-group-ibgp-rr-lu-export-as-out-2-peers.conf
+
+```
+/*
+ * Topic: iBGP route-reflector group with two peers for IPv4 and IPv6 labeled unicast, exporting as3536-out
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 2
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-as-out-loop-prevent.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [cr1_ptx10001-36mr]
+ *   [ag1_1_acx7509] <-> [cr2_ptx10001-36mr]
+ *   [ag1_2_acx7100-32c] <-> [cr1_ptx10001-36mr]
+ *   [ag1_2_acx7100-32c] <-> [cr2_ptx10001-36mr]
+ * Variables (example values from cr1_ptx10001-36mr):
+ *   $BGP_GROUP       e.g. ibgp_meg_rr
+ *   $LOOPBACK_V4     e.g. 192.168.1.9
+ *   $CLUSTER_ID      e.g. 192.168.1.9
+ *   $IBGP_PEER_V4_1  e.g. 192.168.1.3
+ *   $IBGP_PEER_V4_2  e.g. 192.168.1.4
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            export as3536-out;
+            cluster $CLUSTER_ID;
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-rr-lu-vpn-evpn-3-peers.conf
+
+```
+/*
+ * Topic: iBGP route-reflector group with three peers for labeled unicast, VPN, L2VPN, EVPN and route-target families, exporting nhs
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-nhs-evpn-accept.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Peers with:
+ *   [ag1_2_acx7100-32c] <-> [an1_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an3_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an4_acx7024]
+ * Variables (example values from ag1_2_acx7100-32c):
+ *   $BGP_GROUP       e.g. ibgp_pag_rr
+ *   $LOOPBACK_V4     e.g. 192.168.1.4
+ *   $CLUSTER_ID      e.g. 192.168.1.4
+ *   $IBGP_PEER_V4_1  e.g. 192.168.1.0
+ *   $IBGP_PEER_V4_2  e.g. 192.168.1.1
+ *   $IBGP_PEER_V4_3  e.g. 192.168.1.2
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            export nhs;
+            cluster $CLUSTER_ID;
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+            neighbor $IBGP_PEER_V4_3;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ibgp-rr-lu-vpn-evpn-vpn-apply-export-3-peers.conf
+
+```
+/*
+ * Topic: iBGP route-reflector group with three peers for labeled unicast, VPN, L2VPN, EVPN and route-target families, exporting nhs, with vpn-apply-export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509
+ * Count:
+ *   ag1_1_acx7509 1
+ *   total 1
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-nhs-evpn-accept.conf
+ *  - evo/routing-options/rib-groups-inet3-to-inet0.conf
+ *
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [an1_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an3_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an4_acx7024]
+ * Variables (example values from ag1_1_acx7509):
+ *   $BGP_GROUP       e.g. ibgp_pag_rr
+ *   $LOOPBACK_V4     e.g. 192.168.1.3
+ *   $CLUSTER_ID      e.g. 192.168.1.3
+ *   $IBGP_PEER_V4_1  e.g. 192.168.1.0
+ *   $IBGP_PEER_V4_2  e.g. 192.168.1.1
+ *   $IBGP_PEER_V4_3  e.g. 192.168.1.2
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type internal;
+            local-address $LOOPBACK_V4;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target;
+            export nhs;
+            cluster $CLUSTER_ID;
+            neighbor $IBGP_PEER_V4_1;
+            neighbor $IBGP_PEER_V4_2;
+            neighbor $IBGP_PEER_V4_3;
+            vpn-apply-export;
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-log-updown-multipath.conf
+
+```
+/*
+ * Topic: BGP global settings: log-updown and multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   total 4
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        log-updown;
+        multipath;
+    }
+}
+```
+
+## evo/protocols/isis-ignore-attached-bit.conf
+
+```
+/*
+ * Topic: IS-IS ignores the attached bit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 4
+ * Pair with: none
+ * Variables: none
+ */
 protocols {
     isis {
-        interface lo0.0 {
-            passive;
-        }
-        source-packet-routing {
-            srgb start-label 16000 index-range 80000;
-            node-segment {
-                ipv4-index <ipv4-sid-index>;
-                ipv6-index <ipv6-sid-index>;
-            }
-            explicit-null;
-        }
-        level 2 wide-metrics-only;
-        spf-options {
-            delay 100;
-            rapid-runs 5;
-        }
-        backup-spf-options {
-            use-post-convergence-lfa maximum-labels 5;
-            use-source-packet-routing;
-        }
-        export [ SR_NONZERO_LOOPBACKS_V4 SR_NONZERO_LOOPBACKS_V6 ];
         ignore-attached-bit;
     }
 }
 ```
 
-## evo/transport/isis-interface.conf
+## evo/protocols/isis-interface-l1-node-protection-l2-disable-p2p-bfd.conf
 
 ```
 /*
- * Topic:   IS-IS interface — level 2, TI-LFA, BFD, point-to-point
- * Variant: Evolved-OS (EVO)
+ * Topic: IS-IS point-to-point core interface at Level 1 only, with node-protecting post-convergence LFA, metric 10 and BFD
  * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - Level-2 only (level 1 disabled) — flat IS-IS domain
- *  - post-convergence-lfa with node-protection (TI-LFA)
- *  - BFD liveness-detection: 100ms minimum-interval × 3 multiplier = 300ms detect
- *  - Point-to-point on all inter-router links (no DIS election)
- *  - Metric 10 on all links (uniform cost for ECMP)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/isis-global.conf  (SR, spf-options, backup-spf-options)
- *  - evo/transport/mpls-global.conf  (MPLS interface enablement)
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 3
+ *   ag1_2_acx7100-32c 3
+ *   total 6
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $CORE_INTF  e.g. ae19.0
  */
-
 protocols {
     isis {
-        interface <ae-interface>.0 {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                metric 10;
+            }
+            level 2 disable;
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## evo/protocols/isis-interface-l1-node-protection-p2p-bfd.conf
+
+```
+/*
+ * Topic: IS-IS point-to-point core interface at Level 1 with node-protecting post-convergence LFA, metric 10 and BFD
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 2
+ *   an3_acx7100-48l 3
+ *   an4_acx7024 4
+ *   total 9
+ * Pair with: none
+ * Variables (example values from an1_acx7100-48l):
+ *   $CORE_INTF  e.g. ae19.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 1 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                metric 10;
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## evo/protocols/isis-interface-l2-node-protection-l1-disable-p2p-bfd.conf
+
+```
+/*
+ * Topic: IS-IS point-to-point core interface at Level 2 only, with node-protecting post-convergence LFA, metric 10 and BFD
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 3
+ *   cr2_ptx10001-36mr 3
+ *   total 8
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $CORE_INTF  e.g. ae5.0
+ */
+protocols {
+    isis {
+        interface $CORE_INTF {
             level 2 {
                 post-convergence-lfa {
                     node-protection cost 16777214;
@@ -1957,65 +4528,388 @@ protocols {
 }
 ```
 
-## evo/transport/load-balance-pplb.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## evo/protocols/isis-interface-l2-node-protection-p2p-bfd.conf
 
 ```
 /*
- * Topic:   Forwarding-table load-balance + chained-composite-next-hop
- * Variant: Evolved-OS (EVO)
+ * Topic: IS-IS point-to-point core interface at Level 2 with node-protecting post-convergence LFA, metric 10 and BFD
  * Seen on:
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - export PPLB enables per-flow ECMP across equal-cost paths
- *  - chained-composite-next-hop for EVPN, L3VPN, and L2CKT services
- *    enables hierarchical next-hop chains (required for EVPN-VPWS MH)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/policy/pplb.conf                     (PPLB policy definition)
- *  - evo/transport/forwarding-options-hash.conf (hash-key tuning)
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $CORE_INTF  e.g. ae4.0
  */
-
-routing-options {
-    forwarding-table {
-        export PPLB;
-        chained-composite-next-hop {
-            ingress {
-                l2ckt;
-                evpn;
-                l3vpn;
+protocols {
+    isis {
+        interface $CORE_INTF {
+            level 2 {
+                post-convergence-lfa {
+                    node-protection cost 16777214;
+                }
+                metric 10;
+            }
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
             }
         }
     }
 }
 ```
 
-## evo/transport/mpls-global.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## evo/protocols/isis-interface-p2p-bfd.conf
 
 ```
 /*
- * Topic:   MPLS global — PCE-controlled LSPs, TTL, ICMP tunneling, IPv6
- * Variant: Evolved-OS (EVO)
+ * Topic: IS-IS point-to-point core interface with BFD
  * Seen on:
  *   Junos: (none)
- *   EVO:   ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
- *
- * Highlights:
- *  - lsp-external-controller pccd (NorthStar/Paragon PCE-initiated LSPs)
- *  - no-propagate-ttl hides MPLS core hops from traceroute
- *  - icmp-tunneling enables ICMP error reporting through MPLS tunnels
- *  - ipv6-tunneling for 6PE/6VPE over MPLS core
- *  - optimize-timer 180 seconds for CSPF re-optimization
- *  - Interface list is per-device (all inter-router AE interfaces + lo0)
- *  - Body is byte-identical to the Junos sibling
- *
- * Pair with:
- *  - evo/transport/forwarding-options-hash.conf
- *  - evo/transport/isis-interface.conf
- *  - evo/transport/isis-global.conf   (SR/ISIS underlay)
+ *   EVO: an1_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from an1_acx7100-48l):
+ *   $CORE_INTF  e.g. et-0/0/49.0
  */
+protocols {
+    isis {
+        interface $CORE_INTF {
+            point-to-point;
+            family inet {
+                bfd-liveness-detection {
+                    minimum-interval 100;
+                    multiplier 3;
+                    no-adaptation;
+                }
+            }
+        }
+    }
+}
+```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## evo/protocols/isis-level-1-wide-metrics-only.conf
+
+```
+/*
+ * Topic: IS-IS Level 1 with wide metrics only
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+    isis {
+        level 1 wide-metrics-only;
+    }
+}
+```
+
+## evo/protocols/isis-level-2-disable.conf
+
+```
+/*
+ * Topic: IS-IS Level 2 disabled
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 3
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+    isis {
+        level 2 disable;
+    }
+}
+```
+
+## evo/protocols/isis-level-2-wide-metrics-only.conf
+
+```
+/*
+ * Topic: IS-IS Level 2 with wide metrics only
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+    isis {
+        level 2 wide-metrics-only;
+    }
+}
+```
+
+## evo/protocols/isis-loopback-passive.conf
+
+```
+/*
+ * Topic: IS-IS logical interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+  isis {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## evo/protocols/isis-sr-node-segment-spf-ti-lfa-export.conf
+
+```
+/*
+ * Topic: IS-IS segment routing (SRGB, node SIDs, explicit null), SPF timers, TI-LFA backup and loopback export
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+ *  - evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+ *
+ * Variables (example values from ag1_1_acx7509):
+ *   $SR_INDEX_V4  e.g. 8
+ *   $SR_INDEX_V6  e.g. 108
+ */
+protocols {
+    isis {
+        source-packet-routing {
+            srgb start-label 16000 index-range 80000;
+            node-segment {
+                ipv4-index $SR_INDEX_V4;
+                ipv6-index $SR_INDEX_V6;
+            }
+            explicit-null;
+        }
+        spf-options {
+            delay 100;
+            rapid-runs 5;
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        export [ SR_NONZERO_LOOPBACKS_V4 SR_NONZERO_LOOPBACKS_V6 ];
+    }
+}
+```
+
+## evo/protocols/l2-learning-global-mac-table-aging-time.conf
+
+```
+/*
+ * Topic: Global MAC table aging time
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    l2-learning {
+        global-mac-table-aging-time 10000;
+    }
+}
+```
+
+## evo/protocols/l2circuit-control-word-flow-label-static.conf
+
+```
+/*
+ * Topic: Layer 2 circuit to a remote PE with control word, static flow-label transmit and receive, and pseudowire status TLV
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1000
+ *   ag1_2_acx7100-32c 1000
+ *   total 2000
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [sag_mx304]
+ *   [ag1_2_acx7100-32c] <-> [sag_mx304]
+ * Variables (example values from ag1_1_acx7509):
+ *   $REMOTE_PE_V4  e.g. 192.168.1.11
+ *   $AC_IFL        e.g. et-1/0/1.1501
+ *   $VC_ID         e.g. 1501
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_IFL {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                flow-label-transmit-static;
+                flow-label-receive-static;
+                encapsulation-type ethernet-vlan;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
+## evo/protocols/l2circuit-control-word.conf
+
+```
+/*
+ * Topic: Layer 2 circuit to a remote PE with control word and pseudowire status TLV
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   an1_acx7100-48l 200
+ *   an3_acx7100-48l 200
+ *   an4_acx7024 100
+ *   total 500
+ * Pair with: none
+ * Peers with:
+ *   [an1_acx7100-48l] <-> [sag_mx304]
+ *   [an3_acx7100-48l] <-> [sag_mx304]
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from an1_acx7100-48l):
+ *   $REMOTE_PE_V4  e.g. 192.168.1.11
+ *   $AC_IFL        e.g. et-0/0/2.1301
+ *   $VC_ID         e.g. 1301
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_IFL {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                encapsulation-type ethernet-vlan;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
+## evo/protocols/ldp-loopback.conf
+
+```
+/*
+ * Topic: LDP loopback interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with:
+ *  - evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+  ldp {
+    interface lo0.0;
+  }
+}
+```
+
+## evo/protocols/mpls-pccd-ipv6-tunneling-loopback-3-core.conf
+
+```
+/*
+ * Topic: MPLS with a PCEP external controller, log-updown, no-propagate-ttl, ICMP and IPv6 tunneling, on the loopback and three core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an1_acx7100-48l an3_acx7100-48l
+ * Count:
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from an1_acx7100-48l):
+ *   $CORE_INTF_1  e.g. ae19.0
+ *   $CORE_INTF_2  e.g. ae24.0
+ *   $CORE_INTF_3  e.g. et-0/0/49.0
+ */
 protocols {
     mpls {
         lsp-external-controller pccd;
@@ -2028,100 +4922,1202 @@ protocols {
         optimize-timer 180;
         ipv6-tunneling;
         interface lo0.0;
-        interface <ae-interface>.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
     }
 }
 ```
 
-## junos/cos/classifier-dscp-ipv6.conf
+## evo/protocols/mpls-pccd-ipv6-tunneling-loopback-4-core.conf
 
 ```
 /*
- * Topic:   DSCP-IPv6 classifier (CL-DSCP-IPV6) — ingress IPv6 packet-to-FC mapping
+ * Topic: MPLS with a PCEP external controller, log-updown, no-propagate-ttl, ICMP and IPv6 tunneling, on the loopback and four core interfaces
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Identical classification logic to CL-DSCP but applied to IPv6 traffic
- *  - Required when inet6 traffic is classified separately from inet
- *  - Applied to L3 service interfaces alongside CL-DSCP
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/cos-binding-l3-service.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/classifier-dscp.conf        (IPv4 counterpart)
- *  - junos/cos/rewrite-dscp-ipv6.conf      (egress IPv6 FC → DSCP marking)
+ *   Junos: (none)
+ *   EVO: an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 3
+ * Pair with: none
+ * Variables (example values from an4_acx7024):
+ *   $CORE_INTF_1  e.g. ae22.0
+ *   $CORE_INTF_2  e.g. ae25.0
+ *   $CORE_INTF_3  e.g. et-0/0/1.0
+ *   $CORE_INTF_4  e.g. et-0/0/0.0
  */
+protocols {
+    mpls {
+        lsp-external-controller pccd;
+        log-updown {
+            syslog;
+            trap;
+        }
+        no-propagate-ttl;
+        icmp-tunneling;
+        optimize-timer 180;
+        ipv6-tunneling;
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+        interface $CORE_INTF_4;
+    }
+}
+```
 
-class-of-service {
-    classifiers {
-        dscp-ipv6 CL-DSCP-IPV6 {
-            import default;
-            forwarding-class FC-BEST-EFFORT {
-                loss-priority high code-points be;
-            }
-            forwarding-class FC-CONTROL {
-                loss-priority low code-points cs7;
-            }
-            forwarding-class FC-HIGH {
-                loss-priority high code-points af33;
-                loss-priority low code-points [ cs3 af31 ];
-                loss-priority medium-high code-points af32;
-            }
-            forwarding-class FC-LLQ {
-                loss-priority high code-points af43;
-                loss-priority low code-points [ cs4 af41 ];
-                loss-priority medium-high code-points af42;
-            }
-            forwarding-class FC-LOW {
-                loss-priority high code-points af13;
-                loss-priority low code-points [ cs1 af11 ];
-                loss-priority medium-high code-points af12;
-            }
-            forwarding-class FC-MEDIUM {
-                loss-priority high code-points af23;
-                loss-priority low code-points [ cs2 af21 ];
-                loss-priority medium-high code-points af22;
-            }
-            forwarding-class FC-REALTIME {
-                loss-priority low code-points ef;
-            }
-            forwarding-class FC-SIGNALING {
-                loss-priority high code-points cs5;
-                loss-priority low code-points cs6;
+## evo/protocols/mpls-pccd-ipv6-tunneling-loopback-5-core.conf
+
+```
+/*
+ * Topic: MPLS with a PCEP external controller, log-updown, no-propagate-ttl, ICMP and IPv6 tunneling, on the loopback and five core interfaces
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   total 2
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $CORE_INTF_1  e.g. ae19.0
+ *   $CORE_INTF_2  e.g. ae22.0
+ *   $CORE_INTF_3  e.g. ae23.0
+ *   $CORE_INTF_4  e.g. ae4.0
+ *   $CORE_INTF_5  e.g. ae5.0
+ */
+protocols {
+    mpls {
+        lsp-external-controller pccd;
+        log-updown {
+            syslog;
+            trap;
+        }
+        no-propagate-ttl;
+        icmp-tunneling;
+        optimize-timer 180;
+        ipv6-tunneling;
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+        interface $CORE_INTF_4;
+        interface $CORE_INTF_5;
+    }
+}
+```
+
+## evo/protocols/oam-cfm-maintenance-association-up-mep-cc-1s.conf
+
+```
+/*
+ * Topic: Ethernet CFM maintenance association with an up MEP on a logical interface, a remote MEP and 1-second continuity checks
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 200
+ *   ag1_2_acx7100-32c 150
+ *   an1_acx7100-48l 550
+ *   an3_acx7100-48l 550
+ *   an4_acx7024 450
+ *   total 1900
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [an1_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an3_acx7100-48l]
+ *   [ag1_1_acx7509] <-> [an4_acx7024]
+ *   [ag1_2_acx7100-32c] <-> [an1_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an3_acx7100-48l]
+ *   [ag1_2_acx7100-32c] <-> [an4_acx7024]
+ *   [an1_acx7100-48l] <-> [sag_mx304]
+ *   [an3_acx7100-48l] <-> [sag_mx304]
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from ag1_1_acx7509):
+ *   $MD_NAME     e.g. MD_63535
+ *   $MA_ID       e.g. 2501
+ *   $MEP_LOCAL   e.g. 1003
+ *   $AC_IFL      e.g. et-1/0/1.2501
+ *   $MEP_REMOTE  e.g. 1001
+ */
+protocols {
+    oam {
+        ethernet {
+            connectivity-fault-management {
+                maintenance-domain $MD_NAME {
+                    maintenance-association $MA_ID {
+                        short-name-format 2octet;
+                        continuity-check {
+                            interval 1s;
+                            loss-threshold 10;
+                            hold-interval 1;
+                        }
+                        mep $MEP_LOCAL {
+                            interface $AC_IFL;
+                            direction up;
+                            remote-mep $MEP_REMOTE;
+                        }
+                    }
+                }
             }
         }
     }
 }
 ```
 
-## junos/cos/classifier-dscp.conf
+## evo/protocols/oam-cfm-maintenance-domain-level-5.conf
 
 ```
 /*
- * Topic:   DSCP classifier (CL-DSCP) — ingress packet-to-FC mapping
+ * Topic: Ethernet CFM maintenance domain at level 5 with name-format none
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $MD_NAME  e.g. MD_63535
+ */
+protocols {
+    oam {
+        ethernet {
+            connectivity-fault-management {
+                maintenance-domain $MD_NAME {
+                    level 5;
+                    name-format none;
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf
+
+```
+/*
+ * Topic: EVPN MAC-VRF instance, VLAN-based service, with an IRB interface and default-gateway no-gateway-community
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 250
+ *   ag1_2_acx7100-32c 250
+ *   total 500
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. 5G-MIDHAUL-EVPN-L3VPN-IRB-1
+ *   $AC_IFL           e.g. ae26.101
+ *   $RD_SUB_ASSIGNED  e.g. 101
+ *   $RT_ID            e.g. 101
+ *   $BD_NAME          e.g. BD_EVPN_101
+ *   $VLAN_BD          e.g. 101
+ *   $IRB_IFL          e.g. irb.101
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                default-gateway no-gateway-community;
+            }
+        }
+        service-type vlan-based;
+        interface $AC_IFL;
+        route-distinguisher 101:$RD_SUB_ASSIGNED;
+        vrf-target target:101:$RT_ID;
+        vlans {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_IFL;
+                l3-interface $IRB_IFL;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `$IRB_IFL`): required, for each reference; one of `interfaces/ifl-irb-inet-inet6-virtual-gateway-filter`, `interfaces/ifl-irb-inet-inet6-virtual-gateway`, `interfaces/ifl-vlan-bridge-esi-all-active`
+
+## evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf
+
+```
+/*
+ * Topic: EVPN MAC-VRF instance, VLAN-based service, with one VLAN and one attachment circuit
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 50
+ *   ag1_2_acx7100-32c 50
+ *   an4_acx7024 50
+ *   total 150
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. 5G-FRONTHAUL-EVPN-ELAN-MH-1
+ *   $AC_IFL           e.g. ae26.1501
+ *   $LOOPBACK_V4      e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED  e.g. 3901
+ *   $RT_ID            e.g. 3901
+ *   $BD_NAME          e.g. BD_EVPN_ELAN_1501
+ *   $VLAN_BD          e.g. 1501
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn;
+        }
+        service-type vlan-based;
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vlans {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_IFL;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; one of `interfaces/ifl-vlan-bridge-description`, `interfaces/ifl-vlan-bridge-esi-all-active`
+
+## evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf
+
+```
+/*
+ * Topic: VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 200
+ *   ag1_2_acx7100-32c 150
+ *   an4_acx7024 100
+ *   total 450
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [sag_mx304]
+ *   [ag1_2_acx7100-32c] <-> [sag_mx304]
+ *   [an4_acx7024] <-> [ag1_1_acx7509, ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. 5G-FRONTHAUL-EVPN-FXC-MH-1
+ *   $AC_INTF_A        e.g. ae26.2601
+ *   $SVC_ID_LOCAL_A   e.g. 2
+ *   $SVC_ID_REMOTE_A  e.g. 1
+ *   $AC_INTF_B        e.g. ae26.2651
+ *   $SVC_ID_LOCAL_B   e.g. 102
+ *   $SVC_ID_REMOTE_B  e.g. 101
+ *   $LOOPBACK_V4      e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED  e.g. 3751
+ *   $RT_AS            e.g. 63535
+ *   $RT_ID            e.g. 3751
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF_A {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_A;
+                        remote $SVC_ID_REMOTE_A;
+                    }
+                }
+                interface $AC_INTF_B {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_B;
+                        remote $SVC_ID_REMOTE_B;
+                    }
+                }
+                flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; one of `interfaces/ifl-vlan-ccc-description`, `interfaces/ifl-vlan-ccc-esi-all-active`
+
+## evo/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf
+
+```
+/*
+ * Topic: EVPN-VPWS instance with static flow-label transmit and receive
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: an4_acx7024
+ * Count:
+ *   an4_acx7024 200
+ *   total 200
+ * Pair with: none
+ * Peers with:
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from an4_acx7024):
+ *   $INSTANCE_NAME       e.g. MBH-EVPN-VPWS-SH-TO-SAG-1
+ *   $AC_IFL              e.g. et-0/0/4.501
+ *   $VPWS_SVC_ID_LOCAL   e.g. 1
+ *   $VPWS_SVC_ID_REMOTE  e.g. 2
+ *   $LOOPBACK_V4         e.g. 192.168.1.0
+ *   $RD_SUB_ASSIGNED     e.g. 3951
+ *   $RT_ID               e.g. 3951
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_IFL {
+                    vpws-service-id {
+                        local $VPWS_SVC_ID_LOCAL;
+                        remote $VPWS_SVC_ID_REMOTE;
+                    }
+                }
+                flow-label-transmit-static;
+                flow-label-receive-static;
+            }
+        }
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-description`
+
+## evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf
+
+```
+/*
+ * Topic: EVPN-VPWS routing-instance (MEF E-Line)
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 450
+ *   ag1_2_acx7100-32c 450
+ *   an1_acx7100-48l 200
+ *   an3_acx7100-48l 200
+ *   an4_acx7024 200
+ *   total 1500
+ * Pair with: none
+ * Peers with:
+ *   [an1_acx7100-48l] <-> [ag1_1_acx7509, ag1_2_acx7100-32c]
+ *   [an3_acx7100-48l] <-> [ag1_1_acx7509, ag1_2_acx7100-32c]
+ *   [an4_acx7024] <-> [ag1_1_acx7509, ag1_2_acx7100-32c]
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME       e.g. FRONTHAUL-EVPN-VPWS-MH-AN1-100
+ *   $AC_INTF             e.g. ae26.1000
+ *   $VPWS_SVC_ID_LOCAL   e.g. 200
+ *   $VPWS_SVC_ID_REMOTE  e.g. 199
+ *   $LOOPBACK_V4         e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED     e.g. 3500
+ *   $RT_AS               e.g. 63535
+ *   $RT_ID               e.g. 3500
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF {
+                    vpws-service-id {
+                        local $VPWS_SVC_ID_LOCAL;
+                        remote $VPWS_SVC_ID_REMOTE;
+                    }
+                }
+            }
+        }
+        interface $AC_INTF;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`): required, for each reference; one of `interfaces/ifl-vlan-ccc-description`, `interfaces/ifl-vlan-ccc-esi-all-active-filter`, `interfaces/ifl-vlan-ccc-filter`
+
+## evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf
+
+```
+/*
+ * Topic: L3VPN VRF with IPv4 and IPv6 eBGP sessions to the CE using as-override, and vrf-table-label
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 100
+ *   ag1_2_acx7100-32c 100
+ *   an1_acx7100-48l 100
+ *   an3_acx7100-48l 100
+ *   an4_acx7024 100
+ *   total 500
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. MBH-L3VPN-1
+ *   $BGP_GROUP_V4     e.g. v4ixia
+ *   $CE_PEER_V4       e.g. 10.16.7.206
+ *   $PE_LOCAL_V4      e.g. 10.16.7.205
+ *   $ASN_CUSTOMER     e.g. 64518
+ *   $BGP_GROUP_V6     e.g. v6ixia
+ *   $CE_PEER_V6       e.g. 2001:db8::16:1:7:7cf
+ *   $PE_LOCAL_V6      e.g. 2001:db8::16:1:7:7cd
+ *   $DESCRIPTION      e.g. L3-MBH-AND-5G-FRONTHAUL-L3VPN-1
+ *   $AC_IFL           e.g. et-1/0/1.1
+ *   $LOOPBACK_V4      e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED  e.g. 1
+ *   $RT_ID            e.g. 1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group $BGP_GROUP_V4 {
+                    type external;
+                    family inet {
+                        any;
+                    }
+                    neighbor $CE_PEER_V4 {
+                        local-address $PE_LOCAL_V4;
+                        peer-as $ASN_CUSTOMER;
+                        as-override;
+                    }
+                }
+                group $BGP_GROUP_V6 {
+                    type external;
+                    family inet6 {
+                        any;
+                    }
+                    neighbor $CE_PEER_V6 {
+                        local-address $PE_LOCAL_V6;
+                        peer-as $ASN_CUSTOMER;
+                        as-override;
+                    }
+                }
+            }
+        }
+        description $DESCRIPTION;
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet-inet6-description`
+
+## evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf
+
+```
+/*
+ * Topic: L3VPN VRF with one IRB interface, a router ID and vrf-table-label
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 500
+ *   ag1_2_acx7100-32c 500
+ *   total 1000
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. 5G-MIDHAUL-L3VPN-EVPN-IRB-1
+ *   $ROUTER_ID        e.g. 192.168.1.3
+ *   $DESCRIPTION      e.g. 5G-MIDHAUL-EVPN-IRB-ANYCAST-GW-L3VPN-MH-1
+ *   $IRB_IFL          e.g. irb.101
+ *   $LOOPBACK_V4      e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED  e.g. 5000
+ *   $RT_ID            e.g. 5000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        description $DESCRIPTION;
+        interface $IRB_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of 9 providers listed in MANIFEST.json
+- `logical-interface` (`$IRB_IFL`): required, for each reference; one of `interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac-filter`, `interfaces/ifl-irb-inet-inet6-static-arp-ndp-mac`, `interfaces/ifl-irb-inet-inet6-virtual-gateway-filter`, `interfaces/ifl-irb-inet-inet6-virtual-gateway`
+
+## evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf
+
+```
+/*
+ * Topic: BGP-signalled VPLS virtual switch with flow-label transmit and receive (FAT pseudowire) and one VLAN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 500
+ *   ag1_2_acx7100-32c 500
+ *   an1_acx7100-48l 450
+ *   an3_acx7100-48l 450
+ *   an4_acx7024 100
+ *   total 2000
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $INSTANCE_NAME    e.g. L2-MIDHAUL-BGP-VPLS-TO-SAG-1
+ *   $VPLS_SITE        e.g. r2
+ *   $VPLS_SITE_ID     e.g. 1003
+ *   $DESCRIPTION      e.g. Midhaul-BGP-VPLS-HSR-to-SAG-with-FAT-PW-1
+ *   $LOOPBACK_V4      e.g. 192.168.1.3
+ *   $RD_SUB_ASSIGNED  e.g. 1101
+ *   $RT_ID            e.g. 1101
+ *   $BD_NAME          e.g. vlan201
+ *   $VLAN_BD          e.g. 201
+ *   $AC_IFL           e.g. et-1/0/1.201
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                site-range 65534;
+                label-block-size 4;
+                no-tunnel-services;
+                flow-label-transmit;
+                flow-label-receive;
+            }
+        }
+        description $DESCRIPTION;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vlans {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_IFL;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge-description`
+
+## evo/routing-options/auto-bandwidth-template.conf
+
+```
+/*
+ * Topic: Auto-bandwidth template with adjust interval, threshold, statistics interval and subscription
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    auto-bandwidth {
+        template {
+            auto_bw_temp1 {
+                adjust-interval 900;
+                adjust-threshold 50;
+                statistic-collection-interval 60;
+                auto-bandwidth-subscription 100;
+            }
+        }
+    }
+}
+```
+
+## evo/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Device autonomous-system number
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $ASN  e.g. 63535
+ */
+routing-options {
+  autonomous-system $ASN;
+}
+```
+
+## evo/routing-options/forwarding-table-pplb-chained-nh-evpn-l3vpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for EVPN and L3VPN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## evo/routing-options/forwarding-table-pplb-chained-nh-l2ckt-evpn-l3vpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for L2 circuit, EVPN and L3VPN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr1_ptx10001-36mr
+ * Count:
+ *   cr1_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr1_ptx10001-36mr):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## evo/routing-options/forwarding-table-pplb-chained-nh-l3vpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for L3VPN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: cr2_ptx10001-36mr
+ * Count:
+ *   cr2_ptx10001-36mr 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from cr2_ptx10001-36mr):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## evo/routing-options/no-multi-topology-routing.conf
+
+```
+/*
+ * Topic: Multi-topology routing disabled
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    no-multi-topology-routing;
+}
+```
+
+## evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+
+```
+/*
+ * Topic: RIB group copying inet.3 routes into inet.0 and inet6.3 through ALLOW_LOOPBACK
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_2_acx7100-32c cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 3
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-loopback-allow.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        inet3-to-inet0 {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy ALLOW_LOOPBACK;
+        }
+    }
+}
+```
+
+## evo/routing-options/rib-groups-inet3-to-inet0.conf
+
+```
+/*
+ * Topic: RIB group copying inet.3 routes into inet.0 through ALLOW_LOOPBACK
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 an1_acx7100-48l an3_acx7100-48l an4_acx7024
+ * Count:
+ *   ag1_1_acx7509 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   total 4
+ * Pair with:
+ *  - evo/policy-options/policy-statement/ps-loopback-allow.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        inet3-to-inet0 {
+            import-rib [ inet.3 inet.0 ];
+            import-policy ALLOW_LOOPBACK;
+        }
+    }
+}
+```
+
+## evo/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Transport router identity
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c an1_acx7100-48l an3_acx7100-48l an4_acx7024 cr1_ptx10001-36mr cr2_ptx10001-36mr
+ * Count:
+ *   ag1_1_acx7509 1
+ *   ag1_2_acx7100-32c 1
+ *   an1_acx7100-48l 1
+ *   an3_acx7100-48l 1
+ *   an4_acx7024 1
+ *   cr1_ptx10001-36mr 1
+ *   cr2_ptx10001-36mr 1
+ *   total 7
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag1_1_acx7509):
+ *   $ROUTER_ID  e.g. 192.168.1.3
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## evo/vlans/vlan-interface-l3-interface.conf
+
+```
+/*
+ * Topic: VLAN with one member interface and an IRB Layer 3 interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: ag1_1_acx7509 ag1_2_acx7100-32c
+ * Count:
+ *   ag1_1_acx7509 250
+ *   ag1_2_acx7100-32c 250
+ *   total 500
+ * Pair with: none
+ * Variables (example values from ag1_1_acx7509):
+ *   $VLAN_NAME  e.g. 5G-MIDHAUL-L3VPN-BD-351
+ *   $VLAN_BD    e.g. 351
+ *   $AC_IFL     e.g. ae26.351
+ *   $IRB_IFL    e.g. irb.351
+ */
+vlans {
+    $VLAN_NAME {
+        vlan-id $VLAN_BD;
+        interface $AC_IFL;
+        l3-interface $IRB_IFL;
+    }
+}
+```
+
+## junos/bridge-domains/bridge-domain-irb.conf
+
+```
+/*
+ * Topic: Bridge domain with one VLAN, one attachment circuit and an IRB routed interface
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 250
+ *   total 250
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $BD_NAME   e.g. 5G-MIDHAUL-L3VPN-BD-351
+ *   $VLAN      e.g. 351
+ *   $AC_INTF   e.g. xe-0/1/3:2.351
+ *   $IRB_UNIT  e.g. 351
+ */
+bridge-domains {
+    $BD_NAME {
+        vlan-id $VLAN;
+        interface $AC_INTF;
+        routing-interface irb.$IRB_UNIT;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF`, `irb.$IRB_UNIT`): required, for each reference; one of `interfaces/ifl-irb-inet-inet6-description`, `interfaces/ifl-irb-inet-inet6-filter-description`, `interfaces/ifl-vlan-bridge-description`
+
+## junos/chassis/aggregated-devices-ethernet.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet device-count for the chassis
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 du_qfx5210 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   du_qfx5210 1
+ *   sag_mx304 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $AE_DEVICE_COUNT  e.g. 25
+ */
+chassis {
+    aggregated-devices {
+        ethernet {
+            device-count $AE_DEVICE_COUNT;
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx204-port-speeds-100g-10g.conf
+
+```
+/*
+ * Topic: MX204 port speeds: 100GbE on PIC 0 and 10GbE on PIC 1
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    fpc 0 {
+        pic 0 {
+            port 0 {
+                speed 100g;
+            }
+            port 1 {
+                speed 100g;
+            }
+            port 2 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            port 0 {
+                speed 10g;
+            }
+            port 2 {
+                speed 10g;
+            }
+            port 4 {
+                speed 10g;
+            }
+            port 6 {
+                speed 10g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx480-pic-0-1-ports-100g.conf
+
+```
+/*
+ * Topic: MX480 FPC with two 100GbE ports on each of PIC 0 and PIC 1
+ * Seen on:
+ *   Junos: ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    fpc 5 {
+        pic 0 {
+            port 2 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+        }
+        pic 1 {
+            port 2 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-mx480-pic-0-ports-100g.conf
+
+```
+/*
+ * Topic: MX480 FPC with two 100GbE ports on PIC 0
+ * Seen on:
+ *   Junos: ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag3_1_mx480):
+ *   $FPC_SLOT  e.g. 2
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic 0 {
+            port 2 {
+                speed 100g;
+            }
+            port 5 {
+                speed 100g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-qfx5210-channel-speed-10g.conf
+
+```
+/*
+ * Topic: QFX5210 ports channelized to 10GbE
+ * Seen on:
+ *   Junos: du_qfx5210
+ *   EVO: (none)
+ * Count:
+ *   du_qfx5210 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+chassis {
+    fpc 0 {
+        pic 0 {
+            port 6 {
+                channel-speed 10g;
+            }
+            port 8 {
+                channel-speed 10g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/fpc-tunnel-services-pic-ports-4x10g.conf
+
+```
+/*
+ * Topic: FPC with tunnel services on one PIC and two ports split into four 10GbE sub-ports on another
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $FPC_SLOT  e.g. 0
+ *   $TS_PIC    e.g. 0
+ *   $PIC_SLOT  e.g. 1
+ */
+chassis {
+    fpc $FPC_SLOT {
+        pic $TS_PIC {
+            tunnel-services;
+        }
+        pic $PIC_SLOT {
+            port 1 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+            port 3 {
+                number-of-sub-ports 4;
+                speed 10g;
+            }
+        }
+    }
+}
+```
+
+## junos/chassis/network-services-enhanced-ip.conf
+
+```
+/*
+ * Topic: Enhanced IP chassis network-services mode
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - AF per-hop behavior: AF4x → FC-LLQ, AF3x → FC-HIGH, AF2x → FC-MEDIUM,
- *    AF1x → FC-LOW, EF → FC-REALTIME, CS6/CS7 → FC-SIGNALING/CONTROL
- *  - 3-level loss-priority (low/medium-high/high) for AFxy drop-precedence
- *  - import default covers unmapped code-points → FC-BEST-EFFORT
- *  - Applied to L3 service interfaces via interface cos-binding
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/classifier-dscp-ipv6.conf
- *  - junos/cos/cos-binding-l3-service.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/forwarding-classes.conf     (FC queue-num definitions)
- *  - junos/cos/rewrite-dscp.conf           (egress FC → DSCP marking)
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+chassis {
+  network-services enhanced-ip;
+}
+```
 
+## junos/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+
+```
+/*
+ * Topic: DSCP, DSCP IPv6, MPLS EXP and IEEE 802.1p behavior aggregate classifiers for the eight forwarding classes
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
 class-of-service {
     classifiers {
         dscp CL-DSCP {
@@ -2160,35 +6156,42 @@ class-of-service {
                 loss-priority low code-points cs6;
             }
         }
-    }
-}
-```
-
-## junos/cos/classifier-exp.conf
-
-```
-/*
- * Topic:   MPLS EXP classifier (CL-MPLS) — ingress MPLS-to-FC mapping
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Maps 3-bit MPLS EXP field to 8 forwarding classes
- *  - EXP 4 → FC-LLQ, EXP 5 → FC-REALTIME, EXP 6 → FC-SIGNALING
- *  - Applied on MPLS transport interfaces (ae units with family mpls)
- *  - All loss-priority = low (EXP has no drop-precedence encoding)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/cos-binding-transport.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/forwarding-classes.conf (FC queue-num definitions)
- *  - junos/cos/rewrite-exp.conf        (egress FC → EXP marking)
- */
-
-class-of-service {
-    classifiers {
+        dscp-ipv6 CL-DSCP-IPV6 {
+            import default;
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-points be;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority low code-points cs7;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority high code-points af33;
+                loss-priority low code-points [ cs3 af31 ];
+                loss-priority medium-high code-points af32;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority high code-points af43;
+                loss-priority low code-points [ cs4 af41 ];
+                loss-priority medium-high code-points af42;
+            }
+            forwarding-class FC-LOW {
+                loss-priority high code-points af13;
+                loss-priority low code-points [ cs1 af11 ];
+                loss-priority medium-high code-points af12;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority high code-points af23;
+                loss-priority low code-points [ cs2 af21 ];
+                loss-priority medium-high code-points af22;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority low code-points ef;
+            }
+            forwarding-class FC-SIGNALING {
+                loss-priority high code-points cs5;
+                loss-priority low code-points cs6;
+            }
+        }
         exp CL-MPLS {
             import default;
             forwarding-class FC-BEST-EFFORT {
@@ -2216,32 +6219,6 @@ class-of-service {
                 loss-priority low code-points 110;
             }
         }
-    }
-}
-```
-
-## junos/cos/classifier-ieee-802.1.conf
-
-```
-/*
- * Topic:   802.1p classifier (CL-8021P) — ingress VLAN-tag-to-FC mapping
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Maps 3-bit 802.1p PCP field to 8 forwarding classes
- *  - PCP 4 → FC-LLQ, PCP 5 → FC-REALTIME, PCP 6 → FC-SIGNALING
- *  - Applied on L2 access/trunk interfaces (EVPN-VPWS, ELAN)
- *  - All loss-priority = low (PCP has no drop-precedence encoding)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/forwarding-classes.conf     (FC queue-num definitions)
- *  - junos/cos/rewrite-ieee-802.1.conf     (egress FC → PCP marking)
- */
-
-class-of-service {
-    classifiers {
         ieee-802.1 CL-8021P {
             import default;
             forwarding-class FC-BEST-EFFORT {
@@ -2273,121 +6250,25 @@ class-of-service {
 }
 ```
 
-## junos/cos/cos-binding-l3-service.conf
+## junos/class-of-service/forwarding-classes/fc-8class-model.conf
 
 ```
 /*
- * Topic:   CoS interface binding — L3 service (DSCP classifier + rewrite per unit)
+ * Topic: Eight forwarding classes mapped to queues 0 to 7, aligned with the O-RAN multiple priority queues
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Per-unit DSCP + DSCP-IPv6 classification and rewrite
- *  - No static forwarding-class — traffic is classified dynamically
- *  - Applied to L3VPN service units (inet/inet6 traffic)
- *  - Scheduler-map is applied at the interface level (not shown per-unit)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/scheduler-map.conf
- *  - junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf
- *  - junos/firewall/filter-mfc-ipv6-l3vpn-irb.conf
- *  - junos/services/bgp-vpls-vsi.conf
- *  - junos/services/evpn-elan-vlan-based-irb.conf
- *  - junos/services/evpn-vpws-vlan-based-sh.conf
- *  - junos/services/l3vpn-irb.conf
- *  - junos/cos/classifier-dscp.conf      (CL-DSCP definition)
- *  - junos/cos/classifier-dscp-ipv6.conf (CL-DSCP-IPV6 definition)
- *  - junos/cos/rewrite-dscp.conf         (RR-DSCP definition)
- *  - junos/cos/rewrite-dscp-ipv6.conf    (RR-DSCP-IPV6 definition)
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
-class-of-service {
-    interfaces {
-        <interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit <unit-number> {
-                classifiers {
-                    dscp CL-DSCP;
-                    dscp-ipv6 CL-DSCP-IPV6;
-                }
-                rewrite-rules {
-                    dscp RR-DSCP;
-                    dscp-ipv6 RR-DSCP-IPV6;
-                }
-            }
-        }
-    }
-}
-```
-
-## junos/cos/cos-binding-transport.conf
-
-```
-/*
- * Topic:   CoS interface binding — MPLS transport (EXP classifier + rewrite)
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Applies scheduler-map SM-5G-SCHEDULER at interface level
- *  - Classifies inbound MPLS traffic via EXP bits (CL-MPLS)
- *  - Rewrites outbound EXP bits (RR-MPLS) to preserve QoS marking
- *  - Applied on ae interface unit 0 (transport backbone links)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/classifier-exp.conf  (CL-MPLS definition)
- *  - junos/cos/rewrite-exp.conf     (RR-MPLS definition)
- *  - junos/cos/scheduler-map.conf   (SM-5G-SCHEDULER definition)
- */
-
-class-of-service {
-    interfaces {
-        <ae-interface> {
-            scheduler-map SM-5G-SCHEDULER;
-            unit 0 {
-                classifiers {
-                    exp CL-MPLS;
-                }
-                rewrite-rules {
-                    exp RR-MPLS;
-                }
-            }
-        }
-    }
-}
-```
-
-## junos/cos/forwarding-classes.conf
-
-```
-/*
- * Topic:   8-class forwarding-class model (O-RAN multi-priority alignment)
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - 8 forwarding classes aligned to O-RAN multi-priority queuing model
- *  - FC-LLQ (queue 6) is the low-latency queue for eCPRI/fronthaul
- *  - FC-REALTIME (queue 5) for strict priority real-time flows (PTP, sync)
- *  - FC-SIGNALING (queue 7) for control-plane signaling
- *  - Queue numbering is consistent across all platforms in this JVD
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/classifier-dscp.conf
- *  - junos/cos/classifier-exp.conf
- *  - junos/cos/classifier-ieee-802.1.conf
- *  - junos/cos/rewrite-dscp.conf
- *  - junos/cos/rewrite-exp.conf
- *  - junos/cos/rewrite-ieee-802.1.conf
- *  - junos/cos/schedulers-strict-high.conf  (MX: LLQ with priority strict-high)
- *  - junos/cos/scheduler-map.conf           (FC → scheduler binding)
- */
-
 class-of-service {
     forwarding-classes {
         class FC-BEST-EFFORT queue-num 0;
@@ -2402,94 +6283,300 @@ class-of-service {
 }
 ```
 
-## junos/cos/rewrite-dscp-ipv6.conf
+## junos/class-of-service/interfaces/ifd-scheduler-map.conf
 
 ```
 /*
- * Topic:   DSCP-IPv6 rewrite rule (RR-DSCP-IPV6) — egress FC-to-DSCP marking for IPv6
+ * Topic: Scheduler map on an interface
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Identical marking logic to RR-DSCP but applied to IPv6 egress
- *  - Required when inet6 traffic is rewritten separately from inet
- *  - Body is byte-identical to the EVO sibling
- *
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 3
+ *   ag3_1_mx480 3
+ *   ag3_2_mx480 3
+ *   sag_mx304 5
+ *   total 17
  * Pair with:
- *  - junos/cos/cos-binding-l3-service.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/classifier-dscp-ipv6.conf (ingress counterpart)
- *  - junos/cos/rewrite-dscp.conf         (IPv4 counterpart)
+ *  - junos/class-of-service/scheduler-maps/sm-5g-scheduler.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $COS_INTF  e.g. ae5
  */
-
 class-of-service {
-    rewrite-rules {
-        dscp-ipv6 RR-DSCP-IPV6 {
-            forwarding-class FC-BEST-EFFORT {
-                loss-priority high code-point be;
-                loss-priority low code-point be;
-            }
-            forwarding-class FC-CONTROL {
-                loss-priority high code-point cs7;
-                loss-priority low code-point cs7;
-            }
-            forwarding-class FC-HIGH {
-                loss-priority high code-point af33;
-                loss-priority low code-point af31;
-                loss-priority medium-high code-point af32;
-            }
-            forwarding-class FC-LLQ {
-                loss-priority high code-point af43;
-                loss-priority low code-point af41;
-                loss-priority medium-high code-point af42;
-            }
-            forwarding-class FC-LOW {
-                loss-priority high code-point af13;
-                loss-priority low code-point af11;
-                loss-priority medium-high code-point af12;
-            }
-            forwarding-class FC-MEDIUM {
-                loss-priority high code-point af23;
-                loss-priority low code-point af21;
-                loss-priority medium-high code-point af22;
-            }
-            forwarding-class FC-REALTIME {
-                loss-priority high code-point ef;
-                loss-priority low code-point ef;
-            }
-            forwarding-class FC-SIGNALING {
-                loss-priority high code-point cs5;
-                loss-priority low code-point cs6;
+    interfaces {
+        $COS_INTF {
+            scheduler-map SM-5G-SCHEDULER;
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-dscp-dscp-ipv6-classifier-rewrite.conf
+
+```
+/*
+ * Topic: DSCP and DSCP IPv6 classifiers and rewrite rules on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 266
+ *   total 266
+ * Pair with:
+ *  - junos/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $COS_INTF  e.g. irb
+ *   $UNIT      e.g. 184
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                classifiers {
+                    dscp CL-DSCP;
+                    dscp-ipv6 CL-DSCP-IPV6;
+                }
+                rewrite-rules {
+                    dscp RR-DSCP;
+                    dscp-ipv6 RR-DSCP-IPV6;
+                }
             }
         }
     }
 }
 ```
 
-## junos/cos/rewrite-dscp.conf
+## junos/class-of-service/interfaces/ifl-forwarding-class-high-ieee8021p-rewrite.conf
 
 ```
 /*
- * Topic:   DSCP rewrite rule (RR-DSCP) — egress FC-to-DSCP marking
+ * Topic: Fixed classification to FC-HIGH with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 250
+ *   total 250
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $COS_INTF  e.g. xe-0/1/3:2
+ *   $UNIT      e.g. 1001
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-HIGH;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-forwarding-class-low-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-LOW with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 125
+ *   total 125
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $COS_INTF  e.g. xe-0/1/3:2
+ *   $UNIT      e.g. 1151
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-LOW;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-forwarding-class-medium-ieee8021p-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-MEDIUM with an IEEE 802.1p rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 125
+ *   total 125
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $COS_INTF  e.g. xe-0/1/3:2
+ *   $UNIT      e.g. 1101
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                forwarding-class FC-MEDIUM;
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf
+
+```
+/*
+ * Topic: IEEE 802.1p classifier and rewrite rule on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1200
+ *   total 1200
+ * Pair with:
+ *  - junos/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $COS_INTF  e.g. xe-0/1/3:0
+ *   $UNIT      e.g. 101
+ */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit $UNIT {
+                classifiers {
+                    ieee-802.1 CL-8021P;
+                }
+                rewrite-rules {
+                    ieee-802.1 RR-8021P;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/class-of-service/interfaces/ifl-unit-0-exp-classifier-rewrite.conf
+
+```
+/*
+ * Topic: MPLS EXP classifier and rewrite rule on unit 0 of a core interface
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Rewrites outgoing DSCP based on FC + loss-priority at egress
- *  - AF4x codes for FC-LLQ, EF for FC-REALTIME (matches classifier in reverse)
- *  - Applied on L3 service interface units via cos-binding
- *  - Body is byte-identical to the EVO sibling
- *
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 3
+ *   ag3_1_mx480 6
+ *   ag3_2_mx480 3
+ *   sag_mx304 2
+ *   total 17
  * Pair with:
- *  - junos/cos/cos-binding-l3-service.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/rewrite-dscp-ipv6.conf
- *  - junos/cos/classifier-dscp.conf    (ingress counterpart)
- *  - junos/cos/forwarding-classes.conf (FC definitions)
+ *  - junos/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $COS_INTF  e.g. ae5
  */
+class-of-service {
+    interfaces {
+        $COS_INTF {
+            unit 0 {
+                classifiers {
+                    exp CL-MPLS;
+                }
+                rewrite-rules {
+                    exp RR-MPLS;
+                }
+            }
+        }
+    }
+}
+```
 
+## junos/class-of-service/interfaces/irb-forwarding-class-realtime-dscp-dscp-ipv6-rewrite.conf
+
+```
+/*
+ * Topic: Fixed classification to FC-REALTIME with DSCP and DSCP IPv6 rewrite rules on a logical unit
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 166
+ *   total 166
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $UNIT  e.g. 101
+ */
+class-of-service {
+    interfaces {
+        irb {
+            unit $UNIT {
+                forwarding-class FC-REALTIME;
+                rewrite-rules {
+                    dscp RR-DSCP;
+                    dscp-ipv6 RR-DSCP-IPV6;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/class-of-service/rewrite-rules/rr-dscp-dscp-ipv6-exp-ieee8021p.conf
+
+```
+/*
+ * Topic: DSCP, DSCP IPv6, MPLS EXP and IEEE 802.1p rewrite rules for the eight forwarding classes
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with:
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
 class-of-service {
     rewrite-rules {
         dscp RR-DSCP {
@@ -2530,36 +6617,44 @@ class-of-service {
                 loss-priority low code-point cs6;
             }
         }
-    }
-}
-```
-
-## junos/cos/rewrite-exp.conf
-
-```
-/*
- * Topic:   MPLS EXP rewrite rule (RR-MPLS) — egress FC-to-EXP marking
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Rewrites outgoing MPLS EXP bits based on FC + loss-priority
- *  - EXP 4 ← FC-LLQ, EXP 5 ← FC-REALTIME, EXP 6 ← FC-SIGNALING
- *  - All loss-priority levels map to the same code-point per FC (3 bits
- *    cannot encode drop-precedence)
- *  - Applied on MPLS transport AE interfaces
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/cos-binding-transport.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/classifier-exp.conf     (ingress counterpart)
- *  - junos/cos/forwarding-classes.conf (FC definitions)
- */
-
-class-of-service {
-    rewrite-rules {
+        dscp-ipv6 RR-DSCP-IPV6 {
+            forwarding-class FC-BEST-EFFORT {
+                loss-priority high code-point be;
+                loss-priority low code-point be;
+            }
+            forwarding-class FC-CONTROL {
+                loss-priority high code-point cs7;
+                loss-priority low code-point cs7;
+            }
+            forwarding-class FC-HIGH {
+                loss-priority high code-point af33;
+                loss-priority low code-point af31;
+                loss-priority medium-high code-point af32;
+            }
+            forwarding-class FC-LLQ {
+                loss-priority high code-point af43;
+                loss-priority low code-point af41;
+                loss-priority medium-high code-point af42;
+            }
+            forwarding-class FC-LOW {
+                loss-priority high code-point af13;
+                loss-priority low code-point af11;
+                loss-priority medium-high code-point af12;
+            }
+            forwarding-class FC-MEDIUM {
+                loss-priority high code-point af23;
+                loss-priority low code-point af21;
+                loss-priority medium-high code-point af22;
+            }
+            forwarding-class FC-REALTIME {
+                loss-priority high code-point ef;
+                loss-priority low code-point ef;
+            }
+            forwarding-class FC-SIGNALING {
+                loss-priority high code-point cs5;
+                loss-priority low code-point cs6;
+            }
+        }
         exp RR-MPLS {
             forwarding-class FC-BEST-EFFORT {
                 loss-priority high code-point 000;
@@ -2598,32 +6693,6 @@ class-of-service {
                 loss-priority low code-point 110;
             }
         }
-    }
-}
-```
-
-## junos/cos/rewrite-ieee-802.1.conf
-
-```
-/*
- * Topic:   802.1p rewrite rule (RR-8021P) — egress FC-to-PCP marking
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Rewrites outgoing 802.1p PCP bits based on FC + loss-priority
- *  - PCP 4 ← FC-LLQ, PCP 5 ← FC-REALTIME, PCP 6 ← FC-SIGNALING
- *  - All loss-priority levels map to the same code-point per FC
- *  - Applied on L2 service interfaces (EVPN-VPWS access ports)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/classifier-ieee-802.1.conf (ingress counterpart)
- *  - junos/cos/forwarding-classes.conf    (FC definitions)
- */
-
-class-of-service {
-    rewrite-rules {
         ieee-802.1 RR-8021P {
             forwarding-class FC-BEST-EFFORT {
                 loss-priority high code-point 000;
@@ -2666,30 +6735,28 @@ class-of-service {
 }
 ```
 
-## junos/cos/scheduler-map.conf
+## junos/class-of-service/scheduler-maps/sm-5g-scheduler.conf
 
 ```
 /*
- * Topic:   Scheduler-map binding FCs to schedulers (SM-5G-SCHEDULER)
+ * Topic: Scheduler map SM-5G-SCHEDULER binding the eight forwarding classes to their schedulers
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - Maps all 8 forwarding classes to their corresponding schedulers
- *  - Referenced by interface CoS bindings (scheduler-map SM-5G-SCHEDULER)
- *  - The scheduler-map itself is identical across all devices; the
- *    underlying scheduler behavior (strict-high) is determined by the
- *    scheduler definition, not the map
- *  - Body is byte-identical to the EVO sibling
- *
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
  * Pair with:
- *  - junos/cos/cos-binding-transport.conf
- *  - junos/cos/forwarding-classes.conf
- *  - junos/cos/forwarding-classes.conf      (FC definitions)
- *  - junos/cos/schedulers-strict-high.conf  (MX scheduler priorities)
+ *  - junos/class-of-service/forwarding-classes/fc-8class-model.conf
+ *  - junos/class-of-service/schedulers/schedulers-8class-llq-strict-high.conf
+ *
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     scheduler-maps {
         SM-5G-SCHEDULER {
@@ -2706,29 +6773,25 @@ class-of-service {
 }
 ```
 
-## junos/cos/schedulers-strict-high.conf
+## junos/class-of-service/schedulers/schedulers-8class-llq-strict-high.conf
 
 ```
 /*
- * Topic:   Scheduler definitions with priority strict-high (MX fallback)
+ * Topic: Schedulers for the eight forwarding classes: SC-LLQ shaped at priority strict-high, SC-SIGNALING high, SC-REALTIME medium-high
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - SC-LLQ uses `priority strict-high` — MX does not support the ACX
- *    `priority low-latency` hardware scheduler; strict-high is the
- *    highest available strict priority on this platform
- *  - SC-SIGNALING uses `priority high` (one tier below strict-high)
- *  - All other schedulers (rates, buffer-size) are identical to the
- *    ACX low-latency variant — only the priority keywords differ
- *  - Body is byte-identical to the EVO (PTX) sibling
- *  - MX aggregation routers are transport-only or SAG role in this JVD
- *
- * Pair with:
- *  - junos/cos/forwarding-classes.conf  (FC definitions these schedulers serve)
- *  - junos/cos/scheduler-map.conf       (FC → scheduler binding)
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
 class-of-service {
     schedulers {
         SC-BEST-EFFORT {
@@ -2778,35 +6841,25 @@ class-of-service {
 }
 ```
 
-## junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf
+## junos/firewall/filter-inet-mfc-dscp-forwarding-class.conf
 
 ```
 /*
- * Topic:   Multi-field classifier — IPv4 DSCP-to-FC (L3VPN IRB ingress)
+ * Topic: Interface-specific IPv4 multifield filter mapping DSCP code points to forwarding classes
  * Seen on:
  *   Junos: sag_mx304
- *
- * Highlights:
- *  - Interface-specific filter applied on IRB units (input direction)
- *  - Overrides CoS classifier: forces FC based on DSCP for traffic
- *    entering the L3VPN from a bridged domain
- *  - cs1 → FC-REALTIME, cs2 → FC-HIGH, cs3 → FC-MEDIUM, cs4 → FC-LOW
- *  - Default term accepts unmatched traffic (uses CoS classifier instead)
- *  - Two named variants in the JVD: FF-MFC-IPV4-L3VPN-BD-IRB (bridged-domain
- *    IRB) and FF-MFC-IPV4-L3VPN-EVPN-IRB (EVPN IRB) — bodies identical
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/forwarding-classes.conf
- *  - junos/services/evpn-elan-vlan-based-irb.conf
- *  - junos/services/l3vpn-irb.conf
- *  - junos/firewall/filter-mfc-ipv6-l3vpn-irb.conf  (IPv6 counterpart)
- *  - junos/cos/cos-binding-l3-service.conf           (CoS binding on L3 units)
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 2
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $INPUT_FILTER_V4  e.g. FF-MFC-IPV4-L3VPN-BD-IRB
  */
-
 firewall {
     family inet {
-        filter <filter-name> {
+        filter $INPUT_FILTER_V4 {
             interface-specific;
             term fc-realtime {
                 from {
@@ -2840,31 +6893,25 @@ firewall {
 }
 ```
 
-## junos/firewall/filter-mfc-ipv6-l3vpn-irb.conf
+## junos/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf
 
 ```
 /*
- * Topic:   Multi-field classifier — IPv6 traffic-class-to-FC (L3VPN IRB ingress)
+ * Topic: Interface-specific IPv6 multifield filter mapping traffic-class code points to forwarding classes
  * Seen on:
  *   Junos: sag_mx304
- *
- * Highlights:
- *  - IPv6 counterpart of filter-mfc-ipv4-l3vpn-irb.conf
- *  - Uses `traffic-class` (IPv6 traffic class field) instead of `dscp`
- *  - Same FC assignment: cs1→REALTIME, cs2→HIGH, cs3→MEDIUM, cs4→LOW
- *  - Interface-specific, applied input on IRB units
- *  - Two named variants: FF-MFC-IPV6-L3VPN-BD-IRB / FF-MFC-IPV6-L3VPN-EVPN-IRB
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/cos/forwarding-classes.conf
- *  - junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf  (IPv4 counterpart)
- *  - junos/cos/cos-binding-l3-service.conf           (CoS binding on L3 units)
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 2
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $INPUT_FILTER_V6  e.g. FF-MFC-IPV6-L3VPN-BD-IRB
  */
-
 firewall {
     family inet6 {
-        filter <filter-name> {
+        filter $INPUT_FILTER_V6 {
             interface-specific;
             term fc-realtime {
                 from {
@@ -2898,154 +6945,684 @@ firewall {
 }
 ```
 
-## junos/interfaces/vlan-bridge.conf
+## junos/forwarding-options/hash-key-inet-inet6-layer-3-4-mpls-labels-1-3-payload.conf
 
 ```
 /*
- * Topic:   Service sub-interface with vlan-bridge encapsulation
+ * Topic: Hash key on Layer 3 and Layer 4 fields for IPv4 and IPv6, and on the first three MPLS labels plus the pseudowire and IP payload
  * Seen on:
- *   Junos: sag_mx304
- *
- * Highlights:
- *  - Physical interface for single-homed L2/L3 services toward AN
- *  - flexible-vlan-tagging + flexible-ethernet-services: multi-encap parent
- *  - vlan-bridge encapsulation: unit is placed into virtual-switch or mac-vrf
- *  - Used for BGP-VPLS and EVPN-ELAN bridged services
- *  - No ESI: SAG is single-homed endpoint
- *  - Hundreds of units per interface (one per service instance)
- *
- * Pair with:
- *  - junos/services/bgp-vpls-vsi.conf    (virtual-switch service)
- *  - junos/services/evpn-elan-vlan-based-irb.conf   (mac-vrf ELAN)
- *  - junos/cos/cos-binding-l3-service.conf          (DSCP on service units)
+ *   Junos: ag2_1_mx204 ag2_2_mx204
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
-
-interfaces {
-    <interface> {
-        flexible-vlan-tagging;
-        encapsulation flexible-ethernet-services;
-        /* repeat per BGP-VPLS / ELAN service */
-        unit <unit-number> {
-            description <service-description>;
-            encapsulation vlan-bridge;
-            vlan-id <vlan-id>;
+forwarding-options {
+    hash-key {
+        family inet {
+            layer-3;
+            layer-4;
+        }
+        family inet6 {
+            layer-3;
+            layer-4;
+        }
+        family mpls {
+            label-1;
+            label-2;
+            label-3;
+            payload {
+                ether-pseudowire;
+                ip {
+                    port-data {
+                        source-msb;
+                        source-lsb;
+                        destination-msb;
+                        destination-lsb;
+                    }
+                }
+            }
         }
     }
 }
 ```
 
-## junos/interfaces/vlan-ccc.conf
+## junos/forwarding-options/load-balance-label-capability.conf
 
 ```
 /*
- * Topic:   Service sub-interface with vlan-ccc encapsulation
+ * Topic: Label load-balancing capability
  * Seen on:
  *   Junos: sag_mx304
- *
- * Highlights:
- *  - Physical interface for single-homed EVPN-VPWS circuits toward AN
- *  - flexible-vlan-tagging + flexible-ethernet-services: multi-encap parent
- *  - vlan-ccc encapsulation: unit carries L2 circuit for EVPN-VPWS
- *  - family ccc enables circuit cross-connect forwarding
- *  - No ESI: SAG is single-homed endpoint
- *  - Hundreds of units per interface (one per service instance)
- *
- * Pair with:
- *  - junos/services/evpn-vpws-vlan-based-sh.conf    (VPWS single-homed)
- *  - junos/cos/cos-binding-l3-service.conf          (DSCP on service units)
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+forwarding-options {
+    load-balance-label-capability;
+}
+```
 
+## junos/interfaces/ifd-ae-description-mtu-lacp-fast.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet interface with a description, MTU and LACP active with fast periodic
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 3
+ *   ag3_1_mx480 3
+ *   ag3_2_mx480 3
+ *   sag_mx304 2
+ *   total 14
+ * Pair with: none
+ * Variables (example values from ag2_1_mx204):
+ *   $IFD          e.g. ae5
+ *   $DESCRIPTION  e.g. To-AG1.1
+ */
 interfaces {
-    <interface> {
+    $IFD {
+        description $DESCRIPTION;
+        mtu 9190;
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
+## junos/interfaces/ifd-ae-flexible-lacp-fast.conf
+
+```
+/*
+ * Topic: Flexible-services aggregated Ethernet bundle with active fast LACP
+ * Seen on:
+ *   Junos: du_qfx5210
+ *   EVO: (none)
+ * Count:
+ *   du_qfx5210 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from du_qfx5210):
+ *   $IFD  e.g. ae26
+ */
+interfaces {
+    $IFD {
         flexible-vlan-tagging;
         encapsulation flexible-ethernet-services;
-        /* repeat per EVPN-VPWS service */
-        unit <unit-number> {
+        aggregated-ether-options {
+            lacp {
+                active;
+                periodic fast;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
+## junos/interfaces/ifd-flexible-ethernet-services-description.conf
+
+```
+/*
+ * Topic: Described port with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IFD          e.g. xe-0/1/3:2
+ *   $DESCRIPTION  e.g. To-RT5-L2-MBH-L2CKT-TO-AN3-200
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## junos/interfaces/ifd-flexible-ethernet-services.conf
+
+```
+/*
+ * Topic: Port with flexible VLAN tagging and flexible Ethernet services
+ * Seen on:
+ *   Junos: du_qfx5210 sag_mx304
+ *   EVO: ag1_2_acx7100-32c an4_acx7024
+ * Count:
+ *   ag1_2_acx7100-32c 1
+ *   an4_acx7024 1
+ *   du_qfx5210 1
+ *   sag_mx304 2
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from du_qfx5210):
+ *   $IFD  e.g. xe-0/0/6:2
+ */
+interfaces {
+    $IFD {
+        flexible-vlan-tagging;
+        encapsulation flexible-ethernet-services;
+    }
+}
+```
+
+## junos/interfaces/ifd-lag-member-ether.conf
+
+```
+/*
+ * Topic: Physical member link of an aggregated-Ethernet bundle
+ * Seen on:
+ *   Junos: du_qfx5210
+ *   EVO: (none)
+ * Count:
+ *   du_qfx5210 2
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from du_qfx5210):
+ *   $IFD        e.g. xe-0/0/6:0
+ *   $AE_BUNDLE  e.g. ae26
+ */
+interfaces {
+    $IFD {
+        ether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifd-lag-member-gigether.conf
+
+```
+/*
+ * Topic: Aggregated Ethernet member link through gigether-options
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 3
+ *   ag3_1_mx480 5
+ *   ag3_2_mx480 4
+ *   sag_mx304 2
+ *   total 17
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $IFD        e.g. et-0/0/0
+ *   $AE_BUNDLE  e.g. ae5
+ */
+interfaces {
+    $IFD {
+        gigether-options {
+            802.3ad $AE_BUNDLE;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5-no-v6-address.conf
+
+```
+/*
+ * Topic: Core link unit 0 with an IPv4 address, family iso, family inet6 without an address, and MPLS with five labels
+ * Seen on:
+ *   Junos: ag2_2_mx204
+ *   EVO: (none)
+ * Count:
+ *   ag2_2_mx204 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_2_mx204):
+ *   $IFD           e.g. ae7
+ *   $CORE_V4_ADDR  e.g. 10.10.0.18/30
+ */
+interfaces {
+    $IFD {
+        unit 0 {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6;
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-description-mtu-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
+## junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf
+
+```
+/*
+ * Topic: Core logical interface
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 2
+ *   ag3_1_mx480 3
+ *   ag3_2_mx480 3
+ *   sag_mx304 2
+ *   total 13
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $IFD           e.g. ae7
+ *   $UNIT          e.g. 0
+ *   $CORE_V4_ADDR  e.g. 10.10.0.17/30
+ *   $CORE_V6_ADDR  e.g. 2001:db8::10:10:0:11/126
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            family inet {
+                address $CORE_V4_ADDR;
+            }
+            family iso;
+            family inet6 {
+                address $CORE_V6_ADDR;
+            }
+            family mpls {
+                maximum-labels 5;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-ae-description-mtu-lacp-fast`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-gigether`
+
+## junos/interfaces/ifl-irb-inet-inet6-description.conf
+
+```
+/*
+ * Topic: IRB unit with a description and IPv4 and IPv6 addresses
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 332
+ *   total 332
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IRB_UNIT     e.g. 101
+ *   $DESCRIPTION  e.g. TO-5G-MIDHAUL-L3VPN-IRB-EVPN-1
+ *   $AC_ADDR_V4   e.g. 10.22.1.1/24
+ *   $AC_ADDR_V6   e.g. 2001:db8::1600:11/112
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+            family inet6 {
+                address $AC_ADDR_V6;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-irb-inet-inet6-filter-description.conf
+
+```
+/*
+ * Topic: IRB unit with a description, IPv4 and IPv6 input filters and addresses
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 168
+ *   total 168
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IRB_UNIT         e.g. 267
+ *   $DESCRIPTION      e.g. TO-5G-MIDHAUL-L3VPN-IRB-EVPN-167
+ *   $INPUT_FILTER_V4  e.g. FF-MFC-IPV4-L3VPN-EVPN-IRB
+ *   $AC_ADDR_V4       e.g. 10.22.167.1/24
+ *   $INPUT_FILTER_V6  e.g. FF-MFC-IPV6-L3VPN-EVPN-IRB
+ *   $AC_ADDR_V6       e.g. 2001:db8::16a6:11/112
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            description $DESCRIPTION;
+            family inet {
+                filter {
+                    input $INPUT_FILTER_V4;
+                }
+                address $AC_ADDR_V4;
+            }
+            family inet6 {
+                filter {
+                    input $INPUT_FILTER_V6;
+                }
+                address $AC_ADDR_V6;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `filter` (`$INPUT_FILTER_V4`, `$INPUT_FILTER_V6`): required, for each reference; one of `firewall/filter-inet-mfc-dscp-forwarding-class`, `firewall/filter-inet6-mfc-traffic-class-forwarding-class`
+
+## junos/interfaces/ifl-loopback-primary-iso-anycast-v4-sr-v6.conf
+
+```
+/*
+ * Topic: Loopback logical interface
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $UNIT                 e.g. 0
+ *   $LOOPBACK_V4_PFX      e.g. 192.168.1.11/32
+ *   $LOOPBACK_ANYCAST_V4  e.g. 192.168.10.11
+ *   $ISIS_NET             e.g. 49.1022.1001.0000.0015.00
+ *   $LOOPBACK_V6_PFX      e.g. 2001:db8::1:1:0:11/128
+ *   $LOOPBACK_SR_V6       e.g. 2001:db8::1:1:10:11
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ANYCAST_V4/32;
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+                address $LOOPBACK_SR_V6/128;
+            }
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf
+
+```
+/*
+ * Topic: Loopback unit 0 with primary and secondary IPv4 addresses, an ISO address, primary and secondary IPv6 addresses, and family mpls
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $LOOPBACK_V4_PFX      e.g. 192.168.1.5/32
+ *   $LOOPBACK_ALT_V4_PFX  e.g. 192.168.10.5/32
+ *   $ISIS_NET             e.g. 49.1022.1001.0000.0010.00
+ *   $LOOPBACK_V6_PFX      e.g. 2001:db8::1:1:0:5/128
+ *   $LOOPBACK_ALT_V6_PFX  e.g. 2001:db8::1:1:10:5/128
+ */
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+                address $LOOPBACK_V4_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ALT_V4_PFX;
+            }
+            family iso {
+                address $ISIS_NET;
+            }
+            family inet6 {
+                address $LOOPBACK_V6_PFX {
+                    primary;
+                }
+                address $LOOPBACK_ALT_V6_PFX;
+            }
+            family mpls;
+        }
+    }
+}
+```
+
+## junos/interfaces/ifl-vlan-bridge-description.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-bridge encapsulation and a description
+ * Seen on:
+ *   Junos: du_qfx5210 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   du_qfx5210 2300
+ *   sag_mx304 2500
+ *   total 4800
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from du_qfx5210):
+ *   $IFD          e.g. ae26
+ *   $UNIT         e.g. 2601
+ *   $DESCRIPTION  e.g. 5G-FRONTHAUL-EVPN-FXC-MH-1
+ *   $VLAN         e.g. 2601
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            encapsulation vlan-bridge;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; one of `interfaces/ifd-ae-flexible-lacp-fast`, `interfaces/ifd-flexible-ethernet-services-description`, `interfaces/ifd-flexible-ethernet-services`
+- `lag-member`: when the router's configuration has it, all related; `interfaces/ifd-lag-member-ether`
+
+## junos/interfaces/ifl-vlan-ccc-description.conf
+
+```
+/*
+ * Topic: VLAN unit with vlan-ccc encapsulation and a description
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 400
+ *   total 400
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IFD          e.g. xe-0/1/3:3
+ *   $UNIT         e.g. 501
+ *   $DESCRIPTION  e.g. L2-MBH-EVPN-VPWS-SH-TO-AN4-501
+ *   $VLAN         e.g. 501
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
             encapsulation vlan-ccc;
-            vlan-id <vlan-id>;
+            vlan-id $VLAN;
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services`
+
+## junos/interfaces/ifl-vlan-ccc-family-ccc.conf
+
+```
+/*
+ * Topic: VLAN-tagged circuit cross-connect unit with family ccc
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 2500
+ *   total 2500
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IFD   e.g. xe-0/1/3:2
+ *   $UNIT  e.g. 1001
+ *   $VLAN  e.g. 1001
+ */
+interfaces {
+    $IFD {
+        unit $UNIT {
+            encapsulation vlan-ccc;
+            vlan-id $VLAN;
             family ccc;
         }
     }
 }
 ```
 
-## junos/policy/allow-loopback.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
+
+## junos/interfaces/ifl-vlan-inet-inet6-description.conf
 
 ```
 /*
- * Topic:   ALLOW_LOOPBACK — rib-group import filter for labeled-unicast
+ * Topic: VLAN unit with a description and IPv4 and IPv6 addresses
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Permits loopback routes (host routes /32) to be imported from inet.3 to inet.0
- *  - Used by rib-group inet3-to-inet0 in BGP labeled-unicast
- *  - Ensures MPLS next-hops resolve via the IGP for service overlays
- *  - orlonger matches /32 and any more-specific (effectively any host route)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/transport/bgp-internal.conf (rib-group referencing this policy)
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 100
+ *   total 100
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $IFD          e.g. xe-0/1/3:2
+ *   $UNIT         e.g. 1
+ *   $DESCRIPTION  e.g. To-RT5-L3-MBH-AND-5G-FRONTHAUL-L3VPN-1
+ *   $VLAN         e.g. 1
+ *   $AC_ADDR_V4   e.g. 10.18.7.205/30
+ *   $AC_ADDR_V6   e.g. 2001:db8::18:1:7:7cd/112
  */
-
-policy-options {
-    policy-statement ALLOW_LOOPBACK {
-        from {
-            route-filter 0.0.0.0/32 orlonger;
-        }
-        then accept;
-    }
-}
-```
-
-## junos/policy/next-hop-self.conf
-
-```
-/*
- * Topic:   next-hop-self BGP export policy
- * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Forces next-hop-self on all advertised BGP routes
- *  - Applied as export policy on iBGP groups (transport and service families)
- *  - Ensures remote peers can resolve next-hop via local IGP
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/transport/bgp-internal.conf (iBGP group referencing this policy)
- */
-
-policy-options {
-    policy-statement next-hop-self {
-        then {
-            next-hop self;
-            accept;
+interfaces {
+    $IFD {
+        unit $UNIT {
+            description $DESCRIPTION;
+            vlan-id $VLAN;
+            family inet {
+                address $AC_ADDR_V4;
+            }
+            family inet6 {
+                address $AC_ADDR_V6;
+            }
         }
     }
 }
 ```
 
-## junos/policy/pplb.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-flexible-ethernet-services-description`
+
+## junos/policy-options/community/community-service-edge.conf
 
 ```
 /*
- * Topic:   Per-packet load-balance policy (PPLB)
+ * Topic: SERVICE-EDGE community
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    community SERVICE-EDGE members 63536:100;
+}
+```
+
+## junos/policy-options/policy-statement/per-packet-load-balance.conf
+
+```
+/*
+ * Topic: Per-packet load-balance policy (pplb) — exported to the forwarding table so ECMP paths are used per-flow.
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Enables per-flow (per-packet) ECMP load-balancing in the forwarding table
- *  - Applied via routing-options forwarding-table export PPLB
- *  - Despite the name, modern Junos treats this as per-flow (5-tuple hash)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/transport/load-balance-pplb.conf  (forwarding-table export)
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $PPLB_NAME  e.g. PPLB
  */
-
 policy-options {
-    policy-statement PPLB {
+    policy-statement $PPLB_NAME {
         then {
             load-balance per-packet;
             accept;
@@ -3054,49 +7631,239 @@ policy-options {
 }
 ```
 
-## junos/policy/sr-nonzero-loopbacks.conf
+## junos/policy-options/policy-statement/ps-as-out-set-region-service-edge.conf
 
 ```
 /*
- * Topic:   SR non-zero loopback advertisement (IPv4 + IPv6 prefix-segment)
+ * Topic: Inter-AS export policy adding the SERVICE-EDGE community
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - Advertises additional loopback addresses (beyond lo0.0 primary) into
- *    IS-IS with SR prefix-segment indices
- *  - Allows anycast or per-service loopbacks to be SR-reachable
- *  - Exported via ISIS export policy (protocols isis export [... SR_NONZERO_...])
- *  - Index values are per-device; coordinate with SID allocation plan
- *  - Body is byte-identical to the EVO sibling
- *
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
  * Pair with:
- *  - junos/transport/isis-global.conf  (ISIS export referencing these policies)
+ *  - junos/policy-options/community/community-service-edge.conf
+ *
+ * Peers with: n/a
+ * Variables: none
  */
+policy-options {
+    policy-statement as3536-out {
+        term SET-REGION {
+            then {
+                community add SERVICE-EDGE;
+                next policy;
+            }
+        }
+    }
+}
+```
 
+## junos/policy-options/policy-statement/ps-bgp-export-accept-inet3.conf
+
+```
+/*
+ * Topic: BGP export policy accepting routes from inet.3 and rejecting the rest
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement bgp-export {
+        term 1 {
+            from rib inet.3;
+            then accept;
+        }
+        term 2 {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-bgp-import-neighbors.conf
+
+```
+/*
+ * Topic: BGP import policy accepting routes from two neighbors
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    policy-statement bgp-import {
+        term 1 {
+            from neighbor [ 10.10.0.49 10.10.0.53 ];
+            then accept;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-loopback-allow.conf
+
+```
+/*
+ * Topic: Single-term policy accepting a prefix and its more-specifics
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $POLICY_NAME  e.g. ALLOW_LOOPBACK
+ *   $PREFIX       e.g. 0.0.0.0/32
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        from {
+            route-filter $PREFIX orlonger;
+        }
+        then accept;
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-next-hop-self.conf
+
+```
+/*
+ * Topic: Next-hop-self acceptance policy
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+  policy-statement next-hop-self {
+    then {
+      next-hop self;
+      accept;
+    }
+  }
+}
+```
+
+## junos/policy-options/policy-statement/ps-ospf-summary-reject.conf
+
+```
+/*
+ * Topic: Policy accepting one prefix and longer, rejecting everything else
+ * Seen on:
+ *   Junos: ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag3_1_mx480):
+ *   $PREFIX  e.g. 192.168.1.9/32
+ */
+policy-options {
+    policy-statement ospf_summary_reject {
+        term t1 {
+            from {
+                route-filter $PREFIX orlonger;
+            }
+            then accept;
+        }
+        term t2 {
+            then reject;
+        }
+    }
+}
+```
+
+## junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+
+```
+/*
+ * Topic: Policy SR_NONZERO_LOOPBACKS_V4 attaching a prefix segment to the IPv4 SR loopback
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $LOOPBACK_SR_V4  e.g. 192.168.10.5
+ *   $SR_INDEX_V4     e.g. 210
+ */
 policy-options {
     policy-statement SR_NONZERO_LOOPBACKS_V4 {
         term t1 {
             from {
-                route-filter <secondary-loopback-v4>/32 exact;
+                route-filter $LOOPBACK_SR_V4/32 exact;
             }
             then {
                 prefix-segment {
-                    index <ipv4-secondary-sid-index>;
+                    index $SR_INDEX_V4;
                 }
                 accept;
             }
         }
     }
+}
+```
+
+## junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+
+```
+/*
+ * Topic: Policy SR_NONZERO_LOOPBACKS_V6 attaching a prefix segment to the IPv6 SR loopback
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $LOOPBACK_SR_V6  e.g. 2001:db8::1:1:10:3
+ *   $SR_INDEX_V6     e.g. 310
+ */
+policy-options {
     policy-statement SR_NONZERO_LOOPBACKS_V6 {
         term t1 {
             from {
                 family inet6;
-                route-filter <secondary-loopback-v6>/128 exact;
+                route-filter $LOOPBACK_SR_V6/128 exact;
             }
             then {
                 prefix-segment {
-                    index <ipv6-secondary-sid-index>;
+                    index $SR_INDEX_V6;
                 }
                 accept;
             }
@@ -3105,275 +7872,34 @@ policy-options {
 }
 ```
 
-## junos/services/bgp-vpls-vsi.conf
+## junos/protocols/bgp-group-ebgp-lu-import-bgp-import-export-as-out-2-peers.conf
 
 ```
 /*
- * Topic:   BGP-VPLS virtual-switch with FAT pseudowire (midhaul L2)
+ * Topic: eBGP group with two peers for IPv4 and IPv6 labeled unicast, import bgp-import, export as3536-out and bgp-export
  * Seen on:
  *   Junos: sag_mx304
- *
- * Highlights:
- *  - instance-type virtual-switch with BGP-VPLS signaling (RFC 4761)
- *  - FAT pseudowire via flow-label-transmit / flow-label-receive for
- *    entropy-based LAG/ECMP load-balancing on midhaul circuits
- *  - site / site-identifier for auto-discovery and split-horizon
- *  - site-range 65534, label-block-size 4 (capacity planning)
- *  - no-tunnel-services: uses inline MPLS (no tunnel PIC needed)
- *  - bridge-domains stanza maps VLAN on Junos (vs vlans on EVO)
- *  - Body structure is byte-identical to the EVO sibling
- *
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
  * Pair with:
- *  - junos/interfaces/vlan-bridge.conf       (vlan-bridge access units)
- *  - junos/cos/cos-binding-l3-service.conf   (DSCP on service units)
- * JVD service mapping:
- *   (no instances found in topology registry)
+ *  - junos/policy-options/policy-statement/ps-as-out-set-region-service-edge.conf
+ *  - junos/policy-options/policy-statement/ps-bgp-export-accept-inet3.conf
+ *  - junos/policy-options/policy-statement/ps-bgp-import-neighbors.conf
+ *  - junos/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
  *
+ * Variables (example values from sag_mx304):
+ *   $BGP_GROUP           e.g. ebgp_sag
+ *   $ASN_INTER_AS        e.g. 63535
+ *   $INTER_AS_PEER_V4_1  e.g. 10.10.0.49
+ *   $INTER_AS_PEER_V4_2  e.g. 10.10.0.53
  */
-
-routing-instances {
-    <instance-name> {
-        instance-type virtual-switch;
-        protocols {
-            vpls {
-                site <site-name> {
-                    site-identifier <site-id>;
-                }
-                site-range 65534;
-                label-block-size 4;
-                no-tunnel-services;
-                flow-label-transmit;
-                flow-label-receive;
-            }
-        }
-        description <description>;
-        bridge-domains {
-            <vlan-name> {
-                vlan-id <vlan-id>;
-                interface <interface>.<unit>;
-            }
-        }
-        interface <interface>.<unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-    }
-}
-```
-
-## junos/services/evpn-elan-vlan-based-irb.conf
-
-```
-/*
- * Topic:   EVPN-ELAN VLAN-based with IRB (mac-vrf, anycast gateway)
- * Seen on:
- *   Junos: sag_mx304
- *
- * Highlights:
- *  - mac-vrf instance with EVPN + IRB for integrated routing and bridging
- *  - default-gateway no-gateway-community: suppresses type-5 gateway
- *    community advertisement (used when IRB is local-only or with VRF)
- *  - bridge-domains with routing-interface irb.X links L2 to L3
- *  - The IRB interface is then placed into a VRF for L3VPN reachability
- *  - service-type vlan-based (one BD per instance)
- *
- * Pair with:
- *  - junos/interfaces/vlan-bridge.conf               (vlan-bridge access units)
- *  - junos/services/l3vpn-irb.conf              (L3VPN VRF hosting the IRB)
- *  - junos/cos/cos-binding-l3-service.conf          (DSCP on IRB units)
- *  - junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf  (MFC on IRB input)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type mac-vrf;
-        protocols {
-            evpn {
-                default-gateway no-gateway-community;
-            }
-        }
-        bridge-domains {
-            <bridge-domain-name> {
-                vlan-id <vlan-id>;
-                interface <interface>.<unit>;
-                routing-interface irb.<irb-unit>;
-            }
-        }
-        service-type vlan-based;
-        interface <interface>.<unit>;
-        route-distinguisher <rd-value>:<rd-index>;
-        vrf-target target:<rt-value>:<rt-index>;
-    }
-}
-```
-
-## junos/services/evpn-fxc-vlan-aware.conf
-
-```
-/*
- * Topic:   EVPN-VPWS Flexible Cross-Connect (FXC, midhaul)
- * Seen on:
- *   Junos: sag_mx304
- *
- * Highlights:
- *  - EVPN-VPWS with flexible-cross-connect-vlan-aware for multi-endpoint
- *    bundling (two VLANs cross-connected through the same VPWS instance)
- *  - Two interface/vpws-service-id pairs per instance: each sub-interface
- *    gets its own local/remote pseudowire ID within the same RD/RT
- *  - Used for midhaul circuits where control-plane and user-plane VLANs
- *    are paired into a single VPWS FXC instance
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/interfaces/vlan-ccc.conf                 (vlan-ccc access units)
- *  - junos/cos/cos-binding-l3-service.conf          (DSCP on service units)
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type evpn-vpws;
-        protocols {
-            evpn {
-                interface <interface-a>.<unit-a> {
-                    vpws-service-id {
-                        local <local-id-a>;
-                        remote <remote-id-a>;
-                    }
-                }
-                interface <interface-b>.<unit-b> {
-                    vpws-service-id {
-                        local <local-id-b>;
-                        remote <remote-id-b>;
-                    }
-                }
-                flexible-cross-connect-vlan-aware;
-            }
-        }
-        interface <interface-a>.<unit-a>;
-        interface <interface-b>.<unit-b>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-    }
-}
-```
-
-## junos/services/evpn-vpws-vlan-based-sh.conf
-
-```
-/*
- * Topic:   EVPN-VPWS VLAN-based single-homed (midhaul/backhaul)
- * Seen on:
- *   Junos: sag_mx304
- *
- * Highlights:
- *  - Point-to-point EVPN-VPWS for single-homed AN connections (AN4→SAG)
- *  - flow-label-transmit-static / flow-label-receive-static enables
- *    FAT pseudowire for LAG load-balancing without control-word negotiation
- *  - vpws-service-id local/remote identifies the pseudowire endpoints
- *  - Used where AN is single-homed (no ESI) directly to SAG
- *
- * Pair with:
- *  - junos/interfaces/vlan-ccc.conf          (vlan-ccc access units)
- *  - junos/cos/cos-binding-l3-service.conf   (DSCP binding on associated units)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type evpn-vpws;
-        protocols {
-            evpn {
-                interface <interface>.<unit> {
-                    vpws-service-id {
-                        local <local-id>;
-                        remote <remote-id>;
-                    }
-                }
-                flow-label-transmit-static;
-                flow-label-receive-static;
-            }
-        }
-        interface <interface>.<unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-    }
-}
-```
-
-## junos/services/l3vpn-irb.conf
-
-```
-/*
- * Topic:   L3VPN VRF with IRB (anycast gateway, vrf-table-label)
- * Seen on:
- *   Junos: sag_mx304
- *
- * Highlights:
- *  - instance-type vrf for L3VPN routing
- *  - IRB interface provides routing for EVPN-ELAN bridge-domains
- *  - vrf-table-label allocates a single MPLS label for the VRF
- *    (simplifies PE-to-PE label allocation)
- *  - router-id set explicitly per-instance (required for multi-VRF ECMP)
- *  - On SAG, the mac-vrf ELAN provides L2 bridging with IRB linked to this VRF
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/interfaces/vlan-bridge.conf              (vlan-bridge access units)
- *  - junos/services/evpn-elan-vlan-based-irb.conf  (mac-vrf bridging to this VRF)
- *  - junos/cos/cos-binding-l3-service.conf         (DSCP on service units)
- *  - junos/firewall/filter-mfc-ipv4-l3vpn-irb.conf (MFC on IRB input)
- * JVD service mapping:
- *   (no instances found in topology registry)
- *
- */
-
-routing-instances {
-    <instance-name> {
-        instance-type vrf;
-        routing-options {
-            router-id <router-id>;
-        }
-        description <description>;
-        interface irb.<irb-unit>;
-        route-distinguisher <router-id>:<rd-value>;
-        vrf-target target:<asn>:<rt-value>;
-        vrf-table-label;
-    }
-}
-```
-
-## junos/transport/bgp-internal.conf
-
-```
-/*
- * Topic:   BGP internal (iBGP) — labeled-unicast + route-reflector
- * Seen on:
- *   Junos: sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - iBGP with inet/inet6 labeled-unicast for inter-area MPLS connectivity
- *  - rib-group inet3-to-inet0 installs labeled routes into inet.0 (for next-hop resolution)
- *  - CR devices act as route-reflectors (cluster-id = own router-id)
- *  - log-updown + multipath enabled at group or global level
- *  - export next-hop-self on iBGP peering sessions
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/policy/next-hop-self.conf   (BGP export policy)
- *  - junos/policy/allow-loopback.conf  (rib-group import filter)
- *  - junos/transport/isis-global.conf  (underlay providing next-hop reachability)
- */
-
 protocols {
     bgp {
-        group <group-name> {
-            type internal;
-            local-address <loopback-address>;
+        group $BGP_GROUP {
+            type external;
+            import bgp-import;
             family inet {
                 labeled-unicast {
                     rib-group inet3-to-inet0;
@@ -3389,94 +7915,147 @@ protocols {
                     }
                 }
             }
-            export next-hop-self;
-            neighbor <peer-address>;
+            export [ as3536-out bgp-export ];
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4_1;
+            neighbor $INTER_AS_PEER_V4_2;
         }
+    }
+}
+```
+
+## junos/protocols/bgp-group-ebgp-multihop-lu-vpn-evpn-rt-external-paths-2-peers.conf
+
+```
+/*
+ * Topic: Multihop eBGP group with two peers for labeled unicast, VPN, L2VPN, EVPN and route-target (external-paths 2) families, exporting next-hop-self
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-next-hop-self.conf
+ *  - junos/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+ *
+ * Variables (example values from sag_mx304):
+ *   $BGP_GROUP           e.g. ebgp_pag_mpbgp
+ *   $ASN_INTER_AS        e.g. 63535
+ *   $INTER_AS_PEER_V4_1  e.g. 192.168.1.3
+ *   $INTER_AS_PEER_V4_2  e.g. 192.168.1.4
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multihop;
+            family inet {
+                labeled-unicast {
+                    rib-group inet3-to-inet0;
+                    rib {
+                        inet.3;
+                    }
+                }
+            }
+            family inet-vpn {
+                unicast;
+            }
+            family inet6 {
+                labeled-unicast {
+                    rib {
+                        inet6.3;
+                    }
+                }
+            }
+            family inet6-vpn {
+                unicast;
+            }
+            family l2vpn {
+                signaling;
+            }
+            family evpn {
+                signaling;
+            }
+            family route-target {
+                external-paths 2;
+            }
+            export next-hop-self;
+            peer-as $ASN_INTER_AS;
+            neighbor $INTER_AS_PEER_V4_1;
+            neighbor $INTER_AS_PEER_V4_2;
+        }
+    }
+}
+```
+
+## junos/protocols/bgp-vpn-apply-export-log-updown-multipath.conf
+
+```
+/*
+ * Topic: BGP global settings: vpn-apply-export, log-updown and multipath
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        vpn-apply-export;
         log-updown;
         multipath;
     }
 }
 ```
 
-## junos/transport/isis-global.conf
+## junos/protocols/isis-ignore-attached-bit.conf
 
 ```
 /*
- * Topic:   IS-IS global — segment routing, SPF tuning, TI-LFA backup
+ * Topic: IS-IS ignores the attached bit
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
- *   EVO:   (none)
- *
- * Highlights:
- *  - Segment Routing: SRGB 16000 + 80000 range, node-segment with IPv4/IPv6 indices
- *  - explicit-null for penultimate-hop transparency (preserves QoS to egress)
- *  - Level 2 wide-metrics-only (required for TE and SR)
- *  - SPF delay 100ms with 5 rapid runs before dampening
- *  - Backup SPF: TI-LFA with up to 5 labels, uses source-packet-routing
- *  - Exports SR_NONZERO_LOOPBACKS_V4/V6 for multi-loopback SR advertisement
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/policy/sr-nonzero-loopbacks.conf
- *  - junos/transport/bgp-internal.conf
- *  - junos/transport/mpls-global.conf
- *  - junos/transport/isis-interface.conf       (per-interface config)
- *  - junos/policy/sr-nonzero-loopbacks.conf    (SR prefix-segment export)
+ *   Junos: ag2_1_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 3
+ * Pair with: none
+ * Variables: none
  */
-
 protocols {
     isis {
-        interface lo0.0 {
-            passive;
-        }
-        source-packet-routing {
-            srgb start-label 16000 index-range 80000;
-            node-segment {
-                ipv4-index <ipv4-sid-index>;
-                ipv6-index <ipv6-sid-index>;
-            }
-            explicit-null;
-        }
-        level 2 wide-metrics-only;
-        spf-options {
-            delay 100;
-            rapid-runs 5;
-        }
-        backup-spf-options {
-            use-post-convergence-lfa maximum-labels 5;
-            use-source-packet-routing;
-        }
-        export [ SR_NONZERO_LOOPBACKS_V4 SR_NONZERO_LOOPBACKS_V6 ];
         ignore-attached-bit;
     }
 }
 ```
 
-## junos/transport/isis-interface.conf
+## junos/protocols/isis-interface-l2-node-protection-l1-disable-p2p-bfd.conf
 
 ```
 /*
- * Topic:   IS-IS interface — level 2, TI-LFA, BFD, point-to-point
+ * Topic: IS-IS point-to-point core interface at Level 2 only, with node-protecting post-convergence LFA, metric 10 and BFD
  * Seen on:
  *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
- *   EVO:   (none)
- *
- * Highlights:
- *  - Level-2 only (level 1 disabled) — flat IS-IS domain
- *  - post-convergence-lfa with node-protection (TI-LFA)
- *  - BFD liveness-detection: 100ms minimum-interval × 3 multiplier = 300ms detect
- *  - Point-to-point on all inter-router links (no DIS election)
- *  - Metric 10 on all links (uniform cost for ECMP)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/transport/isis-global.conf  (SR, spf-options, backup-spf-options)
- *  - junos/transport/mpls-global.conf  (MPLS interface enablement)
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 3
+ *   ag2_2_mx204 3
+ *   ag3_1_mx480 3
+ *   ag3_2_mx480 3
+ *   total 12
+ * Pair with: none
+ * Variables (example values from ag2_1_mx204):
+ *   $CORE_INTF  e.g. ae5.0
  */
-
 protocols {
     isis {
-        interface <ae-interface>.0 {
+        interface $CORE_INTF {
             level 2 {
                 post-convergence-lfa {
                     node-protection cost 16777214;
@@ -3497,61 +8076,249 @@ protocols {
 }
 ```
 
-## junos/transport/load-balance-pplb.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$CORE_INTF`): required, for each reference; one of `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5-no-v6-address`, `interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5`
+
+## junos/protocols/isis-level-1-disable.conf
 
 ```
 /*
- * Topic:   Forwarding-table load-balance + chained-composite-next-hop
+ * Topic: IS-IS Level 1 disabled
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *
- * Highlights:
- *  - export PPLB enables per-flow ECMP across equal-cost paths
- *  - chained-composite-next-hop for EVPN, L3VPN, and L2CKT services
- *    enables hierarchical next-hop chains (required for EVPN-VPWS MH)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/policy/pplb.conf                   (PPLB policy definition)
+ *   Junos: ag2_1_mx204
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
  */
+protocols {
+    isis {
+        level 1 disable;
+    }
+}
+```
 
-routing-options {
-    forwarding-table {
-        export PPLB;
-        chained-composite-next-hop {
-            ingress {
-                l2ckt;
-                evpn;
-                l3vpn;
+## junos/protocols/isis-level-2-wide-metrics-only.conf
+
+```
+/*
+ * Topic: IS-IS Level 2 with wide metrics only
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+    isis {
+        level 2 wide-metrics-only;
+    }
+}
+```
+
+## junos/protocols/isis-loopback-passive.conf
+
+```
+/*
+ * Topic: IS-IS logical interface
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+  isis {
+    interface lo0.0 {
+      passive;
+    }
+  }
+}
+```
+
+## junos/protocols/isis-sr-node-segment-spf-ti-lfa-export.conf
+
+```
+/*
+ * Topic: IS-IS segment routing (SRGB, node SIDs, explicit null), SPF timers, TI-LFA backup and loopback export
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf
+ *  - junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf
+ *
+ * Variables (example values from ag2_1_mx204):
+ *   $SR_INDEX_V4  e.g. 10
+ *   $SR_INDEX_V6  e.g. 110
+ */
+protocols {
+    isis {
+        source-packet-routing {
+            srgb start-label 16000 index-range 80000;
+            node-segment {
+                ipv4-index $SR_INDEX_V4;
+                ipv6-index $SR_INDEX_V6;
+            }
+            explicit-null;
+        }
+        spf-options {
+            delay 100;
+            rapid-runs 5;
+        }
+        backup-spf-options {
+            use-post-convergence-lfa maximum-labels 5;
+            use-source-packet-routing;
+        }
+        export [ SR_NONZERO_LOOPBACKS_V4 SR_NONZERO_LOOPBACKS_V6 ];
+    }
+}
+```
+
+## junos/protocols/l2circuit-control-word-flow-label-static.conf
+
+```
+/*
+ * Topic: Layer 2 circuit to a remote PE with control word, static flow-label transmit and receive, and pseudowire status TLV
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 2000
+ *   total 2000
+ * Pair with: none
+ * Peers with:
+ *   [ag1_1_acx7509] <-> [sag_mx304]
+ *   [ag1_2_acx7100-32c] <-> [sag_mx304]
+ * Variables (example values from sag_mx304):
+ *   $REMOTE_PE_V4  e.g. 192.168.1.3
+ *   $AC_IFL        e.g. xe-0/1/3:2.1501
+ *   $VC_ID         e.g. 1501
+ */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_IFL {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                flow-label-transmit-static;
+                flow-label-receive-static;
+                encapsulation-type ethernet-vlan;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
             }
         }
     }
 }
 ```
 
-## junos/transport/mpls-global.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
+## junos/protocols/l2circuit-control-word.conf
 
 ```
 /*
- * Topic:   MPLS global — PCE-controlled LSPs, TTL, ICMP tunneling, IPv6
+ * Topic: Layer 2 circuit to a remote PE with control word and pseudowire status TLV
  * Seen on:
- *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
- *   EVO:   (none)
- *
- * Highlights:
- *  - lsp-external-controller pccd (NorthStar/Paragon PCE-initiated LSPs)
- *  - no-propagate-ttl hides MPLS core hops from traceroute
- *  - icmp-tunneling enables ICMP error reporting through MPLS tunnels
- *  - ipv6-tunneling for 6PE/6VPE over MPLS core
- *  - optimize-timer 180 seconds for CSPF re-optimization
- *  - Interface list is per-device (all inter-router AE interfaces + lo0)
- *  - Body is byte-identical to the EVO sibling
- *
- * Pair with:
- *  - junos/transport/isis-interface.conf
- *  - junos/transport/isis-global.conf  (SR/ISIS underlay)
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 500
+ *   total 500
+ * Pair with: none
+ * Peers with:
+ *   [an1_acx7100-48l] <-> [sag_mx304]
+ *   [an3_acx7100-48l] <-> [sag_mx304]
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from sag_mx304):
+ *   $REMOTE_PE_V4  e.g. 192.168.1.2
+ *   $AC_IFL        e.g. xe-0/1/3:2.1001
+ *   $VC_ID         e.g. 1001
  */
+protocols {
+    l2circuit {
+        neighbor $REMOTE_PE_V4 {
+            interface $AC_IFL {
+                virtual-circuit-id $VC_ID;
+                control-word;
+                encapsulation-type ethernet-vlan;
+                ignore-mtu-mismatch;
+                pseudowire-status-tlv;
+            }
+        }
+    }
+}
+```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-family-ccc`
+
+## junos/protocols/ldp-loopback.conf
+
+```
+/*
+ * Topic: LDP loopback interface
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with:
+ *  - junos/interfaces/ifl-loopback-primary-iso-anycast-v4-sr-v6.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+protocols {
+  ldp {
+    interface lo0.0;
+  }
+}
+```
+
+## junos/protocols/mpls-pccd-ipv6-tunneling-loopback-2-core.conf
+
+```
+/*
+ * Topic: MPLS with a PCEP external controller, log-updown, no-propagate-ttl, ICMP and IPv6 tunneling, on the loopback and two core interfaces
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $CORE_INTF_1  e.g. ae16.0
+ *   $CORE_INTF_2  e.g. ae17.0
+ */
 protocols {
     mpls {
         lsp-external-controller pccd;
@@ -3564,465 +8331,1320 @@ protocols {
         optimize-timer 180;
         ipv6-tunneling;
         interface lo0.0;
-        interface <ae-interface>.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+    }
+}
+```
+
+## junos/protocols/mpls-pccd-ipv6-tunneling-loopback-3-core.conf
+
+```
+/*
+ * Topic: MPLS with a PCEP external controller, log-updown, no-propagate-ttl, ICMP and IPv6 tunneling, on the loopback and three core interfaces
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Variables (example values from ag2_1_mx204):
+ *   $CORE_INTF_1  e.g. ae5.0
+ *   $CORE_INTF_2  e.g. ae7.0
+ *   $CORE_INTF_3  e.g. ae8.0
+ */
+protocols {
+    mpls {
+        lsp-external-controller pccd;
+        log-updown {
+            syslog;
+            trap;
+        }
+        no-propagate-ttl;
+        icmp-tunneling;
+        optimize-timer 180;
+        ipv6-tunneling;
+        interface lo0.0;
+        interface $CORE_INTF_1;
+        interface $CORE_INTF_2;
+        interface $CORE_INTF_3;
+    }
+}
+```
+
+## junos/protocols/oam-cfm-maintenance-association-up-mep-cc-1s.conf
+
+```
+/*
+ * Topic: Ethernet CFM maintenance association with an up MEP on a logical interface, a remote MEP and 1-second continuity checks
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1200
+ *   total 1200
+ * Pair with: none
+ * Peers with:
+ *   [an1_acx7100-48l] <-> [sag_mx304]
+ *   [an3_acx7100-48l] <-> [sag_mx304]
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from sag_mx304):
+ *   $MD_NAME     e.g. MD_63535
+ *   $MA_ID       e.g. 101
+ *   $MEP_LOCAL   e.g. 1016
+ *   $AC_IFL      e.g. xe-0/1/3:0.101
+ *   $MEP_REMOTE  e.g. 1001
+ */
+protocols {
+    oam {
+        ethernet {
+            connectivity-fault-management {
+                maintenance-domain $MD_NAME {
+                    maintenance-association $MA_ID {
+                        short-name-format 2octet;
+                        continuity-check {
+                            interval 1s;
+                            loss-threshold 10;
+                            hold-interval 1;
+                        }
+                        mep $MEP_LOCAL {
+                            interface $AC_IFL;
+                            direction up;
+                            remote-mep $MEP_REMOTE;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/protocols/oam-cfm-maintenance-domain-level-5.conf
+
+```
+/*
+ * Topic: Ethernet CFM maintenance domain at level 5 with name-format none
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $MD_NAME  e.g. MD_63535
+ */
+protocols {
+    oam {
+        ethernet {
+            connectivity-fault-management {
+                maintenance-domain $MD_NAME {
+                    level 5;
+                    name-format none;
+                }
+            }
+        }
+    }
+}
+```
+
+## junos/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf
+
+```
+/*
+ * Topic: EVPN MAC-VRF instance, VLAN-based service, with an IRB interface and default-gateway no-gateway-community
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 250
+ *   total 250
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME    e.g. 5G-MIDHAUL-EVPN-L3VPN-IRB-1
+ *   $BD_NAME          e.g. BD_EVPN_101
+ *   $VLAN_BD          e.g. 101
+ *   $AC_IFL           e.g. xe-0/1/3:2.101
+ *   $IRB_IFL          e.g. irb.101
+ *   $RD_SUB_ASSIGNED  e.g. 101
+ *   $RT_ID            e.g. 101
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type mac-vrf;
+        protocols {
+            evpn {
+                default-gateway no-gateway-community;
+            }
+        }
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_IFL;
+                routing-interface $IRB_IFL;
+            }
+        }
+        service-type vlan-based;
+        interface $AC_IFL;
+        route-distinguisher 101:$RD_SUB_ASSIGNED;
+        vrf-target target:101:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`, `$IRB_IFL`): required, for each reference; one of `interfaces/ifl-irb-inet-inet6-description`, `interfaces/ifl-irb-inet-inet6-filter-description`, `interfaces/ifl-vlan-bridge-description`
+
+## junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf
+
+```
+/*
+ * Topic: VLAN-aware EVPN-VPWS instance cross-connecting two attachment circuits
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 100
+ *   total 100
+ * Pair with: none
+ * Peers with:
+ *   [sag_mx304] <-> [ag1_1_acx7509, ag1_2_acx7100-32c]
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME    e.g. MIDHUAL-EVPN-FXC-MH-1
+ *   $AC_INTF_A        e.g. xe-0/1/3:3.2701
+ *   $SVC_ID_LOCAL_A   e.g. 1
+ *   $SVC_ID_REMOTE_A  e.g. 2
+ *   $AC_INTF_B        e.g. xe-0/1/3:3.2801
+ *   $SVC_ID_LOCAL_B   e.g. 101
+ *   $SVC_ID_REMOTE_B  e.g. 102
+ *   $LOOPBACK_V4      e.g. 192.168.1.11
+ *   $RD_SUB_ASSIGNED  e.g. 3801
+ *   $RT_AS            e.g. 63535
+ *   $RT_ID            e.g. 3801
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_INTF_A {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_A;
+                        remote $SVC_ID_REMOTE_A;
+                    }
+                }
+                interface $AC_INTF_B {
+                    vpws-service-id {
+                        local $SVC_ID_LOCAL_B;
+                        remote $SVC_ID_REMOTE_B;
+                    }
+                }
+                flexible-cross-connect-vlan-aware;
+            }
+        }
+        interface $AC_INTF_A;
+        interface $AC_INTF_B;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:$RT_AS:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_INTF_A`, `$AC_INTF_B`): required, for each reference; `interfaces/ifl-vlan-ccc-description`
+
+## junos/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf
+
+```
+/*
+ * Topic: EVPN-VPWS instance with static flow-label transmit and receive
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 200
+ *   total 200
+ * Pair with: none
+ * Peers with:
+ *   [an4_acx7024] <-> [sag_mx304]
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME       e.g. MBH-EVPN-VPWS-SH-TO-AN4-1
+ *   $AC_IFL              e.g. xe-0/1/3:3.501
+ *   $VPWS_SVC_ID_LOCAL   e.g. 2
+ *   $VPWS_SVC_ID_REMOTE  e.g. 1
+ *   $LOOPBACK_V4         e.g. 192.168.1.11
+ *   $RD_SUB_ASSIGNED     e.g. 3951
+ *   $RT_ID               e.g. 3951
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type evpn-vpws;
+        protocols {
+            evpn {
+                interface $AC_IFL {
+                    vpws-service-id {
+                        local $VPWS_SVC_ID_LOCAL;
+                        remote $VPWS_SVC_ID_REMOTE;
+                    }
+                }
+                flow-label-transmit-static;
+                flow-label-receive-static;
+            }
+        }
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-ccc-description`
+
+## junos/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf
+
+```
+/*
+ * Topic: L3VPN VRF with IPv4 and IPv6 eBGP sessions to the CE using as-override, and vrf-table-label
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 100
+ *   total 100
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME    e.g. MBH-L3VPN-1
+ *   $BGP_GROUP_V4     e.g. v4ixia
+ *   $CE_PEER_V4       e.g. 10.18.7.206
+ *   $PE_LOCAL_V4      e.g. 10.18.7.205
+ *   $ASN_CUSTOMER     e.g. 64516
+ *   $BGP_GROUP_V6     e.g. v6ixia
+ *   $CE_PEER_V6       e.g. 2001:db8::18:1:7:7cf
+ *   $PE_LOCAL_V6      e.g. 2001:db8::18:1:7:7cd
+ *   $DESCRIPTION      e.g. L3-MBH-AND-5G-FRONTHAUL-L3VPN-1
+ *   $AC_IFL           e.g. xe-0/1/3:2.1
+ *   $LOOPBACK_V4      e.g. 192.168.1.11
+ *   $RD_SUB_ASSIGNED  e.g. 1
+ *   $RT_ID            e.g. 1
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        protocols {
+            bgp {
+                group $BGP_GROUP_V4 {
+                    type external;
+                    family inet {
+                        any;
+                    }
+                    neighbor $CE_PEER_V4 {
+                        local-address $PE_LOCAL_V4;
+                        peer-as $ASN_CUSTOMER;
+                        as-override;
+                    }
+                }
+                group $BGP_GROUP_V6 {
+                    type external;
+                    family inet6 {
+                        any;
+                    }
+                    neighbor $CE_PEER_V6 {
+                        local-address $PE_LOCAL_V6;
+                        peer-as $ASN_CUSTOMER;
+                        as-override;
+                    }
+                }
+            }
+        }
+        description $DESCRIPTION;
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-inet-inet6-description`
+
+## junos/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf
+
+```
+/*
+ * Topic: L3VPN VRF with one IRB interface, a router ID and vrf-table-label
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 500
+ *   total 500
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME    e.g. 5G-MIDHAUL-L3VPN-EVPN-IRB-1
+ *   $ROUTER_ID        e.g. 192.168.1.11
+ *   $DESCRIPTION      e.g. 5G-MIDHAUL-EVPN-IRB-ANYCAST-GW-L3VPN-MH-1
+ *   $IRB_IFL          e.g. irb.101
+ *   $LOOPBACK_V4      e.g. 192.168.1.11
+ *   $RD_SUB_ASSIGNED  e.g. 5000
+ *   $RT_ID            e.g. 5000
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type vrf;
+        routing-options {
+            router-id $ROUTER_ID;
+        }
+        description $DESCRIPTION;
+        interface $IRB_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+        vrf-table-label;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `irb-service`: required, all related; one of `bridge-domains/bridge-domain-irb`, `routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community`, `routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni`, `routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static`, `routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override`, `routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label`, `routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label`
+- `logical-interface` (`$IRB_IFL`): required, for each reference; one of `interfaces/ifl-irb-inet-inet6-description`, `interfaces/ifl-irb-inet-inet6-filter-description`
+
+## junos/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf
+
+```
+/*
+ * Topic: BGP-signalled VPLS virtual switch with flow-label transmit and receive (FAT pseudowire) and one bridge domain
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 2000
+ *   total 2000
+ * Pair with: none
+ * Variables (example values from sag_mx304):
+ *   $INSTANCE_NAME    e.g. L2-MIDHAUL-BGP-VPLS-TO-AG1-2-300
+ *   $VPLS_SITE        e.g. r2
+ *   $VPLS_SITE_ID     e.g. 1011
+ *   $DESCRIPTION      e.g. Midhaul-BGP-VPLS-HSR-to-AG1-2-with-FAT-PW-300
+ *   $BD_NAME          e.g. vlan1000
+ *   $VLAN_BD          e.g. 1000
+ *   $AC_IFL           e.g. xe-0/1/3:0.1000
+ *   $LOOPBACK_V4      e.g. 192.168.1.11
+ *   $RD_SUB_ASSIGNED  e.g. 1900
+ *   $RT_ID            e.g. 1900
+ */
+routing-instances {
+    $INSTANCE_NAME {
+        instance-type virtual-switch;
+        protocols {
+            vpls {
+                site $VPLS_SITE {
+                    site-identifier $VPLS_SITE_ID;
+                }
+                site-range 65534;
+                label-block-size 4;
+                no-tunnel-services;
+                flow-label-transmit;
+                flow-label-receive;
+            }
+        }
+        description $DESCRIPTION;
+        bridge-domains {
+            $BD_NAME {
+                vlan-id $VLAN_BD;
+                interface $AC_IFL;
+            }
+        }
+        interface $AC_IFL;
+        route-distinguisher $LOOPBACK_V4:$RD_SUB_ASSIGNED;
+        vrf-target target:63535:$RT_ID;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `logical-interface` (`$AC_IFL`): required, for each reference; `interfaces/ifl-vlan-bridge-description`
+
+## junos/routing-options/auto-bandwidth-template.conf
+
+```
+/*
+ * Topic: Auto-bandwidth template with adjust interval, threshold, statistics interval and subscription
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    auto-bandwidth {
+        template {
+            auto_bw_temp1 {
+                adjust-interval 900;
+                adjust-threshold 50;
+                statistic-collection-interval 60;
+                auto-bandwidth-subscription 100;
+            }
+        }
+    }
+}
+```
+
+## junos/routing-options/autonomous-system.conf
+
+```
+/*
+ * Topic: Device autonomous-system number
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $ASN  e.g. 63535
+ */
+routing-options {
+  autonomous-system $ASN;
+}
+```
+
+## junos/routing-options/forwarding-table-pplb-chained-nh-evpn.conf
+
+```
+/*
+ * Topic: Forwarding-table per-packet load balancing with chained composite next hops for EVPN
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                evpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## junos/routing-options/forwarding-table-pplb-chained-nh-l2ckt-evpn-l3vpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with chained composite next hops for L2 circuit, EVPN and L3VPN
+ * Seen on:
+ *   Junos: ag3_1_mx480 ag3_2_mx480
+ *   EVO: (none)
+ * Count:
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag3_1_mx480):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        chained-composite-next-hop {
+            ingress {
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-l2ckt-evpn-l3vpn.conf
+
+```
+/*
+ * Topic: Forwarding-table load-balance export with ECMP fast reroute and chained composite next hops for L2 circuit, EVPN and L3VPN
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from sag_mx304):
+ *   $PPLB_NAME  e.g. PPLB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        ecmp-fast-reroute;
+        chained-composite-next-hop {
+            ingress {
+                l2ckt;
+                evpn;
+                l3vpn;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance`
+
+## junos/routing-options/interface-routes-rib-group-inet.conf
+
+```
+/*
+ * Topic: Interface routes added to the from-inet0-to-inet3 RIB group
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with:
+ *  - junos/routing-options/rib-groups-from-inet0-to-inet3.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    interface-routes {
+        rib-group inet from-inet0-to-inet3;
+    }
+}
+```
+
+## junos/routing-options/no-multi-topology-routing.conf
+
+```
+/*
+ * Topic: Multi-topology routing disabled
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    no-multi-topology-routing;
+}
+```
+
+## junos/routing-options/rib-groups-from-inet0-to-inet3.conf
+
+```
+/*
+ * Topic: RIB group copying inet.0 routes into inet.3
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        from-inet0-to-inet3 {
+            import-rib [ inet.3 inet.0 ];
+        }
+    }
+}
+```
+
+## junos/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf
+
+```
+/*
+ * Topic: RIB group copying inet.3 routes into inet.0 and inet6.3 through ALLOW_LOOPBACK
+ * Seen on:
+ *   Junos: sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   sag_mx304 1
+ *   total 1
+ * Pair with:
+ *  - junos/policy-options/policy-statement/ps-loopback-allow.conf
+ *
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    rib-groups {
+        inet3-to-inet0 {
+            import-rib [ inet.3 inet.0 inet6.3 ];
+            import-policy ALLOW_LOOPBACK;
+        }
+    }
+}
+```
+
+## junos/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Transport router identity
+ * Seen on:
+ *   Junos: ag2_1_mx204 ag2_2_mx204 ag3_1_mx480 ag3_2_mx480 sag_mx304
+ *   EVO: (none)
+ * Count:
+ *   ag2_1_mx204 1
+ *   ag2_2_mx204 1
+ *   ag3_1_mx480 1
+ *   ag3_2_mx480 1
+ *   sag_mx304 1
+ *   total 5
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from ag2_1_mx204):
+ *   $ROUTER_ID  e.g. 192.168.1.5
+ */
+routing-options {
+    router-id $ROUTER_ID;
+}
+```
+
+## junos/vlans/vlan-2-interfaces.conf
+
+```
+/*
+ * Topic: VLAN with two member interfaces
+ * Seen on:
+ *   Junos: du_qfx5210
+ *   EVO: (none)
+ * Count:
+ *   du_qfx5210 1150
+ *   total 1150
+ * Pair with: none
+ * Variables (example values from du_qfx5210):
+ *   $VLAN_NAME  e.g. BD_FRONTHAUL_EVPN_VPWS_MH_1000
+ *   $VLAN_BD    e.g. 1000
+ *   $AC_IFL_A   e.g. ae26.1000
+ *   $AC_IFL_B   e.g. xe-0/0/6:2.1000
+ */
+vlans {
+    $VLAN_NAME {
+        vlan-id $VLAN_BD;
+        interface $AC_IFL_A;
+        interface $AC_IFL_B;
     }
 }
 ```
 
 ## _variables.md
 
-# Template Variables — LLQ Snip Library
+# Snippet variable glossary
 
-Variables used in templatized snip bodies. Replace `<variable>` placeholders
-with site-specific values when deploying.
+All `.conf` files under `junos/` and `evo/` are templates: identifiers that vary between deployments are written
+as `$VAR`. Render a snippet by substituting each placeholder with your deployment's value. The placeholders each
+snippet uses are listed in its `Variables:` header and in the glossary below. Variable names and meanings follow
+the shared JVD snippet vocabulary. Lettered and numbered
+variables (`_A`…`_E`, `_1`, `_2`, …) form an ordered set; the letters and numbers carry no other meaning.
 
-## Interface & Unit Variables
+Values left literal on purpose: the class-of-service names (forwarding classes `FC-*`, schedulers `SC-*`, the
+scheduler map `SM-5G-SCHEDULER`, classifiers `CL-*` and rewrite rules `RR-*`), the routing policy, community, prefix-list
+and RIB-group names other configuration references by name, the IS-IS SRGB and levels, the CFM level and timers,
+the VPLS `site-range 65534` and `label-block-size 4`, `mtu 9190`, `maximum-labels 5`, the LACP settings, `unit 0` and
+the loopback `lo0.0`, and the per-endpoint MAC lists of the multifield filters.
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<ae-interface>` | Aggregated Ethernet interface name | `ae11`, `ae26` |
-| `<interface>` | Any physical or logical interface | `et-1/0/1`, `ae26`, `xe-0/1/3:2` |
-| `<unit-number>` | Logical unit on the interface | `0`, `101`, `901`, `2501` |
+## Identity / topology
 
-## Addressing & Identity
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN` | Local device autonomous-system number. | `63535` |
+| `$ASN_CUSTOMER` | Customer-facing BGP peer autonomous-system number. | `64518` |
+| `$ASN_INTER_AS` | Autonomous-system number of the inter-AS eBGP peers (the other AS of the design). | `63536` |
+| `$IBGP_PEER_V4` | IPv4 address of an internal BGP neighbor. | `192.168.1.4` |
+| `$IBGP_PEER_V4_1` | IPv4 loopback of an internal BGP neighbor; `_1`, `_2` order the neighbors. | `192.168.1.3` |
+| `$IBGP_PEER_V4_2` | IPv4 loopback of an internal BGP neighbor; `_1`, `_2` order the neighbors. | `192.168.1.4` |
+| `$IBGP_PEER_V4_3` | IPv4 loopback of an internal BGP neighbor; `_1`, `_2` order the neighbors. | `192.168.1.2` |
+| `$LOOPBACK_ALT_V4_PFX` | Secondary IPv4 address with prefix length on loopback unit 0 (`192.168.10.x` in this JVD). | `192.168.10.3/32` |
+| `$LOOPBACK_ALT_V6_PFX` | Secondary IPv6 address with prefix length on loopback unit 0. | `2001:db8::1:1:10:3/128` |
+| `$LOOPBACK_ANYCAST_V4` | Secondary IPv4 loopback address, written with `/32` in the body (sag in this JVD; distinct per router, not shared). | `192.168.10.11` |
+| `$LOOPBACK_SR_V4` | Segment Routing non-zero IPv4 loopback address. | `192.168.10.3` |
+| `$LOOPBACK_SR_V6` | Secondary IPv6 loopback address, written with `/128` in the body. | `2001:db8::1:1:10:3` |
+| `$LOOPBACK_V4` | Primary per-node IPv4 loopback address. | `192.168.1.4` |
+| `$LOOPBACK_V4_PFX` | IPv4 address with prefix length on a loopback unit (`lo0.0` or a per-VRF `lo0.<n>`). | `192.168.1.3/32` |
+| `$LOOPBACK_V6_PFX` | This node's lo0 IPv6 written with its `/128` prefix length. | `2001:db8::1:1:0:3/128` |
+| `$ROUTER_ID` | Complete router identifier in IPv4 dotted-decimal form. | `192.168.1.3` |
+| `$RR1_V4` | IPv4 loopback of a BGP route reflector this node peers with; `RR1`, `RR2` order the reflectors. | `192.168.1.9` |
+| `$RR2_V4` | IPv4 loopback of a second BGP route reflector. | `192.168.1.10` |
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<router-id>` | Device router-id (usually primary loopback) | `192.168.1.3` |
-| `<loopback-address>` | BGP local-address (loopback for iBGP) | `192.168.1.3` |
-| `<peer-address>` | BGP neighbor address | `192.168.1.9` |
-| `<secondary-loopback-v4>` | Additional loopback for SR advertisement | `192.168.10.3` |
-| `<secondary-loopback-v6>` | IPv6 secondary loopback for SR | `2001:db8::1:1:10:3` |
+## Interfaces and optics
 
-## Segment Routing
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_ADDR_V4` | IPv4 address on a routed attachment-circuit unit. | `10.31.167.1/24` |
+| `$AC_ADDR_V6` | IPv6 address on a routed attachment-circuit unit. | `2001:db8::1fa6:11/112` |
+| `$AC_IFL` | Full logical attachment-circuit interface identifier, including its unit. | `ae26.517` |
+| `$AC_IFL_A` | First attachment logical interface (with unit) of a set; `_A`…`_E` order the members. | `ae26.1000` |
+| `$AC_IFL_B` | Second attachment logical interface (with unit) of a set. | `xe-0/0/6:2.1000` |
+| `$AE_BUNDLE` | Aggregated-Ethernet bundle a member link joins (`802.3ad`). | `ae19` |
+| `$AE_DEVICE_COUNT` | Number of aggregated-Ethernet devices the chassis allocates. | `25` |
+| `$CORE_INTF` | Core-facing LAG unit used for ISIS+MPLS underlay. | `ae19.0` |
+| `$CORE_INTF_1` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `ae19.0` |
+| `$CORE_INTF_2` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `ae24.0` |
+| `$CORE_INTF_3` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `et-0/0/49.0` |
+| `$CORE_INTF_4` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `et-0/0/0.0` |
+| `$CORE_INTF_5` | Core-facing logical interface (with unit); `_1`, `_2`, … order the core links of a per-device form. | `ae5.0` |
+| `$CORE_V4_ADDR` | Core interface IPv4 address. | `10.10.0.10/30` |
+| `$CORE_V6_ADDR` | Core interface IPv6 address. | `2001:db8::10:10:0:b/126` |
+| `$COS_INTF` | Interface to which the class-of-service configuration is applied, physical or aggregated and independent of topology role. | `ae19` |
+| `$DESCRIPTION` | Free-text interface `description`. | `TO-DU` |
+| `$FPC_SLOT` | FPC slot for a complete source-measured hardware profile. | `2` |
+| `$IFD` | Interface-device identifier, excluding a logical unit. | `ae26` |
+| `$IRB_IFL` | IRB logical interface (`irb.<unit>`): the Layer 3 interface of a VLAN or bridge domain, or a VRF member. | `irb.101` |
+| `$IRB_MAC` | MAC address configured on an IRB unit (`mac`). | `00:00:00:00:00:a7` |
+| `$IRB_UNIT` | irb.X unit number for IRB integration. | `517` |
+| `$LACP_SYS_ID` | LACP system-id on a multihomed LAG. | `00:00:00:00:00:01` |
+| `$UNIT` | Logical-interface unit number, without the parent interface name. | `3801` |
+| `$VLAN` | A single VLAN identifier. | `351` |
+| `$VLAN_BD` | bridge-domain or mac-vrf vlan-id. | `101` |
+| `$VLAN_NAME` | Name of a `vlans` definition (a VLAN set or range) referenced by trunk members and bundle instances. | `5G-MIDHAUL-L3VPN-BD-351` |
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<ipv4-sid-index>` | SR node-segment IPv4 index (unique per device) | `14` |
-| `<ipv6-sid-index>` | SR node-segment IPv6 index | `114` |
-| `<ipv4-secondary-sid-index>` | SR prefix-segment index for secondary loopback | `214` |
-| `<ipv6-secondary-sid-index>` | SR prefix-segment index for secondary IPv6 loopback | `314` |
+## Services
 
-## Service Instance Variables
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<instance-name>` | Routing-instance name | `FRONTHAUL-EVPN-VPWS-MH-AN1-1` |
-| `<description>` | Human-readable instance description | `L3VPN-IRB-ANYCAST-GATEWAY-MH-1` |
-| `<rd-value>` | Route-distinguisher numeric suffix | `3401` |
-| `<rd-index>` | RD index (for mac-vrf pattern) | `101` |
-| `<rt-value>` | Route-target numeric suffix | `3401` |
-| `<rt-index>` | RT index (for mac-vrf pattern) | `101` |
-| `<asn>` | Autonomous system number | `63535` |
-| `<local-id>` | VPWS local service-id | `1`, `2` |
-| `<remote-id>` | VPWS remote service-id | `2`, `1` |
-
-## VLAN & Bridge Domain
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<vlan-id>` | 802.1Q VLAN identifier | `101`, `901`, `2501` |
-| `<vlan-name>` | VLAN name in vlans stanza | `vlan201` |
-| `<bridge-domain-name>` | Bridge-domain identifier | `BD_EVPN_ELAN_1501` |
-| `<irb-unit>` | IRB interface unit number | `101`, `351` |
-
-## LAG & Multi-Homing
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<lacp-system-id>` | LACP system-id (shared across AG pair) | `00:00:00:00:00:01` |
-| `<esi-value>` | EVPN ESI (10-byte, per-unit unique) | `00:51:11:11:11:11:11:00:00:01` |
-| `<service-description>` | Per-unit description string | `FRONTHAUL-EVPN-VPWS-MH-AN1-1` |
-
-## Firewall / MAC Classification
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<filter-name>` | Firewall filter name | `FF-MFC-IPV4-L3VPN-BD-IRB` |
-| `<ecpri-user-plane-mac-N>` | eCPRI user-plane source MAC | `00:0c:0d:00:00:01` |
-| `<ecpri-ctrl-plane-mac-N>` | eCPRI control-plane source MAC | `00:0c:0e:00:00:01` |
-| `<ecpri-sync-mac-N>` | eCPRI sync source MAC | `00:0c:0f:00:00:01` |
-| `<timing-sync-mac-N>` | PTP/timing destination MAC | `00:0c:22:00:00:01` |
-
-## OAM / CFM
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<md-name>` | Maintenance domain name | `MD_63535` |
-| `<level>` | CFM maintenance-domain level (0-7) | `5` |
-| `<ma-id>` | Maintenance association identifier | `2501` |
-| `<local-mep-id>` | Local MEP identifier | `1003` |
-| `<remote-mep-id>` | Remote MEP identifier | `1001` |
-
-## BGP Groups
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `<group-name>` | BGP group name | `ibgp_meg_rr`, `ibgp_cr` |
-| `<site-name>` | BGP-VPLS site name | `r2`, `r11` |
-| `<site-id>` | BGP-VPLS site-identifier | `1003`, `1011` |
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_INTF` | Customer-facing attachment-circuit unit (with VLAN id when tagged). | `ae26.1000` |
+| `$AC_INTF_A` | First attachment logical interface (with unit) of a flexible cross-connect instance. | `ae26.2601` |
+| `$AC_INTF_B` | Second attachment logical interface (with unit) of a flexible cross-connect instance. | `ae26.2651` |
+| `$BD_NAME` | bridge-domain / MAC-VRF bridge-domain name. | `BD_EVPN_101` |
+| `$BGP_GROUP` | Name of a BGP group (CE-facing group in a VRF, or a CE's group toward a WAN edge). | `ebgp_sag` |
+| `$BGP_GROUP_V4` | Name of the IPv4 eBGP group toward the CE in a VRF. | `v4ixia` |
+| `$BGP_GROUP_V6` | Name of the IPv6 eBGP group toward the CE in a VRF. | `v6ixia` |
+| `$CE_PEER_V4` | IPv4 address of the external BGP peer (CE). | `10.16.7.206` |
+| `$CE_PEER_V6` | IPv6 address of the external BGP peer (CE). | `2001:db8::16:1:7:7cf` |
+| `$CLUSTER_ID` | Route-reflector cluster identifier (`cluster`) of an iBGP group. | `192.168.1.9` |
+| `$ESI` | 10-byte ESI (for EVPN multihoming). | `00:88:11:11:11:11:11:00:00:00` |
+| `$INPUT_FILTER` | Firewall filter name applied as `filter input`. | `FF-MF-EVPN-VPWS-MH-TO-AN1` |
+| `$INPUT_FILTER_V4` | Name of an IPv4 firewall filter: defines the filter and applies it as an input filter. | `FF-MFC-IPV4-L3VPN-BD-IRB` |
+| `$INPUT_FILTER_V6` | Name of an IPv6 firewall filter: defines the filter and applies it as an input filter. | `FF-MFC-IPV6-L3VPN-BD-IRB` |
+| `$INSTANCE_NAME` | Identity stem of a service instance: the routing-instance name, or the shared name of a hub-and-spoke policy and its community. | `5G-MIDHAUL-EVPN-L3VPN-IRB-1` |
+| `$INTER_AS_PEER_V4` | IPv4 address of an inter-AS eBGP neighbor in the other autonomous system of the design (Option B or C): a link address or a loopback for multihop sessions. | `10.10.0.54` |
+| `$INTER_AS_PEER_V4_1` | IPv4 address of an inter-AS eBGP neighbor; `_1`, `_2` order the neighbors of one group. | `10.10.0.49` |
+| `$INTER_AS_PEER_V4_2` | IPv4 address of an inter-AS eBGP neighbor; `_1`, `_2` order the neighbors of one group. | `10.10.0.53` |
+| `$ISIS_NET` | ISIS NET (area + system-id) configured on lo0. | `49.1022.1001.0000.0008.00` |
+| `$MA_ID` | CFM maintenance-association identifier. | `2501` |
+| `$MD_NAME` | CFM maintenance-domain name. | `MD_63535` |
+| `$MEP_LOCAL` | Local MEP identifier. | `1003` |
+| `$MEP_REMOTE` | Remote MEP identifier (single-remote form). | `1001` |
+| `$PE_LOCAL_V4` | Local IPv4 address of the PE side of a CE eBGP session (`local-address`). | `10.16.7.205` |
+| `$PE_LOCAL_V6` | Local IPv6 address of the PE side of a CE eBGP session (`local-address`). | `2001:db8::16:1:7:7cd` |
+| `$PIC_SLOT` | PIC slot within an FPC. | `1` |
+| `$POLICY_NAME` | Name of a routing policy whose body is shared by several differently named policies. | `ALLOW_LOOPBACK` |
+| `$PPLB_NAME` | Per-packet load-balance policy name — a label proven to vary across otherwise-identical deployed forms. | `PPLB` |
+| `$PREFIX` | Prefix a route-filter matches where the prefix itself is what the policy selects. | `0.0.0.0/32` |
+| `$RD_SUB_ASSIGNED` | Route Distinguisher Assigned Number subfield. | `101` |
+| `$REMOTE_PE_V4` | Remote PE loopback used in static l2circuit / LDP-VPLS neighbour lines. | `192.168.1.11` |
+| `$RT_AS` | Route Target Administrator subfield. | `63535` |
+| `$RT_ID` | Route Target Assigned Number subfield. | `101` |
+| `$SR_INDEX_V4` | Segment-routing node index attached to the IPv4 loopback prefix (`prefix-segment index`). | `208` |
+| `$SR_INDEX_V6` | Segment-routing node index attached to the IPv6 loopback prefix (`prefix-segment index`). | `308` |
+| `$STATIC_ARP_V4` | IPv4 address of a static ARP entry on an IRB unit. | `10.31.167.2` |
+| `$STATIC_MAC` | Static MAC address configured on an interface device. | `00:99:00:00:00:a7` |
+| `$STATIC_NDP_V6` | IPv6 address of a static NDP entry on an IRB unit. | `2001:db8::1fa6:12` |
+| `$SVC_ID_LOCAL_A` | Local VPWS service identifier of the first attachment circuit of a flexible cross-connect. | `2` |
+| `$SVC_ID_LOCAL_B` | Local VPWS service identifier of the second attachment circuit of a flexible cross-connect. | `102` |
+| `$SVC_ID_REMOTE_A` | Remote VPWS service identifier of the first attachment circuit of a flexible cross-connect. | `1` |
+| `$SVC_ID_REMOTE_B` | Remote VPWS service identifier of the second attachment circuit of a flexible cross-connect. | `101` |
+| `$TS_PIC` | PIC slot that hosts tunnel services. | `0` |
+| `$VC_ID` | Virtual-circuit identifier of a Layer 2 circuit, or the VPLS identifier (`vpls-id`). | `1501` |
+| `$VGA` | EVPN virtual-gateway address shared by the IRB's redundancy group. | `10.21.167.1` |
+| `$VGA_V6` | IPv6 virtual gateway address shared by the routers of an anycast IRB gateway. | `2001:db8::15a6:11` |
+| `$VPLS_SITE` | BGP-VPLS site name. | `r2` |
+| `$VPLS_SITE_ID` | BGP-VPLS site-identifier. | `1003` |
+| `$VPWS_SVC_ID_LOCAL` | EVPN-VPWS local service-id. | `1` |
+| `$VPWS_SVC_ID_REMOTE` | EVPN-VPWS remote service-id. | `2` |
 
 ## byoai/TIERS.md
 
-# Configuration Form Tiers
+> **Tier qualification for this JVD.** Only `minimum` is qualified and selectable.
+> The `self-contained` and `as-deployed` entries below are blocked: each service's
+> attachment unit is a required selection the library cannot make. They are not
+> selectable: never offer or render them.
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet
-files to include for each service kind at each verbosity tier. It is bundled into
-[`jvd-llq-snips.md`](jvd-llq-snips.md) by `regenerate-bundle.sh`.
+# Configuration form tiers
 
-For each service kind, the AI includes ONLY the snips listed for the chosen tier —
-and ONLY those — unless the user explicitly asks for more. Use the OS-appropriate
-file under `junos/` or `evo/` for the target device:
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd service_provider/low_latency_queueing`. -->
 
-- **EVO** (ACX7024/7100/7509 access & aggregation, PTX10001-36MR core) → `evo/…`
-- **Junos** (MX204/MX480 aggregation, MX304 SAG) → `junos/…`
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
-This is a **5G xHaul Class-of-Service** JVD — CoS is not an afterthought, it is
-the point. Every service's `as-deployed` tier therefore includes the full CoS
-baseline. Fronthaul services (eCPRI) are the primary use of the low-latency queue
-(FC-LLQ, queue 6) and, on ACX, the `schedulers-low-latency` scheduler.
+## What the tiers mean
 
----
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-## Shared underlay baseline (referenced by every `as-deployed`)
-
-The SR-MPLS transport + policy + CoS every device needs end-to-end. Factor this
-once; every service's `as-deployed` = its `with-overlay` set + this baseline.
-
-**Transport**
-- `transport/isis-global.conf` (IS-IS SR, SRGB, TI-LFA backup)
-- `transport/isis-interface.conf` (level-2, TI-LFA, BFD, p2p)
-- `transport/mpls-global.conf` (PCE LSPs, TTL, ICMP/IPv6 tunneling)
-- `transport/bgp-internal.conf` (iBGP labeled-unicast + route-reflector)
-- `transport/load-balance-pplb.conf` (chained-composite-next-hop)
-- `transport/forwarding-options-hash.conf` (EVO only — L3+L4+MPLS hashing)
-
-**Policy**
-- `policy/allow-loopback.conf`, `policy/next-hop-self.conf`, `policy/pplb.conf`,
-  `policy/sr-nonzero-loopbacks.conf`
-
-**CoS baseline (transport marking)**
-- `cos/forwarding-classes.conf` (8-class O-RAN model)
-- `cos/classifier-exp.conf` + `cos/rewrite-exp.conf` (MPLS EXP core)
-- `cos/scheduler-map.conf`
-- `cos/schedulers-low-latency.conf` (EVO ACX — FC-LLQ = low-latency) **or**
-  `cos/schedulers-strict-high.conf` (Junos MX + EVO PTX core — FC-LLQ = strict-high)
-- `cos/cos-binding-transport.conf` (EXP classify + rewrite on core AE units)
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## EVPN-VPWS (5G fronthaul eCPRI / L2 MBH point-to-point)
+## EVPN-VPWS point-to-point service
 
-EVO = multi-homed (eCPRI fronthaul, ESI on the AG-facing LAG). Junos = single-homed
-(midhaul/backhaul to SAG).
+Family e-line, form evpn-vpws. OS mode EVO. Attachment: VLAN CCC unit toward the cell site or hub site attachment..
 
-**minimum** (just the service)
-- flavor: `evo/services/evpn-vpws-vlan-based-mh.conf` **or**
-  `junos/services/evpn-vpws-vlan-based-sh.conf`
-- `evo/interfaces/lag-esi.conf` (EVO — ESI LAG) **or**
-  `junos/interfaces/vlan-ccc.conf` (Junos — vlan-ccc AC unit)
-- `evo/interfaces/vlan-ccc.conf` (EVO AC unit) if not on the ESI LAG
-- fronthaul CoS: `evo/cos/cos-binding-l2-fronthaul-static.conf` (static FC-LLQ) +
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (MAC-based eCPRI steering)
+### ag1_1_acx7509 (evo)
 
-**with-overlay** (= minimum +)
-- `transport/bgp-internal.conf` (assert iBGP family for EVPN)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+### ag1_2_acx7100-32c (evo)
 
----
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-## EVPN-FXC vlan-aware (Flexible Cross-Connect, fronthaul/midhaul)
+### an1_acx7100-48l (evo)
 
-**minimum**
-- `services/evpn-fxc-vlan-aware.conf`
-- `interfaces/vlan-ccc.conf` (+ `evo/interfaces/lag-esi.conf` for EVO multihoming)
-- fronthaul CoS: `evo/cos/cos-binding-l2-fronthaul-static.conf` +
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (EVO)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### an3_acx7100-48l (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
----
+### an4_acx7024 (evo)
 
-## EVPN-ELAN (multipoint L2 fronthaul)
-
-EVO = `evpn-elan-vlan-based.conf` (mac-vrf, simple). Junos = `evpn-elan-vlan-based-irb.conf`
-(mac-vrf + IRB — see the IRB service below).
-
-**minimum**
-- `evo/services/evpn-elan-vlan-based.conf`
-- `interfaces/vlan-bridge.conf` (+ `evo/interfaces/lag-esi.conf` for multihoming)
-- L2 CoS: `evo/cos/cos-binding-l2-fronthaul.conf` (802.1p classify)
-
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
-
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF
 
 ---
 
-## EVPN-ELAN with IRB + L3VPN (integrated L2 + L3 midhaul)
+## EVPN-VPWS service with static flow labels (FAT pseudowire)
 
-The DU→SAG midhaul anycast-gateway pattern: bridge domain + IRB routed into an
-L3VPN VRF.
+Family e-line, form evpn-vpws-flow-label-static. OS mode MIXED. Attachment: VLAN CCC unit toward the cell site or service edge attachment..
 
-**minimum**
-- `services/evpn-elan-vlan-based-irb.conf` (Junos) **or**
-  `evo/services/evpn-elan-vlan-based.conf` + `evo/cos/cos-binding-irb.conf` (EVO)
-- `services/l3vpn-irb.conf` (the VRF that binds `irb.<unit>`)
-- `interfaces/vlan-bridge.conf` (AC units)
-- IRB CoS: `evo/cos/cos-binding-irb.conf` (static FC-REALTIME on IRB) (EVO)
-- IRB firewall MF: `firewall/filter-mfc-ipv4-l3vpn-irb.conf` +
-  `firewall/filter-mfc-ipv6-l3vpn-irb.conf`
+### an4_acx7024 (evo)
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
-**as-deployed** (= with-overlay + shared underlay baseline + full L3 CoS:
-`cos/classifier-dscp.conf`, `cos/classifier-dscp-ipv6.conf`,
-`cos/rewrite-dscp.conf`, `cos/rewrite-dscp-ipv6.conf`,
-`cos/cos-binding-l3-service.conf`)
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
-## L3VPN with IRB (anycast gateway, standalone)
+## EVPN flexible cross-connect, VLAN-aware, two attachment circuits
 
-**minimum**
-- `services/l3vpn-irb.conf`
-- `interfaces/vlan-bridge.conf` (the AC/IRB attachment)
-- `cos/cos-binding-l3-service.conf` (DSCP classify/rewrite per unit) +
-  `firewall/filter-mfc-ipv4-l3vpn-irb.conf` + `firewall/filter-mfc-ipv6-l3vpn-irb.conf`
+Family e-line, form evpn-fxc-vlan-aware-2-uni. OS mode MIXED. Attachment: Two VLAN CCC units on the attachment port..
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### ag1_1_acx7509 (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline + full L3 CoS:
-`cos/classifier-dscp*.conf`, `cos/rewrite-dscp*.conf`)
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_INTF_A
+  - occurrence-selection-required: logical-interface:$AC_INTF_B
 
 ---
 
-## BGP-VPLS (multipoint L2 MBH, RFC 4761)
+## Layer 2 circuit (LDP pseudowire) with control word
 
-**minimum**
-- `services/bgp-vpls-vsi.conf`
-- `interfaces/vlan-bridge.conf`
-- L2 CoS: `evo/cos/cos-binding-l2-fronthaul.conf` (EVO)
-- OAM (optional): `evo/oam/cfm-maintenance-domain.conf`
+Family e-line, form l2circuit-control-word. OS mode MIXED. Attachment: VLAN CCC unit toward the attachment..
 
-**with-overlay** (= minimum + `transport/bgp-internal.conf`)
+### an1_acx7100-48l (evo)
 
-**as-deployed** (= with-overlay + shared underlay baseline)
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-control-word.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
 
 ---
 
-## Add-a-feature requests (no full service)
+## Layer 2 circuit with control word and static flow labels (FAT pseudowire)
 
-When the user asks to add a supporting feature to an existing device, emit ONLY
-that snip set (OS-appropriate):
+Family e-line, form l2circuit-control-word-flow-label-static. OS mode MIXED. Attachment: VLAN CCC unit toward the attachment..
 
-- **CoS (full 8-class 5G model)** → `cos/forwarding-classes.conf` +
-  `cos/scheduler-map.conf` + (`cos/schedulers-low-latency.conf` for EVO ACX /
-  `cos/schedulers-strict-high.conf` for Junos MX + EVO PTX) + all classifiers
-  (`cos/classifier-ieee-802.1.conf`, `cos/classifier-exp.conf`,
-  `cos/classifier-dscp.conf`, `cos/classifier-dscp-ipv6.conf`) + all rewrites
-  (`cos/rewrite-ieee-802.1.conf`, `cos/rewrite-exp.conf`, `cos/rewrite-dscp.conf`,
-  `cos/rewrite-dscp-ipv6.conf`) + the relevant `cos/cos-binding-*.conf`
-- **Low-latency fronthaul CoS binding** → `evo/cos/cos-binding-l2-fronthaul-static.conf`
-  (static FC-LLQ) or `evo/cos/cos-binding-l2-fronthaul.conf` (802.1p) +
-  `evo/cos/schedulers-low-latency.conf` + `evo/firewall/filter-mf-ecpri-fronthaul.conf`
-- **OAM/CFM** → `evo/oam/cfm-maintenance-domain.conf`
-- **Firewall / MF classification** → `firewall/filter-mfc-ipv4-l3vpn-irb.conf` +
-  `firewall/filter-mfc-ipv6-l3vpn-irb.conf` (L3VPN IRB) or
-  `evo/firewall/filter-mf-ecpri-fronthaul.conf` (eCPRI fronthaul)
-- **Load-balancing** → `policy/pplb.conf` + `transport/load-balance-pplb.conf` +
-  `evo/transport/forwarding-options-hash.conf` (EVO)
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/protocols/l2circuit-control-word-flow-label-static.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN-ELAN MAC-VRF, VLAN-based service
+
+Family e-lan, form evpn-elan-vlan-based. OS mode EVO. Attachment: VLAN bridge unit on the attachment port..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## EVPN MAC-VRF, VLAN-based service, with an IRB interface
+
+Family e-lan, form evpn-elan-vlan-based-irb. OS mode MIXED. Attachment: VLAN bridge unit on the attachment port and an IRB unit for the Layer 3 gateway..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-evpn-mac-vrf-vlan-based-irb-no-gateway-community.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## BGP-signalled VPLS with flow labels (FAT pseudowire)
+
+Family e-lan, form bgp-vpls-flow-label. OS mode MIXED. Attachment: VLAN bridge unit on the attachment port..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/vpls/ri-bgp-vpls-virtual-switch-flow-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
+
+## L3VPN VRF with an IRB interface
+
+Family l3vpn, form l3vpn-irb. OS mode MIXED. Attachment: IRB unit that is the Layer 3 interface of a midhaul bridge domain..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$IRB_IFL
+
+---
+
+## L3VPN VRF with IPv4 and IPv6 eBGP to the CE
+
+Family l3vpn, form l3vpn-ebgp-v4-v6. OS mode MIXED. Attachment: Dual-stack VLAN unit toward the CE..
+
+### ag1_1_acx7509 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### ag1_2_acx7100-32c (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an1_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an3_acx7100-48l (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### an4_acx7024 (evo)
+
+- `minimum`: `evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+### sag_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL
+
+---
 
 ## byoai/DEFAULTS.md
 
-# Auto-Fill Defaults
+# DEFAULTS — Low Latency QoS Design for 5G
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD
-lab-default values the AI uses in `auto` mode (or when the user short-circuits with
-`all defaults` / `use defaults` / `skip`). It is bundled into
-[`jvd-llq-snips.md`](jvd-llq-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Low Latency QoS Design for 5G JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks a device and service and asks for lab values; otherwise ask for the deployment values.
 
-Use these values EXACTLY. Do not invent alternative defaults. Every value the AI
-auto-fills MUST be listed in the output's `Inputs used:` block so the user can
-rerun with edits. All values below are taken from the JVD's own validated device
-configs (`configuration/conf/*.conf`).
+## Device inventory
 
----
+| Role | Device | Platform | OS | Loopback / router-id | `$ASN` |
+|------|--------|----------|----|----------------------|--------|
+| Access Node / Cell Site Router (CSR) | an1_acx7100-48l | ACX7100-48L | EVO | 192.168.1.1 | 63535 |
+| Access Node / Cell Site Router (CSR) | an3_acx7100-48l | ACX7100-48L | EVO | 192.168.1.2 | 63535 |
+| Access Node / Cell Site Router (CSR) | an4_acx7024 | ACX7024 | EVO | 192.168.1.0 | 63535 |
+| Aggregation: HSR and helper (AG) | ag1_1_acx7509 | ACX7509 | EVO | 192.168.1.3 | 63535 |
+| Aggregation: HSR and helper (AG) | ag1_2_acx7100-32c | ACX7100-32C | EVO | 192.168.1.4 | 63535 |
+| Aggregation: HSR and helper (AG) | ag2_1_mx204 | MX204 | Junos | 192.168.1.5 | 63535 |
+| Aggregation: HSR and helper (AG) | ag2_2_mx204 | MX204 | Junos | 192.168.1.6 | 63535 |
+| Aggregation: HSR and helper (AG) | ag3_1_mx480 | MX480 | Junos | 192.168.1.7 | 63535 |
+| Aggregation: HSR and helper (AG) | ag3_2_mx480 | MX480 | Junos | 192.168.1.8 | 63535 |
+| Core Router (CR) | cr1_ptx10001-36mr | PTX10001-36MR | EVO | 192.168.1.9 | 63535 |
+| Core Router (CR) | cr2_ptx10001-36mr | PTX10001-36MR | EVO | 192.168.1.10 | 63535 |
+| Services Aggregation Gateway (SAG) | sag_mx304 | MX304 | Junos | 192.168.1.11 | 63536 |
+| O-DU Switch (DU) | du_qfx5210 | QFX5210 | Junos | — | — |
 
-## Device inventory (the JVD topology)
+## Service examples (first measured instance per router)
 
-| Device | OS family | Role | Loopback (router-id) | SR node index |
-|--------|-----------|------|----------------------|---------------|
-| `an4_acx7024` | EVO | Access / Cell Site Router (CSR) | `192.168.1.0` | 0 |
-| `an1_acx7100-48l` | EVO | Access Node | `192.168.1.1` | 3 |
-| `an3_acx7100-48l` | EVO | Access Node | `192.168.1.2` | 4 |
-| `ag1_1_acx7509` | EVO | Aggregation / Hub Site Router (HSR) | `192.168.1.3` | 8 |
-| `ag1_2_acx7100-32c` | EVO | Aggregation / HSR | `192.168.1.4` | 9 |
-| `ag2_1_mx204` | Junos | Aggregation | `192.168.1.5` | 10 |
-| `ag2_2_mx204` | Junos | Aggregation | `192.168.1.6` | 11 |
-| `ag3_1_mx480` | Junos | Aggregation | `192.168.1.7` | 12 |
-| `ag3_2_mx480` | Junos | Aggregation | `192.168.1.8` | 13 |
-| `cr1_ptx10001-36mr` | EVO | Core / Route Reflector | `192.168.1.9` | 14 |
-| `cr2_ptx10001-36mr` | EVO | Core / Route Reflector | `192.168.1.10` | 15 |
-| `sag_mx304` | Junos | Services Aggregation Gateway (SAG) | `192.168.1.11` | — |
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| evpn-vpws | an1_acx7100-48l | `$AC_INTF` et-0/0/2.1101, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3601, `$RT_AS` 63535, `$RT_ID` 3601 |
+| evpn-vpws | an3_acx7100-48l | `$AC_INTF` et-0/0/0.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-100, `$LOOPBACK_V4` 192.168.1.2, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws | an4_acx7024 | `$AC_INTF` et-0/0/4.1001, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3501, `$RT_AS` 63535, `$RT_ID` 3501 |
+| evpn-vpws | ag1_1_acx7509 | `$AC_INTF` ae26.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-AN1-100, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws | ag1_2_acx7100-32c | `$AC_INTF` ae26.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-AN1-100, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws-flow-label-static | an4_acx7024 | `$AC_IFL` et-0/0/4.501, `$INSTANCE_NAME` MBH-EVPN-VPWS-SH-TO-SAG-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3951, `$RT_ID` 3951, `$VPWS_SVC_ID_LOCAL` 1 |
+| evpn-vpws-flow-label-static | sag_mx304 | `$AC_IFL` xe-0/1/3:3.501, `$INSTANCE_NAME` MBH-EVPN-VPWS-SH-TO-AN4-1, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 3951, `$RT_ID` 3951, `$VPWS_SVC_ID_LOCAL` 2 |
+| evpn-fxc-vlan-aware-2-uni | an4_acx7024 | `$AC_INTF_A` et-0/0/4.2501, `$AC_INTF_B` et-0/0/4.2551, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-SH-AG1-1-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3701, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | ag1_1_acx7509 | `$AC_INTF_A` ae26.2601, `$AC_INTF_B` ae26.2651, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3751, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | ag1_2_acx7100-32c | `$AC_INTF_A` ae26.2601, `$AC_INTF_B` ae26.2651, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3751, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | sag_mx304 | `$AC_INTF_A` xe-0/1/3:3.2701, `$AC_INTF_B` xe-0/1/3:3.2801, `$INSTANCE_NAME` MIDHUAL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 3801, `$RT_AS` 63535 |
+| l2circuit-control-word | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1301, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1301 |
+| l2circuit-control-word | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1001, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1001 |
+| l2circuit-control-word | an4_acx7024 | `$AC_IFL` et-0/0/4.1201, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1201 |
+| l2circuit-control-word | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1001, `$REMOTE_PE_V4` 192.168.1.2, `$VC_ID` 1001 |
+| l2circuit-control-word-flow-label-static | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.1501, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1501 |
+| l2circuit-control-word-flow-label-static | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.2501, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 2501 |
+| l2circuit-control-word-flow-label-static | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1501, `$REMOTE_PE_V4` 192.168.1.3, `$VC_ID` 1501 |
+| evpn-elan-vlan-based | an4_acx7024 | `$AC_IFL` et-0/0/4.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based | ag1_1_acx7509 | `$AC_IFL` ae26.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based | ag1_2_acx7100-32c | `$AC_IFL` ae26.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based-irb | ag1_1_acx7509 | `$AC_IFL` ae26.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| evpn-elan-vlan-based-irb | ag1_2_acx7100-32c | `$AC_IFL` ae26.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| evpn-elan-vlan-based-irb | sag_mx304 | `$AC_IFL` xe-0/1/3:2.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| bgp-vpls-flow-label | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1651, `$BD_NAME` vlan1651, `$INSTANCE_NAME` L2-MBH-BGP-VPLS-1, `$LOOPBACK_V4` 192.168.1.1, `$RD_SUB_ASSIGNED` 651, `$RT_ID` 651 |
+| bgp-vpls-flow-label | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1201, `$BD_NAME` vlan1201, `$INSTANCE_NAME` MBH-VPLS-RT1-RT6-1, `$LOOPBACK_V4` 192.168.1.2, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| bgp-vpls-flow-label | an4_acx7024 | `$AC_IFL` et-0/0/4.101, `$BD_NAME` vlan101, `$INSTANCE_NAME` L2-MBH-BGP-VPLS-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 551, `$RT_ID` 551 |
+| bgp-vpls-flow-label | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.201, `$BD_NAME` vlan201, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-SAG-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 1101, `$RT_ID` 1101 |
+| bgp-vpls-flow-label | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.1000, `$BD_NAME` vlan1000, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-SAG-300, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 1900, `$RT_ID` 1900 |
+| bgp-vpls-flow-label | sag_mx304 | `$AC_IFL` xe-0/1/3:0.1000, `$BD_NAME` vlan1000, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-AG1-2-300, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 1900, `$RT_ID` 1900 |
+| l3vpn-irb | ag1_1_acx7509 | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.3, `$RT_ID` 5000 |
+| l3vpn-irb | ag1_2_acx7100-32c | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.4, `$RT_ID` 5000 |
+| l3vpn-irb | sag_mx304 | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.11, `$RT_ID` 5000 |
+| l3vpn-ebgp-v4-v6 | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1, `$ASN_CUSTOMER` 64513, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.14.7.206, `$CE_PEER_V6` 2001:db8::14:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1, `$ASN_CUSTOMER` 64514, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.15.7.206, `$CE_PEER_V6` 2001:db8::15:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | an4_acx7024 | `$AC_IFL` et-0/0/4.1, `$ASN_CUSTOMER` 64511, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.11.7.206, `$CE_PEER_V6` 2001:db8::11:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.1, `$ASN_CUSTOMER` 64518, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.16.7.206, `$CE_PEER_V6` 2001:db8::16:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.1, `$ASN_CUSTOMER` 64515, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.17.7.206, `$CE_PEER_V6` 2001:db8::17:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1, `$ASN_CUSTOMER` 64516, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.18.7.206, `$CE_PEER_V6` 2001:db8::18:1:7:7cf |
 
-**Device-choice shortcuts** (offered in the clarifying question):
-- `EVO` → `an4_acx7024` (CSR) + `ag1_1_acx7509` (HSR) — the primary eCPRI
-  fronthaul pair, both LLQ-capable ACX
-- `JUNOS` → `sag_mx304` (SAG) + `ag2_1_mx204` (aggregation)
-- `MIXED` → `an4_acx7024` (EVO CSR) + `sag_mx304` (Junos SAG) — end-to-end
-  fronthaul-to-services example
-
-The two core routers (`cr1_ptx10001-36mr`, `cr2_ptx10001-36mr`) are the iBGP route
-reflectors — services are NOT instantiated on them. On MX (`sag`, `ag2`, `ag3`)
-and PTX core, FC-LLQ is realized with `priority strict-high`
-(`cos/schedulers-strict-high.conf`); only ACX supports the hardware
-`priority low-latency` scheduler (`cos/schedulers-low-latency.conf`).
-
----
-
-## Transport / underlay defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<asn>` / `$LOCAL_AS` | `63535` | primary xHaul AS (all devices except SAG far-AS) |
-| `<sag-asn>` | `63536` | SAG / inter-AS Option-B peer AS |
-| `<router-id>` / `<loopback-address>` | = device loopback | per device (see table) |
-| IS-IS area | `49.1022.1001` | NET `49.1022.1001.0000.00<nn>.00`, `<nn>` per device |
-| IS-IS level | `2` (agg/core), `1` (access AN → L1/L2 HSR) | Seamless MPLS domains |
-| SRGB | start-label `16000`, index-range `80000` | domain-wide, consistent everywhere |
-| `<ipv4-sid-index>` | per device (see table) | e.g. an4=0, ag1_1=8, cr1=14 |
-| `<ipv6-sid-index>` | `100 + <ipv4-sid-index>` | IPv6 node-SID index |
-| MTU (core) | `9192` | inter-router AE + lo0 |
-
----
-
-## LAG / interface defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<ae-interface>` | `ae26` (fronthaul ESI LAG, EVO) / `ae11` (transport) | per role |
-| `<lacp-system-id>` | `00:00:00:00:00:01` | shared across the AG pair for EVPN ESI |
-| `<interface>` (AC, single-homed) | `et-1/0/1` (EVO 10g) / `xe-0/1/3:2` (Junos) | first AC member |
-| `<unit-number>` / `<vlan-id>` | start `101` (fronthaul) / `2501` (midhaul BD) | increment per instance |
-
----
-
-## Service instance-name conventions
-
-Each service kind uses a distinct instance-name prefix. Increment the trailing
-numeric per instance.
-
-| Service | Instance name pattern | Starting example | Unit / VLAN start |
-|---------|----------------------|------------------|-------------------|
-| EVPN-VPWS (fronthaul MH) | `FRONTHAUL-EVPN-VPWS-MH-AN1-<n>` | `FRONTHAUL-EVPN-VPWS-MH-AN1-1` | `101` |
-| EVPN-VPWS (midhaul SH) | `MBH-EVPN-VPWS-SH-<n>` | `MBH-EVPN-VPWS-SH-1` | `901` |
-| EVPN-FXC vlan-aware | `FRONTHAUL-EVPN-FXC-<n>` | `FRONTHAUL-EVPN-FXC-1` | `101` |
-| EVPN-ELAN (fronthaul) | `FRONTHAUL-EVPN-ELAN-MH-<n>` | `FRONTHAUL-EVPN-ELAN-MH-1` | `1501` |
-| EVPN-ELAN + IRB / L3VPN | `L3VPN-IRB-ANYCAST-GATEWAY-MH-<n>` | `L3VPN-IRB-ANYCAST-GATEWAY-MH-1` | IRB unit `351` |
-| BGP-VPLS | `MBH-BGP-VPLS-<n>` | `MBH-BGP-VPLS-1` | `2501` |
-| L3VPN-IRB | `L3VPN-IRB-<n>` | `L3VPN-IRB-1` | IRB unit `101` |
-
----
-
-## Route-distinguisher / route-target defaults
-
-| Variable | Rule | Example |
-|----------|------|---------|
-| `<rd-value>` | `<device-loopback>:<unit>` | `192.168.1.0:3401` |
-| `<rt-value>` | `target:<asn>:<id>` | `target:63535:3401` |
-| `<local-id>` / `<remote-id>` | VPWS service-id pair; symmetric across the two PEs | local `1`, remote `2` (swap on the far PE) |
-
-**Cross-PE identifier rule:** route-targets, VPWS service-id pairs, ESI values, and
-MAC-VRF / instance names MUST match on both PE halves of a service. Per-PE
-identifiers (loopback, RD, AC interface name) differ.
-
----
-
-## Multi-homing (ESI) defaults
-
-- All-active ESI on the AG-facing fronthaul LAG (e.g. `ae26`) for dual-homed ANs.
-- ESI value pattern: `00:51:11:11:11:11:11:00:00:<nn>` — the trailing octet is
-  per-ESI; MUST match on both HSRs of the multi-homed pair.
-- LACP system-id on the shared LAG MUST match on both HSRs of the ESI.
-
----
-
-## IRB / L3 defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<irb-unit>` | = the ELAN unit (e.g. `351`) | irb.<unit> |
-| `<irb-ipv4>` | `100.100.<x>.1/24` | anycast gateway per bridge domain |
-| `<bridge-domain-name>` | `BD_EVPN_ELAN_<vlan>` | e.g. `BD_EVPN_ELAN_1501` |
-
----
-
-## CoS defaults (JVD-wide constants — never parameterize)
-
-8-class O-RAN multi-priority model, do NOT renumber:
-
-| Queue | Forwarding class | Priority (ACX / MX-PTX) |
-|-------|------------------|-------------------------|
-| 7 | FC-SIGNALING | strict-high / high |
-| 6 | **FC-LLQ** | **low-latency (ACX) / strict-high (MX-PTX)** |
-| 5 | FC-REALTIME | medium-high |
-| 4 | FC-HIGH | low (WFQ) |
-| 3 | FC-CONTROL | high |
-| 2 | FC-MEDIUM | low (WFQ) |
-| 1 | FC-LOW | low (WFQ) |
-| 0 | FC-BEST-EFFORT | low (WFQ remainder) |
-
-Classifier / rewrite names (`CL-MPLS`, `CL-8021P`, `CL-DSCP`, `CL-DSCP-IPV6`,
-`RR-MPLS`, `RR-8021P`, `RR-DSCP`, `RR-DSCP-IPV6`), scheduler-map `SM-5G-SCHEDULER`,
-and scheduler names (`SC-LLQ`, `SC-SIGNALING`, …) are JVD-wide constants — never
-parameterize the class names, queue numbers, or these identifiers.
+Keep the routers of a service consistent: same instance name and route target; swap the local and remote VPWS service identifiers between the two ends of an EVPN-VPWS service.
 
 ## byoai/OUTPUT_FORMAT.md
 
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape
-every generation must take. Bundled into [`jvd-llq-snips.md`](jvd-llq-snips.md) by
-`regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-llq-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
-Every generation begins with a YAML comment block listing **every** value picked
-or accepted:
+Every generation begins with a YAML comment block listing **every** value picked or accepted:
 
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   pe1: { name: <hostname>, os: <junos|evo>, role: <csr|hsr|agg|core|sag>, loopback4: <addr> }
-#   pe2: { ... }
+#   an4: { name: <hostname>, os: evo, loopback4: <addr> }
+#   sag: { name: <hostname>, os: junos, loopback4: <addr> }
 # services:
-#   - { kind: <evpn-vpws|evpn-fxc|evpn-elan|evpn-elan-irb|l3vpn-irb|bgp-vpls>,
+#   - { kind: <evpn-vpws|evpn-vpws-flow-label-static|evpn-fxc-vlan-aware-2-uni|l2circuit-control-word|l2circuit-control-word-flow-label-static|evpn-elan-vlan-based|evpn-elan-vlan-based-irb|bgp-vpls-flow-label|l3vpn-irb|l3vpn-ebgp-v4-v6>,
 #       count: <int>,
 #       start_id: <int>,
-#       start_vlan: <int>,
-#       start_ac_unit: <int>,
-#       rt: <target:...>,
-#       esi_base: <hex>,         # for multihomed fronthaul services
-#       irb_subnet: <prefix> }   # for evpn-elan-irb / l3vpn-irb
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - evo/services/evpn-vpws-vlan-based-mh.conf
-#   - evo/cos/cos-binding-l2-fronthaul-static.conf
+#   - junos/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf
 #   - ...
 ```
 
-This block makes every generation reproducible — the user can paste it back to
-regenerate the same output.
+This block makes every generation reproducible — the user can paste it back to regenerate the same output.
 
 ## 2. One fenced `text` block per device
 
-Each device block starts with a `# device:` label and groups its snips with
-`/* snips/<path> */` section comments:
+Each device block starts with a `# device:` label and groups its snips with `/* snips/<path> */` section comments:
 
 ```text
 # device: <hostname>
@@ -4033,34 +9655,20 @@ Each device block starts with a `# device:` label and groups its snips with
 <rendered config block>
 ```
 
-Drop the leading C-style `/* … */` documentation header from each snip when
-emitting. Keep one `/* snips/<path> */` line as the section comment.
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-PE consistency the user must verify (RTs, ESIs, VPWS service-id pairs,
-  MAC-VRF / instance names).
-- Anything that is by-pattern rather than validated on that exact device (e.g. a
-  user-supplied hostname not in any snip's `Seen on:` list).
-- **CoS priority realization:** on ACX (access/aggregation) FC-LLQ uses the
-  hardware `priority low-latency` scheduler (`cos/schedulers-low-latency.conf`);
-  on MX (SAG/aggregation) and PTX (core) FC-LLQ falls back to `priority
-  strict-high` (`cos/schedulers-strict-high.conf`) — pick the file that matches
-  the device family, and flag when a service spans both.
-- **Fronthaul classification:** dedicated eCPRI units may use
-  `cos-binding-l2-fronthaul-static.conf` (static FC-LLQ, no classifier) vs
-  `cos-binding-l2-fronthaul.conf` (802.1p classification). MAC pools in
-  `filter-mf-ecpri-fronthaul.conf` are lab-specific — remind the user to
-  substitute site eCPRI/PTP MAC addresses.
+- Cross-device consistency the user must verify: the routers of one service use the same instance name and route target; an EVPN-VPWS or flexible cross-connect service swaps the local and remote VPWS service identifiers between its two ends; an L2 circuit uses the same virtual-circuit ID at both ends.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 
-If the request cannot be fulfilled from the snip library, do not apologise. Say
-exactly:
+If the request cannot be fulfilled from the snip library, do not apologise. Say exactly:
 
 ```
 I cannot generate this from the snip library because <one reason>.

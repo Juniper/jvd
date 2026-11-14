@@ -29,10 +29,10 @@ validated end-to-end across EVPN, L3VPN, BGP-VPLS, and L2Circuit services over a
 | Role | In the network |
 |---|---|
 | **Access Node / Cell Site Router (CSR)** | Aggregates O-RU traffic (5G + legacy 4G) at the cell site; L2 fronthaul + L3 MBH attachment; ingress classification/rewrite. |
-| **Aggregation / Hub Site Router (HSR)** | Aggregates multiple CSRs; O-DU/O-CU connectivity; route reflectors for the access fronthaul segment; inter-AS Option B/C. |
-| **Aggregation (helper)** | Midhaul/backhaul transport between HSR and core. |
+| **Aggregation: HSR and helper (AG)** | AG1.1 and AG1.2 are Hub Site Routers (HSR): aggregate multiple CSRs; O-DU/O-CU connectivity; route reflectors for the access fronthaul segment; inter-AS Option B/C. AG2 and AG3 are helpers: midhaul/backhaul transport between HSR and core. |
 | **Core Router (CR)** | SR-MPLS core transit; redundant route reflectors. |
 | **Services Aggregation Gateway (SAG)** | Service edge toward the 5GC/EPC (UPF); inter-AS Option-B peering to HSR. |
+| **O-DU Switch (DU)** | Layer 2 switch on the O-DU side of the hub site: dual-homed to both HSRs over one LACP bundle; carries the fronthaul and midhaul service VLANs toward the emulated O-DU. |
 
 ## Featured platforms
 

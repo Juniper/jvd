@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "dependencyContractVersion": 3,
+  "osScopedMirrors": [
+    {
+      "junos": "junos/chassis/aggregated-devices-ethernet.conf",
+      "evo": "evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    {
+      "junos": "junos/chassis/network-services-enhanced-ip.conf",
+      "evo": "evo/chassis/network-services-enhanced-ip.conf"
+    },
+    {
+      "junos": "junos/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf",
+      "evo": "evo/class-of-service/classifiers/cl-dscp-dscp-ipv6-exp-ieee8021p.conf"
+    },
+    {
+      "junos": "junos/class-of-service/forwarding-classes/fc-8class-model.conf",
+      "evo": "evo/class-of-service/forwarding-classes/fc-8class-model.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifd-scheduler-map.conf",
+      "evo": "evo/class-of-service/interfaces/ifd-scheduler-map.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-dscp-dscp-ipv6-classifier-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-dscp-dscp-ipv6-classifier-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-forwarding-class-high-ieee8021p-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-forwarding-class-high-ieee8021p-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-forwarding-class-low-ieee8021p-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-forwarding-class-low-ieee8021p-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-forwarding-class-medium-ieee8021p-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-forwarding-class-medium-ieee8021p-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-ieee8021p-classifier-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifl-unit-0-exp-classifier-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifl-unit-0-exp-classifier-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/irb-forwarding-class-realtime-dscp-dscp-ipv6-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/irb-forwarding-class-realtime-dscp-dscp-ipv6-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/rewrite-rules/rr-dscp-dscp-ipv6-exp-ieee8021p.conf",
+      "evo": "evo/class-of-service/rewrite-rules/rr-dscp-dscp-ipv6-exp-ieee8021p.conf"
+    },
+    {
+      "junos": "junos/class-of-service/scheduler-maps/sm-5g-scheduler.conf",
+      "evo": "evo/class-of-service/scheduler-maps/sm-5g-scheduler.conf"
+    },
+    {
+      "junos": "junos/class-of-service/schedulers/schedulers-8class-llq-strict-high.conf",
+      "evo": "evo/class-of-service/schedulers/schedulers-8class-llq-strict-high.conf"
+    },
+    {
+      "junos": "junos/firewall/filter-inet-mfc-dscp-forwarding-class.conf",
+      "evo": "evo/firewall/filter-inet-mfc-dscp-forwarding-class.conf"
+    },
+    {
+      "junos": "junos/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf",
+      "evo": "evo/firewall/filter-inet6-mfc-traffic-class-forwarding-class.conf"
+    },
+    {
+      "junos": "junos/forwarding-options/hash-key-inet-inet6-layer-3-4-mpls-labels-1-3-payload.conf",
+      "evo": "evo/forwarding-options/hash-key-inet-inet6-layer-3-4-mpls-labels-1-3-payload.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-ae-description-mtu-lacp-fast.conf",
+      "evo": "evo/interfaces/ifd-ae-description-mtu-lacp-fast.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-flexible-ethernet-services-description.conf",
+      "evo": "evo/interfaces/ifd-flexible-ethernet-services-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-lag-member-ether.conf",
+      "evo": "evo/interfaces/ifd-lag-member-ether.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf",
+      "evo": "evo/interfaces/ifl-core-inet-iso-inet6-mpls-max-labels-5.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf",
+      "evo": "evo/interfaces/ifl-loopback-primary-secondary-iso-inet6-mpls.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-bridge-description.conf",
+      "evo": "evo/interfaces/ifl-vlan-bridge-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-ccc-description.conf",
+      "evo": "evo/interfaces/ifl-vlan-ccc-description.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-ccc-family-ccc.conf",
+      "evo": "evo/interfaces/ifl-vlan-ccc-family-ccc.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-vlan-inet-inet6-description.conf",
+      "evo": "evo/interfaces/ifl-vlan-inet-inet6-description.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/community-service-edge.conf",
+      "evo": "evo/policy-options/community/community-service-edge.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/per-packet-load-balance.conf",
+      "evo": "evo/policy-options/policy-statement/per-packet-load-balance.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-loopback-allow.conf",
+      "evo": "evo/policy-options/policy-statement/ps-loopback-allow.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-next-hop-self.conf",
+      "evo": "evo/policy-options/policy-statement/ps-next-hop-self.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-ospf-summary-reject.conf",
+      "evo": "evo/policy-options/policy-statement/ps-ospf-summary-reject.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf",
+      "evo": "evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v4.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf",
+      "evo": "evo/policy-options/policy-statement/ps-sr-nonzero-loopback-v6.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-ignore-attached-bit.conf",
+      "evo": "evo/protocols/isis-ignore-attached-bit.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-interface-l2-node-protection-l1-disable-p2p-bfd.conf",
+      "evo": "evo/protocols/isis-interface-l2-node-protection-l1-disable-p2p-bfd.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-level-2-wide-metrics-only.conf",
+      "evo": "evo/protocols/isis-level-2-wide-metrics-only.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-loopback-passive.conf",
+      "evo": "evo/protocols/isis-loopback-passive.conf"
+    },
+    {
+      "junos": "junos/protocols/isis-sr-node-segment-spf-ti-lfa-export.conf",
+      "evo": "evo/protocols/isis-sr-node-segment-spf-ti-lfa-export.conf"
+    },
+    {
+      "junos": "junos/protocols/l2circuit-control-word-flow-label-static.conf",
+      "evo": "evo/protocols/l2circuit-control-word-flow-label-static.conf"
+    },
+    {
+      "junos": "junos/protocols/l2circuit-control-word.conf",
+      "evo": "evo/protocols/l2circuit-control-word.conf"
+    },
+    {
+      "junos": "junos/protocols/ldp-loopback.conf",
+      "evo": "evo/protocols/ldp-loopback.conf"
+    },
+    {
+      "junos": "junos/protocols/mpls-pccd-ipv6-tunneling-loopback-3-core.conf",
+      "evo": "evo/protocols/mpls-pccd-ipv6-tunneling-loopback-3-core.conf"
+    },
+    {
+      "junos": "junos/protocols/oam-cfm-maintenance-association-up-mep-cc-1s.conf",
+      "evo": "evo/protocols/oam-cfm-maintenance-association-up-mep-cc-1s.conf"
+    },
+    {
+      "junos": "junos/protocols/oam-cfm-maintenance-domain-level-5.conf",
+      "evo": "evo/protocols/oam-cfm-maintenance-domain-level-5.conf"
+    },
+    {
+      "junos": "junos/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf",
+      "evo": "evo/routing-instances/evpn-vpws/ri-evpn-fxc-vlan-aware-2-uni.conf"
+    },
+    {
+      "junos": "junos/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf",
+      "evo": "evo/routing-instances/evpn-vpws/ri-evpn-vpws-flow-label-static.conf"
+    },
+    {
+      "junos": "junos/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf",
+      "evo": "evo/routing-instances/l3vpn/ri-l3vpn-ebgp-v4-v6-as-override.conf"
+    },
+    {
+      "junos": "junos/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf",
+      "evo": "evo/routing-instances/l3vpn/ri-l3vpn-irb-router-id-vrf-table-label.conf"
+    },
+    {
+      "junos": "junos/routing-options/auto-bandwidth-template.conf",
+      "evo": "evo/routing-options/auto-bandwidth-template.conf"
+    },
+    {
+      "junos": "junos/routing-options/autonomous-system.conf",
+      "evo": "evo/routing-options/autonomous-system.conf"
+    },
+    {
+      "junos": "junos/routing-options/forwarding-table-pplb-chained-nh-l2ckt-evpn-l3vpn.conf",
+      "evo": "evo/routing-options/forwarding-table-pplb-chained-nh-l2ckt-evpn-l3vpn.conf"
+    },
+    {
+      "junos": "junos/routing-options/no-multi-topology-routing.conf",
+      "evo": "evo/routing-options/no-multi-topology-routing.conf"
+    },
+    {
+      "junos": "junos/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf",
+      "evo": "evo/routing-options/rib-groups-inet3-to-inet0-inet6-3.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    }
+  ]
+}
