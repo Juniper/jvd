@@ -1,142 +1,67 @@
-# Auto-Fill Defaults
+# DEFAULTS — Low Latency QoS Design for 5G
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD
-lab-default values the AI uses in `auto` mode (or when the user short-circuits with
-`all defaults` / `use defaults` / `skip`). It is bundled into
-[`jvd-llq-snips.md`](jvd-llq-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Low Latency QoS Design for 5G JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks a device and service and asks for lab values; otherwise ask for the deployment values.
 
-Use these values EXACTLY. Do not invent alternative defaults. Every value the AI
-auto-fills MUST be listed in the output's `Inputs used:` block so the user can
-rerun with edits. All values below are taken from the JVD's own validated device
-configs (`configuration/conf/*.conf`).
+## Device inventory
 
----
+| Role | Device | Platform | OS | Loopback / router-id | `$ASN` |
+|------|--------|----------|----|----------------------|--------|
+| Access Node / Cell Site Router (CSR) | an1_acx7100-48l | ACX7100-48L | EVO | 192.168.1.1 | 63535 |
+| Access Node / Cell Site Router (CSR) | an3_acx7100-48l | ACX7100-48L | EVO | 192.168.1.2 | 63535 |
+| Access Node / Cell Site Router (CSR) | an4_acx7024 | ACX7024 | EVO | 192.168.1.0 | 63535 |
+| Aggregation: HSR and helper (AG) | ag1_1_acx7509 | ACX7509 | EVO | 192.168.1.3 | 63535 |
+| Aggregation: HSR and helper (AG) | ag1_2_acx7100-32c | ACX7100-32C | EVO | 192.168.1.4 | 63535 |
+| Aggregation: HSR and helper (AG) | ag2_1_mx204 | MX204 | Junos | 192.168.1.5 | 63535 |
+| Aggregation: HSR and helper (AG) | ag2_2_mx204 | MX204 | Junos | 192.168.1.6 | 63535 |
+| Aggregation: HSR and helper (AG) | ag3_1_mx480 | MX480 | Junos | 192.168.1.7 | 63535 |
+| Aggregation: HSR and helper (AG) | ag3_2_mx480 | MX480 | Junos | 192.168.1.8 | 63535 |
+| Core Router (CR) | cr1_ptx10001-36mr | PTX10001-36MR | EVO | 192.168.1.9 | 63535 |
+| Core Router (CR) | cr2_ptx10001-36mr | PTX10001-36MR | EVO | 192.168.1.10 | 63535 |
+| Services Aggregation Gateway (SAG) | sag_mx304 | MX304 | Junos | 192.168.1.11 | 63536 |
+| O-DU Switch (DU) | du_qfx5210 | QFX5210 | Junos | — | — |
 
-## Device inventory (the JVD topology)
+## Service examples (first measured instance per router)
 
-| Device | OS family | Role | Loopback (router-id) | SR node index |
-|--------|-----------|------|----------------------|---------------|
-| `an4_acx7024` | EVO | Access / Cell Site Router (CSR) | `192.168.1.0` | 0 |
-| `an1_acx7100-48l` | EVO | Access Node | `192.168.1.1` | 3 |
-| `an3_acx7100-48l` | EVO | Access Node | `192.168.1.2` | 4 |
-| `ag1_1_acx7509` | EVO | Aggregation / Hub Site Router (HSR) | `192.168.1.3` | 8 |
-| `ag1_2_acx7100-32c` | EVO | Aggregation / HSR | `192.168.1.4` | 9 |
-| `ag2_1_mx204` | Junos | Aggregation | `192.168.1.5` | 10 |
-| `ag2_2_mx204` | Junos | Aggregation | `192.168.1.6` | 11 |
-| `ag3_1_mx480` | Junos | Aggregation | `192.168.1.7` | 12 |
-| `ag3_2_mx480` | Junos | Aggregation | `192.168.1.8` | 13 |
-| `cr1_ptx10001-36mr` | EVO | Core / Route Reflector | `192.168.1.9` | 14 |
-| `cr2_ptx10001-36mr` | EVO | Core / Route Reflector | `192.168.1.10` | 15 |
-| `sag_mx304` | Junos | Services Aggregation Gateway (SAG) | `192.168.1.11` | — |
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| evpn-vpws | an1_acx7100-48l | `$AC_INTF` et-0/0/2.1101, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3601, `$RT_AS` 63535, `$RT_ID` 3601 |
+| evpn-vpws | an3_acx7100-48l | `$AC_INTF` et-0/0/0.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-100, `$LOOPBACK_V4` 192.168.1.2, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws | an4_acx7024 | `$AC_INTF` et-0/0/4.1001, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3501, `$RT_AS` 63535, `$RT_ID` 3501 |
+| evpn-vpws | ag1_1_acx7509 | `$AC_INTF` ae26.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-AN1-100, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws | ag1_2_acx7100-32c | `$AC_INTF` ae26.1000, `$INSTANCE_NAME` FRONTHAUL-EVPN-VPWS-MH-AN1-100, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3500, `$RT_AS` 63535, `$RT_ID` 3500 |
+| evpn-vpws-flow-label-static | an4_acx7024 | `$AC_IFL` et-0/0/4.501, `$INSTANCE_NAME` MBH-EVPN-VPWS-SH-TO-SAG-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3951, `$RT_ID` 3951, `$VPWS_SVC_ID_LOCAL` 1 |
+| evpn-vpws-flow-label-static | sag_mx304 | `$AC_IFL` xe-0/1/3:3.501, `$INSTANCE_NAME` MBH-EVPN-VPWS-SH-TO-AN4-1, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 3951, `$RT_ID` 3951, `$VPWS_SVC_ID_LOCAL` 2 |
+| evpn-fxc-vlan-aware-2-uni | an4_acx7024 | `$AC_INTF_A` et-0/0/4.2501, `$AC_INTF_B` et-0/0/4.2551, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-SH-AG1-1-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3701, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | ag1_1_acx7509 | `$AC_INTF_A` ae26.2601, `$AC_INTF_B` ae26.2651, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3751, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | ag1_2_acx7100-32c | `$AC_INTF_A` ae26.2601, `$AC_INTF_B` ae26.2651, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3751, `$RT_AS` 63535 |
+| evpn-fxc-vlan-aware-2-uni | sag_mx304 | `$AC_INTF_A` xe-0/1/3:3.2701, `$AC_INTF_B` xe-0/1/3:3.2801, `$INSTANCE_NAME` MIDHUAL-EVPN-FXC-MH-1, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 3801, `$RT_AS` 63535 |
+| l2circuit-control-word | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1301, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1301 |
+| l2circuit-control-word | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1001, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1001 |
+| l2circuit-control-word | an4_acx7024 | `$AC_IFL` et-0/0/4.1201, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1201 |
+| l2circuit-control-word | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1001, `$REMOTE_PE_V4` 192.168.1.2, `$VC_ID` 1001 |
+| l2circuit-control-word-flow-label-static | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.1501, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 1501 |
+| l2circuit-control-word-flow-label-static | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.2501, `$REMOTE_PE_V4` 192.168.1.11, `$VC_ID` 2501 |
+| l2circuit-control-word-flow-label-static | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1501, `$REMOTE_PE_V4` 192.168.1.3, `$VC_ID` 1501 |
+| evpn-elan-vlan-based | an4_acx7024 | `$AC_IFL` et-0/0/4.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based | ag1_1_acx7509 | `$AC_IFL` ae26.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based | ag1_2_acx7100-32c | `$AC_IFL` ae26.1501, `$BD_NAME` BD_EVPN_ELAN_1501, `$INSTANCE_NAME` 5G-FRONTHAUL-EVPN-ELAN-MH-1, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 3901, `$RT_ID` 3901 |
+| evpn-elan-vlan-based-irb | ag1_1_acx7509 | `$AC_IFL` ae26.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| evpn-elan-vlan-based-irb | ag1_2_acx7100-32c | `$AC_IFL` ae26.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| evpn-elan-vlan-based-irb | sag_mx304 | `$AC_IFL` xe-0/1/3:2.101, `$BD_NAME` BD_EVPN_101, `$INSTANCE_NAME` 5G-MIDHAUL-EVPN-L3VPN-IRB-1, `$IRB_IFL` irb.101, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| bgp-vpls-flow-label | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1651, `$BD_NAME` vlan1651, `$INSTANCE_NAME` L2-MBH-BGP-VPLS-1, `$LOOPBACK_V4` 192.168.1.1, `$RD_SUB_ASSIGNED` 651, `$RT_ID` 651 |
+| bgp-vpls-flow-label | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1201, `$BD_NAME` vlan1201, `$INSTANCE_NAME` MBH-VPLS-RT1-RT6-1, `$LOOPBACK_V4` 192.168.1.2, `$RD_SUB_ASSIGNED` 101, `$RT_ID` 101 |
+| bgp-vpls-flow-label | an4_acx7024 | `$AC_IFL` et-0/0/4.101, `$BD_NAME` vlan101, `$INSTANCE_NAME` L2-MBH-BGP-VPLS-1, `$LOOPBACK_V4` 192.168.1.0, `$RD_SUB_ASSIGNED` 551, `$RT_ID` 551 |
+| bgp-vpls-flow-label | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.201, `$BD_NAME` vlan201, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-SAG-1, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 1101, `$RT_ID` 1101 |
+| bgp-vpls-flow-label | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.1000, `$BD_NAME` vlan1000, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-SAG-300, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 1900, `$RT_ID` 1900 |
+| bgp-vpls-flow-label | sag_mx304 | `$AC_IFL` xe-0/1/3:0.1000, `$BD_NAME` vlan1000, `$INSTANCE_NAME` L2-MIDHAUL-BGP-VPLS-TO-AG1-2-300, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 1900, `$RT_ID` 1900 |
+| l3vpn-irb | ag1_1_acx7509 | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.3, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.3, `$RT_ID` 5000 |
+| l3vpn-irb | ag1_2_acx7100-32c | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.4, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.4, `$RT_ID` 5000 |
+| l3vpn-irb | sag_mx304 | `$INSTANCE_NAME` 5G-MIDHAUL-L3VPN-EVPN-IRB-1, `$IRB_IFL` irb.101, `$LOOPBACK_V4` 192.168.1.11, `$RD_SUB_ASSIGNED` 5000, `$ROUTER_ID` 192.168.1.11, `$RT_ID` 5000 |
+| l3vpn-ebgp-v4-v6 | an1_acx7100-48l | `$AC_IFL` et-0/0/2.1, `$ASN_CUSTOMER` 64513, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.14.7.206, `$CE_PEER_V6` 2001:db8::14:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | an3_acx7100-48l | `$AC_IFL` et-0/0/0.1, `$ASN_CUSTOMER` 64514, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.15.7.206, `$CE_PEER_V6` 2001:db8::15:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | an4_acx7024 | `$AC_IFL` et-0/0/4.1, `$ASN_CUSTOMER` 64511, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.11.7.206, `$CE_PEER_V6` 2001:db8::11:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | ag1_1_acx7509 | `$AC_IFL` et-1/0/1.1, `$ASN_CUSTOMER` 64518, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.16.7.206, `$CE_PEER_V6` 2001:db8::16:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | ag1_2_acx7100-32c | `$AC_IFL` et-0/0/2:0.1, `$ASN_CUSTOMER` 64515, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.17.7.206, `$CE_PEER_V6` 2001:db8::17:1:7:7cf |
+| l3vpn-ebgp-v4-v6 | sag_mx304 | `$AC_IFL` xe-0/1/3:2.1, `$ASN_CUSTOMER` 64516, `$BGP_GROUP_V4` v4ixia, `$BGP_GROUP_V6` v6ixia, `$CE_PEER_V4` 10.18.7.206, `$CE_PEER_V6` 2001:db8::18:1:7:7cf |
 
-**Device-choice shortcuts** (offered in the clarifying question):
-- `EVO` → `an4_acx7024` (CSR) + `ag1_1_acx7509` (HSR) — the primary eCPRI
-  fronthaul pair, both LLQ-capable ACX
-- `JUNOS` → `sag_mx304` (SAG) + `ag2_1_mx204` (aggregation)
-- `MIXED` → `an4_acx7024` (EVO CSR) + `sag_mx304` (Junos SAG) — end-to-end
-  fronthaul-to-services example
-
-The two core routers (`cr1_ptx10001-36mr`, `cr2_ptx10001-36mr`) are the iBGP route
-reflectors — services are NOT instantiated on them. On MX (`sag`, `ag2`, `ag3`)
-and PTX core, FC-LLQ is realized with `priority strict-high`
-(`cos/schedulers-strict-high.conf`); only ACX supports the hardware
-`priority low-latency` scheduler (`cos/schedulers-low-latency.conf`).
-
----
-
-## Transport / underlay defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<asn>` / `$LOCAL_AS` | `63535` | primary xHaul AS (all devices except SAG far-AS) |
-| `<sag-asn>` | `63536` | SAG / inter-AS Option-B peer AS |
-| `<router-id>` / `<loopback-address>` | = device loopback | per device (see table) |
-| IS-IS area | `49.1022.1001` | NET `49.1022.1001.0000.00<nn>.00`, `<nn>` per device |
-| IS-IS level | `2` (agg/core), `1` (access AN → L1/L2 HSR) | Seamless MPLS domains |
-| SRGB | start-label `16000`, index-range `80000` | domain-wide, consistent everywhere |
-| `<ipv4-sid-index>` | per device (see table) | e.g. an4=0, ag1_1=8, cr1=14 |
-| `<ipv6-sid-index>` | `100 + <ipv4-sid-index>` | IPv6 node-SID index |
-| MTU (core) | `9192` | inter-router AE + lo0 |
-
----
-
-## LAG / interface defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<ae-interface>` | `ae26` (fronthaul ESI LAG, EVO) / `ae11` (transport) | per role |
-| `<lacp-system-id>` | `00:00:00:00:00:01` | shared across the AG pair for EVPN ESI |
-| `<interface>` (AC, single-homed) | `et-1/0/1` (EVO 10g) / `xe-0/1/3:2` (Junos) | first AC member |
-| `<unit-number>` / `<vlan-id>` | start `101` (fronthaul) / `2501` (midhaul BD) | increment per instance |
-
----
-
-## Service instance-name conventions
-
-Each service kind uses a distinct instance-name prefix. Increment the trailing
-numeric per instance.
-
-| Service | Instance name pattern | Starting example | Unit / VLAN start |
-|---------|----------------------|------------------|-------------------|
-| EVPN-VPWS (fronthaul MH) | `FRONTHAUL-EVPN-VPWS-MH-AN1-<n>` | `FRONTHAUL-EVPN-VPWS-MH-AN1-1` | `101` |
-| EVPN-VPWS (midhaul SH) | `MBH-EVPN-VPWS-SH-<n>` | `MBH-EVPN-VPWS-SH-1` | `901` |
-| EVPN-FXC vlan-aware | `FRONTHAUL-EVPN-FXC-<n>` | `FRONTHAUL-EVPN-FXC-1` | `101` |
-| EVPN-ELAN (fronthaul) | `FRONTHAUL-EVPN-ELAN-MH-<n>` | `FRONTHAUL-EVPN-ELAN-MH-1` | `1501` |
-| EVPN-ELAN + IRB / L3VPN | `L3VPN-IRB-ANYCAST-GATEWAY-MH-<n>` | `L3VPN-IRB-ANYCAST-GATEWAY-MH-1` | IRB unit `351` |
-| BGP-VPLS | `MBH-BGP-VPLS-<n>` | `MBH-BGP-VPLS-1` | `2501` |
-| L3VPN-IRB | `L3VPN-IRB-<n>` | `L3VPN-IRB-1` | IRB unit `101` |
-
----
-
-## Route-distinguisher / route-target defaults
-
-| Variable | Rule | Example |
-|----------|------|---------|
-| `<rd-value>` | `<device-loopback>:<unit>` | `192.168.1.0:3401` |
-| `<rt-value>` | `target:<asn>:<id>` | `target:63535:3401` |
-| `<local-id>` / `<remote-id>` | VPWS service-id pair; symmetric across the two PEs | local `1`, remote `2` (swap on the far PE) |
-
-**Cross-PE identifier rule:** route-targets, VPWS service-id pairs, ESI values, and
-MAC-VRF / instance names MUST match on both PE halves of a service. Per-PE
-identifiers (loopback, RD, AC interface name) differ.
-
----
-
-## Multi-homing (ESI) defaults
-
-- All-active ESI on the AG-facing fronthaul LAG (e.g. `ae26`) for dual-homed ANs.
-- ESI value pattern: `00:51:11:11:11:11:11:00:00:<nn>` — the trailing octet is
-  per-ESI; MUST match on both HSRs of the multi-homed pair.
-- LACP system-id on the shared LAG MUST match on both HSRs of the ESI.
-
----
-
-## IRB / L3 defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `<irb-unit>` | = the ELAN unit (e.g. `351`) | irb.<unit> |
-| `<irb-ipv4>` | `100.100.<x>.1/24` | anycast gateway per bridge domain |
-| `<bridge-domain-name>` | `BD_EVPN_ELAN_<vlan>` | e.g. `BD_EVPN_ELAN_1501` |
-
----
-
-## CoS defaults (JVD-wide constants — never parameterize)
-
-8-class O-RAN multi-priority model, do NOT renumber:
-
-| Queue | Forwarding class | Priority (ACX / MX-PTX) |
-|-------|------------------|-------------------------|
-| 7 | FC-SIGNALING | strict-high / high |
-| 6 | **FC-LLQ** | **low-latency (ACX) / strict-high (MX-PTX)** |
-| 5 | FC-REALTIME | medium-high |
-| 4 | FC-HIGH | low (WFQ) |
-| 3 | FC-CONTROL | high |
-| 2 | FC-MEDIUM | low (WFQ) |
-| 1 | FC-LOW | low (WFQ) |
-| 0 | FC-BEST-EFFORT | low (WFQ remainder) |
-
-Classifier / rewrite names (`CL-MPLS`, `CL-8021P`, `CL-DSCP`, `CL-DSCP-IPV6`,
-`RR-MPLS`, `RR-8021P`, `RR-DSCP`, `RR-DSCP-IPV6`), scheduler-map `SM-5G-SCHEDULER`,
-and scheduler names (`SC-LLQ`, `SC-SIGNALING`, …) are JVD-wide constants — never
-parameterize the class names, queue numbers, or these identifiers.
+Keep the routers of a service consistent: same instance name and route target; swap the local and remote VPWS service identifiers between the two ends of an EVPN-VPWS service.
