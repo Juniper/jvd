@@ -1,65 +1,190 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each feature at each verbosity tier. It is bundled into [`jvd-collapsed-snips.md`](jvd-collapsed-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd data_center/adc/collapsed_dc_fabric`. -->
 
-For each feature, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Both collapsed switches run Junos, so all snips are under `junos/`.
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
-The two tiers:
+## What the tiers mean
 
-- **minimum** — just the requested feature's stanza(s). Assumes the collapsed fabric (direct underlay + EVPN overlay) is already present.
-- **as-deployed** — the feature + the supporting config the JVD renders alongside it.
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
----
-
-## collapsed-fabric (direct leaf-to-leaf transport)
-
-The two-switch fabric baseline: the direct eBGP underlay + EVPN overlay between the collapsed leaves.
-
-**minimum**
-- `junos/transport/collapsed-underlay-ebgp.conf` (direct leaf-to-leaf underlay)
-- `junos/transport/collapsed-evpn-overlay.conf` (direct leaf-to-leaf EVPN overlay)
-
-**as-deployed** (= minimum +)
-- `junos/interfaces/loopback.conf` (lo0 router-id / VTEP / per-VRF)
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## mac-vrf (VLAN-aware MAC-VRF)
+## EVPN-VXLAN MAC-VRF with 40 VLANs
 
-The L2 EVPN-VXLAN instance and its anycast gateway.
+Family e-lan, form evpn-mac-vrf-40-vlans. OS mode Junos. Attachment: Access trunk units (the ESI LAG toward the servers) and the VLANs' IRB units, which the Type 5 VRF routes..
 
-**minimum**
-- `junos/services/mac-vrf-evpn-vxlan.conf` (evpn-1, 1 VNI per VLAN)
-- `junos/interfaces/irb-anycast-gateway.conf` (anycast IRB gateway per VLAN)
+### leaf1_qfx5120-48y (junos)
 
-**as-deployed** (= minimum +)
-- `junos/transport/collapsed-evpn-overlay.conf` (advertises the EVI)
-- `junos/interfaces/esi-lag-access.conf` (multihomed access into the VLANs)
+- `minimum`: `junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_1
+  - occurrence-selection-required: logical-interface:$AC_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_1
+  - occurrence-selection-required: logical-interface:$IRB_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_3
+  - occurrence-selection-required: logical-interface:$IRB_IFL_4
+  - occurrence-selection-required: logical-interface:$IRB_IFL_5
+  - occurrence-selection-required: logical-interface:$IRB_IFL_6
+  - occurrence-selection-required: logical-interface:$IRB_IFL_7
+  - occurrence-selection-required: logical-interface:$IRB_IFL_8
+  - occurrence-selection-required: logical-interface:$IRB_IFL_9
+  - occurrence-selection-required: logical-interface:$IRB_IFL_10
+  - occurrence-selection-required: logical-interface:$IRB_IFL_11
+  - occurrence-selection-required: logical-interface:$IRB_IFL_12
+  - occurrence-selection-required: logical-interface:$IRB_IFL_13
+  - occurrence-selection-required: logical-interface:$IRB_IFL_14
+  - occurrence-selection-required: logical-interface:$IRB_IFL_15
+  - occurrence-selection-required: logical-interface:$IRB_IFL_16
+  - occurrence-selection-required: logical-interface:$IRB_IFL_17
+  - occurrence-selection-required: logical-interface:$IRB_IFL_18
+  - occurrence-selection-required: logical-interface:$IRB_IFL_19
+  - occurrence-selection-required: logical-interface:$IRB_IFL_20
+  - occurrence-selection-required: logical-interface:$IRB_IFL_21
+  - occurrence-selection-required: logical-interface:$IRB_IFL_22
+  - occurrence-selection-required: logical-interface:$IRB_IFL_23
+  - occurrence-selection-required: logical-interface:$IRB_IFL_24
+  - occurrence-selection-required: logical-interface:$IRB_IFL_25
+  - occurrence-selection-required: logical-interface:$IRB_IFL_26
+  - occurrence-selection-required: logical-interface:$IRB_IFL_27
+  - occurrence-selection-required: logical-interface:$IRB_IFL_28
+  - occurrence-selection-required: logical-interface:$IRB_IFL_29
+  - occurrence-selection-required: logical-interface:$IRB_IFL_30
+  - occurrence-selection-required: logical-interface:$IRB_IFL_31
+  - occurrence-selection-required: logical-interface:$IRB_IFL_32
+  - occurrence-selection-required: logical-interface:$IRB_IFL_33
+  - occurrence-selection-required: logical-interface:$IRB_IFL_34
+  - occurrence-selection-required: logical-interface:$IRB_IFL_35
+  - occurrence-selection-required: logical-interface:$IRB_IFL_36
+  - occurrence-selection-required: logical-interface:$IRB_IFL_37
+  - occurrence-selection-required: logical-interface:$IRB_IFL_38
+  - occurrence-selection-required: logical-interface:$IRB_IFL_39
+  - occurrence-selection-required: logical-interface:$IRB_IFL_40
+
+### leaf2_qfx5120-48y (junos)
+
+- `minimum`: `junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$AC_IFL_1
+  - occurrence-selection-required: logical-interface:$AC_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_1
+  - occurrence-selection-required: logical-interface:$IRB_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_3
+  - occurrence-selection-required: logical-interface:$IRB_IFL_4
+  - occurrence-selection-required: logical-interface:$IRB_IFL_5
+  - occurrence-selection-required: logical-interface:$IRB_IFL_6
+  - occurrence-selection-required: logical-interface:$IRB_IFL_7
+  - occurrence-selection-required: logical-interface:$IRB_IFL_8
+  - occurrence-selection-required: logical-interface:$IRB_IFL_9
+  - occurrence-selection-required: logical-interface:$IRB_IFL_10
+  - occurrence-selection-required: logical-interface:$IRB_IFL_11
+  - occurrence-selection-required: logical-interface:$IRB_IFL_12
+  - occurrence-selection-required: logical-interface:$IRB_IFL_13
+  - occurrence-selection-required: logical-interface:$IRB_IFL_14
+  - occurrence-selection-required: logical-interface:$IRB_IFL_15
+  - occurrence-selection-required: logical-interface:$IRB_IFL_16
+  - occurrence-selection-required: logical-interface:$IRB_IFL_17
+  - occurrence-selection-required: logical-interface:$IRB_IFL_18
+  - occurrence-selection-required: logical-interface:$IRB_IFL_19
+  - occurrence-selection-required: logical-interface:$IRB_IFL_20
+  - occurrence-selection-required: logical-interface:$IRB_IFL_21
+  - occurrence-selection-required: logical-interface:$IRB_IFL_22
+  - occurrence-selection-required: logical-interface:$IRB_IFL_23
+  - occurrence-selection-required: logical-interface:$IRB_IFL_24
+  - occurrence-selection-required: logical-interface:$IRB_IFL_25
+  - occurrence-selection-required: logical-interface:$IRB_IFL_26
+  - occurrence-selection-required: logical-interface:$IRB_IFL_27
+  - occurrence-selection-required: logical-interface:$IRB_IFL_28
+  - occurrence-selection-required: logical-interface:$IRB_IFL_29
+  - occurrence-selection-required: logical-interface:$IRB_IFL_30
+  - occurrence-selection-required: logical-interface:$IRB_IFL_31
+  - occurrence-selection-required: logical-interface:$IRB_IFL_32
+  - occurrence-selection-required: logical-interface:$IRB_IFL_33
+  - occurrence-selection-required: logical-interface:$IRB_IFL_34
+  - occurrence-selection-required: logical-interface:$IRB_IFL_35
+  - occurrence-selection-required: logical-interface:$IRB_IFL_36
+  - occurrence-selection-required: logical-interface:$IRB_IFL_37
+  - occurrence-selection-required: logical-interface:$IRB_IFL_38
+  - occurrence-selection-required: logical-interface:$IRB_IFL_39
+  - occurrence-selection-required: logical-interface:$IRB_IFL_40
 
 ---
 
-## esi-access (multihomed access)
+## EVPN Type 5 VRF with eBGP to the external router
 
-An all-active ESI-LAG to dual-home a server / access switch to both collapsed switches.
+Family l3vpn, form evpn-type5-vrf-ebgp. OS mode Junos. Attachment: IRB units of the MAC-VRF VLANs, the VRF loopback unit, and the attachment unit toward the external router..
 
-**minimum**
-- `junos/interfaces/esi-lag-access.conf`
+### leaf1_qfx5120-48y (junos)
 
-**as-deployed** (= minimum +)
-- `junos/services/mac-vrf-evpn-vxlan.conf` (the VLANs/VNIs carried on the trunk)
+- `minimum`: `junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL_1
+  - occurrence-selection-required: logical-interface:$IRB_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_3
+  - occurrence-selection-required: logical-interface:$IRB_IFL_4
+  - occurrence-selection-required: logical-interface:$IRB_IFL_5
+  - occurrence-selection-required: logical-interface:$IRB_IFL_6
+  - occurrence-selection-required: logical-interface:$IRB_IFL_7
+  - occurrence-selection-required: logical-interface:$IRB_IFL_8
+  - occurrence-selection-required: logical-interface:$IRB_IFL_9
+  - occurrence-selection-required: logical-interface:$IRB_IFL_10
+  - occurrence-selection-required: logical-interface:$IRB_IFL_11
+  - occurrence-selection-required: logical-interface:$IRB_IFL_12
+  - occurrence-selection-required: logical-interface:$IRB_IFL_13
+  - occurrence-selection-required: logical-interface:$IRB_IFL_14
+  - occurrence-selection-required: logical-interface:$IRB_IFL_15
+  - occurrence-selection-required: logical-interface:$IRB_IFL_16
+  - occurrence-selection-required: logical-interface:$IRB_IFL_17
+  - occurrence-selection-required: logical-interface:$IRB_IFL_18
+  - occurrence-selection-required: logical-interface:$IRB_IFL_19
+  - occurrence-selection-required: logical-interface:$IRB_IFL_20
+  - occurrence-selection-required: logical-interface:$LOOPBACK_IFL
+  - occurrence-selection-required: policy-statement:$BGP_IMPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$IP_PREFIX_EXPORT_POL
+
+### leaf2_qfx5120-48y (junos)
+
+- `minimum`: `junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: irb-service:source-occurrence
+  - occurrence-selection-required: logical-interface:$AC_IFL
+  - occurrence-selection-required: logical-interface:$IRB_IFL_1
+  - occurrence-selection-required: logical-interface:$IRB_IFL_2
+  - occurrence-selection-required: logical-interface:$IRB_IFL_3
+  - occurrence-selection-required: logical-interface:$IRB_IFL_4
+  - occurrence-selection-required: logical-interface:$IRB_IFL_5
+  - occurrence-selection-required: logical-interface:$IRB_IFL_6
+  - occurrence-selection-required: logical-interface:$IRB_IFL_7
+  - occurrence-selection-required: logical-interface:$IRB_IFL_8
+  - occurrence-selection-required: logical-interface:$IRB_IFL_9
+  - occurrence-selection-required: logical-interface:$IRB_IFL_10
+  - occurrence-selection-required: logical-interface:$IRB_IFL_11
+  - occurrence-selection-required: logical-interface:$IRB_IFL_12
+  - occurrence-selection-required: logical-interface:$IRB_IFL_13
+  - occurrence-selection-required: logical-interface:$IRB_IFL_14
+  - occurrence-selection-required: logical-interface:$IRB_IFL_15
+  - occurrence-selection-required: logical-interface:$IRB_IFL_16
+  - occurrence-selection-required: logical-interface:$IRB_IFL_17
+  - occurrence-selection-required: logical-interface:$IRB_IFL_18
+  - occurrence-selection-required: logical-interface:$IRB_IFL_19
+  - occurrence-selection-required: logical-interface:$IRB_IFL_20
+  - occurrence-selection-required: logical-interface:$LOOPBACK_IFL
+  - occurrence-selection-required: policy-statement:$BGP_IMPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$IP_PREFIX_EXPORT_POL
 
 ---
-
-## Greenfield collapsed turn-up
-
-For a full two-switch turn-up, include everything: both transport snips + loopback + MAC-VRF + anycast IRB + ESI-LAG.
-
-## Add-a-feature requests
-
-When the user asks to add a single stanza, emit ONLY that snip:
-- **Direct underlay** → `junos/transport/collapsed-underlay-ebgp.conf`
-- **Direct EVPN overlay** → `junos/transport/collapsed-evpn-overlay.conf`
-- **MAC-VRF** → `junos/services/mac-vrf-evpn-vxlan.conf`
-- **Anycast IRB gateway** → `junos/interfaces/irb-anycast-gateway.conf`
-- **ESI-LAG access** → `junos/interfaces/esi-lag-access.conf`
-- **Loopback** → `junos/interfaces/loopback.conf`
