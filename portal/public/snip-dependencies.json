@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "9f96ceb7c70ffc502f5daeef985544fb54fa9c6efac8707b890b5bd29e937255",
+  "libraryDigest": "96e80edd63465be99ecb45f1cd9750f7a5f994de771d10669022a8aa11bf1a1b",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-15T03:37:40.124Z",
+  "generatedAt": "2026-11-15T03:52:32.940Z",
   "resolutions": [
     {
       "jvd": "aiml_inference_frontend",
@@ -308,6 +308,750 @@
       "status": "resolved",
       "providers": [
         "aiml_inference_frontend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9192"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/irb-inet-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-composite-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9192"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/irb-inet-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-composite-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9192"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/irb-inet-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-composite-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9192"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/irb-inet-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifl-loopback-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-inet6",
+        "aiml_multitenancy_backend/evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "leaf4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-composite-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine1_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine2_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine3_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "aiml_multitenancy_backend",
+      "device": "spine4_qfx5240-64od",
+      "snip": "aiml_multitenancy_backend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "aiml_multitenancy_backend/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
       ]
     },
     {
@@ -27381,5 +28125,5 @@
       ]
     }
   ],
-  "exportDigest": "919051f1b005c841bac920946de299c074629253dd734544d7780838e6406e9f"
+  "exportDigest": "e0d3d28e7b587148656d088cc545c0c806d0080c6bb2f4ee4c73c944533e7031"
 }

@@ -1,61 +1,123 @@
-# Snip variable glossary
+# Snippet variable glossary
 
-This file documents every `$VARIABLE` used in the templated snips under
-`evo/`. Variables are alphabetical; the **Used in** column lists which
-snip categories reference each one.
+All `.conf` files under `evo/` are templates: identifiers that vary between deployments are written
+as `$VAR`. Render a snippet by substituting each placeholder with your deployment's value. The placeholders each
+snippet uses are listed in its `Variables:` header and in the glossary below. Variable names and meanings follow
+the shared JVD snippet vocabulary. Numbered variables (`_1`, `_2`, …) form an ordered set; the numbers carry no
+other meaning.
 
-| Variable | Meaning | Typical example | Used in |
-|---|---|---|---|
-| `$AC_INTF` | Attachment-circuit (GPU-server-facing) sub-port | `et-0/0/12:0` | interfaces/, transport/ |
-| `$AC_INTF_A` | First AC sub-port bound to a tenant VRF | `et-0/0/12:0` | services/ |
-| `$AC_INTF_B` | Second AC sub-port bound to the same tenant VRF | `et-0/0/16:0` | services/ |
-| `$ANYCAST_MAC` | Shared virtual MAC for IRB anycast gateway (same across all leafs) | `00:1c:73:00:00:01` | interfaces/ |
-| `$GPU_HOST` | GPU server hostname carried in the AC interface description | `H100-01` | interfaces/ |
-| `$GRPC_CERT_PEM` | PEM-encoded TLS cert/key for the gRPC listener (masked SECRET-DATA) | *(redacted)* | bootstrap/ |
-| `$GRPC_PORT` | TCP port for the gRPC extension-service SSL listener | `32767` | bootstrap/ |
-| `$HOSTNAME` | Device hostname | `GPU-R1-L1` | bootstrap/ |
-| `$IRB_UNIT` | IRB logical unit number for a tenant subnet | `2` | interfaces/ |
-| `$LO0_V4` | Primary loopback IPv4 (router-id + EVPN overlay local-address) | `10.0.1.9/32` (leaf), `10.0.0.8/32` (spine) | interfaces/, services/ |
-| `$LO0_V6` | Primary loopback IPv6 | `fdf6:ed70:1fac:f2d2::1007/128` | interfaces/ |
-| `$LOCAL_AS` | Per-device BGP autonomous system number | `208` (leaf), `108` (spine) | transport/ |
-| `$LOCAL_LO_V4` | Local loopback v4 used as eBGP-EVPN local-address | `10.0.1.9` | transport/ |
-| `$LOCAL_TIER_TAG` | Community high-order tag identifying the device's tier | `5` (leaf), `1` (spine) | policy/ |
-| `$LOCAL_V4` | Local /31 v4 on a fabric or AC interface (full prefix) | `10.0.2.131/31` | interfaces/, transport/ |
-| `$LOCAL_V4_A` | First /31 v4 on a fabric breakout sub-port | `10.0.2.177/31` | interfaces/ |
-| `$LOCAL_V4_B` | Second /31 v4 on a fabric breakout sub-port | `10.0.2.131/31` | interfaces/ |
-| `$LO_UNIT` | Per-tenant lo0 unit number bound to a VRF | `2` | services/ |
-| `$PEER_AS` | Remote eBGP peer autonomous system number | `108` (leaf->spine), `208` (spine->leaf) | transport/ |
-| `$PEER_HOST` | Remote device shortname (used in interface description) | `spine1` | interfaces/ |
-| `$PEER_LO_V4` | Remote loopback v4 (eBGP-EVPN overlay neighbor) | `10.0.0.8` | transport/ |
-| `$PEER_NAME` | Remote device shortname (used in BGP neighbor description) | `spine1`, `gpu-r1-l1` | transport/ |
-| `$PEER_PORT_A` | Remote interface name for first sub-port (description) | `et-0/0/0:0` | interfaces/ |
-| `$PEER_PORT_B` | Remote interface name for second sub-port (description) | `et-0/0/0:1` | interfaces/ |
-| `$PEER_V4` | Remote /31 v4 (eBGP fabric underlay neighbor) | `10.0.2.130` | transport/ |
-| `$PHY_PORT` | Parent physical port for breakout config | `et-0/0/0` | interfaces/ |
-| `$ROUTER_ID` | Device router-id (matches lo0.0 v4 address) | `10.0.1.9` | transport/ |
-| `$TENANT_COMMUNITY_V4` | Per-tenant IPv4 BGP community name | `TENANT-1_COMMUNITY_V4` | policy/ |
-| `$TENANT_COMMUNITY_V6` | Per-tenant IPv6 BGP community name | `TENANT-1_COMMUNITY_V6` | policy/ |
-| `$TENANT_EXPORT_POLICY` | Per-tenant EVPN ip-prefix-routes export policy name | `BGP-AOS-Policy-tenant-1` | services/ |
-| `$TENANT_GW_V4` | Tenant subnet's gateway IPv4 address (anycast on IRB) | `10.200.0.1/24` | interfaces/ |
-| `$TENANT_LO_V4` | Per-tenant lo0 IPv4 (router-id anchor for the VRF) | `192.168.11.4/32` | interfaces/ |
-| `$TENANT_LO_V6` | Per-tenant lo0 IPv6 | `fdf6:ed70:1fac:f2d2::1010/128` | interfaces/ |
-| `$TENANT_NAME` | Tenant VRF / routing-instance name | `tenant-1` | interfaces/, services/ |
-| `$TENANT_TAG` | Tenant tag suffix used in per-tenant policy names | `tenant-1`, `non-tenant` | policy/ |
-| `$TENANT_UNIT` | lo0 unit number for a tenant VRF | `2` | interfaces/ |
-| `$VNI` | VXLAN network identifier for the tenant's EVPN type-5 routes | `20001` | services/ |
+Values left literal on purpose: the communities `FROM_SPINE_FABRIC_TIER` (`0:15`) and `FROM_SPINE_EVPN_TIER`
+(`0:14`), which the tier policies reference by name; the class-of-service model (forwarding classes `CNP` and
+`NO-LOSS`, classifier `mydscp`, schedulers `s1` and `s2-cnp`, scheduler map `sm1`, drop profile `dp1`, congestion
+notification profile `cnp`, buffer partitions and code points) and its binding on every `et-*` interface; the MTUs
+(`9216`, `9192`, `9170`, `9000`), the BFD timers, the breakout and port speeds, the router-advertisement intervals,
+the hash and dynamic load-balancing parameters, the route-target ID `1`, the gRPC routing instance `mgmt_junos`,
+`unit 0`, and the loopback `lo0`.
 
-## Notes on the variable design
+## System
 
-- **Tenant-axis variables** (`$TENANT_*`) all share the same suffix
-  convention (`tenant-1` … `tenant-N` plus `non-tenant`). When generating
-  configs from these snips for a new tenant, increment the suffix and
-  pick a fresh `$VNI` / `$LO_UNIT` / `$IRB_UNIT` triplet.
-- **Role-axis variables** (`$LOCAL_AS`, `$LOCAL_TIER_TAG`,
-  `$ROUTER_ID`) determine whether a device is a leaf or spine. The
-  combined snips (`bgp-ebgp-fabric-underlay`, `bgp-ebgp-evpn-overlay`,
-  `routing-options-ecmp-frr`, `clos-loop-prevention`,
-  `allpodnetworks-direct-redistribution`, `community-definitions`)
-  carry both LEAF and SPINE variants — pick one variant per role.
-- **Link-axis variables** (`$LOCAL_V4*`, `$PEER_V4`, `$PEER_LO_V4`,
-  `$PEER_AS`, `$PEER_NAME`) repeat once per fabric link; the snips show
-  a single neighbor block that should be cloned per link.
+| Variable | What it is | Example value |
+|---|---|---|
+| `$FPC_SLOT` | FPC slot number. | `0` |
+| `$GRPC_PORT` | TCP port of the gRPC request-response extension service over SSL. | `32767` |
+| `$HOST_NAME` | System host name. | `GPU-R1-L1` |
+| `$LOCAL_CERT` | Name of the local certificate (`security certificates local`) the gRPC SSL service presents (`local-certificate`). | `aos_grpc` |
+| `$LOCAL_CERT_KEY` | PEM private key and certificate of the local certificate; secret, supplied by the operator (the published value is sanitized). | `"<LOCAL_CERT_KEY>"` |
+| `$NEXT_HOP_V4` | IPv4 next hop of a static route: here the management network gateway. | `10.161.39.254` |
+
+## Identity / topology
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN` | Local device autonomous-system number (`routing-options autonomous-system`). | `208` |
+| `$LOOPBACK_V4` | Loopback IPv4 address of the local device: the overlay session `local-address`, and the administrator field of a VRF route distinguisher. | `10.0.0.8` |
+| `$LOOPBACK_V4_PFX` | IPv4 address with prefix length on a loopback unit (unit 0, or a tenant VRF's loopback unit). | `10.0.1.9/32` |
+| `$LOOPBACK_V6_PFX` | IPv6 address with prefix length on a loopback unit. | `fdf6:ed70:1fac:f2d2::1007/128` |
+| `$ROUTER_ID` | Router identifier in IPv4 dotted-decimal form. | `10.0.1.9` |
+
+## Tenant VRFs
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_IFL` | Access-facing logical interface (`<interface>.<unit>`): here a GPU server link with IPv6 router advertisements. | `et-0/0/12:0.0` |
+| `$AC_IFL_1` | Access-facing logical interface listed in a tenant VRF (a GPU server or tester link); `_1`, `_2`, … number the VRF's interfaces in source order. | `et-0/0/12:1.0` |
+| `$AC_IFL_2` | Access-facing logical interface listed in a tenant VRF (a GPU server or tester link); `_1`, `_2`, … number the VRF's interfaces in source order. | `et-0/0/16:1.0` |
+| `$AC_IFL_3` | Access-facing logical interface listed in a tenant VRF (a GPU server or tester link); `_1`, `_2`, … number the VRF's interfaces in source order. | `et-0/0/41:0.0` |
+| `$AC_IFL_4` | Access-facing logical interface listed in a tenant VRF (a GPU server or tester link); `_1`, `_2`, … number the VRF's interfaces in source order. | `et-0/0/41:1.0` |
+| `$INSTANCE_NAME` | Name of a tenant routing instance (VRF); also names its IPv6 routing table (`<instance>.inet6.0`). | `tenant-2` |
+| `$IP_PREFIX_EXPORT_POL` | Policy-statement name exported as EVPN Type 5 IP prefix routes from a tenant VRF (in a policy form, the policy's own name). | `BGP-AOS-Policy-non-tenant` |
+| `$LOOPBACK_IFL` | Loopback logical interface (`lo0.<unit>`) listed in a tenant VRF. | `lo0.3` |
+| `$RD_SUB_ASSIGNED` | Assigned-number field of a VRF route distinguisher (`<loopback>:<number>`). | `2002` |
+| `$RT_AS` | AS field of a VRF route target (`target:<AS>:1`). | `20002` |
+| `$VNI` | VXLAN network identifier of a tenant VRF's EVPN Type 5 IP prefix routes. | `20002` |
+
+## Interfaces
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_ADDR_V4` | IPv4 address with prefix length on an access-facing Layer 3 unit. | `10.200.101.1/24` |
+| `$AC_INTF` | Access-facing physical interface (a GPU server or traffic-tester link). | `et-0/0/41:0` |
+| `$BREAKOUT_SUB_PORTS` | Number of sub-ports a channelized (breakout) port is split into (`number-of-sub-ports`). | `2` |
+| `$CORE_PHYS` | Fabric-facing physical interface of a point-to-point leaf-spine link. | `et-0/0/0:0` |
+| `$CORE_V4_ADDR` | IPv4 address with prefix length (/31) on a leaf-spine fabric link. | `10.0.2.177/31` |
+| `$DESCRIPTION` | Free-text interface or BGP neighbor `description`. | `"Breakout et-0/0/0"` |
+| `$DESCRIPTION_1` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_gpu-r1-l1-evpn-overlay` |
+| `$DESCRIPTION_2` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_gpu-r1-l2-evpn-overlay` |
+| `$DESCRIPTION_3` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_gpu-r2-l1-evpn-overlay` |
+| `$DESCRIPTION_4` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_gpu-r2-l2-evpn-overlay` |
+| `$IFD` | Physical interface name (a breakout port or a port that carries no traffic in the design). | `et-0/0/0` |
+| `$IRB_ADDR` | IPv4 gateway address with prefix length on an IRB unit. | `10.200.0.1/24` |
+| `$IRB_MAC` | MAC address of an IRB unit. | `00:1c:73:00:00:01` |
+| `$IRB_UNIT` | IRB unit number. | `2` |
+| `$UNIT` | Logical unit number. | `0` |
+
+## Fabric underlay and overlay
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN_FABRIC_PEER_1` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `208` |
+| `$ASN_FABRIC_PEER_2` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `209` |
+| `$ASN_FABRIC_PEER_3` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `210` |
+| `$ASN_FABRIC_PEER_4` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `211` |
+| `$BGP_GROUP` | Name of an eBGP group (the underlay group or the EVPN overlay group). | `l3clos-s-evpn` |
+| `$OVERLAY_PEER_V4_1` | Loopback IPv4 address of an eBGP EVPN overlay neighbor (another leaf or spine); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.1.9` |
+| `$OVERLAY_PEER_V4_2` | Loopback IPv4 address of an eBGP EVPN overlay neighbor (another leaf or spine); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.1.8` |
+| `$OVERLAY_PEER_V4_3` | Loopback IPv4 address of an eBGP EVPN overlay neighbor (another leaf or spine); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.1.10` |
+| `$OVERLAY_PEER_V4_4` | Loopback IPv4 address of an eBGP EVPN overlay neighbor (another leaf or spine); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.1.11` |
+| `$UNDERLAY_LOCAL_V4_1` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.131` |
+| `$UNDERLAY_LOCAL_V4_2` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.177` |
+| `$UNDERLAY_LOCAL_V4_3` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.129` |
+| `$UNDERLAY_LOCAL_V4_4` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.159` |
+| `$UNDERLAY_LOCAL_V4_5` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.145` |
+| `$UNDERLAY_LOCAL_V4_6` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.175` |
+| `$UNDERLAY_LOCAL_V4_7` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.151` |
+| `$UNDERLAY_LOCAL_V4_8` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.2.181` |
+| `$UNDERLAY_PEER_V4_1` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.130` |
+| `$UNDERLAY_PEER_V4_2` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.176` |
+| `$UNDERLAY_PEER_V4_3` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.128` |
+| `$UNDERLAY_PEER_V4_4` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.158` |
+| `$UNDERLAY_PEER_V4_5` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.144` |
+| `$UNDERLAY_PEER_V4_6` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.174` |
+| `$UNDERLAY_PEER_V4_7` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.150` |
+| `$UNDERLAY_PEER_V4_8` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.2.180` |
+
+## Policy
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$BGP_EXPORT_POL` | Policy-statement name applied as a BGP `export` (in a policy form, the policy's own name). | `EVPN_EXPORT` |
+| `$BGP_EXPORT_POL_1` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `LEAF_TO_SPINE_EVPN_OUT` |
+| `$BGP_EXPORT_POL_2` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `EVPN_EXPORT` |
+| `$COMMUNITY_ADMIN_1` | Administrator field of a member of a two-member community; `_1`, `_2` number the members in order. | `5` |
+| `$COMMUNITY_ADMIN_2` | Administrator field of a member of a two-member community; `_1`, `_2` number the members in order. | `21001` |
+| `$COMMUNITY_ASSIGNED_1` | Assigned-number field of the first member of a two-member community. | `20007` |
+| `$COMMUNITY_NAME` | Name of a BGP community: in a community form, its own name; in a policy, the community it adds (`community add`). | `DEFAULT_DIRECT_V4` |
+| `$COMMUNITY_NAME_1` | Name of a BGP community that a policy adds to routes (`community add`); `_1`, `_2` number the communities of one policy, in term order. | `DEFAULT_DIRECT_V4` |
+| `$COMMUNITY_NAME_2` | Name of a BGP community that a policy adds to routes (`community add`); `_1`, `_2` number the communities of one policy, in term order. | `DEFAULT_DIRECT_V6` |
+| `$POLICY_NAME` | Name of a routing policy referenced by `from policy` in another policy (here the direct-route policies). | `AllPodNetworks` |
+| `$PPLB_NAME` | Name of the per-packet load-balancing policy that the forwarding table exports. | `PFE-LB` |
+| `$TERM_NAME` | Name of the single term of a policy-statement. | `EVPN_EXPORT-4095` |
+| `$TERM_NAME_1` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-10` |
+| `$TERM_NAME_2` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-20` |
+| `$TERM_NAME_3` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-100` |
+| `$TERM_NAME_4` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `BGP-AOS-Policy-100` |

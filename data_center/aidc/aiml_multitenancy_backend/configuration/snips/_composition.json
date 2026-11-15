@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "jvd": "aiml_multitenancy_backend",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "tenant-vrf-evpn-type5-2-links",
+      "family": "l3vpn",
+      "form": "tenant-vrf-evpn-type5-2-links",
+      "aliases": [
+        "Tenant VRF with EVPN Type 5 routes and two GPU server links"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Server-facing units of the GPU rail links (an IPv4 /31 address with family inet6) and the tenant loopback unit, each listed in the VRF; the IRB and router-advertisement statements of the tenant are separate snippets.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VNI",
+        "$IP_PREFIX_EXPORT_POL",
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#tenant-vrf-with-evpn-type-5-routes-and-two-gpu-server-links",
+      "status": "supported"
+    },
+    {
+      "id": "tenant-vrf-evpn-type5-4-links",
+      "family": "l3vpn",
+      "form": "tenant-vrf-evpn-type5-4-links",
+      "aliases": [
+        "Tenant VRF with EVPN Type 5 routes and four GPU server links"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Server-facing units of the GPU rail links (an IPv4 /31 address with family inet6) and the tenant loopback unit, each listed in the VRF; the IRB and router-advertisement statements of the tenant are separate snippets.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$VNI",
+        "$IP_PREFIX_EXPORT_POL",
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$AC_IFL_3",
+        "$AC_IFL_4",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#tenant-vrf-with-evpn-type-5-routes-and-four-gpu-server-links",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-fabric-link",
+      "aliases": [
+        "Add a leaf-to-spine fabric link to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped transport add (point-to-point /31 unit and its eBGP underlay neighbor in the fabric group); no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "roles": {
+    "leaf": "Leaf",
+    "spine": "Spine"
+  },
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "532b8fd9d26838c9df19dafb69fd413c99338019f36ac1be54ff32f8b258342d"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mtu-9170.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-unit-0-inet-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-mtu-9192.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/irb-inet-mtu-9000-mac.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-accept.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-unit-0-inet-inet6.conf",
+        "evo/interfaces/ifl-unit-0-inet-mtu-9170-inet6.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$AC_IFL_3",
+        "$AC_IFL_4",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-4-ac.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-composite-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": [],
+  "occurrenceEntrySets": {}
+}
