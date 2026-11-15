@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-collapsed-snips.md`](jvd-collapsed-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-collapsed-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,22 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum"
+# form: minimum
 # devices:
-#   leaf1: { name: <hostname>, os: junos, role: collapsed-leaf, loopback4: <addr>, as: <asn> }
-#   leaf2: { ... }
-# features:
-#   - { kind: <collapsed-fabric|mac-vrf|esi-access>,
-#       vni: <int>,                 # MAC-VRF VNI
-#       vni_rt: <target:...>,        # per-VNI route target
-#       irb_unit: <int>,             # anycast IRB unit
-#       irb_address: <addr/len>,     # anycast gateway (same on both switches)
-#       anycast_mac: <mac>,          # anycast gateway MAC (same on both switches)
-#       esi: <hex>,                  # ESI-LAG ESI (same on both switches)
-#       lacp_system_id: <mac> }      # ESI-LAG LACP system-id (same on both switches)
+#   leaf1: { name: <hostname>, os: junos, loopback4: <addr> }
+#   leaf2: { name: <hostname>, os: junos, loopback4: <addr> }
+# services:
+#   - { kind: <evpn-mac-vrf-40-vlans|evpn-type5-vrf-ebgp>,
+#       count: <int>,
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - junos/services/mac-vrf-evpn-vxlan.conf
-#   - junos/interfaces/irb-anycast-gateway.conf
+#   - junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf
 #   - ...
 ```
 
@@ -49,15 +46,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-device consistency the user must verify:
-  - ESI-LAG **ESI value** and **LACP system-id** MUST be identical on both collapsed switches for the same AE bundle (that is what makes it all-active).
-  - The anycast IRB **`mac`** and gateway **address** MUST be identical on both switches for the same VLAN.
-  - MAC-VRF **per-VNI route-targets** MUST match across both switches.
-  - The two leaves are eBGP peers with each other; each has its own loopback and AS.
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- Collapsed reminders: the VLAN-aware MAC-VRF uses `default-gateway do-not-advertise` (each switch owns its anycast gateway locally); the direct EVPN overlay (`l3clos-l-evpn`) runs over loopbacks and the underlay (`l3clos-l`) over the point-to-point links between the two switches.
+- Cross-device consistency the user must verify: the MAC-VRF and each Type 5 VRF use the same instance name, VNIs and route target on both leaves; each leaf's route distinguisher starts with its own loopback; the IRB units a VRF lists must exist in the MAC-VRF's VLANs.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

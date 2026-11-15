@@ -4,6 +4,118 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-15
+
+The **Collapsed Data Center Fabric** snippet library is rebuilt from the two validated
+device configurations with measured dependencies, and the Config Explorer Roles view now
+includes it.
+
+### New content
+
+- **[Collapsed Data Center Fabric snippet library](data_center/adc/collapsed_dc_fabric/configuration/snips)**:
+  41 Junos OS snippets measured from the two published device configurations replace the
+  earlier 6 topic snippets. They cover the leaf-to-leaf interconnect links, the ESI-LAG
+  access bundles toward the servers and their trunk units, IRB and loopback units, the
+  VLAN-aware EVPN-VXLAN MAC-VRF with its 40 VLANs, the EVPN Type 5 VRFs with their eBGP
+  sessions to the external router, the eBGP underlay and EVPN overlay between the two
+  leaves, EVPN options, routing policies, communities and route-filter lists, per-packet
+  load balancing and hashing, LLDP, RSTP, Layer 2 learning telemetry, and the system
+  services including gRPC over SSL, on QFX5120-48Y collapsed-spine leaves. Every active
+  statement on the two devices is reproduced by a snippet except the NETCONF
+  `traceoptions`, which are excluded; the published configurations contain no software
+  version stamp and no deactivated configuration. Each snippet lists the devices it was
+  validated on, its source instance count and, where verified, its peer on the other
+  leaf.
+- **Collapsed Data Center Fabric dependencies**: 1 snippet lists a measured `Pair with`
+  prerequisite (a policy needs the `FABRIC_COMMUNITIES` community), and 11 snippets carry
+  14 typed requirements. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 28 answers for
+  this JVD, all resolved. The assistant bundle was regenerated from the new library: it
+  lists each snippet's Needs and offers the `minimum` form of two services, the
+  EVPN-VXLAN MAC-VRF with 40 VLANs and the EVPN Type 5 VRF with eBGP to the external
+  router.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes Collapsed Data
+  Center Fabric, grouping its snippets under the collapsed-spine leaf pair, as named in the
+  Device roles table of the
+  [JVD datasheet](data_center/adc/collapsed_dc_fabric/documentation/datasheet.md#device-roles),
+  which now names the external router below the table, since its configuration is not
+  published.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 10 entries: the 2 names this library introduces, and 8 names that earlier
+  libraries established.
+
+### Known limitations
+
+- The external router the VRFs peer with is not part of the published configurations;
+  its side of each eBGP session is not modeled. The local certificate's private key is
+  removed from the published configurations; supply your own certificate and key. See
+  the library
+  [README](data_center/adc/collapsed_dc_fabric/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+
+### What this means for you
+
+- Build Collapsed Data Center Fabric configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values; see the
+  library [README](data_center/adc/collapsed_dc_fabric/configuration/snips/README.md) and
+  [variable glossary](data_center/adc/collapsed_dc_fabric/configuration/snips/_variables.md).
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier Collapsed Data Center Fabric snippet file names no
+  longer resolve; use the topic index in the library
+  [README](data_center/adc/collapsed_dc_fabric/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 14 entries, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / Collapsed Data Center Fabric | 47 | 0 | 6 | 14 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **47** | **0** | **6** | **28** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / Collapsed Data Center Fabric | 7497 | 1635 | +5862 |
+| Shared variable glossary | 70 | 0 | +70 |
+| Portal | 12840 | 2962 | +9878 |
+| **Total** | **20407** | **4597** | **+15810** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet library (`configuration/snips/`, excluding the assistant bundle) | 55 | 3349 |
+| JVD AI Assistant bundle (with portal copy) | 21 | 8399 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 8291 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 295 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 70 |
+| JVD datasheet | 1 | 3 |
+| **Total** | **81** | **20407** |
+
+</details>
+
+---
+
 ## 2026-11-14
 
 The **AI Data Center Frontend Fabric for Inference** and **AI/ML Multitenancy Backend**

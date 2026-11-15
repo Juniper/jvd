@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 1,
+  "jvd": "collapsed_dc_fabric",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "evpn-mac-vrf-40-vlans",
+      "family": "e-lan",
+      "form": "evpn-mac-vrf-40-vlans",
+      "aliases": [
+        "EVPN-VXLAN MAC-VRF with 40 VLANs"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [],
+      "attachment": "Access trunk units (the ESI LAG toward the servers) and the VLANs' IRB units, which the Type 5 VRF routes.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$LOOPBACK_V4",
+        "$BD_NAME_1",
+        "$VLAN_BD_1",
+        "$VNI_1",
+        "$IRB_IFL_1",
+        "$AC_IFL_1",
+        "$DESCRIPTION_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vxlan-mac-vrf-with-40-vlans",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf-ebgp",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf-ebgp",
+      "aliases": [
+        "EVPN Type 5 VRF with eBGP to the external router"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB units of the MAC-VRF VLANs, the VRF loopback unit, and the attachment unit toward the external router.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$LOOPBACK_V4",
+        "$RD_SUB_ASSIGNED",
+        "$RT_AS",
+        "$VNI",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$AC_IFL",
+        "$BGP_GROUP",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_IMPORT_POL",
+        "$DESCRIPTION"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-vrf-with-ebgp-to-the-external-router",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "roles": {
+    "leaf": "Collapsed-spine leaf pair"
+  },
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "e4ac7a5ffa095780dd5f2920f3123f84773f16b373f1b3386cae154145bd0e87"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-mtu-9170.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+        "junos/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-all.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-underlay-2-peers-bfd.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+        "junos/interfaces/irb-inet-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet.conf",
+        "junos/interfaces/ifl-vlan-inet.conf",
+        "junos/interfaces/irb-inet-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+        "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+        "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}

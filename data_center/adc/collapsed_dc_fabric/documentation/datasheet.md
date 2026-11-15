@@ -18,14 +18,15 @@ A validated **two-switch EVPN-VXLAN collapsed-spine fabric** for small data cent
 | **Automation** | Juniper Apstra 4.2.1 |
 | **Min. validated software** | Junos OS **23.4R2-S3**; Apstra **4.2.1**. See juniper.net for the current matrix. |
 
-## Device roles (as shipped in this folder)
+## Device roles
 
 The configurations in [`../configuration/conf/`](../configuration/conf/) cover the two collapsed-spine leaves.
 
 | Role | Device(s) | OS | Hostnames | Loopback | AS |
 |------|-----------|----|-----------|----------|----|
 | Collapsed-spine leaf pair | **QFX5120-48Y** | Junos | `leaf1`, `leaf2` | 192.168.253.0 / .1 | 64800 / 64801 |
-| External router | MX204 | Junos | — | — | — |
+
+The leaves' VRFs also peer with an external router (MX204), whose configuration is not shipped in this folder.
 
 > The JVD validates **five** collapsed-spine platforms — QFX5120-48Y, QFX5130-32CD, QFX5700, ACX7100-48L, PTX10001-36MR — for the same role; the shipped configs use the QFX5120-48Y baseline. See [`../README.md`](../README.md).
 
