@@ -18,13 +18,14 @@ A **JVD Extension** that adds an **EX4400-48MP access-switch layer** to the [Col
 | **Automation** | Juniper Apstra 4.2.1 |
 | **Min. validated software** | Collapsed spine **Junos OS 22.2R3-S3**; EX4400 access **Junos OS 22.4R3**; Apstra **4.2.1**. See juniper.net for the current matrix. |
 
-## Device roles (as shipped in this folder)
+## Device roles
 
 | Role | Device(s) | OS | Hostnames | Loopback | AS |
 |------|-----------|----|-----------|----------|----|
 | Collapsed-spine leaf pair | **QFX5120-48Y** | Junos | `leaf1`, `leaf2` | 192.168.253.0 / .1 | 64800 / 64801 |
 | Access switch pair | **EX4400-48MP** | Junos | `access1`, `access2` | 192.168.253.2 / .3 | 64802 / 64803 |
-| External router | MX204 | Junos | — | — | — |
+
+The leaves' VRFs also peer with an external router (MX204), whose configuration is not shipped in this folder.
 
 > The base collapsed fabric validates five collapsed-spine platforms; only the **EX4400-48MP** was validated for the access-switch role. The shipped configs use the QFX5120-48Y collapsed baseline.
 

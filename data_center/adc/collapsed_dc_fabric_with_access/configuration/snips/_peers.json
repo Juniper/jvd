@@ -1,0 +1,680 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "0fa96b053ee178b11921b3847a0fd823e5ae6d8c1ff4cbacc600bb4b0753f857",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "0085c2418b4834c33753e5e480348a9a2602affd74d38e142bb66d580fcc1b95",
+    "devices": 4,
+    "snips": 54,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/evpn-vxlan-shared-tunnels.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/vxlan-routing-next-hop-interface-num-overlay-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/vxlan-routing-overlay-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 6,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 209
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-lacp-active-mtu-9216.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 236
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-description-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-mtu-9170.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-unit-0-inet-no-address.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/irb-inet-mtu-9000-mac.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/community-2-members.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/fabric-communities.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-direct-inet-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list-4-upto-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list-default-route.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd-without-export.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "access1_ex4400-48mp"
+            ],
+            "right": [
+              "access2_ex4400-48mp"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-1-peer-bfd-export.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "access1_ex4400-48mp"
+            ],
+            "right": [
+              "access2_ex4400-48mp"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-2-peers-bfd.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-log-updown-graceful-restart-multipath.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:bgp",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 612
+          }
+        }
+      ]
+    },
+    "junos/protocols/evpn-no-core-isolation.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:evpn",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 614
+          }
+        }
+      ]
+    },
+    "junos/protocols/l2-learning-telemetry-remote-entries.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2-learning"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:l2-learning",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 617
+          }
+        }
+      ]
+    },
+    "junos/protocols/lldp-interface-all-port-id-interface-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 622
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-bpdu-block-on-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 2,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 628
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 2,
+          "devices": [
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48y",
+            "sourceId": 1111
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-interface-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 627
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-1-access-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48y",
+            "sourceId": 645
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-2-access-interfaces.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "access2_ex4400-48mp"
+          ],
+          "witness": {
+            "device": "access2_ex4400-48mp",
+            "sourceId": 265
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-3-access-interfaces.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "access1_ex4400-48mp"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 270
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "leaf2_qfx5120-48y",
+            "sourceId": 650
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 4,
+          "devices": [
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48y",
+            "sourceId": 998
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5120-48y",
+            "sourceId": 981
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/graceful-restart.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/security/certificates-local.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 25
+          }
+        }
+      ]
+    },
+    "junos/system/host-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 1
+          }
+        }
+      ]
+    },
+    "junos/system/management-instance.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 14
+          }
+        }
+      ]
+    },
+    "junos/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 16
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-root-login-grpc-ssl-local-certificate.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "access1_ex4400-48mp",
+            "access2_ex4400-48mp",
+            "leaf1_qfx5120-48y",
+            "leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "access1_ex4400-48mp",
+            "sourceId": 13
+          }
+        }
+      ]
+    }
+  }
+}
