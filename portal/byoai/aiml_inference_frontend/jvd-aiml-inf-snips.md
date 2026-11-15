@@ -1,280 +1,209 @@
 # JVD AI Data Center Frontend Fabric for Inference snippet library
 
-## evo/bootstrap/security-grpc-cert.conf
+## evo/interfaces/ifd-breakout-description-10g.conf
 
 ```
 /*
- * Topic:   Local TLS certificate for the gRPC extension-service listener
- * Variant: Evolved-OS (EVO)
+ * Topic: Port broken out into 10-Gbps sub-ports, with a description
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Holds the `aos_grpc` cert/key pair referenced by the gRPC SSL stanza
- *  - The actual key material is masked ## SECRET-DATA — the template carries
- *    only the structure; supply real PEM at deploy time (Apstra installs it)
- *  - Cert name is fixed (`aos_grpc`) because the system extension-service
- *    block references it by literal name
- *
- * Pair with:
- *  - evo/bootstrap/system-grpc-apstra.conf  (consumer of this certificate)
- *
- * Variables (example values from leaf3_qfx5130-32cd):
- *   $GRPC_CERT_PEM   e.g. (PEM-encoded cert+key blob, masked at runtime)
+ *   EVO: leaf1_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   total 1
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $IFD                 e.g. et-0/0/8
+ *   $DESCRIPTION         e.g. "Breakout et-0/0/8"
+ *   $BREAKOUT_SUB_PORTS  e.g. 4
  */
-security {
-    certificates {
-        local {
-            aos_grpc {
-                "$GRPC_CERT_PEM"; ## SECRET-DATA
-            }
-        }
-    }
-}
-```
-
-## evo/bootstrap/system-grpc-apstra.conf
-
-```
-/*
- * Topic:   System base — host-name, mgmt instance, gRPC extension-service over TLS
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - gRPC request-response listener over TLS, anchored to the dedicated
- *    `mgmt_junos` routing-instance — keeps Apstra / streaming telemetry off
- *    the in-band fabric
- *  - `management-instance` puts the management ethernet in mgmt_junos so OOB
- *    and in-band have separate route tables (no leakage)
- *  - The gRPC listener port differs per device (32767 on spines, 32769/32770
- *    on leafs in the captured set) — supply per-device via $GRPC_PORT
- *  - The `aos_grpc` local-certificate is provided by the companion security
- *    snip
- *
- * Pair with:
- *  - evo/bootstrap/security-grpc-cert.conf  (provides the aos_grpc local-certificate)
- *  - evo/oam/l2-learning-telemetry.conf  (rides this gRPC channel, leaf-only)
- *
- * Variables (example values from leaf3_qfx5130-32cd):
- *   $HOSTNAME    e.g. leaf3
- *   $GRPC_PORT   e.g. 32769
- */
-system {
-    host-name $HOSTNAME;
-    management-instance;
-    services {
-        extension-service {
-            request-response {
-                grpc {
-                    routing-instance mgmt_junos;
-                    ssl {
-                        port $GRPC_PORT;
-                        local-certificate aos_grpc;
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-## evo/interfaces/fabric-p2p-links.conf
-
-```
-/*
- * Topic:   Fabric P2P /31 links — leaf 400G breakout sub-ports + spine direct ports
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Physical MTU 9216 / IP MTU 9170 on every leaf<->spine link — jumbo
- *    sized for AI inference payloads (the IRB carries MTU 9000 client frames)
- *  - LEAF variant: the 400G uplink ports are broken out (`number-of-sub-ports
- *    2` + `speed 400g`), and each `:N` sub-port carries a /31 to one spine —
- *    a leaf reaches both spines over 2x400G sub-ports
- *  - SPINE variant: ports face leafs directly (no breakout) with a /31 each
- *  - /31 numbering throughout; underlay is pure IPv4 eBGP with an explicit
- *    local-address per session — no family inet6 on fabric links
- *
- * Pair with:
- *  - evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes these /31s as BGP local-address)
- *
- * Variables (example values from leaf3_qfx5130-32cd et-0/0/24 / spine1_qfx5220-32cd et-0/0/0):
- *   $PHY_PORT      e.g. et-0/0/24   (leaf breakout parent) or et-0/0/0 (spine)
- *   $PEER_HOST     e.g. frontend-spine-1   (or frontend-leaf1 on the spine side)
- *   $PEER_PORT_A   e.g. et-0/0/4
- *   $PEER_PORT_B   e.g. et-0/0/5
- *   $PEER_PORT     e.g. et-0/0/0   (spine variant, single link)
- *   $LOCAL_V4_A    e.g. 10.0.5.33/31
- *   $LOCAL_V4_B    e.g. 10.0.5.35/31
- *   $LOCAL_V4      e.g. 10.0.5.0/31   (spine variant)
- */
-
-/* --- LEAF variant (400G breakout parent + two /31 sub-ports to spines) --- */
 interfaces {
-    $PHY_PORT {
-        description "Breakout $PHY_PORT";
-        number-of-sub-ports 2;
+    $IFD {
+        description $DESCRIPTION;
+        number-of-sub-ports $BREAKOUT_SUB_PORTS;
+        speed 10g;
+    }
+}
+```
+
+## evo/interfaces/ifd-breakout-description-400g.conf
+
+```
+/*
+ * Topic: Port broken out into 400-Gbps sub-ports, with a description
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf3_qfx5130-32cd 2
+ *   leaf4_qfx5130-32cd 2
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf3_qfx5130-32cd):
+ *   $IFD                 e.g. et-0/0/24
+ *   $DESCRIPTION         e.g. "Breakout et-0/0/24"
+ *   $BREAKOUT_SUB_PORTS  e.g. 2
+ */
+interfaces {
+    $IFD {
+        description $DESCRIPTION;
+        number-of-sub-ports $BREAKOUT_SUB_PORTS;
         speed 400g;
     }
-    ${PHY_PORT}:0 {
-        description facing_$PEER_HOST:$PEER_PORT_A;
-        mtu 9216;
-        unit 0 {
-            family inet {
-                mtu 9170;
-                address $LOCAL_V4_A;
-            }
-        }
-    }
-    ${PHY_PORT}:1 {
-        description facing_$PEER_HOST:$PEER_PORT_B;
-        mtu 9216;
-        unit 0 {
-            family inet {
-                mtu 9170;
-                address $LOCAL_V4_B;
-            }
-        }
-    }
-}
-
-/* --- SPINE variant (direct /31 port facing a leaf) --- */
-interfaces {
-    $PHY_PORT {
-        description facing_$PEER_HOST:$PEER_PORT;
-        mtu 9216;
-        unit 0 {
-            family inet {
-                mtu 9170;
-                address $LOCAL_V4;
-            }
-        }
-    }
 }
 ```
 
-## evo/interfaces/irb-cluster-gateway.conf
+## evo/interfaces/ifd-description-100g-unit-0-inet.conf
 
 ```
 /*
- * Topic:   IRB L3 gateway for the frontend cluster VLAN — MTU 9000
- * Variant: Evolved-OS (EVO)
+ * Topic: 100-Gbps access port with a description and an IPv4 address on unit 0
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
- *
- * Highlights:
- *  - Leaf-only — the routed gateway for the attached frontend cluster VLAN;
- *    the IRB unit number matches the VLAN's l3-interface (see
- *    frontend-cluster-vlan snip)
- *  - IRB MTU 9000 (jumbo) sized for inference payloads; the parent `irb`
- *    interface carries MTU 9216 to leave headroom
- *  - family inet /24 gateway address — the direct route is redistributed into
- *    BGP by AllPodNetworks so client subnets are reachable across the fabric
- *  - No anycast MAC / VRRP in this frontend design — each leaf owns its own
- *    cluster subnet (one VLAN per leaf: vn3..vn6)
- *
- * Pair with:
- *  - evo/services/frontend-cluster-vlan.conf  (the VLAN whose l3-interface is irb.N)
- *  - evo/interfaces/server-access-trunk.conf  (access port trunked into the VLAN)
- *  - evo/policy/allpodnetworks-direct-redistribution.conf  (redistributes this direct route)
- *
- * Variables (example values from leaf3_qfx5130-32cd irb.5):
- *   $IRB_UNIT   e.g. 5
- *   $GW_V4      e.g. 10.10.5.254/24
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $AC_INTF      e.g. et-0/0/28
+ *   $DESCRIPTION  e.g. "VRF default to Lambda-X13-01"
+ *   $AC_ADDR_V4   e.g. 10.10.1.29/31
  */
 interfaces {
-    irb {
-        mtu 9216;
-        unit $IRB_UNIT {
-            family inet {
-                mtu 9000;
-                address $GW_V4;
-            }
-        }
-    }
-}
-```
-
-## evo/interfaces/loopback.conf
-
-```
-/*
- * Topic:   Loopback lo0.0 — underlay router-id / eBGP anchor
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Single lo0.0 IPv4 /32 per device — it supplies the `router-id` in
- *    routing-options and is reachable across the fabric via the redistributed
- *    direct route
- *  - Leaf loopbacks are drawn from 10.0.4.0/24, spine loopbacks from
- *    10.0.3.0/24 in the validated topology
- *  - No per-VRF lo0 units in this frontend design (contrast the
- *    multitenancy-backend JVD, which adds lo0.N per tenant)
- *
- * Pair with:
- *  - evo/transport/routing-options-ecmp-frr.conf  (router-id references this address)
- *
- * Variables (example values from leaf3_qfx5130-32cd):
- *   $LO0_V4   e.g. 10.0.4.4/32
- */
-interfaces {
-    lo0 {
+    $AC_INTF {
+        description $DESCRIPTION;
+        speed 100g;
         unit 0 {
             family inet {
-                address $LO0_V4;
+                address $AC_ADDR_V4;
             }
         }
     }
 }
 ```
 
-## evo/interfaces/server-access-trunk.conf
+## evo/interfaces/ifd-description-mtu-9216.conf
 
 ```
 /*
- * Topic:   Server/client access port — jumbo trunk into the frontend cluster VLAN
- * Variant: Evolved-OS (EVO)
+ * Topic: Physical interface with a description and a 9216-byte MTU
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
- *
- * Highlights:
- *  - Leaf-only — the downstream port to an AMD MI300X GPU server (leaf3/4)
- *    or a Lambda Scaler host running Envoy / GenAI-Perf (leaf1/2)
- *  - Trunk mode with `native-vlan-id` so untagged host traffic lands in the
- *    frontend cluster VLAN; `vlan members` binds the port to that VLAN
- *  - Physical MTU 9216 keeps jumbo inference frames off the fragmentation
- *    path end-to-end
- *  - The description mirrors the attached endpoint (e.g. to.mi300-01) — one
- *    access port per leaf in this topology
- *
- * Pair with:
- *  - evo/services/frontend-cluster-vlan.conf  (the VLAN this port trunks)
- *  - evo/interfaces/irb-cluster-gateway.conf  (L3 gateway for that VLAN)
- *  - evo/oam/rstp-fabric.conf  (RSTP edge / BPDU-guard on this access port)
- *
- * Variables (example values from leaf3_qfx5130-32cd et-0/0/0):
- *   $PHY_PORT      e.g. et-0/0/0
- *   $PEER_DESC     e.g. to.mi300-01
- *   $NATIVE_VLAN   e.g. 5
- *   $VLAN_NAME     e.g. vn5
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 4
+ *   leaf2_qfx5130-32cd 4
+ *   leaf3_qfx5130-32cd 4
+ *   leaf4_qfx5130-32cd 4
+ *   spine1_qfx5220-32cd 8
+ *   spine2_qfx5220-32cd 8
+ *   total 32
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $IFD          e.g. et-0/0/0
+ *   $DESCRIPTION  e.g. facing_frontend-spine-1:et-0/0/0
  */
 interfaces {
-    $PHY_PORT {
-        description $PEER_DESC;
-        native-vlan-id $NATIVE_VLAN;
+    $IFD {
+        description $DESCRIPTION;
         mtu 9216;
+    }
+}
+```
+
+## evo/interfaces/ifd-description-native-vlan-mtu-9216.conf
+
+```
+/*
+ * Topic: Access port with a description, a native VLAN and a 9216-byte MTU
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 3
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $AC_INTF      e.g. et-0/0/8:0
+ *   $DESCRIPTION  e.g. to.headend-svr-01:eth0
+ *   $VLAN         e.g. 3
+ */
+interfaces {
+    $AC_INTF {
+        description $DESCRIPTION;
+        native-vlan-id $VLAN;
+        mtu 9216;
+    }
+}
+```
+
+## evo/interfaces/ifl-core-inet-mtu-9170.conf
+
+```
+/*
+ * Topic: Unit 0 with an IPv4 address and a 9170-byte family MTU on a fabric link
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 4
+ *   leaf2_qfx5130-32cd 4
+ *   leaf3_qfx5130-32cd 4
+ *   leaf4_qfx5130-32cd 4
+ *   spine1_qfx5220-32cd 8
+ *   spine2_qfx5220-32cd 8
+ *   total 32
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $CORE_PHYS     e.g. et-0/0/0
+ *   $CORE_V4_ADDR  e.g. 10.0.5.1/31
+ */
+interfaces {
+    $CORE_PHYS {
+        unit 0 {
+            family inet {
+                mtu 9170;
+                address $CORE_V4_ADDR;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description-mtu-9216`
+
+## evo/interfaces/ifl-ethernet-switching-trunk-1-vlan.conf
+
+```
+/*
+ * Topic: Unit 0 as an Ethernet-switching trunk carrying one VLAN
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 3
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $AC_INTF    e.g. et-0/0/8:0
+ *   $VLAN_NAME  e.g. vn3
+ */
+interfaces {
+    $AC_INTF {
         unit 0 {
             family ethernet-switching {
                 interface-mode trunk;
@@ -285,26 +214,676 @@ interfaces {
 }
 ```
 
-## evo/oam/l2-learning-telemetry.conf
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/ifd-description-native-vlan-mtu-9216`
+
+## evo/interfaces/ifl-loopback-inet.conf
 
 ```
 /*
- * Topic:   L2-learning telemetry — stream remote MAC entries via gRPC
- * Variant: Evolved-OS (EVO)
+ * Topic: Loopback unit with one IPv4 address
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
- *
- * Highlights:
- *  - Leaf-only — leafs are the L2 edge (IRB + access trunks); spines are pure
- *    L3 and learn no MACs
- *  - `enable-remote-entries` exposes the full MAC table (including entries
- *    learned on other units) to the streaming-telemetry channel so Apstra /
- *    external collectors see complete forwarding state
- *  - Rides the same gRPC channel established by the system bootstrap snip
- *
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $UNIT             e.g. 0
+ *   $LOOPBACK_V4_PFX  e.g. 10.0.4.0/32
+ */
+interfaces {
+    lo0 {
+        unit $UNIT {
+            family inet {
+                address $LOOPBACK_V4_PFX;
+            }
+        }
+    }
+}
+```
+
+## evo/interfaces/irb-inet-mtu-9000.conf
+
+```
+/*
+ * Topic: IRB unit with an IPv4 gateway address and a 9000-byte family MTU
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 3
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $IRB_UNIT  e.g. 3
+ *   $IRB_ADDR  e.g. 10.10.3.1/24
+ */
+interfaces {
+    irb {
+        unit $IRB_UNIT {
+            family inet {
+                mtu 9000;
+                address $IRB_ADDR;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `interface-parent`: when the router's configuration has it, all related; `interfaces/irb-mtu-9216`
+
+## evo/interfaces/irb-mtu-9216.conf
+
+```
+/*
+ * Topic: IRB interface with a 9216-byte MTU
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 3
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+interfaces {
+    irb {
+        mtu 9216;
+    }
+}
+```
+
+## evo/policy-options/community/community-2-members.conf
+
+```
+/*
+ * Topic: Community with two standard members
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $COMMUNITY_NAME   e.g. DEFAULT_DIRECT_V4
+ *   $COMMUNITY_ADMIN  e.g. 3
+ */
+policy-options {
+    community $COMMUNITY_NAME members [ $COMMUNITY_ADMIN:20007 21001:26000 ];
+}
+```
+
+## evo/policy-options/community/from-spine-fabric-tier.conf
+
+```
+/*
+ * Topic: FROM_SPINE_FABRIC_TIER: the community that marks routes advertised by the spine tier
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+policy-options {
+    community FROM_SPINE_FABRIC_TIER members 0:15;
+}
+```
+
+## evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf
+
+```
+/*
+ * Topic: Per-packet load-balancing policy without terms
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $PPLB_NAME  e.g. PFE-LB
+ */
+policy-options {
+    policy-statement $PPLB_NAME {
+        then {
+            load-balance per-packet;
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf
+
+```
+/*
+ * Topic: Spine export policy that tags every route FROM_SPINE_FABRIC_TIER and accepts it
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 2
  * Pair with:
- *  - evo/bootstrap/system-grpc-apstra.conf  (the gRPC channel that carries this telemetry)
+ *  - evo/policy-options/community/from-spine-fabric-tier.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from spine1_qfx5220-32cd):
+ *   $BGP_EXPORT_POL  e.g. SPINE_TO_LEAF_FABRIC_OUT
+ *   $TERM_NAME       e.g. SPINE_TO_LEAF_FABRIC_OUT-10
+ */
+policy-options {
+    policy-statement $BGP_EXPORT_POL {
+        term $TERM_NAME {
+            then {
+                community add FROM_SPINE_FABRIC_TIER;
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf
+
+```
+/*
+ * Topic: Policy that accepts direct IPv4 routes with a community added and rejects everything else
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $POLICY_NAME     e.g. AllPodNetworks
+ *   $TERM_NAME_1     e.g. AllPodNetworks-10
+ *   $COMMUNITY_NAME  e.g. DEFAULT_DIRECT_V4
+ *   $TERM_NAME_2     e.g. AllPodNetworks-100
+ */
+policy-options {
+    policy-statement $POLICY_NAME {
+        term $TERM_NAME_1 {
+            from {
+                family inet;
+                protocol direct;
+            }
+            then {
+                community add $COMMUNITY_NAME;
+                accept;
+            }
+        }
+        term $TERM_NAME_2 {
+            then {
+                reject;
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `community` (`$COMMUNITY_NAME`): required, for each reference; `policy-options/community/community-2-members`
+
+## evo/policy-options/policy-statement/ps-from-policy-accept-reject.conf
+
+```
+/*
+ * Topic: Export policy that accepts the routes another policy accepts and rejects everything else
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $BGP_EXPORT_POL  e.g. BGP-AOS-Policy
+ *   $TERM_NAME_1     e.g. BGP-AOS-Policy-10
+ *   $POLICY_NAME     e.g. AllPodNetworks
+ *   $TERM_NAME_2     e.g. BGP-AOS-Policy-100
+ */
+policy-options {
+    policy-statement $BGP_EXPORT_POL {
+        term $TERM_NAME_1 {
+            from {
+                policy $POLICY_NAME;
+            }
+            then {
+                accept;
+            }
+        }
+        term $TERM_NAME_2 {
+            then {
+                reject;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf
+
+```
+/*
+ * Topic: Export policy that accepts the routes another policy accepts and BGP routes, and rejects everything else
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 2
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from spine1_qfx5220-32cd):
+ *   $BGP_EXPORT_POL  e.g. BGP-AOS-Policy
+ *   $TERM_NAME_1     e.g. BGP-AOS-Policy-10
+ *   $POLICY_NAME     e.g. AllPodNetworks
+ *   $TERM_NAME_2     e.g. BGP-AOS-Policy-20
+ *   $TERM_NAME_3     e.g. BGP-AOS-Policy-100
+ */
+policy-options {
+    policy-statement $BGP_EXPORT_POL {
+        term $TERM_NAME_1 {
+            from {
+                policy $POLICY_NAME;
+            }
+            then {
+                accept;
+            }
+        }
+        term $TERM_NAME_2 {
+            from {
+                protocol bgp;
+            }
+            then {
+                accept;
+            }
+        }
+        term $TERM_NAME_3 {
+            then {
+                reject;
+            }
+        }
+    }
+}
+```
+
+## evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf
+
+```
+/*
+ * Topic: Leaf export policy that rejects BGP routes tagged FROM_SPINE_FABRIC_TIER and accepts everything else
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with:
+ *  - evo/policy-options/community/from-spine-fabric-tier.conf
+ *
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $BGP_EXPORT_POL  e.g. LEAF_TO_SPINE_FABRIC_OUT
+ *   $TERM_NAME_1     e.g. LEAF_TO_SPINE_FABRIC_OUT-10
+ *   $TERM_NAME_2     e.g. LEAF_TO_SPINE_FABRIC_OUT-20
+ */
+policy-options {
+    policy-statement $BGP_EXPORT_POL {
+        term $TERM_NAME_1 {
+            from {
+                protocol bgp;
+                community FROM_SPINE_FABRIC_TIER;
+            }
+            then {
+                reject;
+            }
+        }
+        term $TERM_NAME_2 {
+            then {
+                accept;
+            }
+        }
+    }
+}
+```
+
+## evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf
+
+```
+/*
+ * Topic: Leaf eBGP underlay group with four directly connected spine peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with: none
+ * Peers with:
+ *   [leaf1_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf1_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf2_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf2_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf3_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf3_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf4_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf4_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $BGP_GROUP            e.g. l3clos-l
+ *   $UNDERLAY_PEER_V4_1   e.g. 10.0.5.0
+ *   $DESCRIPTION_1        e.g. facing_frontend-spine-1
+ *   $UNDERLAY_LOCAL_V4_1  e.g. 10.0.5.1
+ *   $BGP_EXPORT_POL_1     e.g. LEAF_TO_SPINE_FABRIC_OUT
+ *   $BGP_EXPORT_POL_2     e.g. BGP-AOS-Policy
+ *   $ASN_FABRIC_PEER_1    e.g. 4201032300
+ *   $UNDERLAY_PEER_V4_2   e.g. 10.0.5.2
+ *   $UNDERLAY_LOCAL_V4_2  e.g. 10.0.5.3
+ *   $UNDERLAY_PEER_V4_3   e.g. 10.0.5.10
+ *   $DESCRIPTION_2        e.g. facing_frontend-spine-2
+ *   $UNDERLAY_LOCAL_V4_3  e.g. 10.0.5.11
+ *   $ASN_FABRIC_PEER_2    e.g. 4201032301
+ *   $UNDERLAY_PEER_V4_4   e.g. 10.0.5.8
+ *   $UNDERLAY_LOCAL_V4_4  e.g. 10.0.5.9
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multipath multiple-as;
+            vpn-apply-export;
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor $UNDERLAY_PEER_V4_1 {
+                description $DESCRIPTION_1;
+                local-address $UNDERLAY_LOCAL_V4_1;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_1;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_2 {
+                description $DESCRIPTION_1;
+                local-address $UNDERLAY_LOCAL_V4_2;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_1;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_3 {
+                description $DESCRIPTION_2;
+                local-address $UNDERLAY_LOCAL_V4_3;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_2;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_4 {
+                description $DESCRIPTION_2;
+                local-address $UNDERLAY_LOCAL_V4_4;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_2;
+                family inet {
+                    unicast;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-from-policy-accept-reject`, `policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept`
+
+## evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies.conf
+
+```
+/*
+ * Topic: Spine eBGP underlay group with eight directly connected leaf peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 2
+ * Pair with: none
+ * Peers with:
+ *   [leaf1_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf1_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf2_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf2_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf3_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf3_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ *   [leaf4_qfx5130-32cd] <-> [spine1_qfx5220-32cd]
+ *   [leaf4_qfx5130-32cd] <-> [spine2_qfx5220-32cd]
+ * Variables (example values from spine1_qfx5220-32cd):
+ *   $BGP_GROUP            e.g. l3clos-s
+ *   $UNDERLAY_PEER_V4_1   e.g. 10.0.5.1
+ *   $DESCRIPTION_1        e.g. facing_frontend-leaf1
+ *   $UNDERLAY_LOCAL_V4_1  e.g. 10.0.5.0
+ *   $BGP_EXPORT_POL_1     e.g. SPINE_TO_LEAF_FABRIC_OUT
+ *   $BGP_EXPORT_POL_2     e.g. BGP-AOS-Policy
+ *   $ASN_FABRIC_PEER_1    e.g. 4201032400
+ *   $UNDERLAY_PEER_V4_2   e.g. 10.0.5.3
+ *   $UNDERLAY_LOCAL_V4_2  e.g. 10.0.5.2
+ *   $UNDERLAY_PEER_V4_3   e.g. 10.0.5.5
+ *   $DESCRIPTION_2        e.g. facing_frontend-leaf2
+ *   $UNDERLAY_LOCAL_V4_3  e.g. 10.0.5.4
+ *   $ASN_FABRIC_PEER_2    e.g. 4201032401
+ *   $UNDERLAY_PEER_V4_4   e.g. 10.0.5.7
+ *   $UNDERLAY_LOCAL_V4_4  e.g. 10.0.5.6
+ *   $UNDERLAY_PEER_V4_5   e.g. 10.0.5.33
+ *   $DESCRIPTION_3        e.g. facing_frontend-leaf3
+ *   $UNDERLAY_LOCAL_V4_5  e.g. 10.0.5.32
+ *   $ASN_FABRIC_PEER_3    e.g. 4201032406
+ *   $UNDERLAY_PEER_V4_6   e.g. 10.0.5.35
+ *   $UNDERLAY_LOCAL_V4_6  e.g. 10.0.5.34
+ *   $UNDERLAY_PEER_V4_7   e.g. 10.0.5.37
+ *   $DESCRIPTION_4        e.g. facing_frontend-leaf4
+ *   $UNDERLAY_LOCAL_V4_7  e.g. 10.0.5.36
+ *   $ASN_FABRIC_PEER_4    e.g. 4201032407
+ *   $UNDERLAY_PEER_V4_8   e.g. 10.0.5.39
+ *   $UNDERLAY_LOCAL_V4_8  e.g. 10.0.5.38
+ */
+protocols {
+    bgp {
+        group $BGP_GROUP {
+            type external;
+            multipath multiple-as;
+            vpn-apply-export;
+            bfd-liveness-detection {
+                minimum-interval 1000;
+                multiplier 3;
+            }
+            neighbor $UNDERLAY_PEER_V4_1 {
+                description $DESCRIPTION_1;
+                local-address $UNDERLAY_LOCAL_V4_1;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_1;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_2 {
+                description $DESCRIPTION_1;
+                local-address $UNDERLAY_LOCAL_V4_2;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_1;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_3 {
+                description $DESCRIPTION_2;
+                local-address $UNDERLAY_LOCAL_V4_3;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_2;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_4 {
+                description $DESCRIPTION_2;
+                local-address $UNDERLAY_LOCAL_V4_4;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_2;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_5 {
+                description $DESCRIPTION_3;
+                local-address $UNDERLAY_LOCAL_V4_5;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_3;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_6 {
+                description $DESCRIPTION_3;
+                local-address $UNDERLAY_LOCAL_V4_6;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_3;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_7 {
+                description $DESCRIPTION_4;
+                local-address $UNDERLAY_LOCAL_V4_7;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_4;
+                family inet {
+                    unicast;
+                }
+            }
+            neighbor $UNDERLAY_PEER_V4_8 {
+                description $DESCRIPTION_4;
+                local-address $UNDERLAY_LOCAL_V4_8;
+                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );
+                peer-as $ASN_FABRIC_PEER_4;
+                family inet {
+                    unicast;
+                }
+            }
+        }
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$BGP_EXPORT_POL_1`, `$BGP_EXPORT_POL_2`): required, for each reference; one of `policy-options/policy-statement/ps-add-from-spine-tier-accept`, `policy-options/policy-statement/ps-from-policy-bgp-accept-reject`
+
+## evo/protocols/bgp-log-updown-multipath-graceful-restart.conf
+
+```
+/*
+ * Topic: BGP global options: log-updown, multipath, and graceful restart without helping on shared-fate BFD down
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Variables: none
+ */
+protocols {
+    bgp {
+        log-updown;
+        multipath;
+        graceful-restart {
+            dont-help-shared-fate-bfd-down;
+        }
+    }
+}
+```
+
+## evo/protocols/l2-learning-telemetry-remote-entries.conf
+
+```
+/*
+ * Topic: Layer 2 learning telemetry that includes remote entries
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with: none
+ * Variables: none
  */
 protocols {
     l2-learning {
@@ -313,27 +892,24 @@ protocols {
 }
 ```
 
-## evo/oam/lldp-interface-all.conf
+## evo/protocols/lldp-interface-all-port-id-interface-name.conf
 
 ```
 /*
- * Topic:   LLDP on all interfaces — neighbor discovery for fabric validation
- * Variant: Evolved-OS (EVO)
+ * Topic: LLDP on all interfaces with the interface name as port ID and the interface description as port description
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - `interface all` advertises LLDP on every port so Apstra can build and
- *    validate the cabling map against the intended topology
- *  - `port-id-subtype interface-name` + `port-description-type
- *    interface-description` make the neighbor tables human-readable (port
- *    names/descriptions instead of numeric IDs)
- *  - `neighbour-port-info-display port-id` shows the remote port-id in the
- *    neighbor output — the note the Apstra cabling checker keys on
- *
- * Pair with:
- *  - (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Variables: none
  */
 protocols {
     lldp {
@@ -345,44 +921,46 @@ protocols {
 }
 ```
 
-## evo/oam/rstp-fabric.conf
+## evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf
 
 ```
 /*
- * Topic:   RSTP — leaf edge/BPDU-guard on access ports, disabled on spines
- * Variant: Evolved-OS (EVO)
+ * Topic: RSTP with bridge priority 0 and BPDU block on edge ports
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - LEAF variant: `bridge-priority 0` makes each leaf the root for its own
- *    local bridge; `bpdu-block-on-edge` + `interface <access> edge` mark the
- *    server/client access port as an edge port so a host bringing up a link
- *    doesn't trigger a topology change (and any stray BPDU blocks the port)
- *  - SPINE variant: RSTP is explicitly `disable`d — spines are pure L3 with
- *    no bridge-domain, so BPDUs would be wasted CPU
- *  - Deploy the LEAF variant on leafs, the SPINE variant on spines
- *
- * Pair with:
- *  - evo/interfaces/server-access-trunk.conf  (the edge access port)
- *
- * Variables (example values from leaf3_qfx5130-32cd):
- *   $EDGE_PORT   e.g. et-0/0/0:0
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with: none
+ * Variables: none
  */
-
-/* --- LEAF variant (deploy on leaf-role devices) --- */
 protocols {
     rstp {
         bridge-priority 0;
         bpdu-block-on-edge;
-        interface $EDGE_PORT {
-            edge;
-        }
     }
 }
+```
 
-/* --- SPINE variant (deploy on spine-role devices) --- */
+## evo/protocols/rstp-disable.conf
+
+```
+/*
+ * Topic: RSTP disabled
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 2
+ * Pair with: none
+ * Variables: none
+ */
 protocols {
     rstp {
         disable;
@@ -390,632 +968,478 @@ protocols {
 }
 ```
 
-## evo/policy/allpodnetworks-direct-redistribution.conf
+## evo/protocols/rstp-interface-edge.conf
 
 ```
 /*
- * Topic:   AllPodNetworks — direct-route redistribution + BGP-AOS-Policy umbrella
- * Variant: Evolved-OS (EVO)
+ * Topic: RSTP edge port
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - AllPodNetworks redistributes locally-attached IPv4 direct routes into
- *    BGP and stamps them with DEFAULT_DIRECT_V4 so downstream devices can
- *    identify their origin; the trailing term-100 reject is an implicit-deny
- *  - BGP-AOS-Policy is the umbrella export chained on every session; it
- *    accepts AllPodNetworks output first, then differs by role:
- *      * SPINE also accepts everything from `protocol bgp` (term-20) so it
- *        relays leaf routes across the fabric
- *      * LEAF has no such term — a leaf does NOT re-advertise BGP-learned
- *        fabric routes back into the fabric (loop-prevention by policy)
- *  - IPv4-only redistribution — no family inet6 term in this frontend design
- *
- * Pair with:
- *  - evo/policy/community-definitions.conf  (DEFAULT_DIRECT_V4)
- *  - evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes BGP-AOS-Policy)
- *  - evo/interfaces/irb-cluster-gateway.conf  (IRB direct route redistributed here)
+ *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 3
+ * Pair with: none
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $AC_INTF  e.g. et-0/0/8:0
  */
-
-/* --- SPINE variant (term-20 relays BGP-learned routes downstream) --- */
-policy-options {
-    policy-statement AllPodNetworks {
-        term AllPodNetworks-10 {
-            from {
-                family inet;
-                protocol direct;
-            }
-            then {
-                community add DEFAULT_DIRECT_V4;
-                accept;
-            }
-        }
-        term AllPodNetworks-100 {
-            then {
-                reject;
-            }
-        }
-    }
-    policy-statement BGP-AOS-Policy {
-        term BGP-AOS-Policy-10 {
-            from {
-                policy AllPodNetworks;
-            }
-            then {
-                accept;
-            }
-        }
-        term BGP-AOS-Policy-20 {
-            from {
-                protocol bgp;
-            }
-            then {
-                accept;
-            }
-        }
-        term BGP-AOS-Policy-100 {
-            then {
-                reject;
-            }
-        }
-    }
-}
-
-/* --- LEAF variant (no term-20 — does not relay fabric BGP routes) --- */
-policy-options {
-    policy-statement AllPodNetworks {
-        term AllPodNetworks-10 {
-            from {
-                family inet;
-                protocol direct;
-            }
-            then {
-                community add DEFAULT_DIRECT_V4;
-                accept;
-            }
-        }
-        term AllPodNetworks-100 {
-            then {
-                reject;
-            }
-        }
-    }
-    policy-statement BGP-AOS-Policy {
-        term BGP-AOS-Policy-10 {
-            from {
-                policy AllPodNetworks;
-            }
-            then {
-                accept;
-            }
-        }
-        term BGP-AOS-Policy-100 {
-            then {
-                reject;
-            }
-        }
-    }
-}
-```
-
-## evo/policy/clos-loop-prevention.conf
-
-```
-/*
- * Topic:   eBGP CLOS loop-prevention — spine tags outbound, leaf rejects tagged
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Standard 3-stage CLOS loop-prevention without AS-path filtering
- *  - SPINE_TO_LEAF_FABRIC_OUT stamps FROM_SPINE_FABRIC_TIER on all routes a
- *    spine sends to leafs
- *  - LEAF_TO_SPINE_FABRIC_OUT rejects any route still carrying that stamp
- *    when a leaf exports back toward the spines (term-10), then accepts the
- *    rest (term-20)
- *  - Both policies are chained ahead of BGP-AOS-Policy in the eBGP export
- *    ( POLICY && BGP-AOS-Policy ) — deploy the SPINE variant on spines and
- *    the LEAF variant on leafs
- *
- * Pair with:
- *  - evo/policy/community-definitions.conf  (FROM_SPINE_FABRIC_TIER)
- *  - evo/transport/bgp-ebgp-fabric-underlay.conf  (consumer in the export chain)
- */
-
-/* --- SPINE variant (deploy on spine-role devices) --- */
-policy-options {
-    policy-statement SPINE_TO_LEAF_FABRIC_OUT {
-        term SPINE_TO_LEAF_FABRIC_OUT-10 {
-            then {
-                community add FROM_SPINE_FABRIC_TIER;
-                accept;
-            }
-        }
-    }
-}
-
-/* --- LEAF variant (deploy on leaf-role devices) --- */
-policy-options {
-    policy-statement LEAF_TO_SPINE_FABRIC_OUT {
-        term LEAF_TO_SPINE_FABRIC_OUT-10 {
-            from {
-                protocol bgp;
-                community FROM_SPINE_FABRIC_TIER;
-            }
-            then {
-                reject;
-            }
-        }
-        term LEAF_TO_SPINE_FABRIC_OUT-20 {
-            then {
-                accept;
-            }
-        }
-    }
-}
-```
-
-## evo/policy/community-definitions.conf
-
-```
-/*
- * Topic:   BGP community definitions — tier marker + default direct redistribution
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - FROM_SPINE_FABRIC_TIER (0:15) = CLOS loop-prevention marker stamped by
- *    spines and rejected by leafs (see clos-loop-prevention snip)
- *  - DEFAULT_DIRECT_V4 identifies locally-redistributed direct routes; the
- *    high-order tag encodes the tier — leafs use `5:20007`, spines use
- *    `1:20007` for the same community, the low-order `21001:26000` is the
- *    shared fabric selector
- *  - This frontend fabric is IPv4-only — there is no DEFAULT_DIRECT_V6 and
- *    no per-tenant community (contrast the multitenancy-backend JVD)
- *
- * Pair with:
- *  - evo/policy/clos-loop-prevention.conf  (consumer of FROM_SPINE_FABRIC_TIER)
- *  - evo/policy/allpodnetworks-direct-redistribution.conf  (consumer of DEFAULT_DIRECT_V4)
- *
- * Variables (example values from leaf3_qfx5130-32cd / spine1_qfx5220-32cd):
- *   $LOCAL_TIER_TAG   e.g. 5   (leaf) or 1 (spine)
- */
-policy-options {
-    community DEFAULT_DIRECT_V4 members [ ${LOCAL_TIER_TAG}:20007 21001:26000 ];
-    community FROM_SPINE_FABRIC_TIER members 0:15;
-}
-```
-
-## evo/policy/pfe-load-balance.conf
-
-```
-/*
- * Topic:   PFE per-packet load-balance policy (referenced by forwarding-table export)
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Tells the FIB to install per-packet (per-flow) load-balance next-hops
- *    across all ECMP paths — without it, ECMP routes default to per-prefix
- *    load-balance and pin each prefix to a single next-hop
- *  - Required so inference request/response flows actually spread across the
- *    2x400G leaf<->spine links rather than polarizing onto one member
- *  - Applied via `forwarding-table export PFE-LB` in routing-options
- *
- * Pair with:
- *  - evo/transport/routing-options-ecmp-frr.conf  (forwarding-table export PFE-LB)
- */
-policy-options {
-    policy-statement PFE-LB {
-        then {
-            load-balance per-packet;
-        }
-    }
-}
-```
-
-## evo/services/frontend-cluster-vlan.conf
-
-```
-/*
- * Topic:   Frontend cluster VLAN — L2 broadcast domain + L3 gateway binding
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
- *
- * Highlights:
- *  - The "service" delivered by this frontend fabric: one cluster VLAN per
- *    leaf carrying inference client / GPU-server traffic (vn3..vn6, vlan-id
- *    3..6 in the validated topology)
- *  - `l3-interface irb.N` ties the VLAN to its IRB gateway; the unit number
- *    matches the IRB unit (see irb-cluster-gateway snip)
- *  - Endpoints attach via the server/client access trunk with this VLAN as
- *    the native VLAN (see server-access-trunk snip)
- *  - Pure local-bridging + routed gateway — no EVPN/VXLAN in this frontend
- *    design, so a VLAN does not stretch across leafs
- *
- * Pair with:
- *  - evo/interfaces/irb-cluster-gateway.conf  (the irb.N gateway for this VLAN)
- *  - evo/interfaces/server-access-trunk.conf  (access ports that trunk this VLAN)
- *
- * Variables (example values from leaf3_qfx5130-32cd vn5):
- *   $VLAN_NAME   e.g. vn5
- *   $VLAN_DESC   e.g. FrontEnd-Cluster-VN5
- *   $VLAN_ID     e.g. 5
- *   $IRB_UNIT    e.g. 5
- */
-vlans {
-    $VLAN_NAME {
-        description $VLAN_DESC;
-        vlan-id $VLAN_ID;
-        l3-interface irb.$IRB_UNIT;
-    }
-}
-```
-
-## evo/transport/bgp-ebgp-fabric-underlay.conf
-
-```
-/*
- * Topic:   eBGP fabric underlay — leaf<->spine /31 sessions, multipath, BFD 1s
- * Variant: Evolved-OS (EVO)
- * Seen on:
- *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - Pure eBGP IPv4 underlay — every device carries a unique AS and peers
- *    to its neighbors over the /31 point-to-point links (no loopback eBGP,
- *    no EVPN overlay in this frontend design — family inet unicast only)
- *  - `multipath multiple-as` at the group + device-level `multipath` enable
- *    ECMP across the parallel leaf<->spine links (2x400G per leaf per spine)
- *  - BFD 1s x3 gives sub-3s liveness; `graceful-restart
- *    dont-help-shared-fate-bfd-down` avoids a helper stall when BFD and BGP
- *    fail together on the same link
- *  - `vpn-apply-export` is carried from the Apstra template even though no
- *    VPN families are present — harmless, kept for fidelity
- *  - Deploy the LEAF variant (group l3clos-l) on leafs, the SPINE variant
- *    (group l3clos-s) on spines; the export policy chain differs by role
- *
- * Pair with:
- *  - evo/policy/clos-loop-prevention.conf  (LEAF_TO_SPINE_FABRIC_OUT / SPINE_TO_LEAF_FABRIC_OUT)
- *  - evo/policy/allpodnetworks-direct-redistribution.conf  (BGP-AOS-Policy)
- *  - evo/interfaces/fabric-p2p-links.conf  (the /31 links used as local-address)
- *  - evo/transport/routing-options-ecmp-frr.conf  (router-id + AS + PFE-LB export)
- *
- * Variables (example values from leaf3_qfx5130-32cd / spine1_qfx5220-32cd):
- *   $PEER_NAME    e.g. frontend-spine-1   (or frontend-leaf1 from the spine side)
- *   $PEER_V4      e.g. 10.0.5.32
- *   $LOCAL_V4     e.g. 10.0.5.33
- *   $PEER_AS      e.g. 4201032300
- */
-
-/* --- LEAF variant (deploy on leaf-role devices) --- */
 protocols {
-    bgp {
-        log-updown;
-        multipath;
-        group l3clos-l {
-            type external;
-            multipath multiple-as;
-            vpn-apply-export;
-            bfd-liveness-detection {
-                minimum-interval 1000;
-                multiplier 3;
-            }
-            neighbor $PEER_V4 {
-                description facing_$PEER_NAME;
-                local-address $LOCAL_V4;
-                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );
-                peer-as $PEER_AS;
-                family inet {
-                    unicast;
-                }
-            }
-        }
-        graceful-restart {
-            dont-help-shared-fate-bfd-down;
-        }
-    }
-}
-
-/* --- SPINE variant (deploy on spine-role devices) --- */
-protocols {
-    bgp {
-        log-updown;
-        multipath;
-        group l3clos-s {
-            type external;
-            multipath multiple-as;
-            vpn-apply-export;
-            bfd-liveness-detection {
-                minimum-interval 1000;
-                multiplier 3;
-            }
-            neighbor $PEER_V4 {
-                description facing_$PEER_NAME;
-                local-address $LOCAL_V4;
-                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );
-                peer-as $PEER_AS;
-                family inet {
-                    unicast;
-                }
-            }
-        }
-        graceful-restart {
-            dont-help-shared-fate-bfd-down;
+    rstp {
+        interface $AC_INTF {
+            edge;
         }
     }
 }
 ```
 
-## evo/transport/routing-options-ecmp-frr.conf
+## evo/routing-options/autonomous-system.conf
 
 ```
 /*
- * Topic:   Routing-options — router-id, local AS, ECMP fast-reroute, PFE-LB export
- * Variant: Evolved-OS (EVO)
+ * Topic: Device autonomous-system number
  * Seen on:
  *   Junos: (none)
- *   EVO:   leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
- *
- * Highlights:
- *  - `ecmp-fast-reroute` pre-computes backup next-hops in the FIB for
- *    sub-second restoration when a leaf<->spine link fails
- *  - `export PFE-LB` pushes per-packet load-balance into the forwarding
- *    table so all parallel ECMP next-hops are actually used (the default
- *    is per-prefix, which pins each prefix to one next-hop)
- *  - `graceful-restart` at the global level enables GR for all protocols
- *  - Identical structure on leaf and spine — only $ROUTER_ID and $LOCAL_AS
- *    differ per device (no chained-composite-next-hop here since the
- *    frontend design carries no EVPN encapsulation)
- *
- * Pair with:
- *  - evo/policy/pfe-load-balance.conf  (the PFE-LB policy referenced here)
- *  - evo/transport/bgp-ebgp-fabric-underlay.conf  (the eBGP sessions this AS/router-id anchor)
- *  - evo/interfaces/loopback.conf  (lo0.0 supplies the router-id)
- *
- * Variables (example values from leaf3_qfx5130-32cd / spine1_qfx5220-32cd):
- *   $ROUTER_ID   e.g. 10.0.4.4   (lo0.0 v4 address)
- *   $LOCAL_AS    e.g. 4201032406
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $ASN  e.g. 4201032400
+ */
+routing-options {
+  autonomous-system $ASN;
+}
+```
+
+## evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf
+
+```
+/*
+ * Topic: Forwarding-table export of the per-packet load-balancing policy, with ECMP fast reroute
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $PPLB_NAME  e.g. PFE-LB
+ */
+routing-options {
+    forwarding-table {
+        export $PPLB_NAME;
+        ecmp-fast-reroute;
+    }
+}
+```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `policy-statement` (`$PPLB_NAME`): required, for each reference; `policy-options/policy-statement/per-packet-load-balance-no-term`
+
+## evo/routing-options/graceful-restart.conf
+
+```
+/*
+ * Topic: Graceful restart
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables: none
+ */
+routing-options {
+    graceful-restart;
+}
+```
+
+## evo/routing-options/router-id.conf
+
+```
+/*
+ * Topic: Transport router identity
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Peers with: n/a
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $ROUTER_ID  e.g. 10.0.4.0
  */
 routing-options {
     router-id $ROUTER_ID;
-    autonomous-system $LOCAL_AS;
-    graceful-restart;
-    forwarding-table {
-        export PFE-LB;
-        ecmp-fast-reroute;
+}
+```
+
+## evo/security/certificates-local.conf
+
+```
+/*
+ * Topic: Local certificate and private key used by the gRPC SSL service
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $LOCAL_CERT      e.g. aos_grpc
+ *   $LOCAL_CERT_KEY  e.g. "******"
+ */
+security {
+    certificates {
+        local {
+            $LOCAL_CERT {
+                $LOCAL_CERT_KEY;
+            }
+        }
+    }
+}
+```
+
+## evo/system/host-name.conf
+
+```
+/*
+ * Topic: System host name
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $HOST_NAME  e.g. leaf1
+ */
+system {
+    host-name $HOST_NAME;
+}
+```
+
+## evo/system/management-instance.conf
+
+```
+/*
+ * Topic: Dedicated management routing instance (mgmt_junos) for the management interface and services
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 5
+ * Pair with: none
+ * Variables: none
+ */
+system {
+    management-instance;
+}
+```
+
+## evo/system/services-grpc-ssl-local-certificate-mgmt-junos.conf
+
+```
+/*
+ * Topic: gRPC request-response extension service over SSL in the management instance, using a local certificate
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   spine1_qfx5220-32cd 1
+ *   spine2_qfx5220-32cd 1
+ *   total 6
+ * Pair with: none
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $GRPC_PORT   e.g. 32767
+ *   $LOCAL_CERT  e.g. aos_grpc
+ */
+system {
+    services {
+        extension-service {
+            request-response {
+                grpc {
+                    routing-instance mgmt_junos;
+                    ssl {
+                        port $GRPC_PORT;
+                        local-certificate $LOCAL_CERT;
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+## evo/vlans/vlan-description-vlan-id-l3-interface.conf
+
+```
+/*
+ * Topic: VLAN with a description, a VLAN ID and an IRB Layer 3 interface
+ * Seen on:
+ *   Junos: (none)
+ *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd
+ * Count:
+ *   leaf1_qfx5130-32cd 1
+ *   leaf2_qfx5130-32cd 1
+ *   leaf3_qfx5130-32cd 1
+ *   leaf4_qfx5130-32cd 1
+ *   total 4
+ * Pair with: none
+ * Variables (example values from leaf1_qfx5130-32cd):
+ *   $VLAN_NAME    e.g. vn3
+ *   $DESCRIPTION  e.g. FrontEnd-Cluster-VN3
+ *   $VLAN_BD      e.g. 3
+ *   $IRB_IFL      e.g. irb.3
+ */
+vlans {
+    $VLAN_NAME {
+        description $DESCRIPTION;
+        vlan-id $VLAN_BD;
+        l3-interface $IRB_IFL;
     }
 }
 ```
 
 ## _variables.md
 
-# Snip variable glossary
+# Snippet variable glossary
 
-This file documents every `$VARIABLE` used in the templated snips under
-`evo/`. Variables are alphabetical; the **Used in** column lists which
-snip categories reference each one.
+All `.conf` files under `evo/` are templates: identifiers that vary between deployments are written
+as `$VAR`. Render a snippet by substituting each placeholder with your deployment's value. The placeholders each
+snippet uses are listed in its `Variables:` header and in the glossary below. Variable names and meanings follow
+the shared JVD snippet vocabulary. Numbered variables (`_1`, `_2`, …) form an ordered set; the numbers carry no
+other meaning.
 
-| Variable | Meaning | Typical example | Used in |
-|---|---|---|---|
-| `$EDGE_PORT` | Access port marked as an RSTP edge port on a leaf | `et-0/0/0:0` | oam/ |
-| `$GRPC_CERT_PEM` | PEM-encoded TLS cert/key for the gRPC listener (masked SECRET-DATA) | *(redacted)* | bootstrap/ |
-| `$GRPC_PORT` | TCP port for the gRPC extension-service SSL listener | `32769` (leaf), `32767` (spine) | bootstrap/ |
-| `$GW_V4` | Frontend cluster VLAN IRB gateway IPv4 (full prefix) | `10.10.5.254/24` | interfaces/ |
-| `$HOSTNAME` | Device hostname | `leaf3` | bootstrap/ |
-| `$IRB_UNIT` | IRB logical unit number for the frontend cluster VLAN | `5` | interfaces/, services/ |
-| `$LO0_V4` | Loopback IPv4 (router-id / underlay anchor, full prefix) | `10.0.4.4/32` (leaf), `10.0.3.0/32` (spine) | interfaces/ |
-| `$LOCAL_AS` | Per-device BGP autonomous system number | `4201032406` (leaf), `4201032300` (spine) | transport/ |
-| `$LOCAL_TIER_TAG` | Community high-order tag identifying the device's tier | `5` (leaf), `1` (spine) | policy/ |
-| `$LOCAL_V4` | Local /31 v4 on a spine fabric interface (full prefix) | `10.0.5.0/31` | interfaces/, transport/ |
-| `$LOCAL_V4_A` | First /31 v4 on a leaf fabric breakout sub-port | `10.0.5.33/31` | interfaces/ |
-| `$LOCAL_V4_B` | Second /31 v4 on a leaf fabric breakout sub-port | `10.0.5.35/31` | interfaces/ |
-| `$NATIVE_VLAN` | Native VLAN ID on a server/client access trunk | `5` | interfaces/ |
-| `$PEER_AS` | Remote eBGP peer autonomous system number | `4201032300` (leaf->spine), `4201032400` (spine->leaf) | transport/ |
-| `$PEER_DESC` | Attached-endpoint description on an access port | `to.mi300-01` | interfaces/ |
-| `$PEER_HOST` | Remote device shortname (used in interface description) | `frontend-spine-1` | interfaces/ |
-| `$PEER_NAME` | Remote device shortname (used in BGP neighbor description) | `frontend-spine-1`, `frontend-leaf1` | transport/ |
-| `$PEER_PORT` | Remote interface name on a spine direct link (description) | `et-0/0/0` | interfaces/ |
-| `$PEER_PORT_A` | Remote interface name for first leaf sub-port (description) | `et-0/0/4` | interfaces/ |
-| `$PEER_PORT_B` | Remote interface name for second leaf sub-port (description) | `et-0/0/5` | interfaces/ |
-| `$PEER_V4` | Remote /31 v4 (eBGP fabric underlay neighbor) | `10.0.5.32` | transport/ |
-| `$PHY_PORT` | Parent physical port (breakout parent, access port, or spine link) | `et-0/0/24`, `et-0/0/0` | interfaces/ |
-| `$ROUTER_ID` | Device router-id (matches lo0.0 v4 address) | `10.0.4.4` | transport/ |
-| `$VLAN_DESC` | Frontend cluster VLAN description | `FrontEnd-Cluster-VN5` | services/ |
-| `$VLAN_ID` | Frontend cluster VLAN ID | `5` | services/ |
-| `$VLAN_NAME` | Frontend cluster VLAN name | `vn5` | interfaces/, services/ |
+Values left literal on purpose: the community `FROM_SPINE_FABRIC_TIER` and its value `0:15`, which both fabric
+policies reference by name; the MTUs (`9216`, `9170`, `9000`), the BFD timers (1000 ms × 3), the breakout and port
+speeds, the gRPC routing instance `mgmt_junos`, the route-tagging values `20007` and `21001:26000`, the RSTP bridge
+priority `0`, `unit 0`, and the loopback `lo0`.
+
+## System
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$GRPC_PORT` | TCP port of the gRPC request-response extension service over SSL. | `32767` |
+| `$HOST_NAME` | System host name. | `leaf1` |
+| `$LOCAL_CERT` | Name of the local certificate (`security certificates local`) the gRPC SSL service presents (`local-certificate`). | `aos_grpc` |
+| `$LOCAL_CERT_KEY` | PEM private key and certificate of the local certificate; secret, supplied by the operator (the published value is sanitized). | `"******"` |
+
+## Identity / topology
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN` | Local device autonomous-system number (`routing-options autonomous-system`). | `4201032400` |
+| `$LOOPBACK_V4_PFX` | IPv4 address with prefix length on loopback unit 0. | `10.0.4.0/32` |
+| `$ROUTER_ID` | Router identifier in IPv4 dotted-decimal form. | `10.0.4.0` |
+
+## Interfaces
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$AC_ADDR_V4` | IPv4 address with prefix length on an access-facing Layer 3 unit. | `10.10.1.29/31` |
+| `$AC_INTF` | Access-facing physical interface (server, host or external attachment). | `et-0/0/28` |
+| `$BREAKOUT_SUB_PORTS` | Number of sub-ports a channelized (breakout) port is split into (`number-of-sub-ports`). | `4` |
+| `$CORE_PHYS` | Fabric-facing physical interface of a point-to-point leaf-spine link. | `et-0/0/0` |
+| `$CORE_V4_ADDR` | IPv4 address with prefix length (/31) on a leaf-spine fabric link. | `10.0.5.1/31` |
+| `$DESCRIPTION` | Free-text interface or BGP neighbor `description`. | `"Breakout et-0/0/8"` |
+| `$DESCRIPTION_1` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-spine-1` |
+| `$DESCRIPTION_2` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-spine-2` |
+| `$DESCRIPTION_3` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-leaf3` |
+| `$DESCRIPTION_4` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-leaf4` |
+| `$IFD` | Physical interface name. | `et-0/0/8` |
+| `$IRB_ADDR` | IPv4 gateway address with prefix length on an IRB unit. | `10.10.3.1/24` |
+| `$IRB_IFL` | IRB logical interface (`irb.<unit>`): the Layer 3 interface of a VLAN. | `irb.3` |
+| `$IRB_UNIT` | IRB unit number. | `3` |
+| `$UNIT` | Logical-interface unit number, without the parent interface name. | `0` |
+| `$VLAN` | VLAN identifier: here the native VLAN of an access port (`native-vlan-id`). | `3` |
+| `$VLAN_BD` | VLAN identifier (`vlan-id`) of a VLAN under `vlans`. | `3` |
+| `$VLAN_NAME` | Name of a VLAN under `vlans`; also the member a trunk unit carries. | `vn3` |
+
+## Fabric underlay
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$ASN_FABRIC_PEER_1` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032300` |
+| `$ASN_FABRIC_PEER_2` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032301` |
+| `$ASN_FABRIC_PEER_3` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032406` |
+| `$ASN_FABRIC_PEER_4` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032407` |
+| `$BGP_GROUP` | Name of the eBGP underlay group. | `l3clos-l` |
+| `$UNDERLAY_LOCAL_V4_1` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.1` |
+| `$UNDERLAY_LOCAL_V4_2` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.3` |
+| `$UNDERLAY_LOCAL_V4_3` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.11` |
+| `$UNDERLAY_LOCAL_V4_4` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.9` |
+| `$UNDERLAY_LOCAL_V4_5` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.32` |
+| `$UNDERLAY_LOCAL_V4_6` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.34` |
+| `$UNDERLAY_LOCAL_V4_7` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.36` |
+| `$UNDERLAY_LOCAL_V4_8` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.38` |
+| `$UNDERLAY_PEER_V4_1` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.0` |
+| `$UNDERLAY_PEER_V4_2` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.2` |
+| `$UNDERLAY_PEER_V4_3` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.10` |
+| `$UNDERLAY_PEER_V4_4` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.8` |
+| `$UNDERLAY_PEER_V4_5` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.33` |
+| `$UNDERLAY_PEER_V4_6` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.35` |
+| `$UNDERLAY_PEER_V4_7` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.37` |
+| `$UNDERLAY_PEER_V4_8` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.39` |
+
+## Policy
+
+| Variable | What it is | Example value |
+|---|---|---|
+| `$BGP_EXPORT_POL` | Policy-statement name applied as a BGP `export` (in a policy form, the policy's own name). | `SPINE_TO_LEAF_FABRIC_OUT` |
+| `$BGP_EXPORT_POL_1` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `LEAF_TO_SPINE_FABRIC_OUT` |
+| `$BGP_EXPORT_POL_2` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `BGP-AOS-Policy` |
+| `$COMMUNITY_ADMIN` | Administrator field of the first member of the route-tagging community; distinct per device in this JVD. | `3` |
+| `$COMMUNITY_NAME` | Name of a BGP community that a policy adds to routes (`community add`). | `DEFAULT_DIRECT_V4` |
+| `$POLICY_NAME` | Name of a routing policy referenced by `from policy` in another policy (here the direct-route policy). | `AllPodNetworks` |
+| `$PPLB_NAME` | Name of the per-packet load-balancing policy that the forwarding table exports. | `PFE-LB` |
+| `$TERM_NAME` | Name of the single term of a policy-statement. | `SPINE_TO_LEAF_FABRIC_OUT-10` |
+| `$TERM_NAME_1` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-10` |
+| `$TERM_NAME_2` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-100` |
+| `$TERM_NAME_3` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `BGP-AOS-Policy-100` |
 
 ## byoai/TIERS.md
 
-# Configuration Form Tiers
+> **Tier qualification for this JVD.** Only `minimum` is qualified and selectable.
+> The `self-contained` and `as-deployed` lists below are not yet qualified for this
+> JVD. They are not selectable: never offer or render them.
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for the service at each verbosity tier. It is bundled into [`jvd-aiml-inf-snips.md`](jvd-aiml-inf-snips.md) by `regenerate-bundle.sh`.
+# Configuration form tiers
 
-For the chosen tier, the AI includes ONLY the snips listed — and ONLY those — unless the user explicitly asks for more. This JVD is **Junos Evolved (EVO) only** — every file is under `evo/`. All snips carry a `Variant: Evolved-OS (EVO)` tag; five carry both a LEAF and a SPINE variant (pick the one matching the target role).
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd data_center/aidc/aiml_inference_frontend`. -->
 
-The "service" delivered by this frontend fabric is the **frontend cluster VLAN** (one L2 domain per leaf with an L3 IRB gateway, into which inference clients / Envoy hosts / GPU servers attach). Underlay transport and fabric policy are shared baseline.
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
----
+## What the tiers mean
 
-## Shared fabric baseline (referenced by `as-deployed`)
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-Underlay + fabric policy + telemetry, common to every device:
-
-- `evo/transport/bgp-ebgp-fabric-underlay.conf` *(LEAF or SPINE variant)*
-- `evo/transport/routing-options-ecmp-frr.conf`
-- `evo/interfaces/fabric-p2p-links.conf` *(LEAF breakout or SPINE direct variant)*
-- `evo/interfaces/loopback.conf`
-- `evo/policy/community-definitions.conf`
-- `evo/policy/allpodnetworks-direct-redistribution.conf` *(LEAF or SPINE variant)*
-- `evo/policy/clos-loop-prevention.conf` *(LEAF or SPINE variant)*
-- `evo/policy/pfe-load-balance.conf`
-- `evo/bootstrap/system-grpc-apstra.conf`
-- `evo/bootstrap/security-grpc-cert.conf`
-- `evo/oam/lldp-interface-all.conf`
-- `evo/oam/rstp-fabric.conf` *(LEAF or SPINE variant)*
-- `evo/oam/l2-learning-telemetry.conf` *(leaf-only)*
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## Service — frontend cluster VLAN (leaf-side)
+## Frontend cluster VLAN with an IRB gateway
 
-The user-facing "service": attach an inference client / Envoy host / GPU server
-to a cluster VLAN with an L3 gateway on a leaf.
+Family irb, form frontend-cluster-vlan-irb. OS mode EVO. Attachment: Access trunk unit carrying the VLAN toward the inference servers or client hosts, and the IRB unit that is the VLAN's Layer 3 gateway..
 
-### `minimum`
-Just the leaf-side access + VLAN + gateway. Assumes a working eBGP fabric
-(underlay + policies) is already present. Best for brownfield adds.
+### leaf1_qfx5130-32cd (evo)
 
-- `evo/services/frontend-cluster-vlan.conf`
-- `evo/interfaces/irb-cluster-gateway.conf`
-- `evo/interfaces/server-access-trunk.conf`
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-### `with-transport`
-`minimum` + the eBGP fabric underlay so the leaf actually reaches the fabric.
-Best when you're not sure the underlay is present on this leaf.
+### leaf2_qfx5130-32cd (evo)
 
-- everything in `minimum`, plus:
-- `evo/transport/bgp-ebgp-fabric-underlay.conf` *(LEAF variant)*
-- `evo/transport/routing-options-ecmp-frr.conf`
-- `evo/interfaces/fabric-p2p-links.conf` *(LEAF variant)*
-- `evo/interfaces/loopback.conf`
-- `evo/policy/community-definitions.conf`
-- `evo/policy/allpodnetworks-direct-redistribution.conf` *(LEAF variant)*
-- `evo/policy/clos-loop-prevention.conf` *(LEAF variant)*
-- `evo/policy/pfe-load-balance.conf`
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-### `as-deployed`
-Full JVD fabric baseline: the service + the entire **shared fabric baseline**
-above (underlay + policies + bootstrap + OAM). Best for a greenfield leaf
-turn-up or a complete working example.
+### leaf3_qfx5130-32cd (evo)
 
-- the service snips (`minimum`), plus the full **shared fabric baseline**.
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### leaf4_qfx5130-32cd (evo)
+
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
 ---
-
-## Spine turn-up
-
-A spine carries NO service instances (pure L3). A spine `as-deployed` is the
-**shared fabric baseline** with the SPINE variants selected — no VLAN, no IRB,
-no access trunk, no l2-learning telemetry.
-
----
-
-## Add-a-feature (single snip on demand)
-
-- `Add LLDP` → `evo/oam/lldp-interface-all.conf`
-- `Add L2-learning telemetry` (leaf) → `evo/oam/l2-learning-telemetry.conf`
-- `Add RSTP` → `evo/oam/rstp-fabric.conf` *(LEAF edge or SPINE disable variant)*
-- `Add the gRPC / Apstra base` → `evo/bootstrap/system-grpc-apstra.conf` + `evo/bootstrap/security-grpc-cert.conf`
-- `Add the fabric loop-prevention policies` → `evo/policy/clos-loop-prevention.conf` + `evo/policy/community-definitions.conf`
-- `Add a fabric P2P link` → `evo/interfaces/fabric-p2p-links.conf`
 
 ## byoai/DEFAULTS.md
 
-# Auto-fill Defaults
+# DEFAULTS — AI Data Center Frontend Fabric for Inference
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default values the AI uses in `auto` mode (or when the user short-circuits with `all defaults` / `use defaults` / `skip`). Values are grounded in the snip headers (`Seen on:`, `Variables:`) — never invented. Bundled into [`jvd-aiml-inf-snips.md`](jvd-aiml-inf-snips.md) by `regenerate-bundle.sh`.
-
-This JVD is **Junos Evolved (EVO) only**. The distinction is ROLE (leaf vs spine), selected by the per-device AS / router-id / tier-tag.
-
----
+Lab auto-fill values for the AI Data Center Frontend Fabric for Inference JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks a device and service and asks for lab values; otherwise ask for the deployment values.
 
 ## Device inventory
 
-| Device | Platform | OS | Role | Loopback (lo0.0) | AS |
-|--------|----------|----|------|------------------|-----|
-| `leaf1_qfx5130-32cd` | QFX5130-32CD | EVO | Leaf (client-facing — Lambda Scaler / GenAI-Perf) | `10.0.4.0/32` | `4201032400` |
-| `leaf2_qfx5130-32cd` | QFX5130-32CD | EVO | Leaf (client-facing — Envoy) | `10.0.4.1/32` | `4201032401` |
-| `leaf3_qfx5130-32cd` | QFX5130-32CD | EVO | Leaf (GPU-facing — AMD MI300X-01) | `10.0.4.4/32` | `4201032406` |
-| `leaf4_qfx5130-32cd` | QFX5130-32CD | EVO | Leaf (GPU-facing — AMD MI300X-02) | `10.0.4.5/32` | `4201032407` |
-| `spine1_qfx5220-32cd` | QFX5220-32CD | EVO | Spine | `10.0.3.0/32` | `4201032300` |
-| `spine2_qfx5220-32cd` | QFX5220-32CD | EVO | Spine | `10.0.3.1/32` | `4201032301` |
+| Role | Device | Platform | OS | Loopback / router-id | `$ASN` |
+|------|--------|----------|----|----------------------|--------|
+| Leaf | leaf1_qfx5130-32cd | QFX5130-32CD | EVO | 10.0.4.0 | 4201032400 |
+| Leaf | leaf2_qfx5130-32cd | QFX5130-32CD | EVO | 10.0.4.1 | 4201032401 |
+| Leaf | leaf3_qfx5130-32cd | QFX5130-32CD | EVO | 10.0.4.4 | 4201032406 |
+| Leaf | leaf4_qfx5130-32cd | QFX5130-32CD | EVO | 10.0.4.5 | 4201032407 |
+| Spine | spine1_qfx5220-32cd | QFX5220-32CD | EVO | 10.0.3.0 | 4201032300 |
+| Spine | spine2_qfx5220-32cd | QFX5220-32CD | EVO | 10.0.3.1 | 4201032301 |
 
-Device-choice shortcuts:
-- `LEAF` → `leaf1_qfx5130-32cd` … `leaf4_qfx5130-32cd`
-- `SPINE` → `spine1_qfx5220-32cd`, `spine2_qfx5220-32cd`
+## Service examples (first measured instance per leaf)
 
-> Loopback/AS values above are the captured lab values from the six validated
-> device configs (leaf lo0 from `10.0.4.0/24`, spine lo0 from `10.0.3.0/24`).
-> All values picked are echoed in the `Inputs used:` block so the user can
-> override.
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| frontend-cluster-vlan-irb | leaf1_qfx5130-32cd | `$IRB_IFL` irb.3, `$VLAN_BD` 3, `$VLAN_NAME` vn3 |
+| frontend-cluster-vlan-irb | leaf2_qfx5130-32cd | `$IRB_IFL` irb.4, `$VLAN_BD` 4, `$VLAN_NAME` vn4 |
+| frontend-cluster-vlan-irb | leaf3_qfx5130-32cd | `$IRB_IFL` irb.5, `$VLAN_BD` 5, `$VLAN_NAME` vn5 |
+| frontend-cluster-vlan-irb | leaf4_qfx5130-32cd | `$IRB_IFL` irb.6, `$VLAN_BD` 6, `$VLAN_NAME` vn6 |
 
----
-
-## Transport / underlay defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$LOCAL_AS` | spine `4201032300`+; leaf `4201032400`+ | eBGP Clos — every device has its own AS |
-| `$PEER_AS` | the neighbor's own `$LOCAL_AS` | remote peer AS |
-| `$LOCAL_V4` / `$PEER_V4` | `10.0.5.<x>` /31 | fabric underlay p2p addressing (10.0.5.0/24) |
-| `$ROUTER_ID` | = device lo0.0 v4 | matches the loopback |
-| `$LOCAL_TIER_TAG` | spine `1`; leaf `5` | community high-order tier marker |
-| BFD | `1000` ms × `3` | fabric liveness |
-
----
-
-## Interface / breakout defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$PHY_PORT` | leaf uplink `et-0/0/24` (breakout) · spine `et-0/0/0` | fabric port |
-| `$PEER_PORT_A` / `$PEER_PORT_B` | `et-0/0/4` / `et-0/0/5` | remote sub-port descriptions |
-| `$LOCAL_V4_A` / `$LOCAL_V4_B` | `10.0.5.33/31` / `10.0.5.35/31` | leaf breakout /31s |
-| access `$PHY_PORT` | `et-0/0/0` | server/client access trunk |
-| `$PEER_DESC` | `to.mi300-01` (or `to.envoy`, `to.genai-perf`) | attached endpoint |
-| MTU (fabric) | `9216` / `9170` | jumbo fabric links |
-| MTU (IRB) | `9000` | client/GPU gateway |
-
----
-
-## Service — frontend cluster VLAN defaults
-
-One cluster VLAN per leaf; increment per leaf.
-
-| Variable | leaf3 default | Notes |
-|----------|---------------|-------|
-| `$VLAN_NAME` | `vn5` | per leaf: leaf1=`vn3`, leaf2=`vn4`, leaf3=`vn5`, leaf4=`vn6` |
-| `$VLAN_ID` | `5` | matches the VLAN name suffix (3–6) |
-| `$VLAN_DESC` | `FrontEnd-Cluster-VN5` | |
-| `$IRB_UNIT` | `5` | matches the VLAN ID |
-| `$GW_V4` | `10.10.5.254/24` | IRB gateway (per-leaf subnet 10.10.<vlan>.0/24) |
-| `$NATIVE_VLAN` | `5` | native VLAN on the access trunk |
-
----
-
-## Policy / community defaults
-
-- Tier community `FROM_SPINE_FABRIC_TIER` (`0:15`) = CLOS loop-prevention marker (JVD-wide constant, never parameterize).
-- `DEFAULT_DIRECT_V4` = direct-route redistribution; high-order tag is the tier (`5:20007` leaf, `1:20007` spine), low-order `21001:26000` shared.
-- Clos loop-prevention filter names: `LEAF_TO_SPINE_FABRIC_OUT` / `SPINE_TO_LEAF_FABRIC_OUT`. Policy names `BGP-AOS-Policy`, `AllPodNetworks`, `PFE-LB` are JVD-wide constants.
-
----
-
-## Bootstrap defaults
-
-| Variable | Default | Notes |
-|----------|---------|-------|
-| `$HOSTNAME` | the device shortname (e.g. `leaf3`) | |
-| `$GRPC_PORT` | leaf `32769`; spine `32767` | gRPC extension-service SSL listener |
-| certificate name | `aos_grpc` | fixed literal — referenced by name |
-| routing-instance | `mgmt_junos` | management instance (fixed literal) |
+Each leaf's cluster VLAN is local to that leaf: its own VLAN ID, IRB unit and gateway subnet.
 
 ## byoai/OUTPUT_FORMAT.md
 
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-aiml-inf-snips.md`](jvd-aiml-inf-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-aiml-inf-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -1024,22 +1448,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-transport"
+# form: minimum
 # devices:
-#   leaf3: { name: <hostname>, os: evo, role: <leaf|spine>, loopback4: <addr>, as: <asn>, tier_tag: <n> }
-#   spine1: { ... }
+#   leaf1: { name: <hostname>, os: evo, loopback4: <addr> }
+#   leaf3: { name: <hostname>, os: evo, loopback4: <addr> }
 # services:
-#   - { kind: frontend-cluster-vlan,
+#   - { kind: <frontend-cluster-vlan-irb>,
 #       count: <int>,
-#       vlan_name: <vnN>,
-#       vlan_id: <int>,
-#       irb_unit: <int>,
-#       gateway: <addr>,
-#       access_interface: <port>,
-#       peer_desc: <endpoint> }
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - evo/services/frontend-cluster-vlan.conf
-#   - evo/interfaces/irb-cluster-gateway.conf
+#   - evo/vlans/vlan-description-vlan-id-l3-interface.conf
 #   - ...
 ```
 
@@ -1058,21 +1479,16 @@ Each device block starts with a `# device:` label and groups its snips with `/* 
 <rendered config block>
 ```
 
-Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment. For a snip with LEAF and SPINE variants, emit ONLY the variant matching the device's role.
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Role selection: whether each device used the LEAF or SPINE variant of the dual-variant snips.
-- Cross-device consistency the user must verify:
-  - The eBGP Clos **per-device AS** is unique; each session's peer-AS MUST equal the neighbor's own local AS.
-  - Fabric /31 **link addressing** must be consistent on both ends of each leaf↔spine link.
-  - The **fabric vs IRB MTU** differ: 9216/9170 on fabric links, 9000 on the IRB gateway.
-- Anything by-pattern rather than validated on that exact device (e.g. a user-supplied hostname not in any snip's `Seen on:` list).
-- Reminder: this frontend fabric is a pure IPv4 eBGP Clos — there is **no** EVPN/VXLAN overlay, no RoCE CoS, and a VLAN does not stretch across leafs.
+- Cross-device consistency the user must verify: each leaf's VLAN is local to that leaf (its own VLAN ID, IRB unit and gateway subnet); the access trunk must carry the VLAN, and the IRB unit must exist on the leaf.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 
