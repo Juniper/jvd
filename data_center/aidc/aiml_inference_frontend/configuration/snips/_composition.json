@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "jvd": "aiml_inference_frontend",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "frontend-cluster-vlan-irb",
+      "family": "irb",
+      "form": "frontend-cluster-vlan-irb",
+      "aliases": [
+        "Frontend cluster VLAN with an IRB gateway"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/vlans/vlan-description-vlan-id-l3-interface.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Access trunk unit carrying the VLAN toward the inference servers or client hosts, and the IRB unit that is the VLAN's Layer 3 gateway.",
+      "userInputs": [
+        "$VLAN_NAME",
+        "$DESCRIPTION",
+        "$VLAN_BD",
+        "$IRB_IFL"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#frontend-cluster-vlan-with-an-irb-gateway",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "add-fabric-link",
+      "aliases": [
+        "Add a leaf-to-spine fabric link to <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device-scoped transport add (point-to-point /31 unit and its eBGP underlay neighbor in the fabric group); no declared entry set in TIERS."
+    },
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "roles": {
+    "leaf": "Leaf",
+    "spine": "Spine"
+  },
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "047e3da78b73f487f75a22d3d561cfc25b4174db778125057fd8fb1f7250ebab"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-mtu-9170.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-ethernet-switching-trunk-1-vlan.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-native-vlan-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/irb-inet-mtu-9000.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}

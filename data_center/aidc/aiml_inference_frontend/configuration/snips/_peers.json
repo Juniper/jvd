@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "a17e8d3b2c97a1c167998c265db0206aafbb412c99b08d8920d41e873fe5a7c2",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "0085c2418b4834c33753e5e480348a9a2602affd74d38e142bb66d580fcc1b95",
+    "devices": 6,
+    "snips": 35,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "evo/interfaces/ifd-breakout-description-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-breakout-description-400g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-100g-unit-0-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-native-vlan-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-core-inet-mtu-9170.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-ethernet-switching-trunk-1-vlan.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/irb-inet-mtu-9000.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/irb-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/community-2-members.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/from-spine-fabric-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-log-updown-multipath-graceful-restart.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:bgp",
+          "instances": 6,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 157
+          }
+        }
+      ]
+    },
+    "evo/protocols/l2-learning-telemetry-remote-entries.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2-learning"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:l2-learning",
+          "instances": 4,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 159
+          }
+        }
+      ]
+    },
+    "evo/protocols/lldp-interface-all-port-id-interface-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 6,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 164
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 4,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 167
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-disable.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 2,
+          "devices": [
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "spine1_qfx5220-32cd",
+            "sourceId": 196
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-interface-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 3,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 169
+          }
+        }
+      ]
+    },
+    "evo/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/graceful-restart.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/security/certificates-local.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 6,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 16
+          }
+        }
+      ]
+    },
+    "evo/system/host-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 6,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 2
+          }
+        }
+      ]
+    },
+    "evo/system/management-instance.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 5,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 3
+          }
+        }
+      ]
+    },
+    "evo/system/services-grpc-ssl-local-certificate-mgmt-junos.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 6,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd",
+            "spine1_qfx5220-32cd",
+            "spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 11
+          }
+        }
+      ]
+    },
+    "evo/vlans/vlan-description-vlan-id-l3-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "leaf1_qfx5130-32cd",
+            "leaf2_qfx5130-32cd",
+            "leaf3_qfx5130-32cd",
+            "leaf4_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "leaf1_qfx5130-32cd",
+            "sourceId": 174
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-11-14T00:06:31.974Z",
-  "snippetSourceDigest": "da24bda67570c770cf3c2e77141a720b55bb85d07ae77800487a0676ccbb2d3a",
+  "generatedAt": "2026-11-15T03:37:40.124Z",
+  "snippetSourceDigest": "332c0e365e315c2ac4655a2aa22ea376da2add214af0e9ba5c9f8055e2ed01e5",
   "counts": {
-    "total": 1961,
+    "total": 1980,
     "junos": 976,
-    "evo": 985,
+    "evo": 1004,
     "jvds": 19
   },
   "categories": [
@@ -105,8 +105,8 @@
       "repoPath": "data_center/aidc/aiml_inference_frontend",
       "counts": {
         "junos": 0,
-        "evo": 16,
-        "total": 16
+        "evo": 35,
+        "total": 35
       }
     },
     {
@@ -6445,127 +6445,7 @@
       "recordSha256": "04a4d56e4f9f5079a1a4c68adfe2dd8763a69806e5e98df03f60be721cdfd5f3"
     },
     {
-      "id": "aiml_inference_frontend/evo/bootstrap/security-grpc-cert",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "bootstrap",
-      "categoryPath": "bootstrap",
-      "name": "security-grpc-cert",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/bootstrap/security-grpc-cert.conf",
-      "otherOsFormId": null,
-      "topic": "Local TLS certificate for the gRPC extension-service listener",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "Holds the `aos_grpc` cert/key pair referenced by the gRPC SSL stanza",
-        "The actual key material is masked ## SECRET-DATA — the template carries only the structure; supply real PEM at deploy time (Apstra installs it)",
-        "Cert name is fixed (`aos_grpc`) because the system extension-service block references it by literal name"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/bootstrap/system-grpc-apstra.conf  (consumer of this certificate)",
-          "id": "aiml_inference_frontend/evo/bootstrap/system-grpc-apstra",
-          "note": "consumer of this certificate"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$GRPC_CERT_PEM",
-          "example": "(PEM-encoded cert+key blob, masked at runtime)"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "security {\n    certificates {\n        local {\n            aos_grpc {\n                \"$GRPC_CERT_PEM\"; ## SECRET-DATA\n            }\n        }\n    }\n}",
-      "bytes": 149,
-      "lineCount": 9,
-      "techFamily": "Chassis",
-      "subfamily": "Chassis",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "adfc24139e21fb05a721b72477513830a42086bdbfcf8d095040318733d01757"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/bootstrap/system-grpc-apstra",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "bootstrap",
-      "categoryPath": "bootstrap",
-      "name": "system-grpc-apstra",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/bootstrap/system-grpc-apstra.conf",
-      "otherOsFormId": null,
-      "topic": "System base — host-name, mgmt instance, gRPC extension-service over TLS",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "gRPC request-response listener over TLS, anchored to the dedicated `mgmt_junos` routing-instance — keeps Apstra / streaming telemetry off the in-band fabric",
-        "`management-instance` puts the management ethernet in mgmt_junos so OOB and in-band have separate route tables (no leakage)",
-        "The gRPC listener port differs per device (32767 on spines, 32769/32770 on leafs in the captured set) — supply per-device via $GRPC_PORT",
-        "The `aos_grpc` local-certificate is provided by the companion security snip"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/bootstrap/security-grpc-cert.conf  (provides the aos_grpc local-certificate)",
-          "id": "aiml_inference_frontend/evo/bootstrap/security-grpc-cert",
-          "note": "provides the aos_grpc local-certificate"
-        },
-        {
-          "raw": "evo/oam/l2-learning-telemetry.conf  (rides this gRPC channel, leaf-only)",
-          "id": "aiml_inference_frontend/evo/oam/l2-learning-telemetry",
-          "note": "rides this gRPC channel, leaf-only"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$HOSTNAME",
-          "example": "leaf3"
-        },
-        {
-          "name": "$GRPC_PORT",
-          "example": "32769"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "system {\n    host-name $HOSTNAME;\n    management-instance;\n    services {\n        extension-service {\n            request-response {\n                grpc {\n                    routing-instance mgmt_junos;\n                    ssl {\n                        port $GRPC_PORT;\n                        local-certificate aos_grpc;\n                    }\n                }\n            }\n        }\n    }\n}",
-      "bytes": 395,
-      "lineCount": 17,
-      "techFamily": "Chassis",
-      "subfamily": "Chassis",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "310ca781d14b7f539d14d7eb5192528152a5efd22d379bbddb7b31ac6a542065"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/interfaces/fabric-p2p-links",
+      "id": "aiml_inference_frontend/evo/interfaces/ifd-breakout-description-10g",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
@@ -6573,72 +6453,48 @@
       "osKey": "evo",
       "category": "interfaces",
       "categoryPath": "interfaces",
-      "name": "fabric-p2p-links",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/fabric-p2p-links.conf",
+      "name": "ifd-breakout-description-10g",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifd-breakout-description-10g.conf",
       "otherOsFormId": null,
-      "topic": "Fabric P2P /31 links — leaf 400G breakout sub-ports + spine direct ports",
+      "topic": "Port broken out into 10-Gbps sub-ports, with a description",
       "seenOn": {
         "junos": [],
         "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
+          "leaf1_qfx5130-32cd"
         ]
       },
-      "highlights": [
-        "Physical MTU 9216 / IP MTU 9170 on every leaf<->spine link — jumbo sized for AI inference payloads (the IRB carries MTU 9000 client frames)",
-        "LEAF variant: the 400G uplink ports are broken out (`number-of-sub-ports 2` + `speed 400g`), and each `:N` sub-port carries a /31 to one spine — a leaf reaches both spines over 2x400G sub-ports",
-        "SPINE variant: ports face leafs directly (no breakout) with a /31 each",
-        "/31 numbering throughout; underlay is pure IPv4 eBGP with an explicit local-address per session — no family inet6 on fabric links"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes these /31s as BGP local-address)",
-          "id": "aiml_inference_frontend/evo/transport/bgp-ebgp-fabric-underlay",
-          "note": "consumes these /31s as BGP local-address"
-        }
-      ],
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1
+        },
+        "total": 1
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Port broken out into 10-Gbps sub-ports, with a description\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   total 1\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $IFD                 e.g. et-0/0/8\n *   $DESCRIPTION         e.g. \"Breakout et-0/0/8\"\n *   $BREAKOUT_SUB_PORTS  e.g. 4\n */\ninterfaces {\n    $IFD {\n        description $DESCRIPTION;\n        number-of-sub-ports $BREAKOUT_SUB_PORTS;\n        speed 10g;\n    }\n}\n",
       "variables": [
         {
-          "name": "$PHY_PORT",
-          "example": "et-0/0/24   (leaf breakout parent) or et-0/0/0 (spine)"
+          "name": "$IFD",
+          "example": "et-0/0/8"
         },
         {
-          "name": "$PEER_HOST",
-          "example": "frontend-spine-1   (or frontend-leaf1 on the spine side)"
+          "name": "$DESCRIPTION",
+          "example": "\"Breakout et-0/0/8\""
         },
         {
-          "name": "$PEER_PORT_A",
-          "example": "et-0/0/4"
-        },
-        {
-          "name": "$PEER_PORT_B",
-          "example": "et-0/0/5"
-        },
-        {
-          "name": "$PEER_PORT",
-          "example": "et-0/0/0   (spine variant, single link)"
-        },
-        {
-          "name": "$LOCAL_V4_A",
-          "example": "10.0.5.33/31"
-        },
-        {
-          "name": "$LOCAL_V4_B",
-          "example": "10.0.5.35/31"
-        },
-        {
-          "name": "$LOCAL_V4",
-          "example": "10.0.5.0/31   (spine variant)"
+          "name": "$BREAKOUT_SUB_PORTS",
+          "example": "4"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "/* --- LEAF variant (400G breakout parent + two /31 sub-ports to spines) --- */\ninterfaces {\n    $PHY_PORT {\n        description \"Breakout $PHY_PORT\";\n        number-of-sub-ports 2;\n        speed 400g;\n    }\n    ${PHY_PORT}:0 {\n        description facing_$PEER_HOST:$PEER_PORT_A;\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4_A;\n            }\n        }\n    }\n    ${PHY_PORT}:1 {\n        description facing_$PEER_HOST:$PEER_PORT_B;\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4_B;\n            }\n        }\n    }\n}\n\n/* --- SPINE variant (direct /31 port facing a leaf) --- */\ninterfaces {\n    $PHY_PORT {\n        description facing_$PEER_HOST:$PEER_PORT;\n        mtu 9216;\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $LOCAL_V4;\n            }\n        }\n    }\n}",
-      "bytes": 955,
-      "lineCount": 42,
+      "body": "interfaces {\n    $IFD {\n        description $DESCRIPTION;\n        number-of-sub-ports $BREAKOUT_SUB_PORTS;\n        speed 10g;\n    }\n}",
+      "bytes": 133,
+      "lineCount": 7,
       "techFamily": "Interfaces",
       "subfamily": "Fabric & Uplinks",
       "usecases": [
@@ -6646,10 +6502,10 @@
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "b64dfe7b4e1c8ea42d52b4207acd2636bc9d2766d3edd756109c613c2648d3b3"
+      "recordSha256": "0430341a337043e51a3e2d6abfef0911ae9c699c147df21ab82eb8960c42c3c5"
     },
     {
-      "id": "aiml_inference_frontend/evo/interfaces/irb-cluster-gateway",
+      "id": "aiml_inference_frontend/evo/interfaces/ifd-breakout-description-400g",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
@@ -6657,67 +6513,61 @@
       "osKey": "evo",
       "category": "interfaces",
       "categoryPath": "interfaces",
-      "name": "irb-cluster-gateway",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/irb-cluster-gateway.conf",
+      "name": "ifd-breakout-description-400g",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifd-breakout-description-400g.conf",
       "otherOsFormId": null,
-      "topic": "IRB L3 gateway for the frontend cluster VLAN — MTU 9000",
+      "topic": "Port broken out into 400-Gbps sub-ports, with a description",
       "seenOn": {
         "junos": [],
         "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
           "leaf3_qfx5130-32cd",
           "leaf4_qfx5130-32cd"
         ]
       },
-      "highlights": [
-        "Leaf-only — the routed gateway for the attached frontend cluster VLAN; the IRB unit number matches the VLAN's l3-interface (see frontend-cluster-vlan snip)",
-        "IRB MTU 9000 (jumbo) sized for inference payloads; the parent `irb` interface carries MTU 9216 to leave headroom",
-        "family inet /24 gateway address — the direct route is redistributed into BGP by AllPodNetworks so client subnets are reachable across the fabric",
-        "No anycast MAC / VRRP in this frontend design — each leaf owns its own cluster subnet (one VLAN per leaf: vn3..vn6)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/services/frontend-cluster-vlan.conf  (the VLAN whose l3-interface is irb.N)",
-          "id": "aiml_inference_frontend/evo/services/frontend-cluster-vlan",
-          "note": "the VLAN whose l3-interface is irb.N"
+      "count": {
+        "byDevice": {
+          "leaf3_qfx5130-32cd": 2,
+          "leaf4_qfx5130-32cd": 2
         },
-        {
-          "raw": "evo/interfaces/server-access-trunk.conf  (access port trunked into the VLAN)",
-          "id": "aiml_inference_frontend/evo/interfaces/server-access-trunk",
-          "note": "access port trunked into the VLAN"
-        },
-        {
-          "raw": "evo/policy/allpodnetworks-direct-redistribution.conf  (redistributes this direct route)",
-          "id": "aiml_inference_frontend/evo/policy/allpodnetworks-direct-redistribution",
-          "note": "redistributes this direct route"
-        }
-      ],
+        "total": 4
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Port broken out into 400-Gbps sub-ports, with a description\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf3_qfx5130-32cd 2\n *   leaf4_qfx5130-32cd 2\n *   total 4\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf3_qfx5130-32cd):\n *   $IFD                 e.g. et-0/0/24\n *   $DESCRIPTION         e.g. \"Breakout et-0/0/24\"\n *   $BREAKOUT_SUB_PORTS  e.g. 2\n */\ninterfaces {\n    $IFD {\n        description $DESCRIPTION;\n        number-of-sub-ports $BREAKOUT_SUB_PORTS;\n        speed 400g;\n    }\n}\n",
       "variables": [
         {
-          "name": "$IRB_UNIT",
-          "example": "5"
+          "name": "$IFD",
+          "example": "et-0/0/24"
         },
         {
-          "name": "$GW_V4",
-          "example": "10.10.5.254/24"
+          "name": "$DESCRIPTION",
+          "example": "\"Breakout et-0/0/24\""
+        },
+        {
+          "name": "$BREAKOUT_SUB_PORTS",
+          "example": "2"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "interfaces {\n    irb {\n        mtu 9216;\n        unit $IRB_UNIT {\n            family inet {\n                mtu 9000;\n                address $GW_V4;\n            }\n        }\n    }\n}",
-      "bytes": 181,
-      "lineCount": 11,
+      "body": "interfaces {\n    $IFD {\n        description $DESCRIPTION;\n        number-of-sub-ports $BREAKOUT_SUB_PORTS;\n        speed 400g;\n    }\n}",
+      "bytes": 134,
+      "lineCount": 7,
       "techFamily": "Interfaces",
-      "subfamily": "IRB / Gateways",
+      "subfamily": "Fabric & Uplinks",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "0efed920bf423da7f2e195a233758179df566bd2c49203eb92b607bb17ce6019"
+      "recordSha256": "2169caf1f25ad184c9cd8942c20e2eea500a32ef12f1d49ae0bef0b408a0d562"
     },
     {
-      "id": "aiml_inference_frontend/evo/interfaces/loopback",
+      "id": "aiml_inference_frontend/evo/interfaces/ifd-description-100g-unit-0-inet",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
@@ -6725,10 +6575,72 @@
       "osKey": "evo",
       "category": "interfaces",
       "categoryPath": "interfaces",
-      "name": "loopback",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/loopback.conf",
+      "name": "ifd-description-100g-unit-0-inet",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifd-description-100g-unit-0-inet.conf",
       "otherOsFormId": null,
-      "topic": "Loopback lo0.0 — underlay router-id / eBGP anchor",
+      "topic": "100-Gbps access port with a description and an IPv4 address on unit 0",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1
+        },
+        "total": 2
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: 100-Gbps access port with a description and an IPv4 address on unit 0\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   total 2\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $AC_INTF      e.g. et-0/0/28\n *   $DESCRIPTION  e.g. \"VRF default to Lambda-X13-01\"\n *   $AC_ADDR_V4   e.g. 10.10.1.29/31\n */\ninterfaces {\n    $AC_INTF {\n        description $DESCRIPTION;\n        speed 100g;\n        unit 0 {\n            family inet {\n                address $AC_ADDR_V4;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/28"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "\"VRF default to Lambda-X13-01\""
+        },
+        {
+          "name": "$AC_ADDR_V4",
+          "example": "10.10.1.29/31"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        description $DESCRIPTION;\n        speed 100g;\n        unit 0 {\n            family inet {\n                address $AC_ADDR_V4;\n            }\n        }\n    }\n}",
+      "bytes": 193,
+      "lineCount": 11,
+      "techFamily": "Interfaces",
+      "subfamily": "Physical & Logical",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "311c13ebf7684b939c16514dc1dcf3e881c705887704a32167346d750f6e9535"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/interfaces/ifd-description-mtu-9216",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifd-description-mtu-9216",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifd-description-mtu-9216.conf",
+      "otherOsFormId": null,
+      "topic": "Physical interface with a description and a 9216-byte MTU",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -6740,27 +6652,324 @@
           "spine2_qfx5220-32cd"
         ]
       },
-      "highlights": [
-        "Single lo0.0 IPv4 /32 per device — it supplies the `router-id` in routing-options and is reachable across the fabric via the redistributed direct route",
-        "Leaf loopbacks are drawn from 10.0.4.0/24, spine loopbacks from 10.0.3.0/24 in the validated topology",
-        "No per-VRF lo0 units in this frontend design (contrast the multitenancy-backend JVD, which adds lo0.N per tenant)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/routing-options-ecmp-frr.conf  (router-id references this address)",
-          "id": "aiml_inference_frontend/evo/transport/routing-options-ecmp-frr",
-          "note": "router-id references this address"
-        }
-      ],
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 4,
+          "leaf2_qfx5130-32cd": 4,
+          "leaf3_qfx5130-32cd": 4,
+          "leaf4_qfx5130-32cd": 4,
+          "spine1_qfx5220-32cd": 8,
+          "spine2_qfx5220-32cd": 8
+        },
+        "total": 32
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Physical interface with a description and a 9216-byte MTU\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 4\n *   leaf2_qfx5130-32cd 4\n *   leaf3_qfx5130-32cd 4\n *   leaf4_qfx5130-32cd 4\n *   spine1_qfx5220-32cd 8\n *   spine2_qfx5220-32cd 8\n *   total 32\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $IFD          e.g. et-0/0/0\n *   $DESCRIPTION  e.g. facing_frontend-spine-1:et-0/0/0\n */\ninterfaces {\n    $IFD {\n        description $DESCRIPTION;\n        mtu 9216;\n    }\n}\n",
       "variables": [
         {
-          "name": "$LO0_V4",
-          "example": "10.0.4.4/32"
+          "name": "$IFD",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "facing_frontend-spine-1:et-0/0/0"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "interfaces {\n    lo0 {\n        unit 0 {\n            family inet {\n                address $LO0_V4;\n            }\n        }\n    }\n}",
-      "bytes": 130,
+      "body": "interfaces {\n    $IFD {\n        description $DESCRIPTION;\n        mtu 9216;\n    }\n}",
+      "bytes": 83,
+      "lineCount": 6,
+      "techFamily": "Interfaces",
+      "subfamily": "MTU",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "1fb0f28411c5f23654e2b0b603e67d777755d013ca2afe0b8dda8f8d18377e07"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/interfaces/ifd-description-native-vlan-mtu-9216",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifd-description-native-vlan-mtu-9216",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifd-description-native-vlan-mtu-9216.conf",
+      "otherOsFormId": null,
+      "topic": "Access port with a description, a native VLAN and a 9216-byte MTU",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 3
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Access port with a description, a native VLAN and a 9216-byte MTU\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 3\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $AC_INTF      e.g. et-0/0/8:0\n *   $DESCRIPTION  e.g. to.headend-svr-01:eth0\n *   $VLAN         e.g. 3\n */\ninterfaces {\n    $AC_INTF {\n        description $DESCRIPTION;\n        native-vlan-id $VLAN;\n        mtu 9216;\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/8:0"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "to.headend-svr-01:eth0"
+        },
+        {
+          "name": "$VLAN",
+          "example": "3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        description $DESCRIPTION;\n        native-vlan-id $VLAN;\n        mtu 9216;\n    }\n}",
+      "bytes": 117,
+      "lineCount": 7,
+      "techFamily": "Interfaces",
+      "subfamily": "MTU",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "f6af59d3700a8e8ed4cfe23a7ac4b068a45c10ca7a8ff2bad6d2d927d712ca53"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/interfaces/ifl-core-inet-mtu-9170",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-core-inet-mtu-9170",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifl-core-inet-mtu-9170.conf",
+      "otherOsFormId": null,
+      "topic": "Unit 0 with an IPv4 address and a 9170-byte family MTU on a fabric link",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 4,
+          "leaf2_qfx5130-32cd": 4,
+          "leaf3_qfx5130-32cd": 4,
+          "leaf4_qfx5130-32cd": 4,
+          "spine1_qfx5220-32cd": 8,
+          "spine2_qfx5220-32cd": 8
+        },
+        "total": 32
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description-mtu-9216.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Unit 0 with an IPv4 address and a 9170-byte family MTU on a fabric link\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 4\n *   leaf2_qfx5130-32cd 4\n *   leaf3_qfx5130-32cd 4\n *   leaf4_qfx5130-32cd 4\n *   spine1_qfx5220-32cd 8\n *   spine2_qfx5220-32cd 8\n *   total 32\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $CORE_PHYS     e.g. et-0/0/0\n *   $CORE_V4_ADDR  e.g. 10.0.5.1/31\n */\ninterfaces {\n    $CORE_PHYS {\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $CORE_V4_ADDR;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$CORE_PHYS",
+          "example": "et-0/0/0"
+        },
+        {
+          "name": "$CORE_V4_ADDR",
+          "example": "10.0.5.1/31"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $CORE_PHYS {\n        unit 0 {\n            family inet {\n                mtu 9170;\n                address $CORE_V4_ADDR;\n            }\n        }\n    }\n}",
+      "bytes": 169,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "MTU",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "61ba9dd914f6c6251b6eb316442974c70b2b5bbe1f6abed7324fa55a11ec378e"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/interfaces/ifl-ethernet-switching-trunk-1-vlan",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-ethernet-switching-trunk-1-vlan",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifl-ethernet-switching-trunk-1-vlan.conf",
+      "otherOsFormId": null,
+      "topic": "Unit 0 as an Ethernet-switching trunk carrying one VLAN",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 3
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/ifd-description-native-vlan-mtu-9216.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Unit 0 as an Ethernet-switching trunk carrying one VLAN\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 3\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $AC_INTF    e.g. et-0/0/8:0\n *   $VLAN_NAME  e.g. vn3\n */\ninterfaces {\n    $AC_INTF {\n        unit 0 {\n            family ethernet-switching {\n                interface-mode trunk;\n                vlan members $VLAN_NAME;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$AC_INTF",
+          "example": "et-0/0/8:0"
+        },
+        {
+          "name": "$VLAN_NAME",
+          "example": "vn3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    $AC_INTF {\n        unit 0 {\n            family ethernet-switching {\n                interface-mode trunk;\n                vlan members $VLAN_NAME;\n            }\n        }\n    }\n}",
+      "bytes": 195,
+      "lineCount": 10,
+      "techFamily": "Interfaces",
+      "subfamily": "Access / Trunk Ports",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "0b94a9fef7b5f133b105305a31362b45ce15f48783f717833277f65e863cc2c3"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/interfaces/ifl-loopback-inet",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "ifl-loopback-inet",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/ifl-loopback-inet.conf",
+      "otherOsFormId": null,
+      "topic": "Loopback unit with one IPv4 address",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Loopback unit with one IPv4 address\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $UNIT             e.g. 0\n *   $LOOPBACK_V4_PFX  e.g. 10.0.4.0/32\n */\ninterfaces {\n    lo0 {\n        unit $UNIT {\n            family inet {\n                address $LOOPBACK_V4_PFX;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$UNIT",
+          "example": "0"
+        },
+        {
+          "name": "$LOOPBACK_V4_PFX",
+          "example": "10.0.4.0/32"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    lo0 {\n        unit $UNIT {\n            family inet {\n                address $LOOPBACK_V4_PFX;\n            }\n        }\n    }\n}",
+      "bytes": 143,
       "lineCount": 9,
       "techFamily": "Interfaces",
       "subfamily": "Loopback",
@@ -6769,10 +6978,10 @@
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "976e4a153ccdeae5fafe761f1563504e182527c315110dfbfc25f7cdcfc9a2a4"
+      "recordSha256": "6b87eb12b2dc80c5141c0b4d3d07db70df5ca183e2215f7a9b67b106e8d9fe97"
     },
     {
-      "id": "aiml_inference_frontend/evo/interfaces/server-access-trunk",
+      "id": "aiml_inference_frontend/evo/interfaces/irb-inet-mtu-9000",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
@@ -6780,86 +6989,479 @@
       "osKey": "evo",
       "category": "interfaces",
       "categoryPath": "interfaces",
-      "name": "server-access-trunk",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/server-access-trunk.conf",
+      "name": "irb-inet-mtu-9000",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/irb-inet-mtu-9000.conf",
       "otherOsFormId": null,
-      "topic": "Server/client access port — jumbo trunk into the frontend cluster VLAN",
+      "topic": "IRB unit with an IPv4 gateway address and a 9000-byte family MTU",
       "seenOn": {
         "junos": [],
         "evo": [
           "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
           "leaf3_qfx5130-32cd",
           "leaf4_qfx5130-32cd"
         ]
       },
-      "highlights": [
-        "Leaf-only — the downstream port to an AMD MI300X GPU server (leaf3/4) or a Lambda Scaler host running Envoy / GenAI-Perf (leaf1/2)",
-        "Trunk mode with `native-vlan-id` so untagged host traffic lands in the frontend cluster VLAN; `vlan members` binds the port to that VLAN",
-        "Physical MTU 9216 keeps jumbo inference frames off the fragmentation path end-to-end",
-        "The description mirrors the attached endpoint (e.g. to.mi300-01) — one access port per leaf in this topology"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/services/frontend-cluster-vlan.conf  (the VLAN this port trunks)",
-          "id": "aiml_inference_frontend/evo/services/frontend-cluster-vlan",
-          "note": "the VLAN this port trunks"
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
         },
+        "total": 3
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
         {
-          "raw": "evo/interfaces/irb-cluster-gateway.conf  (L3 gateway for that VLAN)",
-          "id": "aiml_inference_frontend/evo/interfaces/irb-cluster-gateway",
-          "note": "L3 gateway for that VLAN"
-        },
-        {
-          "raw": "evo/oam/rstp-fabric.conf  (RSTP edge / BPDU-guard on this access port)",
-          "id": "aiml_inference_frontend/evo/oam/rstp-fabric",
-          "note": "RSTP edge / BPDU-guard on this access port"
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "evo/interfaces/irb-mtu-9216.conf"
+          ]
         }
       ],
+      "sourceText": "/*\n * Topic: IRB unit with an IPv4 gateway address and a 9000-byte family MTU\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 3\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $IRB_UNIT  e.g. 3\n *   $IRB_ADDR  e.g. 10.10.3.1/24\n */\ninterfaces {\n    irb {\n        unit $IRB_UNIT {\n            family inet {\n                mtu 9000;\n                address $IRB_ADDR;\n            }\n        }\n    }\n}\n",
       "variables": [
         {
-          "name": "$PHY_PORT",
-          "example": "et-0/0/0"
+          "name": "$IRB_UNIT",
+          "example": "3"
         },
         {
-          "name": "$PEER_DESC",
-          "example": "to.mi300-01"
-        },
-        {
-          "name": "$NATIVE_VLAN",
-          "example": "5"
-        },
-        {
-          "name": "$VLAN_NAME",
-          "example": "vn5"
+          "name": "$IRB_ADDR",
+          "example": "10.10.3.1/24"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "interfaces {\n    $PHY_PORT {\n        description $PEER_DESC;\n        native-vlan-id $NATIVE_VLAN;\n        mtu 9216;\n        unit 0 {\n            family ethernet-switching {\n                interface-mode trunk;\n                vlan members $VLAN_NAME;\n            }\n        }\n    }\n}",
-      "bytes": 283,
-      "lineCount": 13,
+      "body": "interfaces {\n    irb {\n        unit $IRB_UNIT {\n            family inet {\n                mtu 9000;\n                address $IRB_ADDR;\n            }\n        }\n    }\n}",
+      "bytes": 166,
+      "lineCount": 10,
       "techFamily": "Interfaces",
-      "subfamily": "Access / Trunk Ports",
+      "subfamily": "IRB / Gateways",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "29bb85050a65c248fa897974f95e74bb2482a57cf99cf5b3fc3055859a3378de"
+      "recordSha256": "0746104e11e5601eb89ba815c291b34d56f889242a0aa0c6b8f86dcfbc106f45"
     },
     {
-      "id": "aiml_inference_frontend/evo/oam/l2-learning-telemetry",
+      "id": "aiml_inference_frontend/evo/interfaces/irb-mtu-9216",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
       "os": "Junos EVO",
       "osKey": "evo",
-      "category": "oam",
-      "categoryPath": "oam",
-      "name": "l2-learning-telemetry",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/l2-learning-telemetry.conf",
+      "category": "interfaces",
+      "categoryPath": "interfaces",
+      "name": "irb-mtu-9216",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/interfaces/irb-mtu-9216.conf",
       "otherOsFormId": null,
-      "topic": "L2-learning telemetry — stream remote MAC entries via gRPC",
+      "topic": "IRB interface with a 9216-byte MTU",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 3
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: IRB interface with a 9216-byte MTU\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 3\n * Pair with: none\n * Peers with: n/a\n * Variables: none\n */\ninterfaces {\n    irb {\n        mtu 9216;\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "interfaces {\n    irb {\n        mtu 9216;\n    }\n}",
+      "bytes": 48,
+      "lineCount": 5,
+      "techFamily": "Interfaces",
+      "subfamily": "IRB / Gateways",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "6b9bc378d31d55fa6fa9c4d0cdc685f4d0d7cdb3b2ec933beaf195d422ed6f40"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/community/community-2-members",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "community",
+      "categoryPath": "policy-options/community",
+      "name": "community-2-members",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/community/community-2-members.conf",
+      "otherOsFormId": null,
+      "topic": "Community with two standard members",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Community with two standard members\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $COMMUNITY_NAME   e.g. DEFAULT_DIRECT_V4\n *   $COMMUNITY_ADMIN  e.g. 3\n */\npolicy-options {\n    community $COMMUNITY_NAME members [ $COMMUNITY_ADMIN:20007 21001:26000 ];\n}\n",
+      "variables": [
+        {
+          "name": "$COMMUNITY_NAME",
+          "example": "DEFAULT_DIRECT_V4"
+        },
+        {
+          "name": "$COMMUNITY_ADMIN",
+          "example": "3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community $COMMUNITY_NAME members [ $COMMUNITY_ADMIN:20007 21001:26000 ];\n}",
+      "bytes": 96,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "ecdca189bc361fc0743e4701012291c9463840f6292b34bb6c613709516bbb3d"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/community/from-spine-fabric-tier",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "community",
+      "categoryPath": "policy-options/community",
+      "name": "from-spine-fabric-tier",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/community/from-spine-fabric-tier.conf",
+      "otherOsFormId": null,
+      "topic": "FROM_SPINE_FABRIC_TIER: the community that marks routes advertised by the spine tier",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: FROM_SPINE_FABRIC_TIER: the community that marks routes advertised by the spine tier\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables: none\n */\npolicy-options {\n    community FROM_SPINE_FABRIC_TIER members 0:15;\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    community FROM_SPINE_FABRIC_TIER members 0:15;\n}",
+      "bytes": 69,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "25f5ad8916d47b8a541e009e21e85f6792cef4b9919cce4c947424259a8089ff"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/per-packet-load-balance-no-term",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "per-packet-load-balance-no-term",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "otherOsFormId": null,
+      "topic": "Per-packet load-balancing policy without terms",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Per-packet load-balancing policy without terms\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $PPLB_NAME  e.g. PFE-LB\n */\npolicy-options {\n    policy-statement $PPLB_NAME {\n        then {\n            load-balance per-packet;\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$PPLB_NAME",
+          "example": "PFE-LB"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $PPLB_NAME {\n        then {\n            load-balance per-packet;\n        }\n    }\n}",
+      "bytes": 120,
+      "lineCount": 7,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "864901a2bb1c158ad184b6af755c5de77074c499aaa792cbb497fd4913d5c791"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-add-from-spine-tier-accept",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+      "otherOsFormId": null,
+      "topic": "Spine export policy that tags every route FROM_SPINE_FABRIC_TIER and accepts it",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 2
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [
+        {
+          "raw": "evo/policy-options/community/from-spine-fabric-tier.conf",
+          "id": "aiml_inference_frontend/evo/policy-options/community/from-spine-fabric-tier",
+          "note": null
+        }
+      ],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Spine export policy that tags every route FROM_SPINE_FABRIC_TIER and accepts it\n * Seen on:\n *   Junos: (none)\n *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 2\n * Pair with:\n *  - evo/policy-options/community/from-spine-fabric-tier.conf\n *\n * Peers with: n/a\n * Variables (example values from spine1_qfx5220-32cd):\n *   $BGP_EXPORT_POL  e.g. SPINE_TO_LEAF_FABRIC_OUT\n *   $TERM_NAME       e.g. SPINE_TO_LEAF_FABRIC_OUT-10\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME {\n            then {\n                community add FROM_SPINE_FABRIC_TIER;\n                accept;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$BGP_EXPORT_POL",
+          "example": "SPINE_TO_LEAF_FABRIC_OUT"
+        },
+        {
+          "name": "$TERM_NAME",
+          "example": "SPINE_TO_LEAF_FABRIC_OUT-10"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME {\n            then {\n                community add FROM_SPINE_FABRIC_TIER;\n                accept;\n            }\n        }\n    }\n}",
+      "bytes": 210,
+      "lineCount": 10,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "dfc171edfdf12437a0884c69f9645c0b0f36ba3575eef84e6aef3c63dd5a2de1"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/ps-direct-inet-community-add-reject",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-direct-inet-community-add-reject",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf",
+      "otherOsFormId": null,
+      "topic": "Policy that accepts direct IPv4 routes with a community added and rejects everything else",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$COMMUNITY_NAME"
+          ],
+          "providers": [
+            "evo/policy-options/community/community-2-members.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Policy that accepts direct IPv4 routes with a community added and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $POLICY_NAME     e.g. AllPodNetworks\n *   $TERM_NAME_1     e.g. AllPodNetworks-10\n *   $COMMUNITY_NAME  e.g. DEFAULT_DIRECT_V4\n *   $TERM_NAME_2     e.g. AllPodNetworks-100\n */\npolicy-options {\n    policy-statement $POLICY_NAME {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                reject;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$POLICY_NAME",
+          "example": "AllPodNetworks"
+        },
+        {
+          "name": "$TERM_NAME_1",
+          "example": "AllPodNetworks-10"
+        },
+        {
+          "name": "$COMMUNITY_NAME",
+          "example": "DEFAULT_DIRECT_V4"
+        },
+        {
+          "name": "$TERM_NAME_2",
+          "example": "AllPodNetworks-100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $POLICY_NAME {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                reject;\n            }\n        }\n    }\n}",
+      "bytes": 392,
+      "lineCount": 19,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "d45b28dc1c2b05c9d6ae7b1e5c466d970d5aa8ab728fb171fd03241eeca18bde"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/ps-from-policy-accept-reject",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-from-policy-accept-reject",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-from-policy-accept-reject.conf",
+      "otherOsFormId": null,
+      "topic": "Export policy that accepts the routes another policy accepts and rejects everything else",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -6869,45 +7471,751 @@
           "leaf4_qfx5130-32cd"
         ]
       },
-      "highlights": [
-        "Leaf-only — leafs are the L2 edge (IRB + access trunks); spines are pure L3 and learn no MACs",
-        "`enable-remote-entries` exposes the full MAC table (including entries learned on other units) to the streaming-telemetry channel so Apstra / external collectors see complete forwarding state",
-        "Rides the same gRPC channel established by the system bootstrap snip"
-      ],
-      "pairWith": [
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 4
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Export policy that accepts the routes another policy accepts and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $BGP_EXPORT_POL  e.g. BGP-AOS-Policy\n *   $TERM_NAME_1     e.g. BGP-AOS-Policy-10\n *   $POLICY_NAME     e.g. AllPodNetworks\n *   $TERM_NAME_2     e.g. BGP-AOS-Policy-100\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                policy $POLICY_NAME;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                reject;\n            }\n        }\n    }\n}\n",
+      "variables": [
         {
-          "raw": "evo/bootstrap/system-grpc-apstra.conf  (the gRPC channel that carries this telemetry)",
-          "id": "aiml_inference_frontend/evo/bootstrap/system-grpc-apstra",
-          "note": "the gRPC channel that carries this telemetry"
+          "name": "$BGP_EXPORT_POL",
+          "example": "BGP-AOS-Policy"
+        },
+        {
+          "name": "$TERM_NAME_1",
+          "example": "BGP-AOS-Policy-10"
+        },
+        {
+          "name": "$POLICY_NAME",
+          "example": "AllPodNetworks"
+        },
+        {
+          "name": "$TERM_NAME_2",
+          "example": "BGP-AOS-Policy-100"
         }
       ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                policy $POLICY_NAME;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                reject;\n            }\n        }\n    }\n}",
+      "bytes": 323,
+      "lineCount": 17,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "743e58480969b40127993bd71711cac701fb467879bedf67e43a7f6d0e89bb6e"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-from-policy-bgp-accept-reject",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+      "otherOsFormId": null,
+      "topic": "Export policy that accepts the routes another policy accepts and BGP routes, and rejects everything else",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 2
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Export policy that accepts the routes another policy accepts and BGP routes, and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 2\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from spine1_qfx5220-32cd):\n *   $BGP_EXPORT_POL  e.g. BGP-AOS-Policy\n *   $TERM_NAME_1     e.g. BGP-AOS-Policy-10\n *   $POLICY_NAME     e.g. AllPodNetworks\n *   $TERM_NAME_2     e.g. BGP-AOS-Policy-20\n *   $TERM_NAME_3     e.g. BGP-AOS-Policy-100\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                policy $POLICY_NAME;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                protocol bgp;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            then {\n                reject;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$BGP_EXPORT_POL",
+          "example": "BGP-AOS-Policy"
+        },
+        {
+          "name": "$TERM_NAME_1",
+          "example": "BGP-AOS-Policy-10"
+        },
+        {
+          "name": "$POLICY_NAME",
+          "example": "AllPodNetworks"
+        },
+        {
+          "name": "$TERM_NAME_2",
+          "example": "BGP-AOS-Policy-20"
+        },
+        {
+          "name": "$TERM_NAME_3",
+          "example": "BGP-AOS-Policy-100"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                policy $POLICY_NAME;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                protocol bgp;\n            }\n            then {\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            then {\n                reject;\n            }\n        }\n    }\n}",
+      "bytes": 481,
+      "lineCount": 25,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "ee66edb08e25d2f267fd39b7c52757904fbfd60b1dac55f9f61890366d98b48a"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "policy-options",
+      "subCategory": "policy-statement",
+      "categoryPath": "policy-options/policy-statement",
+      "name": "ps-reject-bgp-from-spine-tier-accept",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf",
+      "otherOsFormId": null,
+      "topic": "Leaf export policy that rejects BGP routes tagged FROM_SPINE_FABRIC_TIER and accepts everything else",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 4
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [
+        {
+          "raw": "evo/policy-options/community/from-spine-fabric-tier.conf",
+          "id": "aiml_inference_frontend/evo/policy-options/community/from-spine-fabric-tier",
+          "note": null
+        }
+      ],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Leaf export policy that rejects BGP routes tagged FROM_SPINE_FABRIC_TIER and accepts everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with:\n *  - evo/policy-options/community/from-spine-fabric-tier.conf\n *\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $BGP_EXPORT_POL  e.g. LEAF_TO_SPINE_FABRIC_OUT\n *   $TERM_NAME_1     e.g. LEAF_TO_SPINE_FABRIC_OUT-10\n *   $TERM_NAME_2     e.g. LEAF_TO_SPINE_FABRIC_OUT-20\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                protocol bgp;\n                community FROM_SPINE_FABRIC_TIER;\n            }\n            then {\n                reject;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                accept;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$BGP_EXPORT_POL",
+          "example": "LEAF_TO_SPINE_FABRIC_OUT"
+        },
+        {
+          "name": "$TERM_NAME_1",
+          "example": "LEAF_TO_SPINE_FABRIC_OUT-10"
+        },
+        {
+          "name": "$TERM_NAME_2",
+          "example": "LEAF_TO_SPINE_FABRIC_OUT-20"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "policy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                protocol bgp;\n                community FROM_SPINE_FABRIC_TIER;\n            }\n            then {\n                reject;\n            }\n        }\n        term $TERM_NAME_2 {\n            then {\n                accept;\n            }\n        }\n    }\n}",
+      "bytes": 366,
+      "lineCount": 18,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "a8d8f9d57ea51d77fab41d46fef9d8b751db54bef2f1d5858fd3b2a9132b2aa5"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf",
+      "otherOsFormId": null,
+      "topic": "Leaf eBGP underlay group with four directly connected spine peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 4
+      },
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          }
+        ]
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-from-policy-accept-reject.conf",
+            "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Leaf eBGP underlay group with four directly connected spine peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with: none\n * Peers with:\n *   [leaf1_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf1_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf2_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf2_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf3_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf3_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf4_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf4_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $BGP_GROUP            e.g. l3clos-l\n *   $UNDERLAY_PEER_V4_1   e.g. 10.0.5.0\n *   $DESCRIPTION_1        e.g. facing_frontend-spine-1\n *   $UNDERLAY_LOCAL_V4_1  e.g. 10.0.5.1\n *   $BGP_EXPORT_POL_1     e.g. LEAF_TO_SPINE_FABRIC_OUT\n *   $BGP_EXPORT_POL_2     e.g. BGP-AOS-Policy\n *   $ASN_FABRIC_PEER_1    e.g. 4201032300\n *   $UNDERLAY_PEER_V4_2   e.g. 10.0.5.2\n *   $UNDERLAY_LOCAL_V4_2  e.g. 10.0.5.3\n *   $UNDERLAY_PEER_V4_3   e.g. 10.0.5.10\n *   $DESCRIPTION_2        e.g. facing_frontend-spine-2\n *   $UNDERLAY_LOCAL_V4_3  e.g. 10.0.5.11\n *   $ASN_FABRIC_PEER_2    e.g. 4201032301\n *   $UNDERLAY_PEER_V4_4   e.g. 10.0.5.8\n *   $UNDERLAY_LOCAL_V4_4  e.g. 10.0.5.9\n */\nprotocols {\n    bgp {\n        group $BGP_GROUP {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $UNDERLAY_PEER_V4_1 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_1;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_2 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_2;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_3 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_3;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_4 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_4;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$BGP_GROUP",
+          "example": "l3clos-l"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_1",
+          "example": "10.0.5.0"
+        },
+        {
+          "name": "$DESCRIPTION_1",
+          "example": "facing_frontend-spine-1"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_1",
+          "example": "10.0.5.1"
+        },
+        {
+          "name": "$BGP_EXPORT_POL_1",
+          "example": "LEAF_TO_SPINE_FABRIC_OUT"
+        },
+        {
+          "name": "$BGP_EXPORT_POL_2",
+          "example": "BGP-AOS-Policy"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_1",
+          "example": "4201032300"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_2",
+          "example": "10.0.5.2"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_2",
+          "example": "10.0.5.3"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_3",
+          "example": "10.0.5.10"
+        },
+        {
+          "name": "$DESCRIPTION_2",
+          "example": "facing_frontend-spine-2"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_3",
+          "example": "10.0.5.11"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_2",
+          "example": "4201032301"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_4",
+          "example": "10.0.5.8"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_4",
+          "example": "10.0.5.9"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group $BGP_GROUP {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $UNDERLAY_PEER_V4_1 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_1;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_2 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_2;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_3 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_3;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_4 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_4;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n    }\n}",
+      "bytes": 1642,
+      "lineCount": 49,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "bd63a2cc3fc29b30787b3823347148646ad62331c13ddb8bb70e263b94023703"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-8-peers-bfd-export-2-policies.conf",
+      "otherOsFormId": null,
+      "topic": "Spine eBGP underlay group with eight directly connected leaf peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 2
+      },
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf3_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "leaf4_qfx5130-32cd"
+            ],
+            "right": [
+              "spine2_qfx5220-32cd"
+            ]
+          }
+        ]
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+            "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+          ]
+        }
+      ],
+      "sourceText": "/*\n * Topic: Spine eBGP underlay group with eight directly connected leaf peers, a two-policy export chain, BFD at 1000 ms and multiple-AS multipath\n * Seen on:\n *   Junos: (none)\n *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 2\n * Pair with: none\n * Peers with:\n *   [leaf1_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf1_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf2_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf2_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf3_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf3_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n *   [leaf4_qfx5130-32cd] <-> [spine1_qfx5220-32cd]\n *   [leaf4_qfx5130-32cd] <-> [spine2_qfx5220-32cd]\n * Variables (example values from spine1_qfx5220-32cd):\n *   $BGP_GROUP            e.g. l3clos-s\n *   $UNDERLAY_PEER_V4_1   e.g. 10.0.5.1\n *   $DESCRIPTION_1        e.g. facing_frontend-leaf1\n *   $UNDERLAY_LOCAL_V4_1  e.g. 10.0.5.0\n *   $BGP_EXPORT_POL_1     e.g. SPINE_TO_LEAF_FABRIC_OUT\n *   $BGP_EXPORT_POL_2     e.g. BGP-AOS-Policy\n *   $ASN_FABRIC_PEER_1    e.g. 4201032400\n *   $UNDERLAY_PEER_V4_2   e.g. 10.0.5.3\n *   $UNDERLAY_LOCAL_V4_2  e.g. 10.0.5.2\n *   $UNDERLAY_PEER_V4_3   e.g. 10.0.5.5\n *   $DESCRIPTION_2        e.g. facing_frontend-leaf2\n *   $UNDERLAY_LOCAL_V4_3  e.g. 10.0.5.4\n *   $ASN_FABRIC_PEER_2    e.g. 4201032401\n *   $UNDERLAY_PEER_V4_4   e.g. 10.0.5.7\n *   $UNDERLAY_LOCAL_V4_4  e.g. 10.0.5.6\n *   $UNDERLAY_PEER_V4_5   e.g. 10.0.5.33\n *   $DESCRIPTION_3        e.g. facing_frontend-leaf3\n *   $UNDERLAY_LOCAL_V4_5  e.g. 10.0.5.32\n *   $ASN_FABRIC_PEER_3    e.g. 4201032406\n *   $UNDERLAY_PEER_V4_6   e.g. 10.0.5.35\n *   $UNDERLAY_LOCAL_V4_6  e.g. 10.0.5.34\n *   $UNDERLAY_PEER_V4_7   e.g. 10.0.5.37\n *   $DESCRIPTION_4        e.g. facing_frontend-leaf4\n *   $UNDERLAY_LOCAL_V4_7  e.g. 10.0.5.36\n *   $ASN_FABRIC_PEER_4    e.g. 4201032407\n *   $UNDERLAY_PEER_V4_8   e.g. 10.0.5.39\n *   $UNDERLAY_LOCAL_V4_8  e.g. 10.0.5.38\n */\nprotocols {\n    bgp {\n        group $BGP_GROUP {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $UNDERLAY_PEER_V4_1 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_1;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_2 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_2;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_3 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_3;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_4 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_4;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_5 {\n                description $DESCRIPTION_3;\n                local-address $UNDERLAY_LOCAL_V4_5;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_3;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_6 {\n                description $DESCRIPTION_3;\n                local-address $UNDERLAY_LOCAL_V4_6;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_3;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_7 {\n                description $DESCRIPTION_4;\n                local-address $UNDERLAY_LOCAL_V4_7;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_4;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_8 {\n                description $DESCRIPTION_4;\n                local-address $UNDERLAY_LOCAL_V4_8;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_4;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$BGP_GROUP",
+          "example": "l3clos-s"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_1",
+          "example": "10.0.5.1"
+        },
+        {
+          "name": "$DESCRIPTION_1",
+          "example": "facing_frontend-leaf1"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_1",
+          "example": "10.0.5.0"
+        },
+        {
+          "name": "$BGP_EXPORT_POL_1",
+          "example": "SPINE_TO_LEAF_FABRIC_OUT"
+        },
+        {
+          "name": "$BGP_EXPORT_POL_2",
+          "example": "BGP-AOS-Policy"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_1",
+          "example": "4201032400"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_2",
+          "example": "10.0.5.3"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_2",
+          "example": "10.0.5.2"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_3",
+          "example": "10.0.5.5"
+        },
+        {
+          "name": "$DESCRIPTION_2",
+          "example": "facing_frontend-leaf2"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_3",
+          "example": "10.0.5.4"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_2",
+          "example": "4201032401"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_4",
+          "example": "10.0.5.7"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_4",
+          "example": "10.0.5.6"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_5",
+          "example": "10.0.5.33"
+        },
+        {
+          "name": "$DESCRIPTION_3",
+          "example": "facing_frontend-leaf3"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_5",
+          "example": "10.0.5.32"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_3",
+          "example": "4201032406"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_6",
+          "example": "10.0.5.35"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_6",
+          "example": "10.0.5.34"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_7",
+          "example": "10.0.5.37"
+        },
+        {
+          "name": "$DESCRIPTION_4",
+          "example": "facing_frontend-leaf4"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_7",
+          "example": "10.0.5.36"
+        },
+        {
+          "name": "$ASN_FABRIC_PEER_4",
+          "example": "4201032407"
+        },
+        {
+          "name": "$UNDERLAY_PEER_V4_8",
+          "example": "10.0.5.39"
+        },
+        {
+          "name": "$UNDERLAY_LOCAL_V4_8",
+          "example": "10.0.5.38"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        group $BGP_GROUP {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $UNDERLAY_PEER_V4_1 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_1;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_2 {\n                description $DESCRIPTION_1;\n                local-address $UNDERLAY_LOCAL_V4_2;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_1;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_3 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_3;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_4 {\n                description $DESCRIPTION_2;\n                local-address $UNDERLAY_LOCAL_V4_4;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_2;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_5 {\n                description $DESCRIPTION_3;\n                local-address $UNDERLAY_LOCAL_V4_5;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_3;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_6 {\n                description $DESCRIPTION_3;\n                local-address $UNDERLAY_LOCAL_V4_6;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_3;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_7 {\n                description $DESCRIPTION_4;\n                local-address $UNDERLAY_LOCAL_V4_7;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_4;\n                family inet {\n                    unicast;\n                }\n            }\n            neighbor $UNDERLAY_PEER_V4_8 {\n                description $DESCRIPTION_4;\n                local-address $UNDERLAY_LOCAL_V4_8;\n                export ( $BGP_EXPORT_POL_1 && $BGP_EXPORT_POL_2 );\n                peer-as $ASN_FABRIC_PEER_4;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n    }\n}",
+      "bytes": 3006,
+      "lineCount": 85,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "ae9236e70db31538f0d4226d73d0a6478bfb74fdcd275a8e0ab7904c873ff8fd"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/bgp-log-updown-multipath-graceful-restart",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "bgp-log-updown-multipath-graceful-restart",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-log-updown-multipath-graceful-restart.conf",
+      "otherOsFormId": null,
+      "topic": "BGP global options: log-updown, multipath, and graceful restart without helping on shared-fate BFD down",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: BGP global options: log-updown, multipath, and graceful restart without helping on shared-fate BFD down\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    bgp {\n        log-updown;\n        multipath;\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    bgp {\n        log-updown;\n        multipath;\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n    }\n}",
+      "bytes": 149,
+      "lineCount": 9,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "846af59f4a3210c5cadc6b3eb6aae37111290e2011c447d509993322552524b6"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/l2-learning-telemetry-remote-entries",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "l2-learning-telemetry-remote-entries",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/l2-learning-telemetry-remote-entries.conf",
+      "otherOsFormId": null,
+      "topic": "Layer 2 learning telemetry that includes remote entries",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 4
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Layer 2 learning telemetry that includes remote entries\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    l2-learning {\n        telemetry enable-remote-entries;\n    }\n}\n",
       "variables": [],
       "jvdServiceMapping": [],
       "body": "protocols {\n    l2-learning {\n        telemetry enable-remote-entries;\n    }\n}",
       "bytes": 78,
       "lineCount": 5,
-      "techFamily": "OAM & Telemetry",
-      "subfamily": "Streaming Telemetry",
+      "techFamily": "General",
+      "subfamily": "General",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "446f1a4de50853f4823eff7d053053eb75ea0ffe1de86c957556be769658c669"
+      "recordSha256": "582587e5ec0bf13fbac73fe41e63c329cdb101b6d1153928069924f813be5f76"
     },
     {
-      "id": "aiml_inference_frontend/evo/oam/lldp-interface-all",
+      "id": "aiml_inference_frontend/evo/protocols/lldp-interface-all-port-id-interface-name",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
       "os": "Junos EVO",
       "osKey": "evo",
-      "category": "oam",
-      "categoryPath": "oam",
-      "name": "lldp-interface-all",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/lldp-interface-all.conf",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "lldp-interface-all-port-id-interface-name",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/lldp-interface-all-port-id-interface-name.conf",
       "otherOsFormId": null,
-      "topic": "LLDP on all interfaces — neighbor discovery for fabric validation",
+      "topic": "LLDP on all interfaces with the interface name as port ID and the interface description as port description",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -6919,326 +8227,49 @@
           "spine2_qfx5220-32cd"
         ]
       },
-      "highlights": [
-        "`interface all` advertises LLDP on every port so Apstra can build and validate the cabling map against the intended topology",
-        "`port-id-subtype interface-name` + `port-description-type interface-description` make the neighbor tables human-readable (port names/descriptions instead of numeric IDs)",
-        "`neighbour-port-info-display port-id` shows the remote port-id in the neighbor output — the note the Apstra cabling checker keys on"
-      ],
-      "pairWith": [
-        {
-          "raw": "(none)",
-          "id": null,
-          "note": null
-        }
-      ],
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: LLDP on all interfaces with the interface name as port ID and the interface description as port description\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    lldp {\n        port-id-subtype interface-name;\n        port-description-type interface-description;\n        neighbour-port-info-display port-id;\n        interface all;\n    }\n}\n",
       "variables": [],
       "jvdServiceMapping": [],
       "body": "protocols {\n    lldp {\n        port-id-subtype interface-name;\n        port-description-type interface-description;\n        neighbour-port-info-display port-id;\n        interface all;\n    }\n}",
       "bytes": 191,
       "lineCount": 8,
-      "techFamily": "OAM & Telemetry",
-      "subfamily": "LLDP",
+      "techFamily": "General",
+      "subfamily": "General",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "fe440baf671b4f84f37c734ac5ab0cf3ccc83d2b9b978bad8ccae027087fc82c"
+      "recordSha256": "445b52c352c70205356c1c6e3851ee9c5eff556777aa2198b964ebcb66b4e334"
     },
     {
-      "id": "aiml_inference_frontend/evo/oam/rstp-fabric",
+      "id": "aiml_inference_frontend/evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
       "os": "Junos EVO",
       "osKey": "evo",
-      "category": "oam",
-      "categoryPath": "oam",
-      "name": "rstp-fabric",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/oam/rstp-fabric.conf",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "rstp-bridge-priority-0-bpdu-block-on-edge",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf",
       "otherOsFormId": null,
-      "topic": "RSTP — leaf edge/BPDU-guard on access ports, disabled on spines",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "LEAF variant: `bridge-priority 0` makes each leaf the root for its own local bridge; `bpdu-block-on-edge` + `interface <access> edge` mark the server/client access port as an edge port so a host bringing up a link doesn't trigger a topology change (and any stray BPDU blocks the port)",
-        "SPINE variant: RSTP is explicitly `disable`d — spines are pure L3 with no bridge-domain, so BPDUs would be wasted CPU",
-        "Deploy the LEAF variant on leafs, the SPINE variant on spines"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/server-access-trunk.conf  (the edge access port)",
-          "id": "aiml_inference_frontend/evo/interfaces/server-access-trunk",
-          "note": "the edge access port"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$EDGE_PORT",
-          "example": "et-0/0/0:0"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "/* --- LEAF variant (deploy on leaf-role devices) --- */\nprotocols {\n    rstp {\n        bridge-priority 0;\n        bpdu-block-on-edge;\n        interface $EDGE_PORT {\n            edge;\n        }\n    }\n}\n\n/* --- SPINE variant (deploy on spine-role devices) --- */\nprotocols {\n    rstp {\n        disable;\n    }\n}",
-      "bytes": 309,
-      "lineCount": 17,
-      "techFamily": "OAM & Telemetry",
-      "subfamily": "Spanning Tree",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "b34f23c06ff6205cb810a9b89e776108d6cc5836e646ff5e66eb6e67568a83a6"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/policy/allpodnetworks-direct-redistribution",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "policy",
-      "categoryPath": "policy",
-      "name": "allpodnetworks-direct-redistribution",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/allpodnetworks-direct-redistribution.conf",
-      "otherOsFormId": null,
-      "topic": "AllPodNetworks — direct-route redistribution + BGP-AOS-Policy umbrella",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "AllPodNetworks redistributes locally-attached IPv4 direct routes into BGP and stamps them with DEFAULT_DIRECT_V4 so downstream devices can identify their origin; the trailing term-100 reject is an implicit-deny",
-        "BGP-AOS-Policy is the umbrella export chained on every session; it accepts AllPodNetworks output first, then differs by role: * SPINE also accepts everything from `protocol bgp` (term-20) so it relays leaf routes across the fabric * LEAF has no such term — a leaf does NOT re-advertise BGP-learned fabric routes back into the fabric (loop-prevention by policy)",
-        "IPv4-only redistribution — no family inet6 term in this frontend design"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/policy/community-definitions.conf  (DEFAULT_DIRECT_V4)",
-          "id": "aiml_inference_frontend/evo/policy/community-definitions",
-          "note": "DEFAULT_DIRECT_V4"
-        },
-        {
-          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumes BGP-AOS-Policy)",
-          "id": "aiml_inference_frontend/evo/transport/bgp-ebgp-fabric-underlay",
-          "note": "consumes BGP-AOS-Policy"
-        },
-        {
-          "raw": "evo/interfaces/irb-cluster-gateway.conf  (IRB direct route redistributed here)",
-          "id": "aiml_inference_frontend/evo/interfaces/irb-cluster-gateway",
-          "note": "IRB direct route redistributed here"
-        }
-      ],
-      "variables": [],
-      "jvdServiceMapping": [],
-      "body": "/* --- SPINE variant (term-20 relays BGP-learned routes downstream) --- */\npolicy-options {\n    policy-statement AllPodNetworks {\n        term AllPodNetworks-10 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V4;\n                accept;\n            }\n        }\n        term AllPodNetworks-100 {\n            then {\n                reject;\n            }\n        }\n    }\n    policy-statement BGP-AOS-Policy {\n        term BGP-AOS-Policy-10 {\n            from {\n                policy AllPodNetworks;\n            }\n            then {\n                accept;\n            }\n        }\n        term BGP-AOS-Policy-20 {\n            from {\n                protocol bgp;\n            }\n            then {\n                accept;\n            }\n        }\n        term BGP-AOS-Policy-100 {\n            then {\n                reject;\n            }\n        }\n    }\n}\n\n/* --- LEAF variant (no term-20 — does not relay fabric BGP routes) --- */\npolicy-options {\n    policy-statement AllPodNetworks {\n        term AllPodNetworks-10 {\n            from {\n                family inet;\n                protocol direct;\n            }\n            then {\n                community add DEFAULT_DIRECT_V4;\n                accept;\n            }\n        }\n        term AllPodNetworks-100 {\n            then {\n                reject;\n            }\n        }\n    }\n    policy-statement BGP-AOS-Policy {\n        term BGP-AOS-Policy-10 {\n            from {\n                policy AllPodNetworks;\n            }\n            then {\n                accept;\n            }\n        }\n        term BGP-AOS-Policy-100 {\n            then {\n                reject;\n            }\n        }\n    }\n}",
-      "bytes": 1765,
-      "lineCount": 79,
-      "techFamily": "Policy & Routing",
-      "subfamily": "VPN Route Policy",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "b909521792a2de1308b23b668a739ad234337a5dbc1b4697b65fb820a3afc778"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/policy/clos-loop-prevention",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "policy",
-      "categoryPath": "policy",
-      "name": "clos-loop-prevention",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/clos-loop-prevention.conf",
-      "otherOsFormId": null,
-      "topic": "eBGP CLOS loop-prevention — spine tags outbound, leaf rejects tagged",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "Standard 3-stage CLOS loop-prevention without AS-path filtering",
-        "SPINE_TO_LEAF_FABRIC_OUT stamps FROM_SPINE_FABRIC_TIER on all routes a spine sends to leafs",
-        "LEAF_TO_SPINE_FABRIC_OUT rejects any route still carrying that stamp when a leaf exports back toward the spines (term-10), then accepts the rest (term-20)",
-        "Both policies are chained ahead of BGP-AOS-Policy in the eBGP export ( POLICY && BGP-AOS-Policy ) — deploy the SPINE variant on spines and the LEAF variant on leafs"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/policy/community-definitions.conf  (FROM_SPINE_FABRIC_TIER)",
-          "id": "aiml_inference_frontend/evo/policy/community-definitions",
-          "note": "FROM_SPINE_FABRIC_TIER"
-        },
-        {
-          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (consumer in the export chain)",
-          "id": "aiml_inference_frontend/evo/transport/bgp-ebgp-fabric-underlay",
-          "note": "consumer in the export chain"
-        }
-      ],
-      "variables": [],
-      "jvdServiceMapping": [],
-      "body": "/* --- SPINE variant (deploy on spine-role devices) --- */\npolicy-options {\n    policy-statement SPINE_TO_LEAF_FABRIC_OUT {\n        term SPINE_TO_LEAF_FABRIC_OUT-10 {\n            then {\n                community add FROM_SPINE_FABRIC_TIER;\n                accept;\n            }\n        }\n    }\n}\n\n/* --- LEAF variant (deploy on leaf-role devices) --- */\npolicy-options {\n    policy-statement LEAF_TO_SPINE_FABRIC_OUT {\n        term LEAF_TO_SPINE_FABRIC_OUT-10 {\n            from {\n                protocol bgp;\n                community FROM_SPINE_FABRIC_TIER;\n            }\n            then {\n                reject;\n            }\n        }\n        term LEAF_TO_SPINE_FABRIC_OUT-20 {\n            then {\n                accept;\n            }\n        }\n    }\n}",
-      "bytes": 759,
-      "lineCount": 31,
-      "techFamily": "Policy & Routing",
-      "subfamily": "BGP Policy",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "a7b66f2e03012092bac4d5288033f91c676f9305f08db55a4b04b5780fe45c75"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/policy/community-definitions",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "policy",
-      "categoryPath": "policy",
-      "name": "community-definitions",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/community-definitions.conf",
-      "otherOsFormId": null,
-      "topic": "BGP community definitions — tier marker + default direct redistribution",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "FROM_SPINE_FABRIC_TIER (0:15) = CLOS loop-prevention marker stamped by spines and rejected by leafs (see clos-loop-prevention snip)",
-        "DEFAULT_DIRECT_V4 identifies locally-redistributed direct routes; the high-order tag encodes the tier — leafs use `5:20007`, spines use `1:20007` for the same community, the low-order `21001:26000` is the shared fabric selector",
-        "This frontend fabric is IPv4-only — there is no DEFAULT_DIRECT_V6 and no per-tenant community (contrast the multitenancy-backend JVD)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/policy/clos-loop-prevention.conf  (consumer of FROM_SPINE_FABRIC_TIER)",
-          "id": "aiml_inference_frontend/evo/policy/clos-loop-prevention",
-          "note": "consumer of FROM_SPINE_FABRIC_TIER"
-        },
-        {
-          "raw": "evo/policy/allpodnetworks-direct-redistribution.conf  (consumer of DEFAULT_DIRECT_V4)",
-          "id": "aiml_inference_frontend/evo/policy/allpodnetworks-direct-redistribution",
-          "note": "consumer of DEFAULT_DIRECT_V4"
-        }
-      ],
-      "variables": [
-        {
-          "name": "$LOCAL_TIER_TAG",
-          "example": "5   (leaf) or 1 (spine)"
-        }
-      ],
-      "jvdServiceMapping": [],
-      "body": "policy-options {\n    community DEFAULT_DIRECT_V4 members [ ${LOCAL_TIER_TAG}:20007 21001:26000 ];\n    community FROM_SPINE_FABRIC_TIER members 0:15;\n}",
-      "bytes": 150,
-      "lineCount": 4,
-      "techFamily": "Policy & Routing",
-      "subfamily": "Communities",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "c7d2baf37b538eadc5b95803185b517a428b02333bd1fecefacbdda476f70ae2"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/policy/pfe-load-balance",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "policy",
-      "categoryPath": "policy",
-      "name": "pfe-load-balance",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy/pfe-load-balance.conf",
-      "otherOsFormId": null,
-      "topic": "PFE per-packet load-balance policy (referenced by forwarding-table export)",
-      "seenOn": {
-        "junos": [],
-        "evo": [
-          "leaf1_qfx5130-32cd",
-          "leaf2_qfx5130-32cd",
-          "leaf3_qfx5130-32cd",
-          "leaf4_qfx5130-32cd",
-          "spine1_qfx5220-32cd",
-          "spine2_qfx5220-32cd"
-        ]
-      },
-      "highlights": [
-        "Tells the FIB to install per-packet (per-flow) load-balance next-hops across all ECMP paths — without it, ECMP routes default to per-prefix load-balance and pin each prefix to a single next-hop",
-        "Required so inference request/response flows actually spread across the 2x400G leaf<->spine links rather than polarizing onto one member",
-        "Applied via `forwarding-table export PFE-LB` in routing-options"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/transport/routing-options-ecmp-frr.conf  (forwarding-table export PFE-LB)",
-          "id": "aiml_inference_frontend/evo/transport/routing-options-ecmp-frr",
-          "note": "forwarding-table export PFE-LB"
-        }
-      ],
-      "variables": [],
-      "jvdServiceMapping": [],
-      "body": "policy-options {\n    policy-statement PFE-LB {\n        then {\n            load-balance per-packet;\n        }\n    }\n}",
-      "bytes": 116,
-      "lineCount": 7,
-      "techFamily": "Policy & Routing",
-      "subfamily": "Load-Balancing Policy",
-      "usecases": [
-        "AI/ML Infrastructure",
-        "Data Center Fabric",
-        "Apstra-Managed Fabric"
-      ],
-      "recordSha256": "db9d6e04e85fe28ea8fa3ce598286e6d47dfde9bda9ac0e13fd78d6eca51c42f"
-    },
-    {
-      "id": "aiml_inference_frontend/evo/services/frontend-cluster-vlan",
-      "jvd": "aiml_inference_frontend",
-      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
-      "area": "Data Center",
-      "os": "Junos EVO",
-      "osKey": "evo",
-      "category": "services",
-      "categoryPath": "services",
-      "name": "frontend-cluster-vlan",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/services/frontend-cluster-vlan.conf",
-      "otherOsFormId": null,
-      "topic": "Frontend cluster VLAN — L2 broadcast domain + L3 gateway binding",
+      "topic": "RSTP with bridge priority 0 and BPDU block on edge ports",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -7248,68 +8279,146 @@
           "leaf4_qfx5130-32cd"
         ]
       },
-      "highlights": [
-        "The \"service\" delivered by this frontend fabric: one cluster VLAN per leaf carrying inference client / GPU-server traffic (vn3..vn6, vlan-id 3..6 in the validated topology)",
-        "`l3-interface irb.N` ties the VLAN to its IRB gateway; the unit number matches the IRB unit (see irb-cluster-gateway snip)",
-        "Endpoints attach via the server/client access trunk with this VLAN as the native VLAN (see server-access-trunk snip)",
-        "Pure local-bridging + routed gateway — no EVPN/VXLAN in this frontend design, so a VLAN does not stretch across leafs"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/interfaces/irb-cluster-gateway.conf  (the irb.N gateway for this VLAN)",
-          "id": "aiml_inference_frontend/evo/interfaces/irb-cluster-gateway",
-          "note": "the irb.N gateway for this VLAN"
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
         },
-        {
-          "raw": "evo/interfaces/server-access-trunk.conf  (access ports that trunk this VLAN)",
-          "id": "aiml_inference_frontend/evo/interfaces/server-access-trunk",
-          "note": "access ports that trunk this VLAN"
-        }
+        "total": 4
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: RSTP with bridge priority 0 and BPDU block on edge ports\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    rstp {\n        bridge-priority 0;\n        bpdu-block-on-edge;\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    rstp {\n        bridge-priority 0;\n        bpdu-block-on-edge;\n    }\n}",
+      "bytes": 85,
+      "lineCount": 6,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
       ],
+      "recordSha256": "57eb19c85f4bfe0b4f1f0c2c315fe1df9a8f752ad41f28a9c54c79441502cbb1"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/rstp-disable",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "rstp-disable",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/rstp-disable.conf",
+      "otherOsFormId": null,
+      "topic": "RSTP disabled",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 2
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: RSTP disabled\n * Seen on:\n *   Junos: (none)\n *   EVO: spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 2\n * Pair with: none\n * Variables: none\n */\nprotocols {\n    rstp {\n        disable;\n    }\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "protocols {\n    rstp {\n        disable;\n    }\n}",
+      "bytes": 47,
+      "lineCount": 5,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "b0feb50db2c6907317c2b0d0db3523c40721601e75fa24e16ab3d60eb8df9857"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/protocols/rstp-interface-edge",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "protocols",
+      "categoryPath": "protocols",
+      "name": "rstp-interface-edge",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/rstp-interface-edge.conf",
+      "otherOsFormId": null,
+      "topic": "RSTP edge port",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 3
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: RSTP edge port\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 3\n * Pair with: none\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $AC_INTF  e.g. et-0/0/8:0\n */\nprotocols {\n    rstp {\n        interface $AC_INTF {\n            edge;\n        }\n    }\n}\n",
       "variables": [
         {
-          "name": "$VLAN_NAME",
-          "example": "vn5"
-        },
-        {
-          "name": "$VLAN_DESC",
-          "example": "FrontEnd-Cluster-VN5"
-        },
-        {
-          "name": "$VLAN_ID",
-          "example": "5"
-        },
-        {
-          "name": "$IRB_UNIT",
-          "example": "5"
+          "name": "$AC_INTF",
+          "example": "et-0/0/8:0"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "vlans {\n    $VLAN_NAME {\n        description $VLAN_DESC;\n        vlan-id $VLAN_ID;\n        l3-interface irb.$IRB_UNIT;\n    }\n}",
-      "bytes": 126,
+      "body": "protocols {\n    rstp {\n        interface $AC_INTF {\n            edge;\n        }\n    }\n}",
+      "bytes": 87,
       "lineCount": 7,
-      "techFamily": "Service Overlay",
-      "subfamily": "Other Services",
+      "techFamily": "General",
+      "subfamily": "General",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "fca2dc1041c150836310f42c815b0d61c5f2aa1eaafda898f7262a148295b603"
+      "recordSha256": "e52bc18c8d89dd1567fb631c2a311048800a16f441838fd25c8b4065ec338093"
     },
     {
-      "id": "aiml_inference_frontend/evo/transport/bgp-ebgp-fabric-underlay",
+      "id": "aiml_inference_frontend/evo/routing-options/autonomous-system",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
       "os": "Junos EVO",
       "osKey": "evo",
-      "category": "transport",
-      "categoryPath": "transport",
-      "name": "bgp-ebgp-fabric-underlay",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/transport/bgp-ebgp-fabric-underlay.conf",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "autonomous-system",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/routing-options/autonomous-system.conf",
       "otherOsFormId": null,
-      "topic": "eBGP fabric underlay — leaf<->spine /31 sessions, multipath, BFD 1s",
+      "topic": "Device autonomous-system number",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -7321,79 +8430,57 @@
           "spine2_qfx5220-32cd"
         ]
       },
-      "highlights": [
-        "Pure eBGP IPv4 underlay — every device carries a unique AS and peers to its neighbors over the /31 point-to-point links (no loopback eBGP, no EVPN overlay in this frontend design — family inet unicast only)",
-        "`multipath multiple-as` at the group + device-level `multipath` enable ECMP across the parallel leaf<->spine links (2x400G per leaf per spine)",
-        "BFD 1s x3 gives sub-3s liveness; `graceful-restart dont-help-shared-fate-bfd-down` avoids a helper stall when BFD and BGP fail together on the same link",
-        "`vpn-apply-export` is carried from the Apstra template even though no VPN families are present — harmless, kept for fidelity",
-        "Deploy the LEAF variant (group l3clos-l) on leafs, the SPINE variant (group l3clos-s) on spines; the export policy chain differs by role"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/policy/clos-loop-prevention.conf  (LEAF_TO_SPINE_FABRIC_OUT / SPINE_TO_LEAF_FABRIC_OUT)",
-          "id": "aiml_inference_frontend/evo/policy/clos-loop-prevention",
-          "note": "LEAF_TO_SPINE_FABRIC_OUT / SPINE_TO_LEAF_FABRIC_OUT"
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
         },
-        {
-          "raw": "evo/policy/allpodnetworks-direct-redistribution.conf  (BGP-AOS-Policy)",
-          "id": "aiml_inference_frontend/evo/policy/allpodnetworks-direct-redistribution",
-          "note": "BGP-AOS-Policy"
-        },
-        {
-          "raw": "evo/interfaces/fabric-p2p-links.conf  (the /31 links used as local-address)",
-          "id": "aiml_inference_frontend/evo/interfaces/fabric-p2p-links",
-          "note": "the /31 links used as local-address"
-        },
-        {
-          "raw": "evo/transport/routing-options-ecmp-frr.conf  (router-id + AS + PFE-LB export)",
-          "id": "aiml_inference_frontend/evo/transport/routing-options-ecmp-frr",
-          "note": "router-id + AS + PFE-LB export"
-        }
-      ],
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Device autonomous-system number\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $ASN  e.g. 4201032400\n */\nrouting-options {\n  autonomous-system $ASN;\n}\n",
       "variables": [
         {
-          "name": "$PEER_NAME",
-          "example": "frontend-spine-1   (or frontend-leaf1 from the spine side)"
-        },
-        {
-          "name": "$PEER_V4",
-          "example": "10.0.5.32"
-        },
-        {
-          "name": "$LOCAL_V4",
-          "example": "10.0.5.33"
-        },
-        {
-          "name": "$PEER_AS",
-          "example": "4201032300"
+          "name": "$ASN",
+          "example": "4201032400"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "/* --- LEAF variant (deploy on leaf-role devices) --- */\nprotocols {\n    bgp {\n        log-updown;\n        multipath;\n        group l3clos-l {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $PEER_V4 {\n                description facing_$PEER_NAME;\n                local-address $LOCAL_V4;\n                export ( LEAF_TO_SPINE_FABRIC_OUT && BGP-AOS-Policy );\n                peer-as $PEER_AS;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n    }\n}\n\n/* --- SPINE variant (deploy on spine-role devices) --- */\nprotocols {\n    bgp {\n        log-updown;\n        multipath;\n        group l3clos-s {\n            type external;\n            multipath multiple-as;\n            vpn-apply-export;\n            bfd-liveness-detection {\n                minimum-interval 1000;\n                multiplier 3;\n            }\n            neighbor $PEER_V4 {\n                description facing_$PEER_NAME;\n                local-address $LOCAL_V4;\n                export ( SPINE_TO_LEAF_FABRIC_OUT && BGP-AOS-Policy );\n                peer-as $PEER_AS;\n                family inet {\n                    unicast;\n                }\n            }\n        }\n        graceful-restart {\n            dont-help-shared-fate-bfd-down;\n        }\n    }\n}",
-      "bytes": 1542,
-      "lineCount": 57,
-      "techFamily": "Transport & Underlay",
-      "subfamily": "BGP Underlay",
+      "body": "routing-options {\n  autonomous-system $ASN;\n}",
+      "bytes": 45,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "75bc5953faafe368af53291dff1da1497711be9e03edc3c044e39616617eede1"
+      "recordSha256": "377ac4f59d6c84cf3ca92a3355ddb90be9abcac46a2dfb7b4457253124206cef"
     },
     {
-      "id": "aiml_inference_frontend/evo/transport/routing-options-ecmp-frr",
+      "id": "aiml_inference_frontend/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
       "jvd": "aiml_inference_frontend",
       "jvdLabel": "AI Data Center Frontend Fabric for Inference",
       "area": "Data Center",
       "os": "Junos EVO",
       "osKey": "evo",
-      "category": "transport",
-      "categoryPath": "transport",
-      "name": "routing-options-ecmp-frr",
-      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/transport/routing-options-ecmp-frr.conf",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "forwarding-table-pplb-ecmp-fast-reroute",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
       "otherOsFormId": null,
-      "topic": "Routing-options — router-id, local AS, ECMP fast-reroute, PFE-LB export",
+      "topic": "Forwarding-table export of the per-packet load-balancing policy, with ECMP fast reroute",
       "seenOn": {
         "junos": [],
         "evo": [
@@ -7405,51 +8492,480 @@
           "spine2_qfx5220-32cd"
         ]
       },
-      "highlights": [
-        "`ecmp-fast-reroute` pre-computes backup next-hops in the FIB for sub-second restoration when a leaf<->spine link fails",
-        "`export PFE-LB` pushes per-packet load-balance into the forwarding table so all parallel ECMP next-hops are actually used (the default is per-prefix, which pins each prefix to one next-hop)",
-        "`graceful-restart` at the global level enables GR for all protocols",
-        "Identical structure on leaf and spine — only $ROUTER_ID and $LOCAL_AS differ per device (no chained-composite-next-hop here since the frontend design carries no EVPN encapsulation)"
-      ],
-      "pairWith": [
-        {
-          "raw": "evo/policy/pfe-load-balance.conf  (the PFE-LB policy referenced here)",
-          "id": "aiml_inference_frontend/evo/policy/pfe-load-balance",
-          "note": "the PFE-LB policy referenced here"
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
         },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [
         {
-          "raw": "evo/transport/bgp-ebgp-fabric-underlay.conf  (the eBGP sessions this AS/router-id anchor)",
-          "id": "aiml_inference_frontend/evo/transport/bgp-ebgp-fabric-underlay",
-          "note": "the eBGP sessions this AS/router-id anchor"
-        },
-        {
-          "raw": "evo/interfaces/loopback.conf  (lo0.0 supplies the router-id)",
-          "id": "aiml_inference_frontend/evo/interfaces/loopback",
-          "note": "lo0.0 supplies the router-id"
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+          ]
         }
       ],
+      "sourceText": "/*\n * Topic: Forwarding-table export of the per-packet load-balancing policy, with ECMP fast reroute\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $PPLB_NAME  e.g. PFE-LB\n */\nrouting-options {\n    forwarding-table {\n        export $PPLB_NAME;\n        ecmp-fast-reroute;\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$PPLB_NAME",
+          "example": "PFE-LB"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    forwarding-table {\n        export $PPLB_NAME;\n        ecmp-fast-reroute;\n    }\n}",
+      "bytes": 102,
+      "lineCount": 6,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "8ea876c88ba9abef12cc142436299bc58c0828f2b9485cd2f09dfd0a234ed1f2"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/routing-options/graceful-restart",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "graceful-restart",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/routing-options/graceful-restart.conf",
+      "otherOsFormId": null,
+      "topic": "Graceful restart",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Graceful restart\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables: none\n */\nrouting-options {\n    graceful-restart;\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "routing-options {\n    graceful-restart;\n}",
+      "bytes": 41,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "644c1532b2d43855c157af1fe8b2e0608f8fe24391b060f012cfefec2d7e43f2"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/routing-options/router-id",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "routing-options",
+      "categoryPath": "routing-options",
+      "name": "router-id",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/routing-options/router-id.conf",
+      "otherOsFormId": null,
+      "topic": "Transport router identity",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "peersWith": {
+        "state": "not-applicable"
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Transport router identity\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $ROUTER_ID  e.g. 10.0.4.0\n */\nrouting-options {\n    router-id $ROUTER_ID;\n}\n",
       "variables": [
         {
           "name": "$ROUTER_ID",
-          "example": "10.0.4.4   (lo0.0 v4 address)"
-        },
-        {
-          "name": "$LOCAL_AS",
-          "example": "4201032406"
+          "example": "10.0.4.0"
         }
       ],
       "jvdServiceMapping": [],
-      "body": "routing-options {\n    router-id $ROUTER_ID;\n    autonomous-system $LOCAL_AS;\n    graceful-restart;\n    forwarding-table {\n        export PFE-LB;\n        ecmp-fast-reroute;\n    }\n}",
-      "bytes": 179,
-      "lineCount": 9,
-      "techFamily": "Transport & Underlay",
-      "subfamily": "ECMP / Load-Balancing",
+      "body": "routing-options {\n    router-id $ROUTER_ID;\n}",
+      "bytes": 45,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
       "usecases": [
         "AI/ML Infrastructure",
         "Data Center Fabric",
         "Apstra-Managed Fabric"
       ],
-      "recordSha256": "8b07a178fb71902a18d225ba4a10fa7dca0e34577d4ff38c41f802a5b9879baa"
+      "recordSha256": "a94ac7b689961e43d8a87e17934595188b0434431c7f3eb91ac15e4ca41b736f"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/security/certificates-local",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "security",
+      "categoryPath": "security",
+      "name": "certificates-local",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/security/certificates-local.conf",
+      "otherOsFormId": null,
+      "topic": "Local certificate and private key used by the gRPC SSL service",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Local certificate and private key used by the gRPC SSL service\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $LOCAL_CERT      e.g. aos_grpc\n *   $LOCAL_CERT_KEY  e.g. \"******\"\n */\nsecurity {\n    certificates {\n        local {\n            $LOCAL_CERT {\n                $LOCAL_CERT_KEY;\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$LOCAL_CERT",
+          "example": "aos_grpc"
+        },
+        {
+          "name": "$LOCAL_CERT_KEY",
+          "example": "\"******\""
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "security {\n    certificates {\n        local {\n            $LOCAL_CERT {\n                $LOCAL_CERT_KEY;\n            }\n        }\n    }\n}",
+      "bytes": 136,
+      "lineCount": 9,
+      "techFamily": "Security & IPsec",
+      "subfamily": "Security",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "aaf577d103ff2cf3acdc9037f782570f553c1529f21928eb8fdf16a742c507ce"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/system/host-name",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "system",
+      "categoryPath": "system",
+      "name": "host-name",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/system/host-name.conf",
+      "otherOsFormId": null,
+      "topic": "System host name",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: System host name\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $HOST_NAME  e.g. leaf1\n */\nsystem {\n    host-name $HOST_NAME;\n}\n",
+      "variables": [
+        {
+          "name": "$HOST_NAME",
+          "example": "leaf1"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "system {\n    host-name $HOST_NAME;\n}",
+      "bytes": 36,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "e299e07a0c2e3781b2335c90f5cf4eaec536c16dc8035754d9bbb183f3713d32"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/system/management-instance",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "system",
+      "categoryPath": "system",
+      "name": "management-instance",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/system/management-instance.conf",
+      "otherOsFormId": null,
+      "topic": "Dedicated management routing instance (mgmt_junos) for the management interface and services",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 5
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: Dedicated management routing instance (mgmt_junos) for the management interface and services\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 5\n * Pair with: none\n * Variables: none\n */\nsystem {\n    management-instance;\n}\n",
+      "variables": [],
+      "jvdServiceMapping": [],
+      "body": "system {\n    management-instance;\n}",
+      "bytes": 35,
+      "lineCount": 3,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "c824f2cf137f99edd8c674f54c298ce61f45152b30c4a1decef35102d28bb73f"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/system/services-grpc-ssl-local-certificate-mgmt-junos",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "system",
+      "categoryPath": "system",
+      "name": "services-grpc-ssl-local-certificate-mgmt-junos",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/system/services-grpc-ssl-local-certificate-mgmt-junos.conf",
+      "otherOsFormId": null,
+      "topic": "gRPC request-response extension service over SSL in the management instance, using a local certificate",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd",
+          "spine1_qfx5220-32cd",
+          "spine2_qfx5220-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1,
+          "spine1_qfx5220-32cd": 1,
+          "spine2_qfx5220-32cd": 1
+        },
+        "total": 6
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: gRPC request-response extension service over SSL in the management instance, using a local certificate\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd spine1_qfx5220-32cd spine2_qfx5220-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   spine1_qfx5220-32cd 1\n *   spine2_qfx5220-32cd 1\n *   total 6\n * Pair with: none\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $GRPC_PORT   e.g. 32767\n *   $LOCAL_CERT  e.g. aos_grpc\n */\nsystem {\n    services {\n        extension-service {\n            request-response {\n                grpc {\n                    routing-instance mgmt_junos;\n                    ssl {\n                        port $GRPC_PORT;\n                        local-certificate $LOCAL_CERT;\n                    }\n                }\n            }\n        }\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$GRPC_PORT",
+          "example": "32767"
+        },
+        {
+          "name": "$LOCAL_CERT",
+          "example": "aos_grpc"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "system {\n    services {\n        extension-service {\n            request-response {\n                grpc {\n                    routing-instance mgmt_junos;\n                    ssl {\n                        port $GRPC_PORT;\n                        local-certificate $LOCAL_CERT;\n                    }\n                }\n            }\n        }\n    }\n}",
+      "bytes": 348,
+      "lineCount": 15,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "2041de4c477ff8cbd22e222b9bf65dd7383f9ba09a9c4e6b1b1b65a6aa1edcb8"
+    },
+    {
+      "id": "aiml_inference_frontend/evo/vlans/vlan-description-vlan-id-l3-interface",
+      "jvd": "aiml_inference_frontend",
+      "jvdLabel": "AI Data Center Frontend Fabric for Inference",
+      "area": "Data Center",
+      "os": "Junos EVO",
+      "osKey": "evo",
+      "category": "vlans",
+      "categoryPath": "vlans",
+      "name": "vlan-description-vlan-id-l3-interface",
+      "path": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/vlans/vlan-description-vlan-id-l3-interface.conf",
+      "otherOsFormId": null,
+      "topic": "VLAN with a description, a VLAN ID and an IRB Layer 3 interface",
+      "seenOn": {
+        "junos": [],
+        "evo": [
+          "leaf1_qfx5130-32cd",
+          "leaf2_qfx5130-32cd",
+          "leaf3_qfx5130-32cd",
+          "leaf4_qfx5130-32cd"
+        ]
+      },
+      "count": {
+        "byDevice": {
+          "leaf1_qfx5130-32cd": 1,
+          "leaf2_qfx5130-32cd": 1,
+          "leaf3_qfx5130-32cd": 1,
+          "leaf4_qfx5130-32cd": 1
+        },
+        "total": 4
+      },
+      "highlights": [],
+      "pairWith": [],
+      "dependencyContractVersion": 3,
+      "occurrenceRequires": [],
+      "sourceText": "/*\n * Topic: VLAN with a description, a VLAN ID and an IRB Layer 3 interface\n * Seen on:\n *   Junos: (none)\n *   EVO: leaf1_qfx5130-32cd leaf2_qfx5130-32cd leaf3_qfx5130-32cd leaf4_qfx5130-32cd\n * Count:\n *   leaf1_qfx5130-32cd 1\n *   leaf2_qfx5130-32cd 1\n *   leaf3_qfx5130-32cd 1\n *   leaf4_qfx5130-32cd 1\n *   total 4\n * Pair with: none\n * Variables (example values from leaf1_qfx5130-32cd):\n *   $VLAN_NAME    e.g. vn3\n *   $DESCRIPTION  e.g. FrontEnd-Cluster-VN3\n *   $VLAN_BD      e.g. 3\n *   $IRB_IFL      e.g. irb.3\n */\nvlans {\n    $VLAN_NAME {\n        description $DESCRIPTION;\n        vlan-id $VLAN_BD;\n        l3-interface $IRB_IFL;\n    }\n}\n",
+      "variables": [
+        {
+          "name": "$VLAN_NAME",
+          "example": "vn3"
+        },
+        {
+          "name": "$DESCRIPTION",
+          "example": "FrontEnd-Cluster-VN3"
+        },
+        {
+          "name": "$VLAN_BD",
+          "example": "3"
+        },
+        {
+          "name": "$IRB_IFL",
+          "example": "irb.3"
+        }
+      ],
+      "jvdServiceMapping": [],
+      "body": "vlans {\n    $VLAN_NAME {\n        description $DESCRIPTION;\n        vlan-id $VLAN_BD;\n        l3-interface $IRB_IFL;\n    }\n}",
+      "bytes": 123,
+      "lineCount": 7,
+      "techFamily": "General",
+      "subfamily": "General",
+      "usecases": [
+        "AI/ML Infrastructure",
+        "Data Center Fabric",
+        "Apstra-Managed Fabric"
+      ],
+      "recordSha256": "f9680c80dfc17ef7075fc9dfd45b44908e7fdd83b8c1835b7383ec03819dd72c"
     },
     {
       "id": "aiml_multitenancy_backend/evo/bootstrap/chassis-buffer-monitor",
@@ -155328,7 +156844,7 @@
     },
     {
       "jvd": "aiml_inference_frontend",
-      "markdown": "# Snip variable glossary\n\nThis file documents every `$VARIABLE` used in the templated snips under\n`evo/`. Variables are alphabetical; the **Used in** column lists which\nsnip categories reference each one.\n\n| Variable | Meaning | Typical example | Used in |\n|---|---|---|---|\n| `$EDGE_PORT` | Access port marked as an RSTP edge port on a leaf | `et-0/0/0:0` | oam/ |\n| `$GRPC_CERT_PEM` | PEM-encoded TLS cert/key for the gRPC listener (masked SECRET-DATA) | *(redacted)* | bootstrap/ |\n| `$GRPC_PORT` | TCP port for the gRPC extension-service SSL listener | `32769` (leaf), `32767` (spine) | bootstrap/ |\n| `$GW_V4` | Frontend cluster VLAN IRB gateway IPv4 (full prefix) | `10.10.5.254/24` | interfaces/ |\n| `$HOSTNAME` | Device hostname | `leaf3` | bootstrap/ |\n| `$IRB_UNIT` | IRB logical unit number for the frontend cluster VLAN | `5` | interfaces/, services/ |\n| `$LO0_V4` | Loopback IPv4 (router-id / underlay anchor, full prefix) | `10.0.4.4/32` (leaf), `10.0.3.0/32` (spine) | interfaces/ |\n| `$LOCAL_AS` | Per-device BGP autonomous system number | `4201032406` (leaf), `4201032300` (spine) | transport/ |\n| `$LOCAL_TIER_TAG` | Community high-order tag identifying the device's tier | `5` (leaf), `1` (spine) | policy/ |\n| `$LOCAL_V4` | Local /31 v4 on a spine fabric interface (full prefix) | `10.0.5.0/31` | interfaces/, transport/ |\n| `$LOCAL_V4_A` | First /31 v4 on a leaf fabric breakout sub-port | `10.0.5.33/31` | interfaces/ |\n| `$LOCAL_V4_B` | Second /31 v4 on a leaf fabric breakout sub-port | `10.0.5.35/31` | interfaces/ |\n| `$NATIVE_VLAN` | Native VLAN ID on a server/client access trunk | `5` | interfaces/ |\n| `$PEER_AS` | Remote eBGP peer autonomous system number | `4201032300` (leaf->spine), `4201032400` (spine->leaf) | transport/ |\n| `$PEER_DESC` | Attached-endpoint description on an access port | `to.mi300-01` | interfaces/ |\n| `$PEER_HOST` | Remote device shortname (used in interface description) | `frontend-spine-1` | interfaces/ |\n| `$PEER_NAME` | Remote device shortname (used in BGP neighbor description) | `frontend-spine-1`, `frontend-leaf1` | transport/ |\n| `$PEER_PORT` | Remote interface name on a spine direct link (description) | `et-0/0/0` | interfaces/ |\n| `$PEER_PORT_A` | Remote interface name for first leaf sub-port (description) | `et-0/0/4` | interfaces/ |\n| `$PEER_PORT_B` | Remote interface name for second leaf sub-port (description) | `et-0/0/5` | interfaces/ |\n| `$PEER_V4` | Remote /31 v4 (eBGP fabric underlay neighbor) | `10.0.5.32` | transport/ |\n| `$PHY_PORT` | Parent physical port (breakout parent, access port, or spine link) | `et-0/0/24`, `et-0/0/0` | interfaces/ |\n| `$ROUTER_ID` | Device router-id (matches lo0.0 v4 address) | `10.0.4.4` | transport/ |\n| `$VLAN_DESC` | Frontend cluster VLAN description | `FrontEnd-Cluster-VN5` | services/ |\n| `$VLAN_ID` | Frontend cluster VLAN ID | `5` | services/ |\n| `$VLAN_NAME` | Frontend cluster VLAN name | `vn5` | interfaces/, services/ |\n"
+      "markdown": "# Snippet variable glossary\n\nAll `.conf` files under `evo/` are templates: identifiers that vary between deployments are written\nas `$VAR`. Render a snippet by substituting each placeholder with your deployment's value. The placeholders each\nsnippet uses are listed in its `Variables:` header and in the glossary below. Variable names and meanings follow\nthe shared JVD snippet vocabulary. Numbered variables (`_1`, `_2`, …) form an ordered set; the numbers carry no\nother meaning.\n\nValues left literal on purpose: the community `FROM_SPINE_FABRIC_TIER` and its value `0:15`, which both fabric\npolicies reference by name; the MTUs (`9216`, `9170`, `9000`), the BFD timers (1000 ms × 3), the breakout and port\nspeeds, the gRPC routing instance `mgmt_junos`, the route-tagging values `20007` and `21001:26000`, the RSTP bridge\npriority `0`, `unit 0`, and the loopback `lo0`.\n\n## System\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$GRPC_PORT` | TCP port of the gRPC request-response extension service over SSL. | `32767` |\n| `$HOST_NAME` | System host name. | `leaf1` |\n| `$LOCAL_CERT` | Name of the local certificate (`security certificates local`) the gRPC SSL service presents (`local-certificate`). | `aos_grpc` |\n| `$LOCAL_CERT_KEY` | PEM private key and certificate of the local certificate; secret, supplied by the operator (the published value is sanitized). | `\"******\"` |\n\n## Identity / topology\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$ASN` | Local device autonomous-system number (`routing-options autonomous-system`). | `4201032400` |\n| `$LOOPBACK_V4_PFX` | IPv4 address with prefix length on loopback unit 0. | `10.0.4.0/32` |\n| `$ROUTER_ID` | Router identifier in IPv4 dotted-decimal form. | `10.0.4.0` |\n\n## Interfaces\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$AC_ADDR_V4` | IPv4 address with prefix length on an access-facing Layer 3 unit. | `10.10.1.29/31` |\n| `$AC_INTF` | Access-facing physical interface (server, host or external attachment). | `et-0/0/28` |\n| `$BREAKOUT_SUB_PORTS` | Number of sub-ports a channelized (breakout) port is split into (`number-of-sub-ports`). | `4` |\n| `$CORE_PHYS` | Fabric-facing physical interface of a point-to-point leaf-spine link. | `et-0/0/0` |\n| `$CORE_V4_ADDR` | IPv4 address with prefix length (/31) on a leaf-spine fabric link. | `10.0.5.1/31` |\n| `$DESCRIPTION` | Free-text interface or BGP neighbor `description`. | `\"Breakout et-0/0/8\"` |\n| `$DESCRIPTION_1` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-spine-1` |\n| `$DESCRIPTION_2` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-spine-2` |\n| `$DESCRIPTION_3` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-leaf3` |\n| `$DESCRIPTION_4` | Free-text BGP neighbor `description`; `_1`, `_2`, … number the distinct descriptions of one group form, in neighbor order (two links to the same peer share one). | `facing_frontend-leaf4` |\n| `$IFD` | Physical interface name. | `et-0/0/8` |\n| `$IRB_ADDR` | IPv4 gateway address with prefix length on an IRB unit. | `10.10.3.1/24` |\n| `$IRB_IFL` | IRB logical interface (`irb.<unit>`): the Layer 3 interface of a VLAN. | `irb.3` |\n| `$IRB_UNIT` | IRB unit number. | `3` |\n| `$UNIT` | Logical-interface unit number, without the parent interface name. | `0` |\n| `$VLAN` | VLAN identifier: here the native VLAN of an access port (`native-vlan-id`). | `3` |\n| `$VLAN_BD` | VLAN identifier (`vlan-id`) of a VLAN under `vlans`. | `3` |\n| `$VLAN_NAME` | Name of a VLAN under `vlans`; also the member a trunk unit carries. | `vn3` |\n\n## Fabric underlay\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$ASN_FABRIC_PEER_1` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032300` |\n| `$ASN_FABRIC_PEER_2` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032301` |\n| `$ASN_FABRIC_PEER_3` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032406` |\n| `$ASN_FABRIC_PEER_4` | Autonomous-system number of a fabric eBGP neighbor (another leaf or spine); `_1`, `_2`, … number the distinct peer AS numbers of one group, in neighbor order. | `4201032407` |\n| `$BGP_GROUP` | Name of the eBGP underlay group. | `l3clos-l` |\n| `$UNDERLAY_LOCAL_V4_1` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.1` |\n| `$UNDERLAY_LOCAL_V4_2` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.3` |\n| `$UNDERLAY_LOCAL_V4_3` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.11` |\n| `$UNDERLAY_LOCAL_V4_4` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.9` |\n| `$UNDERLAY_LOCAL_V4_5` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.32` |\n| `$UNDERLAY_LOCAL_V4_6` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.34` |\n| `$UNDERLAY_LOCAL_V4_7` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.36` |\n| `$UNDERLAY_LOCAL_V4_8` | Local IPv4 address (`local-address`) of the eBGP underlay session with the neighbor of the same number. | `10.0.5.38` |\n| `$UNDERLAY_PEER_V4_1` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.0` |\n| `$UNDERLAY_PEER_V4_2` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.2` |\n| `$UNDERLAY_PEER_V4_3` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.10` |\n| `$UNDERLAY_PEER_V4_4` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.8` |\n| `$UNDERLAY_PEER_V4_5` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.33` |\n| `$UNDERLAY_PEER_V4_6` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.35` |\n| `$UNDERLAY_PEER_V4_7` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.37` |\n| `$UNDERLAY_PEER_V4_8` | IPv4 address of a directly connected eBGP underlay neighbor (the far end of a leaf-spine /31); `_1`, `_2`, … number the neighbors of one group, in neighbor order. | `10.0.5.39` |\n\n## Policy\n\n| Variable | What it is | Example value |\n|---|---|---|\n| `$BGP_EXPORT_POL` | Policy-statement name applied as a BGP `export` (in a policy form, the policy's own name). | `SPINE_TO_LEAF_FABRIC_OUT` |\n| `$BGP_EXPORT_POL_1` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `LEAF_TO_SPINE_FABRIC_OUT` |\n| `$BGP_EXPORT_POL_2` | Policy-statement name applied as a BGP `export`; `_1`, `_2` number the members of a policy chain (`export ( A && B )`), in evaluation order. | `BGP-AOS-Policy` |\n| `$COMMUNITY_ADMIN` | Administrator field of the first member of the route-tagging community; distinct per device in this JVD. | `3` |\n| `$COMMUNITY_NAME` | Name of a BGP community that a policy adds to routes (`community add`). | `DEFAULT_DIRECT_V4` |\n| `$POLICY_NAME` | Name of a routing policy referenced by `from policy` in another policy (here the direct-route policy). | `AllPodNetworks` |\n| `$PPLB_NAME` | Name of the per-packet load-balancing policy that the forwarding table exports. | `PFE-LB` |\n| `$TERM_NAME` | Name of the single term of a policy-statement. | `SPINE_TO_LEAF_FABRIC_OUT-10` |\n| `$TERM_NAME_1` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-10` |\n| `$TERM_NAME_2` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `AllPodNetworks-100` |\n| `$TERM_NAME_3` | Name of a policy-statement term; `_1`, `_2`, … number the terms in evaluation order. | `BGP-AOS-Policy-100` |\n"
     },
     {
       "jvd": "aiml_multitenancy_backend",
@@ -155550,6 +157066,62 @@
     }
   ],
   "jvdRoles": [
+    {
+      "jvd": "aiml_inference_frontend",
+      "source": "data_center/aidc/aiml_inference_frontend/documentation/datasheet.md#device-roles",
+      "roles": [
+        {
+          "key": "spine",
+          "label": "Spine",
+          "summary": "3-stage Clos spine; eBGP leaf-spine IP forwarding; redundant high-speed leaf interconnect",
+          "devices": [
+            {
+              "device": "spine1_qfx5220-32cd",
+              "host": "spine1",
+              "platform": "qfx5220-32cd",
+              "os": "evo"
+            },
+            {
+              "device": "spine2_qfx5220-32cd",
+              "host": "spine2",
+              "platform": "qfx5220-32cd",
+              "os": "evo"
+            }
+          ]
+        },
+        {
+          "key": "leaf",
+          "label": "Leaf",
+          "summary": "Client-facing leaves (leaf1, leaf2) connect Lambda Scaler hosts running GenAI-Perf and the Envoy load balancer (100GbE, ConnectX-6); GPU-facing leaves (leaf3, leaf4) connect AMD Instinct MI300X inference servers (400GbE, ConnectX-7)",
+          "devices": [
+            {
+              "device": "leaf1_qfx5130-32cd",
+              "host": "leaf1",
+              "platform": "qfx5130-32cd",
+              "os": "evo"
+            },
+            {
+              "device": "leaf2_qfx5130-32cd",
+              "host": "leaf2",
+              "platform": "qfx5130-32cd",
+              "os": "evo"
+            },
+            {
+              "device": "leaf3_qfx5130-32cd",
+              "host": "leaf3",
+              "platform": "qfx5130-32cd",
+              "os": "evo"
+            },
+            {
+              "device": "leaf4_qfx5130-32cd",
+              "host": "leaf4",
+              "platform": "qfx5130-32cd",
+              "os": "evo"
+            }
+          ]
+        }
+      ]
+    },
     {
       "jvd": "broadband_edge",
       "source": "service_provider/broadband_edge/documentation/datasheet.md#device-roles",
@@ -156366,5 +157938,5 @@
       ]
     }
   ],
-  "exportDigest": "875d04f9700bc354840b1cf5111291507db7cd152d10bd893cfbb88908357c4a"
+  "exportDigest": "9f96ceb7c70ffc502f5daeef985544fb54fa9c6efac8707b890b5bd29e937255"
 }
