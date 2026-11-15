@@ -1,0 +1,63 @@
+{
+ "schemaVersion": 1,
+ "entries": [
+  {
+   "id": "scope-leaf1-system-services-netconf-traceoptions",
+   "classification": "excluded-model-scope",
+   "semanticClass": "diagnostic-traceoptions",
+   "device": "leaf1_qfx5120-48y",
+   "sourceSha256": "0fed3dfe9de7868c5c70209b9ec0917022723448ec35ec3199829d4d9c515207",
+   "hierarchy": [
+    "system",
+    "services",
+    "netconf",
+    "traceoptions"
+   ],
+   "sourceIds": [
+    5,
+    6,
+    7
+   ],
+   "terminalSourceIds": [
+    6,
+    7
+   ],
+   "evidence": {
+    "sourceStatement": "traceoptions",
+    "statements": 2
+   },
+   "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-10-09"
+  },
+  {
+   "id": "scope-leaf2-system-services-netconf-traceoptions",
+   "classification": "excluded-model-scope",
+   "semanticClass": "diagnostic-traceoptions",
+   "device": "leaf2_qfx5120-48y",
+   "sourceSha256": "ffacdafac17715db1e613743d96a5e40e55df531af6383132b88b5c1874cb47f",
+   "hierarchy": [
+    "system",
+    "services",
+    "netconf",
+    "traceoptions"
+   ],
+   "sourceIds": [
+    5,
+    6,
+    7
+   ],
+   "terminalSourceIds": [
+    6,
+    7
+   ],
+   "evidence": {
+    "sourceStatement": "traceoptions",
+    "statements": 2
+   },
+   "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-10-09"
+  }
+ ]
+}
