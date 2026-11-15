@@ -4,6 +4,41 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-14
+
+Private keys are removed from the published configurations of three data center JVDs.
+
+### Fixes and maintenance
+
+- **Data center configurations**: the published configurations of
+  [Collapsed Data Center Fabric](data_center/adc/collapsed_dc_fabric/configuration/conf),
+  [Collapsed Data Center Fabric with Access Switches](data_center/adc/collapsed_dc_fabric_with_access/configuration/conf)
+  and [EVPN-VXLAN Data Center sFlow with Juniper Apstra](data_center/adc/evpn_vxlan_sflow_apstra/configuration/set)
+  carried the private key of the Apstra gRPC local certificate (`security certificates
+  local aos_grpc`). Each key is replaced with the `<REMOVED>` placeholder; the
+  certificate itself is unchanged. No snippet library, assistant bundle or portal file
+  contained a key.
+
+### What this means for you
+
+- Do not use certificate keys from earlier copies of these configurations. Supply your
+  own certificate and key for the gRPC service.
+- Pull the latest `main`.
+
+### By the numbers
+
+Changes since the November 13 entries, excluding this changelog: 23 lines in 23 files
+(one line each).
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / Collapsed Data Center Fabric | 0 | 0 | 0 | 2 | 0 |
+| Data Center / Collapsed Data Center Fabric with Access Switches | 0 | 0 | 0 | 4 | 0 |
+| Data Center / EVPN-VXLAN Data Center sFlow with Juniper Apstra | 0 | 0 | 0 | 17 | 0 |
+| **Total** | **0** | **0** | **0** | **23** | **0** |
+
+---
+
 ## 2026-11-13
 
 The **Low Latency QoS Design for 5G** snippet library is rebuilt from the thirteen
