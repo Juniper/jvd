@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "low_latency_queueing",
- "generatedFrom": {"inputsSha256":"52f0ff87bedc52a8ec301ee6cfeb20abe0a3087269dddda3d45c44db1366f767","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"6888f68debcc74e2114dceeea58cab488764f309938c630de042ee5b0c87495a","devices":13,"snips":215},
+ "generatedFrom": {"inputsSha256":"52f0ff87bedc52a8ec301ee6cfeb20abe0a3087269dddda3d45c44db1366f767","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"0085c2418b4834c33753e5e480348a9a2602affd74d38e142bb66d580fcc1b95","devices":13,"snips":215},
  "deviceInventory": ["ag1_1_acx7509","ag1_2_acx7100-32c","ag2_1_mx204","ag2_2_mx204","ag3_1_mx480","ag3_2_mx480","an1_acx7100-48l","an3_acx7100-48l","an4_acx7024","cr1_ptx10001-36mr","cr2_ptx10001-36mr","du_qfx5210","sag_mx304"],
  "snips": {
   "evo/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"ag1_1_acx7509":1,"ag1_2_acx7100-32c":1,"an1_acx7100-48l":1,"an3_acx7100-48l":1,"an4_acx7024":1,"cr1_ptx10001-36mr":1,"cr2_ptx10001-36mr":1},"instances":{"ag1_1_acx7509":[{"binding":["25"],"equivalentBindings":1}],"ag1_2_acx7100-32c":[{"binding":["25"],"equivalentBindings":1}],"an1_acx7100-48l":[{"binding":["25"],"equivalentBindings":1}],"an3_acx7100-48l":[{"binding":["25"],"equivalentBindings":1}],"an4_acx7024":[{"binding":["25"],"equivalentBindings":1}],"cr1_ptx10001-36mr":[{"binding":["25"],"equivalentBindings":1}],"cr2_ptx10001-36mr":[{"binding":["25"],"equivalentBindings":1}]}},
