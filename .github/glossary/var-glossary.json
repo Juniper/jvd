@@ -941,6 +941,76 @@
       "example": "20007",
       "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
       "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy-options/community/community-2-members.conf"
+    },
+    "AE_BUNDLE": {
+      "intent": "Aggregated Ethernet interface (`ae<n>`), as configured and as its member ports name it (`802.3ad`).",
+      "use": "Used by 2 snippets, for example `junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf`.",
+      "example": "ae66",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-core-edge-lag-member-mh.conf"
+    },
+    "AE_DEVICE_COUNT": {
+      "intent": "Number of aggregated Ethernet devices the chassis creates (`aggregated-devices ethernet device-count`).",
+      "use": "Used by `junos/chassis/aggregated-devices-ethernet.conf`.",
+      "example": "25",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    "BD_NAME": {
+      "intent": "Name of a VLAN or bridge domain inside a routing instance (MAC-VRF or virtual switch), as defined and as a trunk member references it.",
+      "use": "Numbered _1.._n for the VLANs of one form, in source order.",
+      "example": "BD_evpn_group_70_4050",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf"
+    },
+    "BGP_IMPORT_POL": {
+      "intent": "Policy-statement name applied as a BGP `import`, as applied and as defined.",
+      "use": "Used by 2 snippets, for example `junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf`.",
+      "example": "RoutesFromExt-blue-external_router",
+      "notes": "Registered on 2026-11-15; introduced by Collapsed Data Center Fabric.",
+      "establishedFrom": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf"
+    },
+    "CE_PEER_V4": {
+      "intent": "IPv4 address of a VRF eBGP neighbor on the customer or external side.",
+      "use": "Used by `junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf`.",
+      "example": "13.2.0.2",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, Broadband Edge, EWAN Finance, EWAN Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
+    },
+    "ESI": {
+      "intent": "Ethernet segment identifier (10 octets) of a multihomed interface.",
+      "use": "Used by `junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf`.",
+      "example": "00:70:11:11:11:11:11:00:00:01",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-bridge-description-esi.conf"
+    },
+    "LACP_SYS_ID": {
+      "intent": "LACP system ID of an aggregated Ethernet bundle, shared by the multihoming peers of an ESI-LAG.",
+      "use": "Used by `junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf`.",
+      "example": "00:00:00:00:00:01",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-ae-lacp-fast.conf"
+    },
+    "PE_LOCAL_V4": {
+      "intent": "Local IPv4 address (`local-address`) of a VRF eBGP session toward the customer or external side.",
+      "use": "Used by `junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf`.",
+      "example": "13.2.0.1",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, EWAN Finance, EWAN Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-vrf-policy.conf"
+    },
+    "PREFIX": {
+      "intent": "IPv4 or IPv6 prefix in a route filter or route-filter list.",
+      "use": "Numbered _1.._n for the entries of one list, in source order.",
+      "example": "0.0.0.0/32",
+      "notes": "Registered on 2026-11-15; used by Metro Ethernet Business Services, EWAN Finance, Low Latency QoS Design for 5G before this entry, and reused by Collapsed Data Center Fabric.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-loopback-allow.conf"
+    },
+    "ROUTE_FILTER_LIST": {
+      "intent": "Name of a route-filter list, as defined and as a policy references it.",
+      "use": "Used by 4 snippets, for example `junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf`.",
+      "example": "RoutesFromExt-blue-external_router",
+      "notes": "Registered on 2026-11-15; introduced by Collapsed Data Center Fabric.",
+      "establishedFrom": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf"
     }
   },
   "notes": [
