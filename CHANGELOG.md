@@ -6,6 +6,154 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ## 2026-11-14
 
+The **AI Data Center Frontend Fabric for Inference** and **AI/ML Multitenancy Backend**
+snippet libraries are rebuilt from their validated device configurations with measured
+dependencies, the Config Explorer Roles view now includes both, and the published leaf3
+configuration of the inference frontend is corrected so that its links to spine2 use
+spine2's subnets.
+
+### New content
+
+- **[AI Data Center Frontend Fabric for Inference snippet library](data_center/aidc/aiml_inference_frontend/configuration/snips)**:
+  35 Junos OS Evolved snippets measured from the six published device configurations
+  replace the earlier 16 topic snippets. They cover the 3-stage Clos fabric links and port
+  breakouts, loopback and IRB interfaces, the server access ports and the cluster VLAN,
+  the leaf and spine eBGP underlay groups with BFD and their fabric-tier export policies,
+  per-packet load balancing with ECMP fast reroute, LLDP, RSTP, Layer 2 learning
+  telemetry, and the gRPC service over SSL in the management instance, on QFX5130-32CD
+  leaves and QFX5220-32CD spines. Every active statement on the six devices is reproduced
+  by a snippet except each device's software version stamp, which is excluded; the
+  published configurations contain no `traceoptions` and no deactivated configuration.
+- **[AI/ML Multitenancy Backend snippet library](data_center/aidc/aiml_multitenancy_backend/configuration/snips)**:
+  56 Junos OS Evolved snippets measured from the eight published device configurations
+  replace the earlier 23 topic snippets. They cover the 3-stage Clos fabric links and
+  port breakouts, GPU server links, loopback and IRB units, the per-tenant EVPN Type 5
+  VRFs, the eBGP underlay and EVPN overlay groups with BFD and their tier-tagging export
+  policies, the lossless RoCEv2 class of service (DSCP classifier, forwarding classes,
+  PFC and congestion notification, ECN schedulers, shared and dedicated buffers), hash
+  keys and dynamic load balancing in flowlet mode, IPv6 router advertisements, LLDP,
+  RSTP, Layer 2 learning telemetry, and the NETCONF and gRPC services, on QFX5240-64OD
+  leaves and spines. Every active statement on the eight devices is reproduced by a
+  snippet; the published configurations contain no software version stamp, no
+  `traceoptions` and no deactivated configuration, so nothing is excluded.
+- **Dependencies**: in the inference frontend library, 2 snippets list a measured
+  `Pair with` prerequisite (the fabric-tier export policies need the
+  `FROM_SPINE_FABRIC_TIER` community) and 7 snippets carry 7 typed requirements; in the
+  multitenancy backend library, 7 snippets list one (the tier-tagging policies need their
+  tier communities; the scheduler map, classifier and interface binding need the
+  class-of-service objects they name) and 13 snippets carry 15 typed requirements. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 102 answers
+  (30 and 72), all resolved. Each snippet lists the devices it was validated on, its
+  source instance count and, where verified, its peer on another device. Both assistant
+  bundles were regenerated from the new libraries: they list each snippet's Needs and
+  offer the `minimum` form of their services (the inference frontend's cluster VLAN with
+  its IRB gateway; the multitenancy backend's tenant VRF with two or with four GPU server
+  links).
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes both JVDs,
+  grouping their snippets under Leaf and Spine, as named in the Device roles tables of
+  the
+  [inference frontend datasheet](data_center/aidc/aiml_inference_frontend/documentation/datasheet.md#device-roles),
+  which now describes the client-facing and GPU-facing leaves in one Leaf row, and the
+  [multitenancy backend datasheet](data_center/aidc/aiml_multitenancy_backend/documentation/datasheet.md#device-roles),
+  whose roles section is now titled Device roles.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 29 entries: the 14 names these libraries introduce, and 15 names that earlier
+  libraries established.
+
+### Fixes and maintenance
+
+- **AI Inference Frontend leaf3 configuration**: leaf3's two links to spine2 carried
+  10.0.5.45/31 and 10.0.5.47/31, which are not the subnets spine2 configures toward
+  leaf3, so leaf3's eBGP underlay sessions to spine2 could not establish. The links now
+  carry 10.0.5.41/31 and 10.0.5.43/31, the local addresses leaf3's BGP configuration
+  already uses, and the first link's description names spine2's et-0/0/4.
+
+### Known limitations
+
+- **AI Data Center Frontend Fabric for Inference**: leaf3 carries no
+  `management-instance` statement; the other devices do. See the library
+  [README](data_center/aidc/aiml_inference_frontend/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+- **AI/ML Multitenancy Backend**: the published configurations number the eBGP underlay
+  with IPv4 /31 addresses; the design documentation describes an IPv6 link-local
+  (unnumbered) underlay. The leaves carry IRB units that no VLAN or routing instance
+  references. See the library
+  [README](data_center/aidc/aiml_multitenancy_backend/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+- In both JVDs the local certificate's key is sanitized in the published
+  configurations; supply your own certificate and key.
+
+### What this means for you
+
+- Build AI Data Center Frontend Fabric for Inference and AI/ML Multitenancy Backend
+  configurations from snippets that match the published devices exactly, with `$VAR`
+  placeholders for deployment values; see each library's README and variable glossary
+  ([inference frontend](data_center/aidc/aiml_inference_frontend/configuration/snips/_variables.md),
+  [multitenancy backend](data_center/aidc/aiml_multitenancy_backend/configuration/snips/_variables.md)).
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- If you used leaf3's spine2-facing addresses from an earlier copy of the inference
+  frontend configuration, use 10.0.5.41/31 and 10.0.5.43/31.
+- Links or bookmarks to the earlier snippet file names of either JVD no longer resolve;
+  use the topic index in each library README
+  ([inference frontend](data_center/aidc/aiml_inference_frontend/configuration/snips/README.md#topic-index),
+  [multitenancy backend](data_center/aidc/aiml_multitenancy_backend/configuration/snips/README.md#topic-index)).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundles and manifests.
+
+---
+
+### By the numbers
+
+Changes since the earlier November 14 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / AI Data Center Frontend Fabric for Inference | 41 | 0 | 16 | 15 | 2 |
+| Data Center / AI/ML Multitenancy Backend | 62 | 0 | 23 | 14 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 23 | 2 |
+| **Total** | **103** | **0** | **39** | **53** | **6** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / AI Data Center Frontend Fabric for Inference | 4644 | 2754 | +1890 |
+| Data Center / AI/ML Multitenancy Backend | 7733 | 3820 | +3913 |
+| Shared variable glossary | 203 | 0 | +203 |
+| Portal | 19974 | 7459 | +12515 |
+| **Total** | **32554** | **14033** | **+18521** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding the assistant bundles) | 146 | 6065 |
+| JVD AI Assistant bundles (with portal copies) | 42 | 12836 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 12391 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 1053 |
+| Device configurations (`configuration/conf/`) | 1 | 3 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 203 |
+| JVD datasheets | 2 | 3 |
+| **Total** | **195** | **32554** |
+
+</details>
+
+---
+
+## 2026-11-14
+
 Private keys are removed from the published configurations of three data center JVDs.
 
 ### Fixes and maintenance

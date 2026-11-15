@@ -1,0 +1,143 @@
+{
+ "schemaVersion": 1,
+ "entries": [
+  {
+   "id": "scope-leaf1-version-23-4r2-s5-4-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "leaf1_qfx5130-32cd",
+   "sourceSha256": "1c46d717f1d1417642f6397a742e99c6c17a1d80d20dd41580cd9893dcdc21d3",
+   "hierarchy": [
+    "version 23.4R2-S5.4-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S5.4-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  },
+  {
+   "id": "scope-leaf2-version-23-4r2-s5-4-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "leaf2_qfx5130-32cd",
+   "sourceSha256": "7af833121b63da169628b9d544121943d021ce78dd899ec7c875cb6ae0bd6e86",
+   "hierarchy": [
+    "version 23.4R2-S5.4-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S5.4-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  },
+  {
+   "id": "scope-leaf3-version-23-4r2-s5-4-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "leaf3_qfx5130-32cd",
+   "sourceSha256": "0000b2ddcbbb3c7eec97438ca709ad30994c76346a2dd6540af1476e5133c4ee",
+   "hierarchy": [
+    "version 23.4R2-S5.4-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S5.4-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  },
+  {
+   "id": "scope-leaf4-version-23-4r2-s5-4-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "leaf4_qfx5130-32cd",
+   "sourceSha256": "eb1b12caf4ca1472356281b280c5386128a9a012835bcfe8913bfc1d5179c923",
+   "hierarchy": [
+    "version 23.4R2-S5.4-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S5.4-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  },
+  {
+   "id": "scope-spine1-version-25-2x100-d20-6-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "spine1_qfx5220-32cd",
+   "sourceSha256": "cc369993c7733586a3d82a8447b55ae36ded097ac15ea73e97325e02840855e0",
+   "hierarchy": [
+    "version 25.2X100-D20.6-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 25.2X100-D20.6-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  },
+  {
+   "id": "scope-spine2-version-25-2x100-d20-6-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "spine2_qfx5220-32cd",
+   "sourceSha256": "d43b4f51fff0d623d22a541577265efc8f2e72c68ab62ad1d277f6d5b0e348ac",
+   "hierarchy": [
+    "version 25.2X100-D20.6-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 25.2X100-D20.6-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-14"
+  }
+ ]
+}

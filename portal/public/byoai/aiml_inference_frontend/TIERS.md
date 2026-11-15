@@ -1,82 +1,52 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for the service at each verbosity tier. It is bundled into [`jvd-aiml-inf-snips.md`](jvd-aiml-inf-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd data_center/aidc/aiml_inference_frontend`. -->
 
-For the chosen tier, the AI includes ONLY the snips listed — and ONLY those — unless the user explicitly asks for more. This JVD is **Junos Evolved (EVO) only** — every file is under `evo/`. All snips carry a `Variant: Evolved-OS (EVO)` tag; five carry both a LEAF and a SPINE variant (pick the one matching the target role).
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
-The "service" delivered by this frontend fabric is the **frontend cluster VLAN** (one L2 domain per leaf with an L3 IRB gateway, into which inference clients / Envoy hosts / GPU servers attach). Underlay transport and fabric policy are shared baseline.
+## What the tiers mean
 
----
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-## Shared fabric baseline (referenced by `as-deployed`)
-
-Underlay + fabric policy + telemetry, common to every device:
-
-- `evo/transport/bgp-ebgp-fabric-underlay.conf` *(LEAF or SPINE variant)*
-- `evo/transport/routing-options-ecmp-frr.conf`
-- `evo/interfaces/fabric-p2p-links.conf` *(LEAF breakout or SPINE direct variant)*
-- `evo/interfaces/loopback.conf`
-- `evo/policy/community-definitions.conf`
-- `evo/policy/allpodnetworks-direct-redistribution.conf` *(LEAF or SPINE variant)*
-- `evo/policy/clos-loop-prevention.conf` *(LEAF or SPINE variant)*
-- `evo/policy/pfe-load-balance.conf`
-- `evo/bootstrap/system-grpc-apstra.conf`
-- `evo/bootstrap/security-grpc-cert.conf`
-- `evo/oam/lldp-interface-all.conf`
-- `evo/oam/rstp-fabric.conf` *(LEAF or SPINE variant)*
-- `evo/oam/l2-learning-telemetry.conf` *(leaf-only)*
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## Service — frontend cluster VLAN (leaf-side)
+## Frontend cluster VLAN with an IRB gateway
 
-The user-facing "service": attach an inference client / Envoy host / GPU server
-to a cluster VLAN with an L3 gateway on a leaf.
+Family irb, form frontend-cluster-vlan-irb. OS mode EVO. Attachment: Access trunk unit carrying the VLAN toward the inference servers or client hosts, and the IRB unit that is the VLAN's Layer 3 gateway..
 
-### `minimum`
-Just the leaf-side access + VLAN + gateway. Assumes a working eBGP fabric
-(underlay + policies) is already present. Best for brownfield adds.
+### leaf1_qfx5130-32cd (evo)
 
-- `evo/services/frontend-cluster-vlan.conf`
-- `evo/interfaces/irb-cluster-gateway.conf`
-- `evo/interfaces/server-access-trunk.conf`
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-### `with-transport`
-`minimum` + the eBGP fabric underlay so the leaf actually reaches the fabric.
-Best when you're not sure the underlay is present on this leaf.
+### leaf2_qfx5130-32cd (evo)
 
-- everything in `minimum`, plus:
-- `evo/transport/bgp-ebgp-fabric-underlay.conf` *(LEAF variant)*
-- `evo/transport/routing-options-ecmp-frr.conf`
-- `evo/interfaces/fabric-p2p-links.conf` *(LEAF variant)*
-- `evo/interfaces/loopback.conf`
-- `evo/policy/community-definitions.conf`
-- `evo/policy/allpodnetworks-direct-redistribution.conf` *(LEAF variant)*
-- `evo/policy/clos-loop-prevention.conf` *(LEAF variant)*
-- `evo/policy/pfe-load-balance.conf`
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-### `as-deployed`
-Full JVD fabric baseline: the service + the entire **shared fabric baseline**
-above (underlay + policies + bootstrap + OAM). Best for a greenfield leaf
-turn-up or a complete working example.
+### leaf3_qfx5130-32cd (evo)
 
-- the service snips (`minimum`), plus the full **shared fabric baseline**.
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### leaf4_qfx5130-32cd (evo)
+
+- `minimum`: `evo/vlans/vlan-description-vlan-id-l3-interface.conf`
+- `self-contained`: the above — it names nothing further
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
 ---
-
-## Spine turn-up
-
-A spine carries NO service instances (pure L3). A spine `as-deployed` is the
-**shared fabric baseline** with the SPINE variants selected — no VLAN, no IRB,
-no access trunk, no l2-learning telemetry.
-
----
-
-## Add-a-feature (single snip on demand)
-
-- `Add LLDP` → `evo/oam/lldp-interface-all.conf`
-- `Add L2-learning telemetry` (leaf) → `evo/oam/l2-learning-telemetry.conf`
-- `Add RSTP` → `evo/oam/rstp-fabric.conf` *(LEAF edge or SPINE disable variant)*
-- `Add the gRPC / Apstra base` → `evo/bootstrap/system-grpc-apstra.conf` + `evo/bootstrap/security-grpc-cert.conf`
-- `Add the fabric loop-prevention policies` → `evo/policy/clos-loop-prevention.conf` + `evo/policy/community-definitions.conf`
-- `Add a fabric P2P link` → `evo/interfaces/fabric-p2p-links.conf`

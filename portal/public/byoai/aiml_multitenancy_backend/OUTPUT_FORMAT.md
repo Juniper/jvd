@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-aiml-mtb-snips.md`](jvd-aiml-mtb-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-aiml-mtb-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,24 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-overlay"
+# form: minimum
 # devices:
-#   leaf1: { name: <hostname>, os: evo, role: <leaf|spine>, loopback4: <addr>, as: <asn>, tier_tag: <n> }
-#   leaf2: { ... }
+#   leaf1: { name: <hostname>, os: evo, loopback4: <addr> }
+#   leaf3: { name: <hostname>, os: evo, loopback4: <addr> }
 # services:
-#   - { kind: evpn-vrf-ip-prefix-routes,
+#   - { kind: <tenant-vrf-evpn-type5-2-links|tenant-vrf-evpn-type5-4-links>,
 #       count: <int>,
-#       tenant: <tenant-N>,
-#       vni: <int>,
-#       rd: <loopback:vni>,
-#       rt: <target:vni:1>,
-#       irb_unit: <int>,
-#       lo_unit: <int>,
-#       gateway: <addr>,
-#       ac_interfaces: [ <sub-port>, ... ] }
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - evo/services/evpn-vrf-ip-prefix-routes.conf
-#   - evo/interfaces/irb-tenant-gateway.conf
+#   - evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf
 #   - ...
 ```
 
@@ -51,16 +46,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Role selection: whether each device used the LEAF or SPINE variant of the dual-variant snips.
-- Cross-device consistency the user must verify:
-  - The IRB **anycast MAC** (`$ANYCAST_MAC`) and per-tenant gateway addresses MUST be identical on every leaf that hosts the tenant subnet.
-  - Per-tenant **VNI**, **route-distinguisher pattern** (`${LO0_V4}:${VNI}`), and **vrf-target** (`target:${VNI}:1`) must be consistent across the leaves that share the tenant.
-  - The eBGP Clos **per-device AS** is unique; peer AS values must match the neighbor's local AS.
-  - **RoCEv2 CoS** (forwarding-class / queue names, PFC/ECN settings) is a JVD-wide constant — identical on every fabric device.
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- AI-fabric reminders: RoCEv2 lossless CoS + `chassis-buffer-monitor` telemetry + `ecmp-dlb-flowlet` DLB are the AI/RoCE performance triad; the fabric and IRB/server MTUs differ (9216/9170 fabric, 9000 tenant).
+- Cross-device consistency the user must verify: a tenant VRF uses the same instance name, VNI and route target on every leaf; each leaf's route distinguisher starts with that leaf's own loopback, and the server-link units and the tenant loopback unit must exist on the leaf.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

@@ -738,6 +738,209 @@
       "example": "2001:db8::15a6:11",
       "notes": "Registered on 2026-11-13; introduced by Low Latency QoS Design for 5G.",
       "establishedFrom": "service_provider/low_latency_queueing/configuration/snips/evo/interfaces/ifl-irb-inet-inet6-virtual-gateway-filter.conf"
+    },
+    "AC_ADDR_V4": {
+      "intent": "IPv4 address with prefix length on an attachment (access-facing) Layer 3 unit.",
+      "use": "Used by `evo/interfaces/ifd-description-100g-unit-0-inet.conf`.",
+      "example": "13.1.0.1/30",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet.conf"
+    },
+    "AC_INTF": {
+      "intent": "Attachment (access-facing) physical interface.",
+      "use": "Used by 4 snippets, for example `evo/interfaces/ifd-description-100g-unit-0-inet.conf`.",
+      "example": "et-0/0/0",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN DC Edge, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/protocols/l2circuit-hsb-hub-color-ignore-encap.conf"
+    },
+    "BREAKOUT_SUB_PORTS": {
+      "intent": "Number of sub-ports a channelized (breakout) port is split into (`number-of-sub-ports`).",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifd-breakout-description-10g.conf`.",
+      "example": "4",
+      "notes": "Registered on 2026-11-14; used by Broadband Edge, EWAN Finance, EWAN Core and Edge before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-breakout-10g.conf"
+    },
+    "CORE_PHYS": {
+      "intent": "Core- or fabric-facing interface (physical or aggregate) of a point-to-point transport link.",
+      "use": "Used by `evo/interfaces/ifl-core-inet-mtu-9170.conf`.",
+      "example": "ae71",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Core and Edge, EWAN Advanced Core and Edge before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls-interface.conf"
+    },
+    "CORE_V4_ADDR": {
+      "intent": "IPv4 address with prefix length on a core- or fabric-facing point-to-point link.",
+      "use": "Used by `evo/interfaces/ifl-core-inet-mtu-9170.conf`.",
+      "example": "10.10.0.198/30",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls-interface.conf"
+    },
+    "DESCRIPTION": {
+      "intent": "Free-text `description` of an interface, unit or BGP neighbor.",
+      "use": "Numbered _1.._n when one form carries several distinct descriptions, in configuration order.",
+      "example": "R0-AN1-To-R12-SW1",
+      "notes": "Registered on 2026-11-14; used by Broadband Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/broadband_edge/configuration/snips/evo/interfaces/ifd-ae-flexible-lacp-fast-mtu-esi-single-active.conf"
+    },
+    "IRB_ADDR": {
+      "intent": "IPv4 address with prefix length on an IRB unit: the Layer 3 gateway of a VLAN or bridge domain.",
+      "use": "Used by `evo/interfaces/irb-inet-mtu-9000.conf`.",
+      "example": "172.16.255.1/30",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Finance, EWAN Advanced Core and Edge before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-inet.conf"
+    },
+    "LOOPBACK_V4_PFX": {
+      "intent": "IPv4 address with prefix length on a loopback unit.",
+      "use": "Used by `evo/interfaces/ifl-loopback-inet.conf`.",
+      "example": "1.1.0.17/32",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
+    },
+    "POLICY_NAME": {
+      "intent": "Name of a routing policy-statement where no role-specific name (BGP export or import, VRF import or export, load balancing) applies.",
+      "use": "Used by 3 snippets, for example `evo/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf`.",
+      "example": "ALLOW_LOOPBACK",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Finance, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/ps-loopback-allow.conf"
+    },
+    "PPLB_NAME": {
+      "intent": "Name of the per-packet load-balancing policy exported to the forwarding table.",
+      "use": "Used by 2 snippets, for example `evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf`.",
+      "example": "PS-PPLB",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/policy-options/policy-statement/per-packet-load-balance.conf"
+    },
+    "VLAN_BD": {
+      "intent": "VLAN identifier (`vlan-id`) of a VLAN or bridge-domain entry.",
+      "use": "Used by `evo/vlans/vlan-description-vlan-id-l3-interface.conf`.",
+      "example": "4050",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/evpn-elan/ri-evpn-elan-irb-gateway-community-direct.conf"
+    },
+    "VLAN_NAME": {
+      "intent": "Name of a VLAN under `vlans`, as defined and as referenced by a trunk member.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-ethernet-switching-trunk-1-vlan.conf`.",
+      "example": "EP-TYPE-2-VLAN-1402-1488",
+      "notes": "Registered on 2026-11-14; used by EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/interfaces/ifd-ae-lacp-fast-trunk-vlan.conf"
+    },
+    "ASN_FABRIC_PEER": {
+      "intent": "Autonomous-system number of a fabric eBGP neighbor (another leaf or spine of an IP fabric).",
+      "use": "Numbered _1.._n for the distinct peer AS numbers of one group, in neighbor order.",
+      "example": "4201032300",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference. In the ASN family; distinct from ASN_CUSTOMER, ASN_PROVIDER and ASN_INTER_AS.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf"
+    },
+    "UNDERLAY_PEER_V4": {
+      "intent": "IPv4 address of a directly connected eBGP underlay neighbor in an IP fabric (the far end of a point-to-point link).",
+      "use": "Numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "10.0.5.0",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference. Distinct from IBGP_PEER_V4, INTER_AS_PEER_V4, CE_PEER_V4 and PE_PEER_V4.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf"
+    },
+    "UNDERLAY_LOCAL_V4": {
+      "intent": "Local IPv4 address (`local-address`) of an eBGP underlay session.",
+      "use": "Numbered to match the UNDERLAY_PEER_V4_n neighbor it belongs to.",
+      "example": "10.0.5.1",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-4-peers-bfd-export-2-policies.conf"
+    },
+    "COMMUNITY_NAME": {
+      "intent": "Name of a BGP community that a policy adds to routes, where the name differs between instances.",
+      "use": "Used by 2 snippets, for example `evo/policy-options/community/community-2-members.conf`.",
+      "example": "DEFAULT_DIRECT_V4",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference. A single fixed community that other configuration references by name stays literal.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/community/community-2-members.conf"
+    },
+    "COMMUNITY_ADMIN": {
+      "intent": "Administrator field of a standard community member, where it varies per device.",
+      "use": "Numbered _1/_2 for the members of one community, in member order.",
+      "example": "3",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/community/community-2-members.conf"
+    },
+    "GRPC_PORT": {
+      "intent": "TCP port of the gRPC request-response extension service over SSL.",
+      "use": "Used by `evo/system/services-grpc-ssl-local-certificate-mgmt-junos.conf`.",
+      "example": "32767",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/system/services-grpc-ssl-local-certificate-mgmt-junos.conf"
+    },
+    "HOST_NAME": {
+      "intent": "System host name.",
+      "use": "Used by `evo/system/host-name.conf`.",
+      "example": "leaf1",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/system/host-name.conf"
+    },
+    "LOCAL_CERT": {
+      "intent": "Name of a local certificate (`security certificates local`), as defined and as referenced by `local-certificate`.",
+      "use": "Used by 2 snippets, for example `evo/security/certificates-local.conf`.",
+      "example": "aos_grpc",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/security/certificates-local.conf"
+    },
+    "LOCAL_CERT_KEY": {
+      "intent": "PEM private key and certificate of a local certificate; secret, supplied by the operator.",
+      "use": "Used by `evo/security/certificates-local.conf`.",
+      "example": "\"<LOCAL_CERT_KEY>\"",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference. It is a credential: never publish a real value.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/security/certificates-local.conf"
+    },
+    "TERM_NAME": {
+      "intent": "Name of a policy-statement term.",
+      "use": "Numbered _1.._n for the terms of one policy, in evaluation order.",
+      "example": "SPINE_TO_LEAF_FABRIC_OUT-10",
+      "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
+      "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf"
+    },
+    "FPC_SLOT": {
+      "intent": "FPC slot number.",
+      "use": "Used by `evo/chassis/fpc-traffic-manager-buffer-monitor.conf`.",
+      "example": "0",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/fpc-mx204-1x100g-8x10g.conf"
+    },
+    "LOOPBACK_V6_PFX": {
+      "intent": "IPv6 address with prefix length on a loopback unit.",
+      "use": "Used by `evo/interfaces/ifl-loopback-inet-inet6.conf`.",
+      "example": "2001::1:1:0:11/128",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
+    },
+    "VNI": {
+      "intent": "VXLAN network identifier (VNI) of a VLAN, bridge domain or EVPN Type 5 routing instance.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf`.",
+      "example": "1402",
+      "notes": "Registered on 2026-11-14; used by EWAN DC Edge before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf"
+    },
+    "OVERLAY_PEER_V4": {
+      "intent": "Loopback IPv4 address of an eBGP EVPN overlay neighbor in an IP fabric (another leaf or spine).",
+      "use": "Numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "10.0.1.9",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend. Distinct from UNDERLAY_PEER_V4 (the directly connected underlay neighbor) and from IBGP_PEER_V4 (iBGP).",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf"
+    },
+    "IP_PREFIX_EXPORT_POL": {
+      "intent": "Name of the policy-statement a routing instance exports as EVPN Type 5 IP prefix routes (`ip-prefix-routes export`), as applied and as defined.",
+      "use": "Used by 3 snippets, for example `evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf`.",
+      "example": "BGP-AOS-Policy-non-tenant",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+    },
+    "LOOPBACK_IFL": {
+      "intent": "Loopback logical interface (`lo0.<unit>`) listed in a routing instance.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf`.",
+      "example": "lo0.3",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf"
+    },
+    "COMMUNITY_ASSIGNED": {
+      "intent": "Assigned-number field of a standard community member, where it varies.",
+      "use": "Numbered _1/_2 for the members of one community, in member order.",
+      "example": "20007",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy-options/community/community-2-members.conf"
     }
   },
   "notes": [
