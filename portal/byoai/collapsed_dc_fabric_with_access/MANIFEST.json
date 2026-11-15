@@ -1,120 +1,1428 @@
 {
-  "schema_version": 1,
-  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "schema_version": 2,
+  "contract_versions": {
+    "dependencies": 3,
+    "relationships": 2
+  },
+  "dependency_declaration_sha256": "218f275d74a78f70a364d5868dd3435507f1dd2c79edf6ef112ef4737b1d9430",
+  "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips",
-  "snip_count": 6,
+  "snip_count": 54,
   "snips": [
     {
-      "path": "junos/interfaces/esi-lag.conf",
+      "path": "junos/chassis/aggregated-devices-ethernet.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device-count for the chassis",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 549,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/forwarding-options/evpn-vxlan-shared-tunnels.conf",
+      "os": "junos",
+      "category": "forwarding-options",
+      "name": "evpn-vxlan-shared-tunnels",
+      "topic": "EVPN-VXLAN shared tunnels",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 414,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/forwarding-options/evpn-vxlan-shared-tunnels.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/forwarding-options/vxlan-routing-next-hop-interface-num-overlay-ecmp.conf",
+      "os": "junos",
+      "category": "forwarding-options",
+      "name": "vxlan-routing-next-hop-interface-num-overlay-ecmp",
+      "topic": "VXLAN routing with next-hop and interface-number allocations and overlay ECMP",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 425,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/forwarding-options/vxlan-routing-next-hop-interface-num-overlay-ecmp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/forwarding-options/vxlan-routing-overlay-ecmp.conf",
+      "os": "junos",
+      "category": "forwarding-options",
+      "name": "vxlan-routing-overlay-ecmp",
+      "topic": "VXLAN routing with overlay ECMP",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 335,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/forwarding-options/vxlan-routing-overlay-ecmp.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "esi-lag",
-      "topic": "All-active ESI-LAG (tier interconnect / server multihoming)",
+      "name": "ifd-ae-esi-all-active-lacp-system-id",
+      "topic": "Aggregated Ethernet interface for an ESI-LAG: all-active Ethernet segment, active LACP with a fixed system ID and a 9216-byte MTU",
       "seen_on": [
-        "leaf1_qfx5120-48y",
-        "leaf2_qfx5120-48y",
         "access1_ex4400-48mp",
-        "access2_ex4400-48mp"
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
       ],
-      "size_bytes": 1688,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/esi-lag.conf"
+      "size_bytes": 943,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/interfaces/loopback.conf",
+      "path": "junos/interfaces/ifd-ae-lacp-active-mtu-9216.conf",
       "os": "junos",
       "category": "interfaces",
-      "name": "loopback",
-      "topic": "Loopback lo0 addressing (router-id / VTEP)",
+      "name": "ifd-ae-lacp-active-mtu-9216",
+      "topic": "Aggregated Ethernet interface with a description, a 9216-byte MTU and active LACP",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 614,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-ae-lacp-active-mtu-9216.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-description-mtu-9216.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-description-mtu-9216",
+      "topic": "Physical interface with a description and a 9216-byte MTU",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 532,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-description-mtu-9216.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-flexible-vlan-tagging-native-vlan-1",
+      "topic": "Physical interface with a description, flexible VLAN tagging and native VLAN 1 for VLAN-tagged Layer 3 units",
       "seen_on": [
         "leaf1_qfx5120-48y",
-        "leaf2_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 576,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-lag-member-hold-time-up-100000",
+      "topic": "Aggregated Ethernet member link with a description and a hold-up timer of 100000 ms",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 731,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-lag-member-hold-time-up-100000.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-lag-member.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-lag-member",
+      "topic": "Aggregated Ethernet member link with a description",
+      "seen_on": [
         "access1_ex4400-48mp",
         "access2_ex4400-48mp"
       ],
-      "size_bytes": 984,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/loopback.conf"
+      "size_bytes": 578,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifd-lag-member.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/services/mac-vrf-evpn-vxlan.conf",
+      "path": "junos/interfaces/ifl-core-inet-mtu-9170.conf",
       "os": "junos",
-      "category": "services",
-      "name": "mac-vrf-evpn-vxlan",
-      "topic": "VLAN-aware MAC-VRF EVPN-VXLAN instance",
+      "category": "interfaces",
+      "name": "ifl-core-inet-mtu-9170",
+      "topic": "Unit 0 with an IPv4 address and a 9170-byte family MTU on a leaf-to-leaf link",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 669,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifl-core-inet-mtu-9170.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-lacp-active-mtu-9216.conf",
+            "junos/interfaces/ifd-description-mtu-9216.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-ethernet-switching-trunk-40-vlans",
+      "topic": "Unit 0 as an Ethernet-switching trunk carrying 40 VLANs",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 2328,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+            "junos/interfaces/ifd-description-mtu-9216.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet",
+      "topic": "Loopback unit with one IPv4 address",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 610,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifl-loopback-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-unit-0-inet-no-address.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-unit-0-inet-no-address",
+      "topic": "Unit 0 with family inet and no address",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 509,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifl-unit-0-inet-no-address.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "VLAN-tagged unit with a description and an IPv4 address",
       "seen_on": [
         "leaf1_qfx5120-48y",
-        "leaf2_qfx5120-48y",
-        "access1_ex4400-48mp",
-        "access2_ex4400-48mp"
+        "leaf2_qfx5120-48y"
       ],
-      "size_bytes": 1480,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/services/mac-vrf-evpn-vxlan.conf"
+      "size_bytes": 709,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/transport/access-evpn-overlay.conf",
+      "path": "junos/interfaces/irb-inet-mtu-9000-mac.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "access-evpn-overlay",
-      "topic": "Access-tier direct eBGP EVPN overlay (EX4400 access pair)",
+      "category": "interfaces",
+      "name": "irb-inet-mtu-9000-mac",
+      "topic": "IRB unit with an IPv4 gateway address, a 9000-byte family MTU and a configured MAC address",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 643,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/interfaces/irb-inet-mtu-9000-mac.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/community/community-2-members.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "community/community-2-members",
+      "topic": "Community with two standard members",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 588,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/community/community-2-members.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/community/fabric-communities.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "community/fabric-communities",
+      "topic": "FABRIC_COMMUNITIES: the fabric-internal communities that external export policies delete",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 419,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/community/fabric-communities.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-packet-load-balance-no-term",
+      "topic": "Per-packet load-balancing policy without terms",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 552,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-accept-all.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-accept-all",
+      "topic": "Policy with a single term that accepts everything",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 517,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-accept-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-direct-inet-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-direct-inet-accept-reject",
+      "topic": "Policy that accepts direct IPv4 routes and rejects everything else",
       "seen_on": [
         "access1_ex4400-48mp",
         "access2_ex4400-48mp"
       ],
-      "size_bytes": 1955,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/access-evpn-overlay.conf"
+      "size_bytes": 742,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-direct-inet-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/access-underlay-ebgp.conf",
+      "path": "junos/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "access-underlay-ebgp",
-      "topic": "Access-tier direct eBGP underlay (EX4400 access pair)",
+      "category": "policy-options",
+      "name": "policy-statement/ps-direct-inet-community-add-reject",
+      "topic": "Policy that accepts direct IPv4 routes with a community added and rejects everything else",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 903,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-direct-inet-community-add-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$COMMUNITY_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/community/community-2-members.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-from-policy-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-from-policy-accept-reject",
+      "topic": "Policy that accepts the routes another policy accepts and rejects everything else",
       "seen_on": [
         "access1_ex4400-48mp",
         "access2_ex4400-48mp"
+      ],
+      "size_bytes": 754,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-from-policy-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-from-policy-bgp-accept-reject",
+      "topic": "Policy that accepts the routes another policy accepts and BGP routes, and rejects everything else",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 924,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "topic": "Import policy that accepts IPv4 routes in a route-filter list with a community added and rejects other IPv4 routes",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1120,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-community",
+          "kind": "community",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$COMMUNITY_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/community/community-2-members.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "topic": "Export policy that accepts IPv4 routes in a route-filter list with the fabric communities removed and rejects other IPv4 routes",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1125,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/policy-options/community/fabric-communities.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/route-filter-list-4-upto-2-exact.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "route-filter-list-4-upto-2-exact",
+      "topic": "Route-filter list with every non-default IPv4 prefix length, four prefixes up to /32 and two exact /32 prefixes",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 969,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/route-filter-list-4-upto-2-exact.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/route-filter-list-default-route.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "route-filter-list-default-route",
+      "topic": "Route-filter list that matches only the IPv4 default route",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 476,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/policy-options/route-filter-list-default-route.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd-without-export.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-group-ebgp-evpn-overlay-1-peer-bfd-without-export",
+      "topic": "EBGP EVPN overlay group to the peer loopback (multihop TTL 1, no next-hop change) without an export policy, BFD at 3000 ms and multiple-AS multipath",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1478,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd-without-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-group-ebgp-evpn-overlay-1-peer-bfd",
+      "topic": "eBGP EVPN overlay group to the peer loopback (multihop TTL 1, no next-hop change), BFD at 3000 ms and multiple-AS multipath",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 1521,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-accept-all.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/bgp-group-ebgp-underlay-1-peer-bfd-export.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-group-ebgp-underlay-1-peer-bfd-export",
+      "topic": "EBGP underlay group with one directly connected peer, a group export policy also applied to VPN routes, BFD at 1000 ms and multiple-AS multipath",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 1332,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/bgp-group-ebgp-underlay-1-peer-bfd-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-from-policy-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/protocols/bgp-group-ebgp-underlay-2-peers-bfd.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "bgp-group-ebgp-underlay-2-peers-bfd",
+      "topic": "eBGP underlay group with two directly connected peers, export policy, BFD at 1000 ms and multiple-AS multipath",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
       ],
       "size_bytes": 1702,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/access-underlay-ebgp.conf"
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/bgp-group-ebgp-underlay-2-peers-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+          ]
+        }
+      ]
     },
     {
-      "path": "junos/transport/evpn-vxlan-forwarding.conf",
+      "path": "junos/protocols/bgp-log-updown-graceful-restart-multipath.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "evpn-vxlan-forwarding",
-      "topic": "EVPN-VXLAN forwarding (shared tunnels + VXLAN routing)",
+      "category": "protocols",
+      "name": "bgp-log-updown-graceful-restart-multipath",
+      "topic": "BGP global options: log-updown, graceful restart without helping on shared-fate BFD down, and multipath",
       "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
         "leaf1_qfx5120-48y",
-        "leaf2_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 553,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/bgp-log-updown-graceful-restart-multipath.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/evpn-no-core-isolation.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "evpn-no-core-isolation",
+      "topic": "EVPN no-core-isolation setting",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 388,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/evpn-no-core-isolation.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/l2-learning-telemetry-remote-entries.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "l2-learning-telemetry-remote-entries",
+      "topic": "Layer 2 learning telemetry that includes remote entries",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 458,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/l2-learning-telemetry-remote-entries.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/lldp-interface-all-port-id-interface-name.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "lldp-interface-all-port-id-interface-name",
+      "topic": "LLDP on all interfaces with the interface name as port ID and the interface description as port description",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 599,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/lldp-interface-all-port-id-interface-name.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/rstp-bpdu-block-on-edge.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "rstp-bpdu-block-on-edge",
+      "topic": "RSTP with BPDU block on edge interfaces",
+      "seen_on": [
         "access1_ex4400-48mp",
         "access2_ex4400-48mp"
       ],
-      "size_bytes": 936,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/transport/evpn-vxlan-forwarding.conf"
+      "size_bytes": 312,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/rstp-bpdu-block-on-edge.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "rstp-bridge-priority-0-bpdu-block-on-edge",
+      "topic": "RSTP with bridge priority 0 and BPDU block on edge interfaces",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 353,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/protocols/rstp-interface-edge.conf",
+      "os": "junos",
+      "category": "protocols",
+      "name": "rstp-interface-edge",
+      "topic": "RSTP edge interface",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 425,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/protocols/rstp-interface-edge.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-1-access-interface.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-1-access-interface",
+      "topic": "VLAN-aware MAC-VRF with VXLAN encapsulation, 40 VLANs with VNIs and IRB interfaces, per-VNI route targets and one access interface",
+      "seen_on": [
+        "leaf1_qfx5120-48y"
+      ],
+      "size_bytes": 21869,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-1-access-interface.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_1",
+            "$IRB_IFL_1",
+            "$IRB_IFL_2",
+            "$IRB_IFL_3",
+            "$IRB_IFL_4",
+            "$IRB_IFL_5",
+            "$IRB_IFL_6",
+            "$IRB_IFL_7",
+            "$IRB_IFL_8",
+            "$IRB_IFL_9",
+            "$IRB_IFL_10",
+            "$IRB_IFL_11",
+            "$IRB_IFL_12",
+            "$IRB_IFL_13",
+            "$IRB_IFL_14",
+            "$IRB_IFL_15",
+            "$IRB_IFL_16",
+            "$IRB_IFL_17",
+            "$IRB_IFL_18",
+            "$IRB_IFL_19",
+            "$IRB_IFL_20",
+            "$IRB_IFL_21",
+            "$IRB_IFL_22",
+            "$IRB_IFL_23",
+            "$IRB_IFL_24",
+            "$IRB_IFL_25",
+            "$IRB_IFL_26",
+            "$IRB_IFL_27",
+            "$IRB_IFL_28",
+            "$IRB_IFL_29",
+            "$IRB_IFL_30",
+            "$IRB_IFL_31",
+            "$IRB_IFL_32",
+            "$IRB_IFL_33",
+            "$IRB_IFL_34",
+            "$IRB_IFL_35",
+            "$IRB_IFL_36",
+            "$IRB_IFL_37",
+            "$IRB_IFL_38",
+            "$IRB_IFL_39",
+            "$IRB_IFL_40"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+            "junos/interfaces/irb-inet-mtu-9000-mac.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-2-access-interfaces.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-2-access-interfaces",
+      "topic": "Bridging-only VLAN-aware MAC-VRF with VXLAN encapsulation, 40 VLANs with VNIs and no IRB interfaces, per-VNI route targets and two access interfaces",
+      "seen_on": [
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 18702,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-2-access-interfaces.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_1",
+            "$AC_IFL_2"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-3-access-interfaces.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-3-access-interfaces",
+      "topic": "Bridging-only VLAN-aware MAC-VRF with VXLAN encapsulation, 40 VLANs with VNIs and no IRB interfaces, per-VNI route targets and three access interfaces",
+      "seen_on": [
+        "access1_ex4400-48mp"
+      ],
+      "size_bytes": 18773,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-3-access-interfaces.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_1",
+            "$AC_IFL_2",
+            "$AC_IFL_3"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans",
+      "topic": "VLAN-aware MAC-VRF with VXLAN encapsulation, 40 VLANs with VNIs and IRB interfaces, per-VNI route targets and two access interfaces",
+      "seen_on": [
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 21937,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL_1",
+            "$AC_IFL_2",
+            "$IRB_IFL_1",
+            "$IRB_IFL_2",
+            "$IRB_IFL_3",
+            "$IRB_IFL_4",
+            "$IRB_IFL_5",
+            "$IRB_IFL_6",
+            "$IRB_IFL_7",
+            "$IRB_IFL_8",
+            "$IRB_IFL_9",
+            "$IRB_IFL_10",
+            "$IRB_IFL_11",
+            "$IRB_IFL_12",
+            "$IRB_IFL_13",
+            "$IRB_IFL_14",
+            "$IRB_IFL_15",
+            "$IRB_IFL_16",
+            "$IRB_IFL_17",
+            "$IRB_IFL_18",
+            "$IRB_IFL_19",
+            "$IRB_IFL_20",
+            "$IRB_IFL_21",
+            "$IRB_IFL_22",
+            "$IRB_IFL_23",
+            "$IRB_IFL_24",
+            "$IRB_IFL_25",
+            "$IRB_IFL_26",
+            "$IRB_IFL_27",
+            "$IRB_IFL_28",
+            "$IRB_IFL_29",
+            "$IRB_IFL_30",
+            "$IRB_IFL_31",
+            "$IRB_IFL_32",
+            "$IRB_IFL_33",
+            "$IRB_IFL_34",
+            "$IRB_IFL_35",
+            "$IRB_IFL_36",
+            "$IRB_IFL_37",
+            "$IRB_IFL_38",
+            "$IRB_IFL_39",
+            "$IRB_IFL_40"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf",
+            "junos/interfaces/irb-inet-mtu-9000-mac.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb",
+      "topic": "VRF with EVPN Type 5 IP prefix routes over VXLAN, an eBGP session to an external router, 20 IRB interfaces and a loopback unit",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 4200,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-irb-service",
+          "kind": "irb-service",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "required",
+          "slots": [
+            "@source:irb-service"
+          ],
+          "providers": [
+            "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-1-access-interface.conf",
+            "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-2-access-interfaces.conf",
+            "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans-bridging-3-access-interfaces.conf",
+            "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-vxlan-40-vlans.conf",
+            "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-20-irb.conf"
+          ]
+        },
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$AC_IFL",
+            "$IRB_IFL_1",
+            "$IRB_IFL_2",
+            "$IRB_IFL_3",
+            "$IRB_IFL_4",
+            "$IRB_IFL_5",
+            "$IRB_IFL_6",
+            "$IRB_IFL_7",
+            "$IRB_IFL_8",
+            "$IRB_IFL_9",
+            "$IRB_IFL_10",
+            "$IRB_IFL_11",
+            "$IRB_IFL_12",
+            "$IRB_IFL_13",
+            "$IRB_IFL_14",
+            "$IRB_IFL_15",
+            "$IRB_IFL_16",
+            "$IRB_IFL_17",
+            "$IRB_IFL_18",
+            "$IRB_IFL_19",
+            "$IRB_IFL_20",
+            "$LOOPBACK_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-inet.conf",
+            "junos/interfaces/ifl-vlan-inet.conf",
+            "junos/interfaces/irb-inet-mtu-9000-mac.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_IMPORT_POL",
+            "$BGP_EXPORT_POL",
+            "$IP_PREFIX_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+            "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+            "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/autonomous-system.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Device autonomous-system number",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 455,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "topic": "Forwarding-table per-packet load balancing, ECMP fast reroute and chained composite next hops for EVPN",
+      "seen_on": [
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 599,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-pplb-ecmp-fast-reroute",
+      "topic": "Forwarding-table per-packet load balancing with ECMP fast reroute",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp"
+      ],
+      "size_bytes": 467,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/graceful-restart.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "graceful-restart",
+      "topic": "Graceful restart",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 377,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-options/graceful-restart.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/router-id.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "router-id",
+      "topic": "Transport router identity",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 463,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/routing-options/router-id.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/certificates-local.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "certificates-local",
+      "topic": "Local certificate and private key used by the gRPC SSL service",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 618,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/security/certificates-local.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/host-name.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "host-name",
+      "topic": "System host name",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 433,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/system/host-name.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/management-instance.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "management-instance",
+      "topic": "Dedicated management routing instance (mgmt_junos) for the management interface and services",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 428,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/system/management-instance.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/ports-console-log-out.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 397,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/services-netconf-ssh-root-login-grpc-ssl-local-certificate.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "services-netconf-ssh-root-login-grpc-ssl-local-certificate",
+      "topic": "NETCONF over SSH, SSH with root login, and a gRPC extension service over SSL on port 32767 in the management instance, using a local certificate",
+      "seen_on": [
+        "access1_ex4400-48mp",
+        "access2_ex4400-48mp",
+        "leaf1_qfx5120-48y",
+        "leaf2_qfx5120-48y"
+      ],
+      "size_bytes": 956,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/junos/system/services-netconf-ssh-root-login-grpc-ssl-local-certificate.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     }
   ],
   "reference_files": [
     {
       "path": "_variables.md",
       "kind": "glossary",
-      "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/_variables.md"
+      "topic": "Template variable glossary",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric_with_access/configuration/snips/_variables.md",
+      "size_bytes": 38386,
+      "sha256": "f716258bee2d06fe399cebff7f82f7bab0a446fc02ae4aaa10cf458c20914cdf"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
-      "topic": "Per-service snip lists for `minimum` vs `as-deployed` configuration form",
-      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/TIERS.md"
+      "topic": "Generated service tier and selection requirements",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/TIERS.md",
+      "size_bytes": 12453,
+      "sha256": "d5f98983fa237f1260ef00498d045f348ec167fc0bf0f4cd3b21a7477d563369"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
-      "topic": "Auto-fill rules: lab-default loopbacks, AS numbers, VNIs, RD/RT, ESI shape",
-      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/DEFAULTS.md"
+      "topic": "Validated lab defaults",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/DEFAULTS.md",
+      "size_bytes": 2432,
+      "sha256": "19d3c3c9cc11192f70286819d4cb589157cee5a7b17ac42f56568ac34f081dfd"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
-      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/OUTPUT_FORMAT.md"
+      "topic": "Required output format",
+      "raw_url": "https://juniper.github.io/jvd/portal/byoai/collapsed_dc_fabric_with_access/OUTPUT_FORMAT.md",
+      "size_bytes": 2424,
+      "sha256": "cccfaa17885cc5ece6c1f743724f67c2fcff753e090dd141e29c7028b9b7a2f0"
     }
   ]
 }
