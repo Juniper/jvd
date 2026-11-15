@@ -18,11 +18,11 @@ A validated **EVPN/VXLAN GPU backend fabric** that delivers **GPU as a Service (
 | **Validation** | GPU backend fabric — control/forwarding plane, per-tenant RoCEv2, congestion, DLB, fault tolerance (AI Innovation Lab) |
 | **Min. validated software** | Junos OS Evolved **23.4X100-D31** (recommended 23.4X100-D31.6-EVO). See juniper.net for the current matrix. |
 
-## Device roles (GPU backend fabric)
+## Device roles
 
 | Role | Function in the network |
 |------|-------------------------|
-| **Spine** (lean) | IP forwarding between leaves; pure-L3 eBGP Clos; no VTEP/services |
+| **Spine** | Lean spine: IP forwarding between leaves; pure-L3 eBGP Clos; no VTEP/services |
 | **Leaf** | Per-tenant EVPN Type-5 IP-VRF, IRB anycast gateway, GPU-server rail links; RoCEv2 lossless + DLB |
 
 ## Featured platforms
