@@ -23,8 +23,7 @@ A validated **3-stage Clos Ethernet IP frontend fabric** that connects AI **infe
 | Role | Function in the network |
 |------|-------------------------|
 | **Spine** | 3-stage Clos spine; eBGP leaf-spine IP forwarding; redundant high-speed leaf interconnect |
-| **Leaf** (client-facing) | Connects Lambda Scaler hosts running GenAI-Perf and the Envoy load balancer (100GbE, ConnectX-6) |
-| **Leaf** (GPU-facing) | Connects AMD Instinct MI300X inference servers (400GbE, ConnectX-7) |
+| **Leaf** | Client-facing leaves (leaf1, leaf2) connect Lambda Scaler hosts running GenAI-Perf and the Envoy load balancer (100GbE, ConnectX-6); GPU-facing leaves (leaf3, leaf4) connect AMD Instinct MI300X inference servers (400GbE, ConnectX-7) |
 
 ## Featured platforms
 
