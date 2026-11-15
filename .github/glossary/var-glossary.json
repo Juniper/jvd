@@ -892,6 +892,55 @@
       "example": "SPINE_TO_LEAF_FABRIC_OUT-10",
       "notes": "Registered on 2026-11-14; introduced by AI Data Center Frontend Fabric for Inference.",
       "establishedFrom": "data_center/aidc/aiml_inference_frontend/configuration/snips/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf"
+    },
+    "FPC_SLOT": {
+      "intent": "FPC slot number.",
+      "use": "Used by `evo/chassis/fpc-traffic-manager-buffer-monitor.conf`.",
+      "example": "0",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/fpc-mx204-1x100g-8x10g.conf"
+    },
+    "LOOPBACK_V6_PFX": {
+      "intent": "IPv6 address with prefix length on a loopback unit.",
+      "use": "Used by `evo/interfaces/ifl-loopback-inet-inet6.conf`.",
+      "example": "2001::1:1:0:11/128",
+      "notes": "Registered on 2026-11-14; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls.conf"
+    },
+    "VNI": {
+      "intent": "VXLAN network identifier (VNI) of a VLAN, bridge domain or EVPN Type 5 routing instance.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf`.",
+      "example": "1402",
+      "notes": "Registered on 2026-11-14; used by EWAN DC Edge before this entry, and reused by AI/ML Multitenancy Backend.",
+      "establishedFrom": "enterprise_wan/ewan_dc_edge/configuration/snips/junos/routing-instances/evpn-elan/ri-evpn-elan-mac-vrf-vlan-based.conf"
+    },
+    "OVERLAY_PEER_V4": {
+      "intent": "Loopback IPv4 address of an eBGP EVPN overlay neighbor in an IP fabric (another leaf or spine).",
+      "use": "Numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "10.0.1.9",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend. Distinct from UNDERLAY_PEER_V4 (the directly connected underlay neighbor) and from IBGP_PEER_V4 (iBGP).",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf"
+    },
+    "IP_PREFIX_EXPORT_POL": {
+      "intent": "Name of the policy-statement a routing instance exports as EVPN Type 5 IP prefix routes (`ip-prefix-routes export`), as applied and as defined.",
+      "use": "Used by 3 snippets, for example `evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf`.",
+      "example": "BGP-AOS-Policy-non-tenant",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+    },
+    "LOOPBACK_IFL": {
+      "intent": "Loopback logical interface (`lo0.<unit>`) listed in a routing instance.",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf`.",
+      "example": "lo0.3",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-2-ac.conf"
+    },
+    "COMMUNITY_ASSIGNED": {
+      "intent": "Assigned-number field of a standard community member, where it varies.",
+      "use": "Numbered _1/_2 for the members of one community, in member order.",
+      "example": "20007",
+      "notes": "Registered on 2026-11-14; introduced by AI/ML Multitenancy Backend.",
+      "establishedFrom": "data_center/aidc/aiml_multitenancy_backend/configuration/snips/evo/policy-options/community/community-2-members.conf"
     }
   },
   "notes": [
