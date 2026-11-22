@@ -1,0 +1,350 @@
+{
+ "schemaVersion": 1,
+ "entries": [
+  {
+   "id": "scope-compute-leaf1-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "compute-leaf1_qfx5120-48ym",
+   "sourceSha256": "e7bad536d71eb7a9cfff194f55664e06764527b7205af02d36c81fa61c3af214",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-compute-leaf2-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "compute-leaf2_qfx5120-48ym",
+   "sourceSha256": "5179ddd79d6e5a0c0814df3bbc95f6f5f0ea250e33ed1ae4e6d0641157a933ec",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-compute-spine1-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "compute-spine1_qfx5210-64c",
+   "sourceSha256": "02ba66d4f385a9f6a77e99ff6b0d101597c2bf98b9e10b8cd342f6463a14ed55",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-compute-spine2-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "compute-spine2_qfx5210-64c",
+   "sourceSha256": "ac86fb184cccd1941ec20321385abb6c1abb5147aacdba6617da73e1f655ca17",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-external-gw-version-22-2r3-s1-9",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "external-gw_mx",
+   "sourceSha256": "35d95386eacba8d5e9cde622d218f4bd7dad5668f8f1e73a2cbf8e3270140983",
+   "hierarchy": [
+    "version 22.2R3-S1.9"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 22.2R3-S1.9",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-services-leaf1-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "services-leaf1_qfx5130-48c",
+   "sourceSha256": "d8124c43feaf8e53cae60a9ab4d94524eccbe150fc246d42fd44bcf24f0ecdbc",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-services-leaf2-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "services-leaf2_qfx5130-48c",
+   "sourceSha256": "58fe5414300c5404171cf1606bf51f85d964c9cf9bd4bef25639c973b1d1166d",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-services-spine1-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "services-spine1_qfx5210-64c",
+   "sourceSha256": "25ac7c92f1165cd7a8a6fa173814c5bebe90ab313359d22740a71af35d1b5a5a",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-services-spine2-version-23-4r2-s3-2",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "services-spine2_qfx5210-64c",
+   "sourceSha256": "1fcf35ab067a9d54f9b6da0e1a9cae72b359ad872b8ff2578e9433638ef8b7d9",
+   "hierarchy": [
+    "version 23.4R2-S3.2"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3.2",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-storage-leaf1-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "storage-leaf1_qfx5130-32cd",
+   "sourceSha256": "e3cbeabf6a1001e148015bbb953bdef4761ebea2a27476b8b5f03cba751b91f3",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-storage-leaf2-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "storage-leaf2_qfx5130-32cd",
+   "sourceSha256": "4debdb1bf3200e21e98d424ea3045fee59c30532aecc58705a98957f7e8e6381",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-storage-spine1-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "storage-spine1_qfx5220-32cd",
+   "sourceSha256": "b8fc68a26c78e874fcb95bc4ad12b29b09f3874d499e8f8e5c984876ee2c1c5b",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-storage-spine2-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "storage-spine2_qfx5220-32cd",
+   "sourceSha256": "649c6dbe8b2a2de33875d8b4740d9c68361c4a5a75e56e51b74fb03ca85df3b7",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-superspine1-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "superspine1_qfx5230-64cd",
+   "sourceSha256": "6cc222a026b44bfc8e2b71422ef303a84554c83437f0cee050888187376d24f4",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  },
+  {
+   "id": "scope-superspine2-version-23-4r2-s3-202409180120-0-evo",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "superspine2_qfx5230-64cd",
+   "sourceSha256": "959831dfea805c0685e743ae2a8375d1e2bacf86d7fb0e8c9cc058b38fc719b6",
+   "hierarchy": [
+    "version 23.4R2-S3-202409180120.0-EVO"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 23.4R2-S3-202409180120.0-EVO",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-15"
+  }
+ ]
+}
