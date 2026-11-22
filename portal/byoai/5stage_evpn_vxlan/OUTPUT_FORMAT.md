@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-5stage-snips.md`](jvd-5stage-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-5stage-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,20 +9,19 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum"
+# form: minimum
 # devices:
-#   dev1: { name: <hostname>, os: <junos|evo>, role: <super-spine|server-leaf|border-leaf>, loopback4: <addr>, as: <asn> }
-#   dev2: { ... }
-# features:
-#   - { kind: <superspine-transport|oism-multicast|rocev2-qos>,
-#       pod_spine_as: <asn>,        # super-spine underlay/overlay peer AS
-#       vrf_name: <name>,           # tenant VRF for OISM
-#       sbd_irb: <irb.NNNN>,        # OISM Supplemental Bridge Domain IRB
-#       pim_rp: <addr>,             # border-leaf external RP
-#       revenue_irb: <irb.NNNN> }   # border-leaf distributed-DR IRB
+#   compute-leaf1: { name: <hostname>, os: junos, loopback4: <addr> }
+#   storage-leaf1: { name: <hostname>, os: evo, loopback4: <addr> }
+# services:
+#   - { kind: <evpn-mac-vrf-51-vlans-igmp-snooping|evpn-mac-vrf-51-vlans-igmp-snooping-oism|evpn-type5-vrf-10-irb|evpn-type5-vrf-dhcp-relay-10-irb|evpn-type5-vrf-dhcp-relay-20-irb|evpn-type5-vrf-ospf-pim-oism|border-evpn-type5-vrf-ebgp|border-evpn-type5-vrf-ebgp-10-irb|border-evpn-type5-vrf-ebgp-dhcp-relay|border-evpn-type5-vrf-ebgp-dhcp-relay-20-irb|border-evpn-type5-vrf-ebgp-ospf-pim-oism>,
+#       count: <int>,
+#       start_id: <int>,
+#       ac_ifl: <ifd.unit>,
+#       rt: <rt_as:rt_id>,
+#       rd: <admin:assigned> }
 # snips_used:
-#   - evo/transport/superspine-underlay-ebgp.conf
-#   - evo/services/oism-server-leaf.conf
+#   - evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf
 #   - ...
 ```
 
@@ -47,15 +46,10 @@ Drop the leading C-style `/* … */` documentation header from each snip when em
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
 - Inputs defaulted because the user did not provide them.
-- Cross-device consistency the user must verify:
-  - The **Supplemental Bridge Domain IRB** (`irb.3500`) and tenant VRF must be consistent across all OISM leaves in a tenant.
-  - The super-spine **underlay peer AS** toward a POD equals that POD's shared spine ASN; super spines share one ASN; each POD's spines share one ASN; each leaf has its own AS.
-  - EVPN **Type-5 VRF vrf-targets** match across leaves sharing the VRF.
-  - Per-device identifiers (loopbacks, RDs, own AS, link addresses) differ.
-- Anything by-pattern rather than validated on that exact device (e.g., a user-supplied hostname not in any snip's `Seen on:` list).
-- 5-stage reminders: OISM and RoCEv2 config is applied via Apstra **configlet** (Apstra 5.0 lacks native support); enhanced OISM needs the fabric-wide enable **and** the per-VRF config; QFX5130 leaves need `conserve-mcast-routes-in-pfe`; RoCEv2 drop-profiles are the ECN half of DCQCN (PFC is configured alongside — retune per fabric). For the per-POD 3-stage fabric baseline, point the user to the 3-stage DC JVD.
+- Cross-device consistency the user must verify: a MAC-VRF or Type 5 VRF uses the same instance name, VNIs and route targets on every leaf that carries it; each leaf's route distinguisher starts with that leaf's own loopback; the IRB units a VRF lists must exist in the leaf's MAC-VRF VLANs, and the VRF loopback unit must exist on the leaf.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

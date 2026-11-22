@@ -1,36 +1,33 @@
 # 5-Stage EVPN-VXLAN Data Center BYOAI — Full Query Menu
 
-The always-current catalog of generation asks for the **5-Stage EVPN-VXLAN Data Center** JVD — a web-scale ERB fabric with lean super spines above Compute, Storage, and Services PODs, built with Juniper Apstra. This library focuses on the 5-stage-distinctive config; for the per-POD 3-stage fabric baseline see the [3-stage DC JVD](../../../../3stage_dc/). All items render on the chosen device(s) with the chosen form tier (`minimum` / `as-deployed`).
+The always-current catalog of generation asks for the 5-Stage EVPN-VXLAN Data Center JVD. Replace `N` with any count (e.g. `Generate 2 …`). Every service renders on the devices it is validated on, in the `minimum` form.
 
-## Lean super-spine transport
+## Services — EVPN-VXLAN MAC-VRFs
 
-- `Generate the super-spine underlay for <superspine>` — lean eBGP to POD spines (IPv6, BFD)
-- `Generate the super-spine EVPN overlay relay for <superspine>` — relay EVPN routes between PODs (multihop, no-nexthop-change)
+- `Generate N EVPN-VXLAN MAC-VRF with 51 VLANs and IGMP snooping on compute-leaf1 and compute-leaf2` — validated on compute-leaf1 and compute-leaf2
+- `Generate N EVPN-VXLAN MAC-VRF with 51 VLANs, IGMP snooping and OISM on storage-leaf1 and storage-leaf2` — validated on storage-leaf1, storage-leaf2, services-leaf1 and services-leaf2
 
-## OISM multicast
+## Services — EVPN Type 5 VRFs
 
-- `Generate enhanced OISM for a server leaf <leaf>` — per-VRF SBD + PIM accept-remote-source + OSPF, plus the fabric-wide enhanced-oism enable
-- `Generate the OISM PIM-EVPN gateway for a border leaf <services-leaf>` — external multicast via Classic L3 (pim-evpn-gateway, static RP, distributed-DR)
-- `Add the QFX5130 OISM PFE conservation to <leaf>` — conserve-mcast-routes-in-pfe
-- `Enable enhanced OISM on <leaf>` — forwarding-options multicast-replication evpn irb enhanced-oism
-
-## RoCEv2 congestion management
-
-- `Generate the RoCEv2 DCQCN drop-profiles for <leaf>` — ECN WRED dp0/dp1 (retune per fabric)
-
-## Greenfield / turn-up
-
-- `Build the full OISM config for a services border leaf` — enable + PIM-EVPN gateway + PFE conserve
-- `Build the lean super-spine transport (underlay + overlay relay)`
+- `Generate N EVPN Type 5 VRF with ten IRB units on storage-leaf1 and storage-leaf2` — validated on storage-leaf1 and storage-leaf2
+- `Generate N EVPN Type 5 VRF with ten IRB units and DHCP relay on compute-leaf1 and compute-leaf2` — validated on compute-leaf1 and compute-leaf2
+- `Generate N EVPN Type 5 VRF with twenty IRB units and DHCP relay on compute-leaf1 and compute-leaf2` — validated on compute-leaf1, compute-leaf2, storage-leaf1 and storage-leaf2
+- `Generate N EVPN Type 5 VRF with OSPF, PIM and OISM on compute-leaf1 and compute-leaf2` — validated on compute-leaf1, compute-leaf2, storage-leaf1 and storage-leaf2
+- `Generate N Border EVPN Type 5 VRF with eBGP to the external gateway on services-leaf1 and services-leaf2` — validated on services-leaf1 and services-leaf2
+- `Generate N Border EVPN Type 5 VRF with eBGP and ten IRB units on services-leaf1 and services-leaf2` — validated on services-leaf1 and services-leaf2
+- `Generate N Border EVPN Type 5 VRF with eBGP and DHCP relay on services-leaf1 and services-leaf2` — validated on services-leaf1 and services-leaf2
+- `Generate N Border EVPN Type 5 VRF with eBGP, twenty IRB units and DHCP relay on services-leaf1 and services-leaf2` — validated on services-leaf1 and services-leaf2
+- `Generate N Border EVPN Type 5 VRF with eBGP, OSPF, PIM and OISM on services-leaf1 and services-leaf2` — validated on services-leaf1 and services-leaf2
 
 ## Audit / explain
 
-- `Which snips are EVO-only vs Junos-only?`
-- `Explain lean super spines and how EVPN routes relay between PODs`
-- `Explain enhanced OISM (BDNE) and the Supplemental Bridge Domain`
-- `Explain the border-leaf PIM-EVPN gateway (external multicast)`
-- `Explain RoCEv2 DCQCN — PFC vs ECN`
+- `Which snippets are validated on storage-leaf1?`
+- `What does a Type 5 VRF need on compute-leaf1?`
+- `Explain the 5-stage underlay and overlay (super spines, POD spines, leaves) and the tier communities`
+- `Explain OISM with the supplemental bridge domain in this fabric`
+- `Explain the RoCEv2 class of service (PFC and ECN) on the leaves`
+- `What does this library not cover?`
 
 ---
 
-Don't see what you need? Describe it and the assistant will tell you whether the 5-Stage JVD covers it (and point you to the 3-stage DC JVD for POD-fabric baseline config).
+Don't see what you need? Describe it and the assistant will tell you whether the 5-Stage EVPN-VXLAN Data Center JVD covers it.
