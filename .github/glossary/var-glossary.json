@@ -1011,6 +1011,90 @@
       "example": "RoutesFromExt-blue-external_router",
       "notes": "Registered on 2026-11-15; introduced by Collapsed Data Center Fabric.",
       "establishedFrom": "data_center/adc/collapsed_dc_fabric/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf"
+    },
+    "AC_ADDR_V6": {
+      "intent": "IPv6 address with prefix length on an attachment (access-facing) Layer 3 unit.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-vlan-inet-inet6-description.conf`.",
+      "example": "2001:0:0:0:13:3:0:1/126",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, Broadband Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-vlan-inet6.conf"
+    },
+    "CE_PEER_V6": {
+      "intent": "IPv6 address of a VRF eBGP neighbor on the customer or external side.",
+      "use": "Used by 5 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf`.",
+      "example": "2001:0:0:0:13:3:0:2",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, Broadband Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/routing-instances/l3vpn/ri-l3vpn-bgp-v6-vrf-policy-auto-export.conf"
+    },
+    "CORE_INTF": {
+      "intent": "Core- or fabric-facing interface; numbered `_1`, `_2`, … it is a logical interface (with unit) in a per-device form, in source order.",
+      "use": "Used by `junos/protocols/ospf-area-0-loopback-2-interfaces.conf`.",
+      "example": "et-0/0/10",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, Broadband Edge, EWAN DC Edge, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, DCI over IPoDWDM, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifd-core-lag-member.conf"
+    },
+    "CORE_V6_ADDR": {
+      "intent": "IPv6 address with prefix length on a core- or fabric-facing point-to-point link.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/ifl-core-inet-inet6-mtu-9170.conf`.",
+      "example": "2001::10:10:0:c6/126",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, Broadband Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/core-isis-mpls-interface.conf"
+    },
+    "COS_INTF": {
+      "intent": "Interface that a class-of-service binding applies to (`class-of-service interfaces <name>`).",
+      "use": "Used by 4 snippets, for example `evo/class-of-service/interfaces/ifd-cnp-scheduler-map-unit-0-dscp-classifier-rewrite.conf`.",
+      "example": "ae23",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, EWAN Finance, EWAN Core and Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/class-of-service/interfaces/ifd-scheduler-map.conf"
+    },
+    "DHCP_RELAY_GROUP": {
+      "intent": "Name of a DHCP relay group (`forwarding-options dhcp-relay group`); its interfaces relay DHCP to the server group.",
+      "use": "Used by 8 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf`.",
+      "example": "red",
+      "notes": "Registered on 2026-11-22; introduced by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf"
+    },
+    "IRB_ADDR_V6": {
+      "intent": "IPv6 address with prefix length on an IRB unit: the IPv6 gateway of a VLAN or bridge domain.",
+      "use": "Used by 4 snippets, for example `evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf`.",
+      "example": "2001:db8:dc4:10:00:00::1/96",
+      "notes": "Registered on 2026-11-22; introduced by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf"
+    },
+    "PE_PEER_V6": {
+      "intent": "IPv6 address of a provider PE eBGP neighbor, as configured on a CE.",
+      "use": "Numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "2001:db8:dc4:10:204::8",
+      "notes": "Registered on 2026-11-22; introduced by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "data_center/adc/5stage_evpn_vxlan/configuration/snips/junos/protocols/bgp-group-ebgp-10-peers-dual-stack-export.conf"
+    },
+    "TS_FPC": {
+      "intent": "FPC slot that hosts tunnel services.",
+      "use": "Used by `junos/chassis/tunnel-services.conf`.",
+      "example": "0",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/chassis/tunnel-services.conf"
+    },
+    "UNDERLAY_LOCAL_V6": {
+      "intent": "Local IPv6 address (`local-address`) of an eBGP underlay session.",
+      "use": "Numbered _1.._n with the IPv6 neighbor of the same number.",
+      "example": "fdf6:ed70:1fac:f2d4::29",
+      "notes": "Registered on 2026-11-22; introduced by 5-Stage EVPN-VXLAN Data Center. IPv6 member of the UNDERLAY_LOCAL_V4 family.",
+      "establishedFrom": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf"
+    },
+    "UNDERLAY_PEER_V6": {
+      "intent": "IPv6 address of a directly connected eBGP underlay neighbor in an IP fabric (the far end of a point-to-point link).",
+      "use": "Numbered _1.._n for the IPv6 neighbors of one group, in neighbor order.",
+      "example": "fdf6:ed70:1fac:f2d4::28",
+      "notes": "Registered on 2026-11-22; introduced by 5-Stage EVPN-VXLAN Data Center. IPv6 member of the UNDERLAY_PEER_V4 family.",
+      "establishedFrom": "data_center/adc/5stage_evpn_vxlan/configuration/snips/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf"
+    },
+    "VGA": {
+      "intent": "Virtual gateway address of an IRB unit (`virtual-gateway-address`), shared by the leaves that serve the VLAN.",
+      "use": "Used by 2 snippets, for example `evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf`.",
+      "example": "41.2.10.1",
+      "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-virtual-gateway.conf"
     }
   },
   "notes": [
