@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "collapsed_dc_fabric",
- "generatedFrom": {"inputsSha256":"7694f1ee6fac2c517d8a0c2d6bac2d33b24bb27335ae920b28688d6eadad3462","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"0085c2418b4834c33753e5e480348a9a2602affd74d38e142bb66d580fcc1b95","devices":2,"snips":41},
+ "generatedFrom": {"inputsSha256":"7694f1ee6fac2c517d8a0c2d6bac2d33b24bb27335ae920b28688d6eadad3462","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":2,"snips":41},
  "deviceInventory": ["leaf1_qfx5120-48y","leaf2_qfx5120-48y"],
  "snips": {
   "junos/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"leaf1_qfx5120-48y":1,"leaf2_qfx5120-48y":1},"instances":{"leaf1_qfx5120-48y":[{"binding":["1"],"equivalentBindings":1}],"leaf2_qfx5120-48y":[{"binding":["1"],"equivalentBindings":1}]}},
