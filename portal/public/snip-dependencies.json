@@ -1,9 +1,2473 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "29a8e3f3a2dff53152c06fe38c250a6a6874c85117572223344cd1918b218c5c",
+  "libraryDigest": "e18aefd2e77b9384f066edfd451862736dc131d72389b50571af0cd9abc4aec8",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-15T18:31:20.173Z",
+  "generatedAt": "2026-11-22T19:02:45.836Z",
   "resolutions": [
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf1_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/junos/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-leaf2_qfx5120-48ym",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "compute-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "external-gw_mx",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-vlan-inet-inet6",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-vlan-tagging"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "external-gw_mx",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-vlan-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-vlan-tagging"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "external-gw_mx",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-10-peers-dual-stack-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-loopback-default-routes-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-lag-member-ether-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-10g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-lag-member-ether-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-lag-member-ether-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-10g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-lag-member-ether-description-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-speed-10g"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-vlan-inet-inet6-description",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine1_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-spine2_qfx5210-64c",
+      "snip": "5stage_evpn_vxlan/junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-disable"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf1_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-leaf"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-ae-esi-all-active-lacp-system-id",
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-ae-member"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-disable"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/irb-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-accept-all",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-ethernet-switching-trunk-vlans",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "context-irb-service",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifl-loopback-inet-inet6",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood",
+        "5stage_evpn_vxlan/evo/interfaces/irb-inet-virtual-gateway-mtu-9000"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-leaf2_qfx5130-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine1_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-spine-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "storage-spine2_qfx5220-32cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-6-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-6-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-superspine-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine1_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite",
+      "requirement": "ref-classifier",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/classifiers/cl-dscp-classifier-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/class-of-service/scheduler-maps/sm1",
+      "requirement": "ref-scheduler",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/class-of-service/schedulers/schedulers-s0-s7-spine"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/firewall/filter-cpp-filter-v1",
+      "requirement": "ref-policer",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/firewall/policer-police-5mbps"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-core-inet-inet6-mtu-9170",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/interfaces/ifd-description-speed-100g-mtu-9216"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/interfaces/ifl-unit-0-inet-no-address",
+      "requirement": "context-interface-parent",
+      "status": "not-needed",
+      "providers": []
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject",
+      "requirement": "ref-community",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-6-peers-bfd-export-1-policy",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-superspine-evpn-tier-accept"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-underlay-6-peers-dual-stack-bfd-export-2-policies",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-add-from-superspine-tier-accept",
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "superspine2_qfx5230-64cd",
+      "snip": "5stage_evpn_vxlan/evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
     {
       "jvd": "aiml_inference_frontend",
       "device": "leaf1_qfx5130-32cd",
@@ -28905,5 +31369,5 @@
       ]
     }
   ],
-  "exportDigest": "756b801d8dfa03f27ce5b948a2695f4f17734e152e0ce06bc4fbf67d9b8c86a8"
+  "exportDigest": "812b3cf54aa80e7682ca0bffa255b56e948dd39df1e01a62153a1ddc6793aad2"
 }

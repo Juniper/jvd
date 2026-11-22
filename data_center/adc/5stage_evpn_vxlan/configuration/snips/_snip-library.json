@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "seenOnValidation": "complete",
+  "countValidation": "complete",
+  "peersValidation": "partial",
+  "dependencyContractVersion": 3,
+  "osScopedMirrors": [
+    {
+      "junos": "junos/chassis/aggregated-devices-ethernet.conf",
+      "evo": "evo/chassis/aggregated-devices-ethernet.conf"
+    },
+    {
+      "junos": "junos/chassis/fpc-pic-0-4-ports-100g.conf",
+      "evo": "evo/chassis/fpc-pic-0-4-ports-100g.conf"
+    },
+    {
+      "junos": "junos/class-of-service/classifiers/cl-dscp-classifier-leaf.conf",
+      "evo": "evo/class-of-service/classifiers/cl-dscp-classifier-leaf.conf"
+    },
+    {
+      "junos": "junos/class-of-service/classifiers/cl-dscp-classifier-spine.conf",
+      "evo": "evo/class-of-service/classifiers/cl-dscp-classifier-spine.conf"
+    },
+    {
+      "junos": "junos/class-of-service/congestion-notification-profile/cnp-ieee-802-1-flow-control-queue-5.conf",
+      "evo": "evo/class-of-service/congestion-notification-profile/cnp-ieee-802-1-flow-control-queue-5.conf"
+    },
+    {
+      "junos": "junos/class-of-service/dedicated-buffer-profile-p1-egress.conf",
+      "evo": "evo/class-of-service/dedicated-buffer-profile-p1-egress.conf"
+    },
+    {
+      "junos": "junos/class-of-service/drop-profiles/dp0-dp1.conf",
+      "evo": "evo/class-of-service/drop-profiles/dp0-dp1.conf"
+    },
+    {
+      "junos": "junos/class-of-service/forwarding-classes/fc-9-classes.conf",
+      "evo": "evo/class-of-service/forwarding-classes/fc-9-classes.conf"
+    },
+    {
+      "junos": "junos/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite.conf",
+      "evo": "evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite.conf"
+    },
+    {
+      "junos": "junos/class-of-service/rewrite-rules/rw-dscp-rw1-leaf.conf",
+      "evo": "evo/class-of-service/rewrite-rules/rw-dscp-rw1-leaf.conf"
+    },
+    {
+      "junos": "junos/class-of-service/rewrite-rules/rw-dscp-rw1-spine.conf",
+      "evo": "evo/class-of-service/rewrite-rules/rw-dscp-rw1-spine.conf"
+    },
+    {
+      "junos": "junos/class-of-service/scheduler-maps/sm1.conf",
+      "evo": "evo/class-of-service/scheduler-maps/sm1.conf"
+    },
+    {
+      "junos": "junos/class-of-service/schedulers/schedulers-s0-s7-leaf.conf",
+      "evo": "evo/class-of-service/schedulers/schedulers-s0-s7-leaf.conf"
+    },
+    {
+      "junos": "junos/class-of-service/schedulers/schedulers-s0-s7-spine.conf",
+      "evo": "evo/class-of-service/schedulers/schedulers-s0-s7-spine.conf"
+    },
+    {
+      "junos": "junos/firewall/filter-cpp-filter-v1.conf",
+      "evo": "evo/firewall/filter-cpp-filter-v1.conf"
+    },
+    {
+      "junos": "junos/firewall/filter-ethernet-switching-allowed-from-host.conf",
+      "evo": "evo/firewall/filter-ethernet-switching-allowed-from-host.conf"
+    },
+    {
+      "junos": "junos/firewall/policer-police-5mbps.conf",
+      "evo": "evo/firewall/policer-police-5mbps.conf"
+    },
+    {
+      "junos": "junos/forwarding-options/enhanced-hash-key-ecmp-dlb-flowlet.conf",
+      "evo": "evo/forwarding-options/enhanced-hash-key-ecmp-dlb-flowlet.conf"
+    },
+    {
+      "junos": "junos/forwarding-options/multicast-replication-evpn-irb-enhanced-oism.conf",
+      "evo": "evo/forwarding-options/multicast-replication-evpn-irb-enhanced-oism.conf"
+    },
+    {
+      "junos": "junos/forwarding-options/storm-control-profile1-all.conf",
+      "evo": "evo/forwarding-options/storm-control-profile1-all.conf"
+    },
+    {
+      "junos": "junos/forwarding-options/vxlan-tos-copy-filter.conf",
+      "evo": "evo/forwarding-options/vxlan-tos-copy-filter.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+      "evo": "evo/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-description-ae-member.conf",
+      "evo": "evo/interfaces/ifd-description-ae-member.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-description-mtu-9216.conf",
+      "evo": "evo/interfaces/ifd-description-mtu-9216.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifd-disable.conf",
+      "evo": "evo/interfaces/ifd-disable.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-core-inet-inet6-mtu-9170.conf",
+      "evo": "evo/interfaces/ifl-core-inet-inet6-mtu-9170.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf",
+      "evo": "evo/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+      "evo": "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-0-inet-filter-inet6.conf",
+      "evo": "evo/interfaces/ifl-loopback-0-inet-filter-inet6.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-loopback-inet-inet6.conf",
+      "evo": "evo/interfaces/ifl-loopback-inet-inet6.conf"
+    },
+    {
+      "junos": "junos/interfaces/ifl-unit-0-inet-no-address.conf",
+      "evo": "evo/interfaces/ifl-unit-0-inet-no-address.conf"
+    },
+    {
+      "junos": "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+      "evo": "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf"
+    },
+    {
+      "junos": "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+      "evo": "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+    },
+    {
+      "junos": "junos/interfaces/irb-inet-virtual-gateway-mtu-9000.conf",
+      "evo": "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+    },
+    {
+      "junos": "junos/interfaces/irb-mtu-9216.conf",
+      "evo": "evo/interfaces/irb-mtu-9216.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/community-2-members.conf",
+      "evo": "evo/policy-options/community/community-2-members.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/from-spine-evpn-tier.conf",
+      "evo": "evo/policy-options/community/from-spine-evpn-tier.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/from-spine-fabric-tier.conf",
+      "evo": "evo/policy-options/community/from-spine-fabric-tier.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/from-superspine-evpn-tier.conf",
+      "evo": "evo/policy-options/community/from-superspine-evpn-tier.conf"
+    },
+    {
+      "junos": "junos/policy-options/community/from-superspine-fabric-tier.conf",
+      "evo": "evo/policy-options/community/from-superspine-fabric-tier.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "evo": "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-accept-all.conf",
+      "evo": "evo/policy-options/policy-statement/ps-accept-all.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf",
+      "evo": "evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+      "evo": "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf",
+      "evo": "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf",
+      "evo": "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf",
+      "evo": "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf"
+    },
+    {
+      "junos": "junos/policy-options/prefix-list/bgp-sources.conf",
+      "evo": "evo/policy-options/prefix-list/bgp-sources.conf"
+    },
+    {
+      "junos": "junos/policy-options/prefix-list/ntp-sources.conf",
+      "evo": "evo/policy-options/prefix-list/ntp-sources.conf"
+    },
+    {
+      "junos": "junos/policy-options/prefix-list/snmp-sources.conf",
+      "evo": "evo/policy-options/prefix-list/snmp-sources.conf"
+    },
+    {
+      "junos": "junos/policy-options/prefix-list/ssh-sources.conf",
+      "evo": "evo/policy-options/prefix-list/ssh-sources.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf",
+      "evo": "evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf",
+      "evo": "evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf",
+      "evo": "evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf",
+      "evo": "evo/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf"
+    },
+    {
+      "junos": "junos/protocols/bgp-log-updown-graceful-restart-multipath.conf",
+      "evo": "evo/protocols/bgp-log-updown-graceful-restart-multipath.conf"
+    },
+    {
+      "junos": "junos/protocols/igmp-interface-all.conf",
+      "evo": "evo/protocols/igmp-interface-all.conf"
+    },
+    {
+      "junos": "junos/protocols/l2-learning-telemetry-remote-entries.conf",
+      "evo": "evo/protocols/l2-learning-telemetry-remote-entries.conf"
+    },
+    {
+      "junos": "junos/protocols/lldp-interface-all-port-id-interface-name.conf",
+      "evo": "evo/protocols/lldp-interface-all-port-id-interface-name.conf"
+    },
+    {
+      "junos": "junos/protocols/router-advertisement-interface.conf",
+      "evo": "evo/protocols/router-advertisement-interface.conf"
+    },
+    {
+      "junos": "junos/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf",
+      "evo": "evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf"
+    },
+    {
+      "junos": "junos/protocols/rstp-disable.conf",
+      "evo": "evo/protocols/rstp-disable.conf"
+    },
+    {
+      "junos": "junos/protocols/rstp-interface-edge.conf",
+      "evo": "evo/protocols/rstp-interface-edge.conf"
+    },
+    {
+      "junos": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "evo": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf"
+    },
+    {
+      "junos": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "evo": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+    },
+    {
+      "junos": "junos/routing-options/autonomous-system.conf",
+      "evo": "evo/routing-options/autonomous-system.conf"
+    },
+    {
+      "junos": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "evo": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf"
+    },
+    {
+      "junos": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "evo": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf"
+    },
+    {
+      "junos": "junos/routing-options/graceful-restart.conf",
+      "evo": "evo/routing-options/graceful-restart.conf"
+    },
+    {
+      "junos": "junos/routing-options/router-id.conf",
+      "evo": "evo/routing-options/router-id.conf"
+    },
+    {
+      "junos": "junos/system/host-name.conf",
+      "evo": "evo/system/host-name.conf"
+    },
+    {
+      "junos": "junos/system/management-instance.conf",
+      "evo": "evo/system/management-instance.conf"
+    },
+    {
+      "junos": "junos/system/ports-console-log-out.conf",
+      "evo": "evo/system/ports-console-log-out.conf"
+    }
+  ]
+}

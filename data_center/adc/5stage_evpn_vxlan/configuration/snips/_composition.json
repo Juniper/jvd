@@ -1,0 +1,2166 @@
+{
+  "schemaVersion": 1,
+  "jvd": "5stage_evpn_vxlan",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "evpn-mac-vrf-51-vlans-igmp-snooping",
+      "family": "e-lan",
+      "form": "evpn-mac-vrf-51-vlans-igmp-snooping",
+      "aliases": [
+        "EVPN-VXLAN MAC-VRF with 51 VLANs and IGMP snooping"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac.conf",
+          "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [],
+      "attachment": "Access units on the compute leaves (the ESI-LAG and single-homed server ports) and the VLANs' IRB units, which the Type 5 VRFs route.",
+      "userInputs": [
+        "$AC_IFL_1",
+        "$BD_NAME_1",
+        "$DESCRIPTION_1",
+        "$INSTANCE_NAME",
+        "$IRB_IFL_1",
+        "$LOOPBACK_V4",
+        "$VLAN_BD_1",
+        "$VNI_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vxlan-mac-vrf-with-51-vlans-and-igmp-snooping",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-mac-vrf-51-vlans-igmp-snooping-oism",
+      "family": "e-lan",
+      "form": "evpn-mac-vrf-51-vlans-igmp-snooping-oism",
+      "aliases": [
+        "EVPN-VXLAN MAC-VRF with 51 VLANs, IGMP snooping and OISM"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+          "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+          "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "Access units on the storage and services leaves and the VLANs' IRB units, which the Type 5 VRFs route; OISM joins the VLANs to the VRFs' multicast.",
+      "userInputs": [
+        "$AC_IFL_1",
+        "$BD_NAME_1",
+        "$DESCRIPTION_1",
+        "$INSTANCE_NAME",
+        "$IRB_IFL_1",
+        "$LOOPBACK_V4",
+        "$VLAN_BD_1",
+        "$VNI_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-vxlan-mac-vrf-with-51-vlans-igmp-snooping-and-oism",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf-10-irb",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf-10-irb",
+      "aliases": [
+        "EVPN Type 5 VRF with ten IRB units"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB units of the MAC-VRF VLANs and the VRF loopback unit.",
+      "userInputs": [
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-vrf-with-ten-irb-units",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf-dhcp-relay-10-irb",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf-dhcp-relay-10-irb",
+      "aliases": [
+        "EVPN Type 5 VRF with ten IRB units and DHCP relay"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf"
+        ],
+        "evo": []
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB units of the MAC-VRF VLANs and the VRF loopback unit, which DHCP relay uses as its source.",
+      "userInputs": [
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-vrf-with-ten-irb-units-and-dhcp-relay",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf-dhcp-relay-20-irb",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf-dhcp-relay-20-irb",
+      "aliases": [
+        "EVPN Type 5 VRF with twenty IRB units and DHCP relay"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB units of the MAC-VRF VLANs and the VRF loopback unit, which DHCP relay uses as its source.",
+      "userInputs": [
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-vrf-with-twenty-irb-units-and-dhcp-relay",
+      "status": "supported"
+    },
+    {
+      "id": "evpn-type5-vrf-ospf-pim-oism",
+      "family": "l3vpn",
+      "form": "evpn-type5-vrf-ospf-pim-oism",
+      "aliases": [
+        "EVPN Type 5 VRF with OSPF, PIM and OISM"
+      ],
+      "osMode": "MIXED",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+        ],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "IRB units of the MAC-VRF VLANs (one carries OSPF, PIM and the OISM supplemental bridge domain) and the VRF loopback unit.",
+      "userInputs": [
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#evpn-type-5-vrf-with-ospf-pim-and-oism",
+      "status": "supported"
+    },
+    {
+      "id": "border-evpn-type5-vrf-ebgp",
+      "family": "l3vpn",
+      "form": "border-evpn-type5-vrf-ebgp",
+      "aliases": [
+        "Border EVPN Type 5 VRF with eBGP to the external gateway"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The services leaf's attachment unit toward the external gateway and the VRF loopback unit.",
+      "userInputs": [
+        "$AC_IFL",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_GROUP",
+        "$BGP_IMPORT_POL",
+        "$CE_PEER_V4",
+        "$CE_PEER_V6",
+        "$DESCRIPTION",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$PE_LOCAL_V4",
+        "$PE_LOCAL_V6",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#border-evpn-type-5-vrf-with-ebgp-to-the-external-gateway",
+      "status": "supported"
+    },
+    {
+      "id": "border-evpn-type5-vrf-ebgp-10-irb",
+      "family": "l3vpn",
+      "form": "border-evpn-type5-vrf-ebgp-10-irb",
+      "aliases": [
+        "Border EVPN Type 5 VRF with eBGP and ten IRB units"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The attachment unit toward the external gateway, the VLANs' IRB units and the VRF loopback unit.",
+      "userInputs": [
+        "$AC_IFL",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_GROUP",
+        "$BGP_IMPORT_POL",
+        "$CE_PEER_V4",
+        "$CE_PEER_V6",
+        "$DESCRIPTION",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$PE_LOCAL_V4",
+        "$PE_LOCAL_V6",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#border-evpn-type-5-vrf-with-ebgp-and-ten-irb-units",
+      "status": "supported"
+    },
+    {
+      "id": "border-evpn-type5-vrf-ebgp-dhcp-relay",
+      "family": "l3vpn",
+      "form": "border-evpn-type5-vrf-ebgp-dhcp-relay",
+      "aliases": [
+        "Border EVPN Type 5 VRF with eBGP and DHCP relay"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The attachment unit toward the external gateway and the VRF loopback unit, which DHCP relay uses as its source.",
+      "userInputs": [
+        "$AC_IFL",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_GROUP",
+        "$BGP_IMPORT_POL",
+        "$CE_PEER_V4",
+        "$CE_PEER_V6",
+        "$DESCRIPTION",
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$PE_LOCAL_V4",
+        "$PE_LOCAL_V6",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#border-evpn-type-5-vrf-with-ebgp-and-dhcp-relay",
+      "status": "supported"
+    },
+    {
+      "id": "border-evpn-type5-vrf-ebgp-dhcp-relay-20-irb",
+      "family": "l3vpn",
+      "form": "border-evpn-type5-vrf-ebgp-dhcp-relay-20-irb",
+      "aliases": [
+        "Border EVPN Type 5 VRF with eBGP, twenty IRB units and DHCP relay"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The attachment unit toward the external gateway, the VLANs' IRB units and the VRF loopback unit.",
+      "userInputs": [
+        "$AC_IFL",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_GROUP",
+        "$BGP_IMPORT_POL",
+        "$CE_PEER_V4",
+        "$CE_PEER_V6",
+        "$DESCRIPTION",
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$PE_LOCAL_V4",
+        "$PE_LOCAL_V6",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#border-evpn-type-5-vrf-with-ebgp-twenty-irb-units-and-dhcp-relay",
+      "status": "supported"
+    },
+    {
+      "id": "border-evpn-type5-vrf-ebgp-ospf-pim-oism",
+      "family": "l3vpn",
+      "form": "border-evpn-type5-vrf-ebgp-ospf-pim-oism",
+      "aliases": [
+        "Border EVPN Type 5 VRF with eBGP, OSPF, PIM and OISM"
+      ],
+      "osMode": "EVO",
+      "entry": {
+        "junos": [],
+        "evo": [
+          "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The attachment unit toward the external gateway, the VLANs' IRB units (one carries OSPF, PIM and the OISM supplemental bridge domain) and the VRF loopback unit.",
+      "userInputs": [
+        "$AC_ADDR_V4",
+        "$AC_IFL",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$BGP_GROUP",
+        "$BGP_IMPORT_POL",
+        "$CE_PEER_V4",
+        "$CE_PEER_V6",
+        "$DESCRIPTION",
+        "$DHCP_RELAY_GROUP",
+        "$INSTANCE_NAME",
+        "$IP_PREFIX_EXPORT_POL",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL",
+        "$LOOPBACK_V4",
+        "$PE_LOCAL_V4",
+        "$PE_LOCAL_V6",
+        "$VNI"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#border-evpn-type-5-vrf-with-ebgp-ospf-pim-and-oism",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "roles": {
+    "superspine": "Super spine pair",
+    "compute-spine": "Compute POD spine",
+    "compute-leaf": "Compute POD leaf",
+    "storage-spine": "Storage POD spine",
+    "storage-leaf": "Storage POD leaf",
+    "services-spine": "Services POD spine",
+    "services-leaf": "Services POD leaf (border)",
+    "external-gw": "External gateway"
+  },
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "3e81944672e434cc8dcf4452d4ff9c07729e9284d3aaef97c89cfa94855050df"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "evo/class-of-service/interfaces/ifd-scheduler-map-unit-0-dscp-classifier-rewrite.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/classifiers/cl-dscp-classifier-leaf.conf",
+        "evo/class-of-service/classifiers/cl-dscp-classifier-spine.conf"
+      ],
+      "slots": [
+        "dscp-classifier"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/class-of-service/scheduler-maps/sm1.conf",
+      "kind": "scheduler",
+      "scope": "whole",
+      "providers": [
+        "evo/class-of-service/schedulers/schedulers-s0-s7-leaf.conf",
+        "evo/class-of-service/schedulers/schedulers-s0-s7-spine.conf"
+      ],
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/firewall/filter-cpp-filter-v1.conf",
+      "kind": "policer",
+      "scope": "object",
+      "providers": [
+        "evo/firewall/policer-police-5mbps.conf"
+      ],
+      "slots": [
+        "police-5mbps"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-ae-member.conf",
+        "evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-core-inet-inet6-mtu-9170.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-mtu-9216.conf",
+        "evo/interfaces/ifd-description-speed-100g-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-speed-100g-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+        "evo/interfaces/ifd-description-mtu-9216.conf",
+        "evo/interfaces/ifd-description-speed-10g-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-ae-member.conf",
+        "evo/interfaces/ifd-lag-member-ether-description-speed-10g.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-unit-0-inet-no-address.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-disable.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/ifl-vlan-inet-inet6-description.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-speed-10g.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "evo/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-accept-all.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-evpn-overlay-6-peers-bfd-export-1-policy.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-superspine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+        "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2",
+        "$BGP_EXPORT_POL_3"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/protocols/bgp-group-ebgp-underlay-6-peers-dual-stack-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-add-from-superspine-tier-accept.conf",
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40",
+        "$IRB_IFL_41",
+        "$IRB_IFL_42",
+        "$IRB_IFL_43",
+        "$IRB_IFL_44",
+        "$IRB_IFL_45",
+        "$IRB_IFL_46",
+        "$IRB_IFL_47",
+        "$IRB_IFL_48",
+        "$IRB_IFL_49",
+        "$IRB_IFL_50",
+        "$IRB_IFL_51"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40",
+        "$IRB_IFL_41",
+        "$IRB_IFL_42",
+        "$IRB_IFL_43",
+        "$IRB_IFL_44",
+        "$IRB_IFL_45",
+        "$IRB_IFL_46",
+        "$IRB_IFL_47",
+        "$IRB_IFL_48",
+        "$IRB_IFL_49",
+        "$IRB_IFL_50",
+        "$IRB_IFL_51"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf",
+        "evo/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$AC_IFL_3",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40",
+        "$IRB_IFL_41",
+        "$IRB_IFL_42",
+        "$IRB_IFL_43",
+        "$IRB_IFL_44",
+        "$IRB_IFL_45",
+        "$IRB_IFL_46",
+        "$IRB_IFL_47",
+        "$IRB_IFL_48",
+        "$IRB_IFL_49",
+        "$IRB_IFL_50",
+        "$IRB_IFL_51"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-vlan-inet-inet6-description.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-vlan-inet-inet6-description.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-vlan-inet-inet6-description.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-vlan-inet-inet6-description.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/ifl-vlan-inet-inet6-description.conf"
+      ],
+      "slots": [
+        "$AC_IFL",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+        "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf"
+      ],
+      "slots": [
+        "$BGP_IMPORT_POL",
+        "$BGP_EXPORT_POL",
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-2-ac.conf",
+        "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-oism-3-ac.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-10-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-20-irb.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-ospf-pim-oism-dhcp-relay.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp.conf",
+        "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "evo/interfaces/ifl-loopback-inet-inet6.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "evo/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/interfaces/ifd-scheduler-map-dscp-classifier-rewrite.conf",
+      "kind": "classifier",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/classifiers/cl-dscp-classifier-leaf.conf",
+        "junos/class-of-service/classifiers/cl-dscp-classifier-spine.conf"
+      ],
+      "slots": [
+        "dscp-classifier"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/class-of-service/scheduler-maps/sm1.conf",
+      "kind": "scheduler",
+      "scope": "whole",
+      "providers": [
+        "junos/class-of-service/schedulers/schedulers-s0-s7-leaf.conf",
+        "junos/class-of-service/schedulers/schedulers-s0-s7-spine.conf"
+      ],
+      "slots": [
+        "s0",
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6",
+        "s7"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/firewall/filter-cpp-filter-v1.conf",
+      "kind": "policer",
+      "scope": "object",
+      "providers": [
+        "junos/firewall/policer-police-5mbps.conf"
+      ],
+      "slots": [
+        "police-5mbps"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description-ae-member.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-core-inet-inet6-mtu-9170.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf",
+        "junos/interfaces/ifd-description-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-description-ae-member.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-vlan-tagging.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-no-address.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-vlan-tagging.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/irb-inet-virtual-gateway-mtu-9000.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/irb-mtu-9216.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf",
+      "kind": "community",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/community/community-2-members.conf"
+      ],
+      "slots": [
+        "$COMMUNITY_NAME_1",
+        "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-10-peers-dual-stack-export.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-loopback-default-routes-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-accept-all.conf",
+        "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf",
+        "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf",
+        "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf",
+        "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf",
+        "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2",
+        "$BGP_EXPORT_POL_3"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "junos/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40",
+        "$IRB_IFL_41",
+        "$IRB_IFL_42",
+        "$IRB_IFL_43",
+        "$IRB_IFL_44",
+        "$IRB_IFL_45",
+        "$IRB_IFL_46",
+        "$IRB_IFL_47",
+        "$IRB_IFL_48",
+        "$IRB_IFL_49",
+        "$IRB_IFL_50",
+        "$IRB_IFL_51"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-ethernet-switching-trunk-vlans-filter-storm-control.conf",
+        "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "junos/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$AC_IFL_1",
+        "$AC_IFL_2",
+        "$AC_IFL_3",
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_22",
+        "$IRB_IFL_23",
+        "$IRB_IFL_24",
+        "$IRB_IFL_25",
+        "$IRB_IFL_26",
+        "$IRB_IFL_27",
+        "$IRB_IFL_28",
+        "$IRB_IFL_29",
+        "$IRB_IFL_30",
+        "$IRB_IFL_31",
+        "$IRB_IFL_32",
+        "$IRB_IFL_33",
+        "$IRB_IFL_34",
+        "$IRB_IFL_35",
+        "$IRB_IFL_36",
+        "$IRB_IFL_37",
+        "$IRB_IFL_38",
+        "$IRB_IFL_39",
+        "$IRB_IFL_40",
+        "$IRB_IFL_41",
+        "$IRB_IFL_42",
+        "$IRB_IFL_43",
+        "$IRB_IFL_44",
+        "$IRB_IFL_45",
+        "$IRB_IFL_46",
+        "$IRB_IFL_47",
+        "$IRB_IFL_48",
+        "$IRB_IFL_49",
+        "$IRB_IFL_50",
+        "$IRB_IFL_51"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac.conf",
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet-inet6.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac.conf",
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet-inet6.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_1",
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "irb-service",
+      "scope": "object",
+      "providers": [
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-2-ac.conf",
+        "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-51-vlans-igmp-snooping-proxy-3-ac.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-10-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb.conf",
+        "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf"
+      ],
+      "slots": [
+        "@source:irb-service"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet-inet6.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf",
+        "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf",
+        "junos/interfaces/irb-inet-virtual-gateway-mtu-9000.conf"
+      ],
+      "slots": [
+        "$IRB_IFL_2",
+        "$IRB_IFL_3",
+        "$IRB_IFL_4",
+        "$IRB_IFL_5",
+        "$IRB_IFL_6",
+        "$IRB_IFL_7",
+        "$IRB_IFL_8",
+        "$IRB_IFL_9",
+        "$IRB_IFL_10",
+        "$IRB_IFL_11",
+        "$IRB_IFL_12",
+        "$IRB_IFL_13",
+        "$IRB_IFL_14",
+        "$IRB_IFL_15",
+        "$IRB_IFL_16",
+        "$IRB_IFL_17",
+        "$IRB_IFL_18",
+        "$IRB_IFL_19",
+        "$IRB_IFL_20",
+        "$IRB_IFL_21",
+        "$IRB_IFL_1",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ospf-pim-oism-dhcp-relay.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf"
+      ],
+      "slots": [
+        "$IP_PREFIX_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}

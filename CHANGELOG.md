@@ -4,6 +4,161 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-22
+
+The **5-Stage EVPN-VXLAN Data Center** snippet library is rebuilt from the fifteen
+validated device configurations with measured dependencies, and the Config Explorer
+Roles view now includes it.
+
+### New content
+
+- **[5-Stage EVPN-VXLAN Data Center snippet library](data_center/adc/5stage_evpn_vxlan/configuration/snips)**:
+  218 snippets (103 Junos OS, 115 Junos OS Evolved) measured from the fifteen published
+  device configurations replace the earlier 10 topic snippets. They cover the super
+  spines (QFX5230-64CD), the compute, storage and services POD spines (QFX5210-64C,
+  QFX5220-32CD) and leaves (QFX5120-48YM, QFX5130-32CD, QFX5130-48C), and the external
+  gateway (MX): the dual-stack eBGP underlay and the EVPN overlay groups of each tier with
+  their tier communities and policies, fabric, loopback, trunk and IRB units with virtual
+  gateway addresses, the ESI-LAG and other aggregated Ethernet bundles and their member
+  ports, the VLAN-aware EVPN-VXLAN MAC-VRFs with 51 VLANs and IGMP snooping (with OISM on
+  the Junos OS Evolved leaves), the EVPN Type 5 VRFs with IRB units, DHCP relay, or OSPF,
+  PIM and OISM, the border leaves' Type 5 VRFs with eBGP to the external gateway, the
+  gateway's own OSPF, PIM rendezvous point, eBGP and default routes, class of service
+  (classifiers, rewrite rules, schedulers, congestion notification and buffer
+  profiles), dynamic load balancing, storm control, control-plane protection filters,
+  IPv6 router advertisements, LLDP, RSTP and the system settings. Constructs that match
+  an existing library keep its snippet body and variable names, and a construct with the
+  same body on both operating systems is published as an identical Junos OS and Junos OS
+  Evolved pair. Every active statement on the fifteen devices is reproduced by a snippet;
+  only each device's software version stamp is excluded, and the published
+  configurations contain no traceoptions and no deactivated configuration. Each snippet
+  lists the devices it was validated on, its source instance count and, where verified,
+  its peer on the other end of a fabric link or BGP session.
+- **5-Stage EVPN-VXLAN Data Center dependencies**: 35 snippets list a measured `Pair
+  with` prerequisite (for example a policy needs its tier community, a firewall filter
+  its policer, and a class-of-service interface binding its classifier, rewrite rule and
+  scheduler map), and 61 snippets carry 83 typed requirements. The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 235 answers
+  for this JVD: 229 resolved, and 6 not needed on these routers. The assistant bundle was
+  regenerated from the new library: it lists each snippet's Needs and offers the
+  `minimum` form of eleven services: the EVPN-VXLAN MAC-VRF with 51 VLANs (with or
+  without OISM), and the EVPN Type 5 VRFs of the leaves and border leaves with IRB units,
+  DHCP relay, OSPF, PIM and OISM, or eBGP to the external gateway.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes 5-Stage
+  EVPN-VXLAN Data Center, grouping its snippets under its eight roles (super spines,
+  the compute, storage and services POD spines and leaves, and the external gateway), as
+  named in the Device roles table of the
+  [JVD datasheet](data_center/adc/5stage_evpn_vxlan/documentation/datasheet.md#device-roles).
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 12 entries: seven names that earlier libraries already used (for example
+  `$CORE_INTF`, `$VGA` and `$TS_FPC`), and five that this library introduces
+  (`$UNDERLAY_PEER_V6`, `$UNDERLAY_LOCAL_V6`, `$IRB_ADDR_V6`, `$PE_PEER_V6` and
+  `$DHCP_RELAY_GROUP`).
+
+### Fixes and maintenance
+
+- The measurement records (`_bindings.json`, `_peers.json`) of the twelve snippet
+  libraries rebuilt earlier (Metro Ethernet Business Services, Broadband Edge, the four
+  Enterprise WAN libraries, DCI over IPoDWDM, Low Latency QoS Design for 5G, the two AI
+  data center libraries and the two Collapsed Data Center Fabric libraries) are
+  refreshed. No snippet, binding, peer or dependency result changed.
+
+### Known limitations
+
+- A few templates are subsets of others on some devices (for example the leaf DSCP
+  rewrite rule inside the spines' larger one); each keeps its own count. The external
+  gateway's eBGP group, the ESI-LAG bundle and the VRF, MAC-VRF and system constructs
+  carry no peer claim. See the library
+  [README](data_center/adc/5stage_evpn_vxlan/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+
+### What this means for you
+
+- Build 5-Stage EVPN-VXLAN Data Center configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values; see the
+  library [README](data_center/adc/5stage_evpn_vxlan/configuration/snips/README.md) and
+  [variable glossary](data_center/adc/5stage_evpn_vxlan/configuration/snips/_variables.md).
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier 5-Stage EVPN-VXLAN snippet file names no longer
+  resolve; use the topic index in the library
+  [README](data_center/adc/5stage_evpn_vxlan/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 15 entries, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / 5-Stage EVPN-VXLAN Data Center | 224 | 0 | 10 | 14 | 2 |
+| Data Center / Collapsed Data Center Fabric | 0 | 0 | 0 | 2 | 0 |
+| Data Center / Collapsed Data Center Fabric with Access Switches | 0 | 0 | 0 | 2 | 0 |
+| Data Center / AI Data Center Frontend Fabric for Inference | 0 | 0 | 0 | 2 | 0 |
+| Data Center / AI/ML Multitenancy Backend | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Finance | 0 | 0 | 0 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Broadband Edge | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Low Latency QoS Design for 5G | 0 | 0 | 0 | 2 | 0 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **224** | **0** | **10** | **52** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / 5-Stage EVPN-VXLAN Data Center | 42892 | 1935 | +40957 |
+| Data Center / Collapsed Data Center Fabric | 2 | 2 | 0 |
+| Data Center / Collapsed Data Center Fabric with Access Switches | 2 | 2 | 0 |
+| Data Center / AI Data Center Frontend Fabric for Inference | 2 | 2 | 0 |
+| Data Center / AI/ML Multitenancy Backend | 2 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 2 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 2 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 2 | 2 | 0 |
+| Enterprise WAN / Finance | 2 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 2 | 2 | 0 |
+| Service Provider / Metro Ethernet Business Services | 3 | 3 | 0 |
+| Service Provider / Broadband Edge | 2 | 2 | 0 |
+| Service Provider / Low Latency QoS Design for 5G | 2 | 2 | 0 |
+| Shared variable glossary | 84 | 0 | +84 |
+| Portal | 72184 | 3051 | +69133 |
+| **Total** | **115185** | **5011** | **+110174** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding assistant bundles) | 260 | 20177 |
+| JVD AI Assistant bundle (with portal copy) | 21 | 45598 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 46858 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 2467 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 84 |
+| JVD datasheet | 1 | 1 |
+| **Total** | **286** | **115185** |
+
+</details>
+
+---
+
 ## 2026-11-15
 
 The **Collapsed Data Center Fabric with Access Switches** snippet library is rebuilt from

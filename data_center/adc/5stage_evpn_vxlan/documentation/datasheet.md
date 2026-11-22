@@ -19,7 +19,7 @@ A validated **5-stage EVPN-VXLAN ERB fabric** — **lean super spines** above mu
 | **Automation** | Juniper Apstra 5.0.0-64 (OISM, QoS, firewall filters applied via configlet) |
 | **Min. validated software** | Junos OS / Junos OS Evolved **23.4R2-S3**; Apstra **5.0.0-64**. See juniper.net for the current matrix. |
 
-## Device roles (as shipped in this folder)
+## Device roles
 
 The configurations in [`../configuration/conf/`](../configuration/conf/) cover the super spines and the three PODs.
 
