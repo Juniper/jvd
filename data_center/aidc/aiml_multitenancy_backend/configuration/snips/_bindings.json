@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "aiml_multitenancy_backend",
- "generatedFrom": {"inputsSha256":"9e1d2721f14b746268e1888d9d3c3af4655b93248dbc8b1263bdad7ec70f48cb","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"0085c2418b4834c33753e5e480348a9a2602affd74d38e142bb66d580fcc1b95","devices":8,"snips":56},
+ "generatedFrom": {"inputsSha256":"9e1d2721f14b746268e1888d9d3c3af4655b93248dbc8b1263bdad7ec70f48cb","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":8,"snips":56},
  "deviceInventory": ["leaf1_qfx5240-64od","leaf2_qfx5240-64od","leaf3_qfx5240-64od","leaf4_qfx5240-64od","spine1_qfx5240-64od","spine2_qfx5240-64od","spine3_qfx5240-64od","spine4_qfx5240-64od"],
  "snips": {
   "evo/chassis/fpc-traffic-manager-buffer-monitor.conf": {"variables":["FPC_SLOT"],"count":{"leaf1_qfx5240-64od":1,"leaf2_qfx5240-64od":1,"leaf3_qfx5240-64od":1,"leaf4_qfx5240-64od":1,"spine1_qfx5240-64od":1,"spine2_qfx5240-64od":1,"spine3_qfx5240-64od":1,"spine4_qfx5240-64od":1},"instances":{"leaf1_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"leaf2_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"leaf3_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"leaf4_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"spine1_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"spine2_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"spine3_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}],"spine4_qfx5240-64od":[{"binding":["0"],"equivalentBindings":1}]}},
