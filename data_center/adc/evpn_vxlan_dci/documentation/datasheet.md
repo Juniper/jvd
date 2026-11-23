@@ -33,12 +33,22 @@ The configurations in [`../configuration/conf/`](../configuration/conf/) capture
 
 ## Device roles
 
-| Role | Function in the network |
-|------|-------------------------|
-| **Spine** | ERB EVPN-VXLAN spine; leaf-spine underlay eBGP; overlay route reflection to leaves |
-| **Server / ESI leaf** | Access leaf; single-homed or ESI-LAG multihomed host connectivity; VXLAN VTEP |
-| **Border leaf (gateway)** | DCI gateway; forms DCI overlay eBGP to remote border leaves; VXLAN stitching / translation VNI; MACSEC termination |
-| **Super spine** | 5-stage DC4 super-spine interconnecting compute / storage / services PODs |
+The configurations in [`../configuration/conf/`](../configuration/conf/) are grouped by scenario folder; a host's `dcN_` prefix is its site, and the same DC1 host appears in each scenario that uses it.
+
+| Role | Function in the network | Device(s) | OS | Hostnames |
+|------|-------------------------|-----------|----|-----------|
+| **DC1/DC2 spine** | ERB EVPN-VXLAN spine of the 3-stage DC1 and DC2 fabrics; underlay and EVPN overlay eBGP to the leaves | **QFX5220-32CD** (DC1), **QFX5120-48Y-8C** (DC2) | EVO (DC1), Junos (DC2) | `dc1_spine1/2`, `dc2_spine1/2` |
+| **DC1/DC2 border leaf (DCI gateway)** | DCI gateway of DC1 and DC2: eBGP to the remote gateway over the DCI link and DCI overlay eBGP between the gateways' loopbacks, EVPN interconnect with translation VNIs (DC1, seamless-stitching scenarios), eBGP to the external router in the tenant VRFs, MACsec on the DCI link | **QFX5130-32CD** (DC1), **QFX5700** (DC2) | EVO | `dc1_borderleaf1/2`, `dc2_borderleaf1/2` |
+| **ESI leaf** | Access leaf with ESI-LAG multihomed hosts (OTT scenario) | **QFX5120-48Y** | Junos | `dc1_esi-leaf1/2`, `dc2_esi-leaf1/2` |
+| **Server leaf** | Access leaf with single-homed hosts (OTT scenario) | **QFX5120-48Y** | Junos | `dc1_server-leaf1`, `dc2_server-leaf1` |
+| **DC1/DC3 leaf** | DC1 access leaf in the seamless-stitching scenarios; the DC3 leaves form the collapsed fabric and are DC3's DCI gateways (Type 2 seamless stitching, MACsec on the DCI link) | **QFX5120-48Y** | Junos | `dc1_leaf1/2/3`, `dc3_leaf1/2` |
+| **DC4 super spine** | 5-stage DC4 super spine interconnecting the compute, storage and services PODs | **QFX5230-64CD** | EVO | `dc4_superspine1/2` |
+| **DC4 compute POD spine** | Spine of the DC4 compute POD | **QFX5210-64C** | Junos | `dc4_compute-spine1/2` |
+| **DC4 compute POD leaf** | Access leaf of the DC4 compute POD | **QFX5120-48YM** | Junos | `dc4_compute-leaf1/2` |
+| **DC4 storage POD spine** | Spine of the DC4 storage POD | **QFX5220-32CD** | EVO | `dc4_storage-spine1/2` |
+| **DC4 storage POD leaf** | Access leaf of the DC4 storage POD | **QFX5130-32CD** | EVO | `dc4_storage-leaf1/2` |
+| **DC4 services POD spine** | Spine of the DC4 services POD | **QFX5210-64C** | Junos | `dc4_services-spine1/2` |
+| **DC4 services POD leaf (DCI gateway)** | DC4 border leaf: DCI gateway toward DC1 (Type 2 + Type 5 seamless stitching) and eBGP to the external router | **QFX5130-48C** | EVO | `dc4_services-leaf1/2` |
 
 ## Featured platforms
 
