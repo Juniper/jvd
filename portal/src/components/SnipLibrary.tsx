@@ -29,6 +29,7 @@ import {
   type BrowseMode,
   type TreeMode,
   type GroupNode,
+  type JvdRoleDevice,
 } from "@/lib/snips";
 import { BROWSE_MODES, DEPENDENCY_CONTRACT_VERSION } from "@/lib/snips";
 
@@ -952,6 +953,22 @@ function DetailSection({
 // Role detail (Roles view)
 // ---------------------------------------------------------------------------
 
+type RoleHost = { host: string; platform: string; os: JvdRoleDevice["os"]; folders: string[] };
+
+// Role entries are one per configuration. A host captured in several scenario folders
+// (`<folder>/<host>_<platform>`) is one device: show it once, with the folders it appears in.
+function roleHosts(devices: JvdRoleDevice[]): RoleHost[] {
+  const hosts = new Map<string, RoleHost>();
+  for (const d of devices) {
+    const key = `${d.host}\u0000${d.platform}`;
+    const row = hosts.get(key) ?? { host: d.host, platform: d.platform, os: d.os, folders: [] };
+    const slash = d.device.lastIndexOf("/");
+    if (slash > 0) row.folders.push(d.device.slice(0, slash));
+    hosts.set(key, row);
+  }
+  return [...hosts.values()];
+}
+
 function RoleDetail({
   roleRef,
   snips,
@@ -977,6 +994,8 @@ function RoleDetail({
     byCategory.get(s.category)!.push(s);
   }
   const categories = [...byCategory.entries()].sort(([a], [b]) => a.localeCompare(b));
+  const hosts = roleHosts(role.devices);
+  const showFolders = hosts.some((h) => h.folders.length > 0);
 
   return (
     <div>
@@ -1014,7 +1033,7 @@ function RoleDetail({
 
         <section>
           <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Devices · {role.devices.length}
+            Devices · {hosts.length}
           </h3>
           <div className="overflow-x-auto rounded-md border border-border">
             <table className="w-full text-xs">
@@ -1023,14 +1042,18 @@ function RoleDetail({
                   <th className="px-3 py-1.5 font-medium">Device</th>
                   <th className="px-3 py-1.5 font-medium">Platform</th>
                   <th className="px-3 py-1.5 font-medium">OS</th>
+                  {showFolders && <th className="px-3 py-1.5 font-medium">Folders</th>}
                 </tr>
               </thead>
               <tbody>
-                {role.devices.map((d) => (
-                  <tr key={d.device} className="border-b border-border last:border-b-0">
+                {hosts.map((d) => (
+                  <tr key={`${d.host}/${d.platform}`} className="border-b border-border last:border-b-0">
                     <td className="px-3 py-1.5 font-mono text-foreground">{d.host}</td>
                     <td className="px-3 py-1.5 font-mono text-muted-foreground">{d.platform}</td>
                     <td className="px-3 py-1.5">{d.os === "evo" ? "Junos EVO" : "Junos"}</td>
+                    {showFolders && (
+                      <td className="px-3 py-1.5 font-mono text-muted-foreground">{d.folders.join(", ")}</td>
+                    )}
                   </tr>
                 ))}
               </tbody>
