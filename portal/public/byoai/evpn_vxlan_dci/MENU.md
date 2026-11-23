@@ -1,41 +1,45 @@
-# EVPN-VXLAN DCI BYOAI — Full Query Menu
+# EVPN-VXLAN Data Center Interconnect BYOAI — Full Query Menu
 
-The always-current catalog of generation asks for the **EVPN-VXLAN Data Center Interconnect (DCI)** JVD — the *additional* Junos / Junos Evolved configuration that stitches EVPN/VXLAN fabrics across data centers (Over-the-Top, Type 2 seamless stitching, Type 2 + Type 5 seamless stitching), built with Juniper Apstra. All services render on the chosen gateway device(s) with the chosen form tier (`minimum` / `as-deployed`).
+The always-current catalog of generation asks for the EVPN-VXLAN Data Center Interconnect JVD. Replace `N` with any count (e.g. `Generate 2 …`). Every service renders on the devices it is validated on, in the `minimum` form; the scenario is in parentheses.
 
-## DCI interconnect techniques
+## Services — EVPN-VXLAN MAC-VRFs
 
-- `Generate the DCI overlay gateway for <device>` — `evpn-gw` overlay eBGP to the remote data center border leaves (multihop, BFD)
-- `Generate a Type 2 seamless interconnect on <border-leaf>` — interconnect ESI / RD / interconnected-vni-list + per-VLAN translation VNI
-- `Generate a Type 2 + Type 5 stretch on <border-leaf>` — the Type 5 L3 VRF interconnect + ip-prefix-routes on top of Type 2
-- `Add translation VNI for VLAN <id> on <device>` — map a local VNI to the common DCI translation VNI
+- `Generate N EVPN-VXLAN MAC-VRF with 10 VLANs on dc4_storage-leaf1 and dc4_storage-leaf2 (Type 2 + Type 5)` — validated on dc4_storage-leaf1 and dc4_storage-leaf2 (Type 2 + Type 5)
+- `Generate N EVPN-VXLAN MAC-VRF with 20 VLANs on dc1_leaf2 and dc1_leaf3 (Type 2)` — validated on dc1_leaf2 and dc1_leaf3 (Type 2)
+- `Generate N EVPN-VXLAN MAC-VRF with 30 VLANs on dc1_leaf1 (Type 2)` — validated on dc1_leaf1 (Type 2)
+- `Generate N EVPN-VXLAN MAC-VRF with 40 VLANs on dc1_esi-leaf1 and dc1_esi-leaf2 (OTT)` — validated on dc1_esi-leaf1, dc1_esi-leaf2, dc1_server-leaf1, dc2_esi-leaf1, dc2_esi-leaf2 and dc2_server-leaf1 (OTT); dc1_leaf2, dc1_leaf3, dc4_compute-leaf1 and dc4_compute-leaf2 (Type 2 + Type 5)
+- `Generate N EVPN-VXLAN MAC-VRF with 50 VLANs on dc1_leaf1 (Type 2 + Type 5)` — validated on dc1_leaf1 (Type 2 + Type 5)
+- `Generate N EVPN-VXLAN MAC-VRF with 20 VLANs and an EVPN interconnect with VNI translation on dc1_borderleaf1 and dc1_borderleaf2 (Type 2)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc3_leaf1 and dc3_leaf2 (Type 2)
+- `Generate N EVPN-VXLAN MAC-VRF with 50 VLANs and an EVPN interconnect with VNI translation on dc1_borderleaf1 and dc1_borderleaf2 (Type 2 + Type 5)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc4_services-leaf1 and dc4_services-leaf2 (Type 2 + Type 5)
 
-## Security
+## Services — EVPN Type 5 VRFs
 
-- `Add MACSEC to the DCI uplink on <device>` — gcm-aes-xpn-128 static-CAK connectivity-association (OTT / Type 2)
-
-## Policy
-
-- `Generate the DCI community definitions for <device>` — EVPN_GW_IN / EVPN_GW_OUT / EVPN_DCI_L2_TARGET / FABRIC_EVI_TARGET
-- `Add the collapsed leaf-to-leaf DCI filter to <DC3 leaf>` — stop DCI overlay route re-advertisement between collapsed leaves
-
-## Interfaces
-
-- `Generate the loopback for <border-leaf>` — lo0 router-id / VTEP / gateway local-address + per-VRF loopbacks
-
-## Greenfield / turn-up
-
-- `Build the full DCI gateway config for a DC1 border-leaf (Type 2)` — as-deployed: gateway + interconnect + translation + communities + MACSEC
-- `Build the DC3 collapsed-fabric leaf DCI config` — Junos gateway + interconnect + translation + leaf-to-leaf filter + MACSEC
-- `Build the DC4 services-leaf Type 2 + Type 5 config`
+- `Generate N EVPN Type 5 VRF with ten IRB units and a loopback unit on dc1_leaf1 (Type 2)` — validated on dc1_leaf1 (Type 2); dc1_leaf1, dc4_storage-leaf1 and dc4_storage-leaf2 (Type 2 + Type 5)
+- `Generate N EVPN Type 5 VRF with DHCP relay, twenty IRB units and a loopback unit (blue tenant) on dc1_esi-leaf1 and dc1_esi-leaf2 (OTT)` — validated on dc1_esi-leaf1, dc1_esi-leaf2 and dc1_server-leaf1 (OTT); dc1_leaf1, dc1_leaf2, dc1_leaf3, dc4_compute-leaf1 and dc4_compute-leaf2 (Type 2 + Type 5)
+- `Generate N EVPN Type 5 VRF with DHCP relay, twenty IRB units and a loopback unit (red tenant) on dc1_esi-leaf1 and dc1_esi-leaf2 (OTT)` — validated on dc1_esi-leaf1, dc1_esi-leaf2 and dc1_server-leaf1 (OTT); dc1_leaf1, dc1_leaf2, dc1_leaf3, dc4_compute-leaf1 and dc4_compute-leaf2 (Type 2 + Type 5)
+- `Generate N EVPN Type 5 VRF with DHCP relay (loopback as relay source), ten IRB units and a loopback unit (blue tenant) on dc1_leaf1 and dc1_leaf2 (Type 2)` — validated on dc1_leaf1, dc1_leaf2 and dc1_leaf3 (Type 2)
+- `Generate N EVPN Type 5 VRF with DHCP relay (loopback as relay source), ten IRB units and a loopback unit (red tenant) on dc1_leaf1 and dc1_leaf2 (Type 2)` — validated on dc1_leaf1, dc1_leaf2 and dc1_leaf3 (Type 2)
+- `Generate N EVPN Type 5 VRF with DHCP relay (loopback as relay source), twenty IRB units and a loopback unit (blue tenant) on dc2_esi-leaf1 and dc2_esi-leaf2 (OTT)` — validated on dc2_esi-leaf1, dc2_esi-leaf2 and dc2_server-leaf1 (OTT)
+- `Generate N EVPN Type 5 VRF with DHCP relay (loopback as relay source), twenty IRB units and a loopback unit (red tenant) on dc2_esi-leaf1 and dc2_esi-leaf2 (OTT)` — validated on dc2_esi-leaf1, dc2_esi-leaf2 and dc2_server-leaf1 (OTT)
+- `Generate N EVPN Type 5 VRF with an EVPN interconnect toward the remote data center, ten IRB units and a loopback unit on dc1_borderleaf1 and dc1_borderleaf2 (Type 2 + Type 5)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc4_services-leaf1 and dc4_services-leaf2 (Type 2 + Type 5)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, DHCP relay and a loopback unit (blue tenant) on dc1_borderleaf1 and dc1_borderleaf2 (OTT)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc2_borderleaf1 and dc2_borderleaf2 (OTT)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, DHCP relay (loopback as relay source), ten IRB units and a loopback unit (blue tenant) on dc1_borderleaf1 and dc1_borderleaf2 (Type 2)` — validated on dc1_borderleaf1 and dc1_borderleaf2 (Type 2)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, DHCP relay (loopback as relay source), ten IRB units and a loopback unit (red tenant) on dc1_borderleaf1 and dc1_borderleaf2 (Type 2)` — validated on dc1_borderleaf1 and dc1_borderleaf2 (Type 2)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, DHCP relay and a loopback unit (red tenant) on dc1_borderleaf1 and dc1_borderleaf2 (OTT)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc2_borderleaf1 and dc2_borderleaf2 (OTT)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4) to the external router, ten IRB units and a loopback unit (blue tenant) on dc3_leaf1 and dc3_leaf2 (Type 2)` — validated on dc3_leaf1 and dc3_leaf2 (Type 2)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4) to the external router, ten IRB units and a loopback unit (red tenant) on dc3_leaf1 and dc3_leaf2 (Type 2)` — validated on dc3_leaf1 and dc3_leaf2 (Type 2)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, an EVPN interconnect toward the remote data center, DHCP relay, twenty IRB units and a loopback unit (blue tenant) on dc1_borderleaf1 and dc1_borderleaf2 (Type 2 + Type 5)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc4_services-leaf1 and dc4_services-leaf2 (Type 2 + Type 5)
+- `Generate N Border EVPN Type 5 VRF with eBGP (IPv4 and IPv6) to the external router, an EVPN interconnect toward the remote data center, DHCP relay, twenty IRB units and a loopback unit (red tenant) on dc1_borderleaf1 and dc1_borderleaf2 (Type 2 + Type 5)` — validated on dc1_borderleaf1, dc1_borderleaf2, dc4_services-leaf1 and dc4_services-leaf2 (Type 2 + Type 5)
 
 ## Audit / explain
 
-- `Which snips are EVO-only vs Junos-only?`
-- `Explain the three DCI techniques (OTT vs Type 2 vs Type 2+5)`
-- `Explain seamless stitching and why a logical full mesh is mandatory`
-- `Explain translation VNI and when it's needed`
-- `Explain how inter-VLAN / intra-VLAN / inter-VRF flows are stitched across the DCI`
+- `Which snippets are validated on dc1_borderleaf1 in the OTT scenario?`
+- `What does a Type 5 VRF with an EVPN interconnect need on dc4_services-leaf1?`
+- `Compare OTT, Type 2 seamless stitching and Type 2 + Type 5 seamless stitching`
+- `Explain the EVPN interconnect with VNI translation on the DCI gateways`
+- `Explain MACsec on the DCI links between the gateways`
+- `What does this library not cover?`
 
 ---
 
-Don't see what you need? Describe it and the assistant will tell you whether the EVPN-VXLAN DCI JVD covers it.
+Don't see what you need? Describe it and the assistant will tell you whether the EVPN-VXLAN Data Center Interconnect JVD covers it.

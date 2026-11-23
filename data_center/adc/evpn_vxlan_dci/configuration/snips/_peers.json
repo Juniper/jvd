@@ -1,0 +1,4320 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "bbbb83efa3f90760787a41db0cf5fb4d598e8f9fd11373a948ac30a2d2f41905",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab",
+    "devices": 44,
+    "snips": 269,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "evo/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/fpc-pic-0-4-ports-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/fpc-pic-0-5-ports-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/chassis/redundancy-re0-primary-re1-backup-failover-graceful-switchover.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/firewall/filter-cpp-filter-v1-tcp-8080.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/firewall/policer-police-5mbps.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/forwarding-options/tunnel-termination.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "sourceId": 265
+          }
+        }
+      ]
+    },
+    "evo/interfaces/ifd-breakout-description-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-core-lag-member-ether-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-vlan-tagging-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-speed-10g-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-speed-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-speed-100g-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-speed-10g-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-speed-10g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-description-unused.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-core-inet-inet6-mtu-9170.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-description-vlan-inet-inet6-mtu-9000.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-description-vlan-inet-mtu.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-ethernet-switching-trunk-10-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-inet-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-loopback-0-inet-filter-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-unit-0-inet-no-address.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/ifl-vlan-inet-inet6-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/irb-inet-inet6-mtu-9000-mac.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/interfaces/irb-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/cm-instance-target.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/community-2-members.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/evpn-gw-out.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/fabric-communities.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/from-spine-evpn-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/from-spine-fabric-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/from-superspine-evpn-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/from-superspine-fabric-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/community/no-advertise.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/per-packet-load-balance-no-term.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-accept-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-add-from-superspine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-add-from-superspine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-community-add-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-dci-l2-l3-targets-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-dci-l2-target-community-add-no-advertise-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-reject-gw-out-community-delete-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-l3-targets-community-delete-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-target-community-delete-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-accept-host-routes-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-host-routes-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept-fabric-evi-reject-dci-l2-target.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept-fabric-evi-reject-dci-targets.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/prefix-list/bgp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/prefix-list/ntp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/prefix-list/snmp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/prefix-list/ssh-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list-default-route.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-3-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-3-upto-32-1-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-3-upto-32.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-blue.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-red.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-all-upto-32.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-blue.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-red.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128-1-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-4-upto-128-5-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-3-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-all-upto-128.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-blue.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-red.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-4-upto-128-5-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-3-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_borderleaf1_qfx5700"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-dci-gateway-1-peer-multihop-bfd-import-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_borderleaf1_qfx5700"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-dci-gateway-2-peers-multihop-import-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies-per-peer-as.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 6,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 994
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-overlay-5-peers-bfd-export-1-policy.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 6,
+          "devices": [
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "sourceId": 340
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-evpn-overlay-6-peers-bfd-export-1-policy.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies-per-peer-as.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 9,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 952
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 1,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "sourceId": 751
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 1,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "sourceId": 364
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-5-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 6,
+          "devices": [
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "sourceId": 256
+          }
+        }
+      ]
+    },
+    "evo/protocols/bgp-group-ebgp-underlay-6-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          }
+        ]
+      }
+    },
+    "evo/protocols/bgp-log-updown-graceful-restart-multipath.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:bgp",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1059
+          }
+        }
+      ]
+    },
+    "evo/protocols/evpn-interconnect-multihoming-peer-gateways.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:evpn",
+          "instances": 6,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1487
+          }
+        }
+      ]
+    },
+    "evo/protocols/l2-learning-telemetry-remote-entries.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2-learning"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:l2-learning",
+          "instances": 12,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1062
+          }
+        }
+      ]
+    },
+    "evo/protocols/lldp-interface-all-port-id-interface-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1067
+          }
+        }
+      ]
+    },
+    "evo/protocols/router-advertisement-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:router-advertisement"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:router-advertisement",
+          "instances": 358,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 931
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-bridge-priority-0-2-edge-bpdu-block.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "sourceId": 829
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 12,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1070
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-disable.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 10,
+          "devices": [
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "sourceId": 386
+          }
+        }
+      ]
+    },
+    "evo/protocols/rstp-interface-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 4,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "sourceId": 828
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-10-vlans-2-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "sourceId": 573
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-interconnect-translation-vni-20-vlans.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1201
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1010
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-interconnect-translation-vni-50-vlans-borderleaf.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1945
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1514
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-interconnect-translation-vni-50-vlans-services-leaf.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "sourceId": 1833
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "sourceId": 1402
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "sourceId": 670
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 811
+          }
+        },
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "sourceId": 670
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 789
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-overrides-10-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 955
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 933
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-overrides-10-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1224
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1202
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-dhcp-relay-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 875
+          }
+        },
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "sourceId": 734
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 853
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-interconnect-dhcp-relay-20-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1449
+          }
+        },
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "sourceId": 1337
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1427
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-interconnect-dhcp-relay-20-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1999
+          }
+        },
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "sourceId": 1887
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1977
+          }
+        }
+      ]
+    },
+    "evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-interconnect-10-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 1946
+          }
+        }
+      ]
+    },
+    "evo/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/graceful-restart.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "evo/security/certificates-local.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 14,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 31
+          }
+        }
+      ]
+    },
+    "evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 8,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 41
+          }
+        }
+      ]
+    },
+    "evo/system/commit-synchronize.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 6,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 3
+          }
+        }
+      ]
+    },
+    "evo/system/host-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 2
+          }
+        }
+      ]
+    },
+    "evo/system/management-instance.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 16
+          }
+        }
+      ]
+    },
+    "evo/system/packet-forwarding-options-host-profile.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 6,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 21
+          }
+        }
+      ]
+    },
+    "evo/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 18
+          }
+        }
+      ]
+    },
+    "evo/system/services-netconf-ssh-root-login-grpc-ssl-local-certificate.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 14,
+          "devices": [
+            "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc2_ott/dc1_spine1_qfx5220-32cd",
+            "dc1-dc2_ott/dc1_spine2_qfx5220-32cd",
+            "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+            "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+            "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc3_type2_seamless/dc1_spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc1_spine2_qfx5220-32cd"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+            "sourceId": 15
+          }
+        }
+      ]
+    },
+    "evo/system/services-netconf-ssh-root-login.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 8,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf1_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-leaf2_qfx5130-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine1_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_storage-spine2_qfx5220-32cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd",
+            "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+            "sourceId": 7
+          }
+        }
+      ]
+    },
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-2-ports-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-4-ports-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-port-50-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-port-50-and-1-port-100g.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-cpp-filter-v1-tcp-8080.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/policer-police-5mbps.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/evpn-vxlan-shared-tunnels-vxlan-trans-vni-enable.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/evpn-vxlan-shared-tunnels.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/vxlan-routing-next-hop-interface-num-overlay-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/vxlan-routing-overlay-ecmp.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ae-esi-all-active-lacp-system-id.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 20,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 224
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-core-lag-member-ether-description.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-description-flexible-vlan-tagging-native-vlan-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-description-mtu-9216.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-flexible-vlan-tagging-native-vlan-1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-hold-time-up-100000.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-inet6-mtu-9170.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-core-inet-mtu-9170.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-description-vlan-inet-mtu.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-description-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ethernet-switching-trunk-20-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ethernet-switching-trunk-30-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ethernet-switching-trunk-40-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ethernet-switching-trunk-vlans.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-inet-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-0-inet-filter-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-unit-0-inet-no-address.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/irb-inet-inet6-mtu-9000-mac-no-dhcp-flood.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/irb-inet-inet6-mtu-9000-mac.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/cm-instance-target.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/community-2-members.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/evpn-gw-out.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/fabric-communities.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/from-spine-evpn-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/from-spine-fabric-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/from-superspine-evpn-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/from-superspine-fabric-tier.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/community/no-advertise.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-all.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-accept-fabric-evi-reject-dci-l2-target.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-add-from-spine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-add-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-direct-inet-inet6-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-evpn-dci-l2-target-community-add-no-advertise-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-target-community-delete-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-bgp-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-from-policy-evpn-host-routes-community-add-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-reject-bgp-from-spine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-evpn-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-reject-bgp-from-superspine-tier-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/bgp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/ntp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/snmp-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/ssh-sources.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list-default-route.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list/rfl-inet-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-dci-gateway-2-peers-multihop-import-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd-export-2-expressions.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies-per-peer-as.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 9,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1352
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-4-peers-bfd-export-1-policy.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-evpn-overlay-5-peers-bfd-export-1-policy.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_borderleaf1_qfx5700"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_borderleaf1_qfx5700"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_borderleaf2_qfx5700"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-2-peers-bfd.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y"
+            ],
+            "right": [
+              "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies-per-peer-as.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 12,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1310
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-2-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-4-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "groups",
+        "groups": [
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine1_qfx5230-64cd"
+            ]
+          },
+          {
+            "left": [
+              "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+            ],
+            "right": [
+              "dc1-dc4_type2_type5_seamless/dc4_superspine2_qfx5230-64cd"
+            ]
+          }
+        ]
+      }
+    },
+    "junos/protocols/bgp-group-ebgp-underlay-5-peers-dual-stack-bfd-export-2-policies.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "ambiguous-bgp-address-scope",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "sourceId": 321
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-log-updown-graceful-restart-multipath.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:bgp",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1370
+          }
+        }
+      ]
+    },
+    "junos/protocols/evpn-no-core-isolation-interconnect-multihoming-peer-gateways.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:evpn",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 1152
+          }
+        }
+      ]
+    },
+    "junos/protocols/l2-learning-telemetry-remote-entries.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:l2-learning"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:l2-learning",
+          "instances": 16,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1373
+          }
+        }
+      ]
+    },
+    "junos/protocols/lldp-interface-all-port-id-interface-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1378
+          }
+        }
+      ]
+    },
+    "junos/protocols/router-advertisement-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:router-advertisement"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:router-advertisement",
+          "instances": 614,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1178
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-bridge-priority-0-2-edge-bpdu-block.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 28,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1387
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-bridge-priority-0-bpdu-block-on-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 16,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1387
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-disable.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 6,
+          "devices": [
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "sourceId": 451
+          }
+        }
+      ]
+    },
+    "junos/protocols/rstp-interface-edge.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:rstp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:rstp",
+          "instances": 36,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1384
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-20-vlans-3-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "sourceId": 575
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-30-vlans-1-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "sourceId": 656
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-40-vlans-1-ac-dc1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "sourceId": 748
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-40-vlans-1-ac-dc2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "sourceId": 754
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-40-vlans-2-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "sourceId": 875
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-40-vlans-3-ac-dc1.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 4,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 778
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-40-vlans-3-ac-dc2.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "sourceId": 789
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-50-vlans-1-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 1,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "sourceId": 873
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/evpn-elan/ri-mac-vrf-vlan-aware-interconnect-translation-vni-20-vlans-2-ac.conf": {
+      "status": "unresolved",
+      "features": [
+        "esi",
+        "protocol:evpn",
+        "vpn:mac-vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:ethernet-segment",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 921
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 728
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-10-irb.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "sourceId": 912
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 8,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 730
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-20-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 8,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 1116
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-overrides-10-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 3,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "sourceId": 615
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-overrides-10-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 3,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "sourceId": 940
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-overrides-20-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 3,
+          "devices": [
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "sourceId": 738
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-dhcp-relay-overrides-20-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 3,
+          "devices": [
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "sourceId": 1127
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-inet-10-irb-blue.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 696
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 674
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-inet-10-irb-red.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "protocol:evpn",
+        "vpn:vrf"
+      ],
+      "reasons": [
+        {
+          "reason": "counterpart-not-found",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 944
+          }
+        },
+        {
+          "reason": "membership-only-no-service-edge",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 922
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute-chained-nh-evpn.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-pplb-ecmp-fast-reroute.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/graceful-restart.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/router-id.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/security/certificates-local.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 26
+          }
+        }
+      ]
+    },
+    "junos/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y"
+          ],
+          "witness": {
+            "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "sourceId": 36
+          }
+        }
+      ]
+    },
+    "junos/system/host-name.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 2
+          }
+        }
+      ]
+    },
+    "junos/system/management-instance.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 15
+          }
+        }
+      ]
+    },
+    "junos/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 22,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 17
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-grpc-ssl-local-certificate-mgmt-junos.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym"
+          ],
+          "witness": {
+            "device": "dc1-dc4_type2_type5_seamless/dc4_compute-leaf2_qfx5120-48ym",
+            "sourceId": 12
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-root-login-grpc-ssl-local-certificate.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 21,
+          "devices": [
+            "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc1_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc1_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_esi-leaf2_qfx5120-48y",
+            "dc1-dc2_ott/dc2_server-leaf1_qfx5120-48y",
+            "dc1-dc2_ott/dc2_spine1_qfx5120-48y-8c",
+            "dc1-dc2_ott/dc2_spine2_qfx5120-48y-8c",
+            "dc1-dc3_type2_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+            "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf1_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf2_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc1_leaf3_qfx5120-48y",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-leaf1_qfx5120-48ym",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_compute-spine2_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine1_qfx5210-64c",
+            "dc1-dc4_type2_type5_seamless/dc4_services-spine2_qfx5210-64c"
+          ],
+          "witness": {
+            "device": "dc1-dc2_ott/dc1_esi-leaf1_qfx5120-48y",
+            "sourceId": 14
+          }
+        }
+      ]
+    }
+  }
+}
