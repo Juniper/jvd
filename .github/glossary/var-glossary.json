@@ -1095,6 +1095,83 @@
       "example": "41.2.10.1",
       "notes": "Registered on 2026-11-22; used by Metro Ethernet Business Services, EWAN DC Edge, EWAN Advanced Core and Edge, Low Latency QoS Design for 5G before this entry, and reused by 5-Stage EVPN-VXLAN Data Center.",
       "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/evo/interfaces/ifl-irb-virtual-gateway.conf"
+    },
+    "ASN_DCI_PEER": {
+      "intent": "AS number of the remote site's DCI gateway, for both the overlay and the link sessions.",
+      "use": "Numbered _1.._n for the neighbors of one DCI overlay group, in neighbor order, with the DCI_PEER_V4 of the same number; unnumbered in the DCI-link group.",
+      "example": "65105",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect. Name and intent approved by Kevin Brown, 2026-11-23.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf"
+    },
+    "DCI_LINK_LOCAL_V4": {
+      "intent": "`local-address` of this gateway on the inter-site link.",
+      "use": "Used by 2 snippets, for example `evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf`.",
+      "example": "172.17.10.1",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect. Name and intent approved by Kevin Brown, 2026-11-23.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf"
+    },
+    "DCI_LINK_PEER_V4": {
+      "intent": "IPv4 address of the remote site's DCI gateway on the inter-site link (default-instance eBGP neighbor).",
+      "use": "Used by 2 snippets, for example `evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf`.",
+      "example": "172.17.10.2",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect. Name and intent approved by Kevin Brown, 2026-11-23.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf"
+    },
+    "DCI_PEER_V4": {
+      "intent": "Loopback IPv4 address of a remote DCI gateway: the neighbor of the multihop DCI overlay eBGP session between the gateways of two data centers.",
+      "use": "Numbered _1.._n for the neighbors of one group, in neighbor order.",
+      "example": "192.168.254.2",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/bgp-group-ebgp-evpn-dci-gateway-1-peer-multihop-bfd-import-export-2-policies.conf"
+    },
+    "DHCP_SERVER_V4": {
+      "intent": "IPv4 address of a DHCP server in a DHCP relay server group (`forwarding-options dhcp-relay server-group`).",
+      "use": "Used by 2 snippets, for example `evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-interconnect-dhcp-relay-20-irb-red.conf`.",
+      "example": "192.168.36.100",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/routing-instances/l3vpn/ri-vrf-evpn-type-5-ebgp-interconnect-dhcp-relay-20-irb-red.conf"
+    },
+    "INTERCONNECT_PEER_GW": {
+      "intent": "Loopback IPv4 address of a DCI gateway of the same data center that shares the EVPN interconnect (`evpn interconnect-multihoming-peer-gateways`).",
+      "use": "Numbered _1.._n in source order; the list includes the local gateway.",
+      "example": "192.168.255.2",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/evpn-interconnect-multihoming-peer-gateways.conf"
+    },
+    "MACSEC_CA": {
+      "intent": "Name of a MACsec connectivity association (`security macsec connectivity-association`).",
+      "use": "Used by 2 snippets, for example `evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf`.",
+      "example": "dc1-dc2-dci",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf"
+    },
+    "MACSEC_CAK": {
+      "intent": "Connectivity association key (CAK) of a static-CAK MACsec connectivity association (`pre-shared-key cak`): a secret both ends of the link share.",
+      "use": "Used by 2 snippets, for example `evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf`.",
+      "example": "\"<MACSEC_CAK>\"",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf"
+    },
+    "MACSEC_CKN": {
+      "intent": "Connectivity association key name (CKN) of a static-CAK MACsec connectivity association (`pre-shared-key ckn`): a hexadecimal string both ends of the link share.",
+      "use": "Used by 2 snippets, for example `evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf`.",
+      "example": "abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/security/macsec-static-cak-gcm-aes-xpn-128-1-interface.conf"
+    },
+    "MULTIHOP_TTL": {
+      "intent": "Time to live of a multihop eBGP session (`multihop ttl`).",
+      "use": "Used by 2 snippets, for example `evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf`.",
+      "example": "2",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/evo/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export.conf"
+    },
+    "PIC_PORT": {
+      "intent": "Port number on a PIC whose speed a chassis statement sets (`chassis fpc <n> pic <n> port <n>`).",
+      "use": "Used by `junos/chassis/fpc-pic-0-port-50-and-1-port-100g.conf`.",
+      "example": "51",
+      "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
+      "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/junos/chassis/fpc-pic-0-port-50-and-1-port-100g.conf"
     }
   },
   "notes": [

@@ -1,66 +1,44 @@
-# BYOAI — Bring Your Own AI (EVPN-VXLAN Data Center Interconnect · DCI)
+# BYOAI — EVPN-VXLAN Data Center Interconnect
 
-Generate validated Junos / Junos Evolved configuration for the **EVPN-VXLAN Data Center Interconnect (DCI)** JVD using any AI you already have (Claude, ChatGPT, Gemini, a local model). The AI is grounded in this JVD's published, validated snippet library — it does not invent syntax. The library captures the *additional* configuration that stitches EVPN/VXLAN fabrics across data centers using three techniques: **Over-the-Top (OTT)**, **Type 2 seamless stitching**, and **Type 2 + Type 5 seamless stitching**, with **MACSEC** between border-leaf gateways.
-
-Two modes:
-
-- **Configuration mode** — a guided interview produces ready-to-deploy DCI config from the 13-snip library: the `evpn-gw` overlay eBGP gateway, the EVPN interconnect (ESI / RD / interconnected-vni-list), per-VLAN translation VNI, the Type 5 L3 VRF stretch, MACSEC, and the DCI communities. It layers onto an already-deployed 3-stage / 5-stage / collapsed fabric.
-- **Design mode** — explore the architecture, grounded in the JVD documentation corpus ([`../../../documentation/`](../../../documentation/)): datasheet, design guide, solution overview, and test report brief. Answers are cited to the docs.
+**Bring Your Own AI** assistant bundle for the EVPN-VXLAN Data Center Interconnect JVD. Works with any AI that has web-fetch capability (ChatGPT Plus, Claude Pro, Gemini Advanced, local models with browsing).
 
 ## Quick start
 
-1. Open a fresh chat in your AI.
-2. Paste the fenced block from [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) into the system-prompt slot (or as your first message).
-3. The assistant shows a **mode menu**. Pick Configuration or Design.
-4. It fetches the corpus it needs from GitHub and proceeds.
+1. Open a fresh chat in your AI of choice.
+2. Paste the fenced block from [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) as the system prompt (or as the first user message).
+3. The AI will greet you with the mode menu. Pick **Configuration** or **Design**.
 
-One-click launch URLs (AIs with web fetch):
+Or use the one-click launch links: `./make-launch-links.sh`
 
-```bash
-./make-launch-links.sh
-```
-
-For detailed usage + the tested-and-working AI compatibility list, see [Using BYOAI](https://github.com/Juniper/jvd/blob/main/portal/public/USING-BYOAI.md).
-
-## Files in this folder
+## Files
 
 | File | Purpose |
 |------|---------|
-| [`SYSTEM_PROMPT.md`](SYSTEM_PROMPT.md) | The system prompt (paste the fenced block) |
-| `jvd-evpn-dci-byoai-prompt.txt` | Extracted fenced block, standalone |
-| `jvd-evpn-dci-snips.md` | Full snip bundle (Config-mode corpus) |
-| `MANIFEST.json` | Per-snip index for on-demand fetch |
-| [`TIERS.md`](TIERS.md) | service kind → snip set per form tier |
-| [`DEFAULTS.md`](DEFAULTS.md) | auto-fill lab defaults |
-| [`OUTPUT_FORMAT.md`](OUTPUT_FORMAT.md) | required output shape |
-| [`MENU.md`](MENU.md) | full catalog of generation asks |
-| `regenerate-bundle.sh` | rebuild the bundle after snip changes |
-| `make-manifest.py` | rebuild MANIFEST.json |
-| `make-launch-links.sh` | print one-click launch URLs |
+| `SYSTEM_PROMPT.md` | The prompt (fenced block = paste this into your AI) |
+| `TIERS.md` | Generated service → snip-set per form tier and device. Only `minimum` is qualified and selectable for this JVD (see below) |
+| `DEFAULTS.md` | Lab auto-fill values (device inventory per scenario and the first measured instance of each service on each device) |
+| `OUTPUT_FORMAT.md` | Required output shape |
+| `MENU.md` | Browser-facing catalog of generation asks |
+| `jvd-evpn-dci-snips.md` | Full snip bundle (Config-mode corpus); each snip lists its Needs and, where the validated configuration lacks a referenced object, what is Not included |
+| `jvd-evpn-dci-byoai-prompt.txt` | Extracted prompt (standalone, for launch URLs) |
+| `MANIFEST.json` | Per-snip fetch manifest with each snip's same-device requirements and the references it cannot include |
+| `regenerate-bundle.sh` | Rebuilds TIERS.md, MANIFEST.json, snips.md and prompt.txt after changes |
+| `make-manifest.py` | Generates `MANIFEST.json` with the private builder |
+| `make-launch-links.sh` | Prints ChatGPT/Claude/Gemini launch URLs |
 
 ## Configuration mode vs Design mode
 
-**Configuration mode** fetches the snip bundle (`jvd-evpn-dci-snips.md`) and generates config. **Design mode** fetches the design corpus and answers architecture questions, grounded and cited:
+**Configuration mode** generates source-backed building blocks from the [snip library](../). The AI fetches `jvd-evpn-dci-snips.md` once, then renders per your request. Services: the leaves' EVPN-VXLAN MAC-VRFs and EVPN Type 5 VRFs (with IRB units, most with DHCP relay), and the DCI gateways' MAC-VRFs with an EVPN interconnect and VNI translation, Type 5 VRFs with an EVPN interconnect, and Type 5 VRFs with eBGP to the external router, in each of the three interconnect scenarios, in the `minimum` form: the service construct only, on a device that already runs its prerequisites, which the assistant lists. The larger tiers that [`TIERS.md`](TIERS.md) lists (`self-contained`, `as-deployed`) are **not qualified and not selectable** for this JVD, so the assistant never offers or renders them. The [device configurations](../../conf/) are the as-captured reference. Known limitations of the published configurations are in the library README [Scope](../README.md#scope).
 
-- [`../../../documentation/datasheet.md`](../../../documentation/datasheet.md) (fetched first)
-- [`../../../documentation/design-guide.md`](../../../documentation/design-guide.md)
-- [`../../../documentation/solution-overview.md`](../../../documentation/solution-overview.md)
-- [`../../../documentation/test-report-brief.md`](../../../documentation/test-report-brief.md)
+**Design mode** answers architecture questions from the [documentation corpus](../../../documentation/). It fetches the [datasheet](../../../documentation/datasheet.md) first, then the [design guide](../../../documentation/design-guide.md), [solution overview](../../../documentation/solution-overview.md) and [test report brief](../../../documentation/test-report-brief.md) on demand.
 
-The snip bundle is not required for Design mode.
+## Regenerate
 
-## Regenerating after snip changes
-
-After editing any `.conf` in `../junos/` or `../evo/`, or any file in this folder, re-run:
+After any change to the snip library:
 
 ```bash
-./regenerate-bundle.sh
+cd data_center/adc/evpn_vxlan_dci/configuration/snips
+JVD_BUILDER=<git-jvd-builder checkout> ./byoai/regenerate-bundle.sh
 ```
 
-This rebuilds `jvd-evpn-dci-snips.md`, extracts `jvd-evpn-dci-byoai-prompt.txt`, and regenerates `MANIFEST.json`. Then regenerate the portal mirror from the repo root:
-
-```bash
-JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs
-```
-
-and commit the refreshed `portal/public/byoai/evpn_vxlan_dci/`.
+The script regenerates `TIERS.md` from the service forms and dependency projection in [`_composition.json`](../_composition.json) and `MANIFEST.json` with the private builder, then assembles the bundle with each snip's Needs and Not included blocks and the tier-qualification note above. Then run `JVD_REPO=<checkout> node $JVD_BUILDER/engine/js/generate-snips.mjs` to update the portal mirror.

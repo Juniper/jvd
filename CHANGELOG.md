@@ -4,6 +4,162 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-23
+
+The **EVPN-VXLAN Data Center Interconnect** snippet library is rebuilt with measured
+dependencies from the 44 validated device configurations of its three interconnect
+scenarios, and the Config Explorer Roles view now includes it.
+
+### New content
+
+- **[EVPN-VXLAN Data Center Interconnect snippet library](data_center/adc/evpn_vxlan_dci/configuration/snips)**:
+  269 snippets (117 Junos OS, 152 Junos OS Evolved) measured from the 44 published device
+  configurations replace the earlier 13 topic snippets. The configurations cover three
+  scenarios, each in its own folder: Over-the-Top between DC1 and DC2, Type 2 seamless
+  stitching between DC1 and DC3, and Type 2 + Type 5 seamless stitching between DC1 and
+  DC4. The snippets cover the spines (QFX5220-32CD, QFX5120-48Y-8C), border leaves
+  (QFX5130-32CD, QFX5700) and leaves (QFX5120-48Y) of DC1, DC2 and DC3, and the DC4 super
+  spines (QFX5230-64CD) and POD spines and leaves (QFX5210-64C, QFX5220-32CD,
+  QFX5120-48YM, QFX5130-32CD, QFX5130-48C):
+  - the eBGP underlay and EVPN overlay groups of each tier, with their tier communities
+    and policies;
+  - on the DCI gateways: eBGP to the remote gateway over the DCI link, the multihop DCI
+    overlay eBGP, the EVPN interconnect with VNI translation and its multihoming peer
+    gateways, and MACsec with a static CAK on the DCI interfaces;
+  - the VLAN-aware MAC-VRFs (with an EVPN interconnect on the gateways) and the EVPN
+    Type 5 VRFs with IRB units, DHCP relay, an EVPN interconnect or eBGP to the external
+    router;
+  - fabric, loopback, trunk and IRB units, aggregated Ethernet bundles (including
+    ESI-LAG) and their member ports;
+  - control-plane protection filters, IPv6 router advertisements, LLDP, RSTP and the
+    system settings.
+
+  Constructs that match an existing library keep its snippet body and variable names,
+  and a construct with the same body on both operating systems is published as an
+  identical Junos OS and Junos OS Evolved pair. Every active statement in the 44
+  configurations is reproduced by a snippet; only each configuration's software version
+  stamp is excluded, and the published configurations contain no traceoptions and no
+  deactivated configuration. Each snippet lists the devices it was validated on (by
+  scenario folder and file name, for example `dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd`),
+  its source instance count and, where verified, its peer on the other end of a BGP
+  session.
+- **EVPN-VXLAN Data Center Interconnect dependencies**: 32 snippets list a measured `Pair
+  with` prerequisite (for example, a policy needs its tier or DCI community, and the
+  control-plane protection filter needs its policer), and 93 snippets carry 128 typed
+  requirements. The [per-router dependency links](portal/public/snip-dependencies.json)
+  gain 647 answers for this JVD: 608 resolved, and 39 not needed on these routers. The
+  assistant bundle was regenerated from the new library. It lists each snippet's Needs
+  and offers the `minimum` form of 23 services across the three scenarios: the
+  EVPN-VXLAN MAC-VRFs (10 to 50 VLANs, with an EVPN interconnect and VNI translation on
+  the DCI gateways), and the EVPN Type 5 VRFs of the leaves and DCI gateways with IRB
+  units, DHCP relay, an EVPN interconnect, or eBGP to the external router.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes EVPN-VXLAN Data
+  Center Interconnect. It groups the snippets under the twelve roles named in the Device
+  roles table of the
+  [JVD datasheet](data_center/adc/evpn_vxlan_dci/documentation/datasheet.md#device-roles):
+  the DC1 and DC2 spines and border leaves, the ESI and server leaves, the DC1 and DC3
+  leaves, and the DC4 super spines and the compute, storage and services POD spines and
+  leaves. A device captured in several scenario folders is listed once in its role, with
+  the folders it appears in.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 11 entries, all introduced by this library:
+  - the DCI sessions: `$DCI_PEER_V4`, `$DCI_LINK_PEER_V4`, `$DCI_LINK_LOCAL_V4` and
+    `$ASN_DCI_PEER`;
+  - the EVPN interconnect: `$INTERCONNECT_PEER_GW`;
+  - MACsec: `$MACSEC_CA`, `$MACSEC_CKN` and `$MACSEC_CAK`;
+  - other: `$DHCP_SERVER_V4`, `$MULTIHOP_TTL` and `$PIC_PORT`.
+
+### Fixes and maintenance
+
+- **Source corrections in the EVPN-VXLAN Data Center Interconnect configurations**: two
+  sanitized placeholders were incomplete in the
+  [published configurations](data_center/adc/evpn_vxlan_dci/configuration/conf):
+  - In `dc1-dc2_ott/dc2_borderleaf1_qfx5700`, the MACsec pre-shared key statement
+    `cak "secret"` now ends with its semicolon.
+  - In 15 configurations (all 14 in `dc1-dc2_ott` and `dc1-dc3_type2_seamless/dc3_leaf2`),
+    the `aos_grpc` local certificate carried only a comment. It now carries the
+    `"secret";` placeholder used by the same hosts in the other scenario folders.
+
+  No key material is published.
+- **Portal**: the role table in the Config Explorer lists each device once per host and
+  platform. Libraries whose configurations are not in scenario folders display as before.
+  The portal's dependency updates are included.
+
+### Known limitations
+
+- The DC1, DC2 and DC4 fabrics reuse the same IPv6 link addresses, so several underlay
+  and overlay groups carry no peer claim. The ESI-LAG bundle, MACsec, the EVPN
+  interconnect and the VRF, MAC-VRF and system constructs also carry no peer claim. See
+  the library
+  [README](data_center/adc/evpn_vxlan_dci/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+
+### What this means for you
+
+- Build EVPN-VXLAN Data Center Interconnect configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values. See the
+  library [README](data_center/adc/evpn_vxlan_dci/configuration/snips/README.md) and
+  [variable glossary](data_center/adc/evpn_vxlan_dci/configuration/snips/_variables.md).
+  Render a service on the devices of one scenario.
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier EVPN-VXLAN DCI snippet file names no longer resolve;
+  use the topic index in the library
+  [README](data_center/adc/evpn_vxlan_dci/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 22 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / EVPN-VXLAN Data Center Interconnect | 275 | 0 | 13 | 29 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 16 | 1 |
+| **Total** | **275** | **0** | **13** | **46** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / EVPN-VXLAN Data Center Interconnect | 67326 | 2493 | +64833 |
+| Shared variable glossary | 77 | 0 | +77 |
+| Portal | 114909 | 3129 | +111780 |
+| **Total** | **182312** | **5622** | **+176690** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet library (`configuration/snips/`, excluding assistant bundles) | 290 | 30856 |
+| JVD AI Assistant bundle (with portal copy) | 21 | 73010 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 71562 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 6723 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 77 |
+| Device configurations (source corrections) | 15 | 16 |
+| JVD datasheet | 1 | 16 |
+| Portal application and dependencies | 3 | 52 |
+| **Total** | **334** | **182312** |
+
+</details>
+
+---
+
 ## 2026-11-22
 
 The **5-Stage EVPN-VXLAN Data Center** snippet library is rebuilt from the fifteen
