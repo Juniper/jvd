@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "dci_over_ipodwdm",
- "generatedFrom": {"inputsSha256":"876d55deebab4dc3e339ef9f3de0f0dfba95f3248503615ed87059681639cd71","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":3,"snips":49},
+ "generatedFrom": {"inputsSha256":"876d55deebab4dc3e339ef9f3de0f0dfba95f3248503615ed87059681639cd71","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5","devices":3,"snips":49},
  "deviceInventory": ["dci1_ptx10001-36mr","dci2_mx304","dci3_acx7100-48l"],
  "snips": {
   "evo/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"dci1_ptx10001-36mr":1,"dci3_acx7100-48l":1},"instances":{"dci1_ptx10001-36mr":[{"binding":["10"],"equivalentBindings":1}],"dci3_acx7100-48l":[{"binding":["10"],"equivalentBindings":1}]}},

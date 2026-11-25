@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "collapsed_dc_fabric_with_access",
- "generatedFrom": {"inputsSha256":"0fa96b053ee178b11921b3847a0fd823e5ae6d8c1ff4cbacc600bb4b0753f857","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":4,"snips":54},
+ "generatedFrom": {"inputsSha256":"0fa96b053ee178b11921b3847a0fd823e5ae6d8c1ff4cbacc600bb4b0753f857","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5","devices":4,"snips":54},
  "deviceInventory": ["access1_ex4400-48mp","access2_ex4400-48mp","leaf1_qfx5120-48y","leaf2_qfx5120-48y"],
  "snips": {
   "junos/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"access1_ex4400-48mp":1,"access2_ex4400-48mp":1,"leaf1_qfx5120-48y":1,"leaf2_qfx5120-48y":1},"instances":{"access1_ex4400-48mp":[{"binding":["3"],"equivalentBindings":1}],"access2_ex4400-48mp":[{"binding":["3"],"equivalentBindings":1}],"leaf1_qfx5120-48y":[{"binding":["1"],"equivalentBindings":1}],"leaf2_qfx5120-48y":[{"binding":["1"],"equivalentBindings":1}]}},

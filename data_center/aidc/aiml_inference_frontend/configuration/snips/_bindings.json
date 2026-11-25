@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "aiml_inference_frontend",
- "generatedFrom": {"inputsSha256":"a17e8d3b2c97a1c167998c265db0206aafbb412c99b08d8920d41e873fe5a7c2","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":6,"snips":35},
+ "generatedFrom": {"inputsSha256":"a17e8d3b2c97a1c167998c265db0206aafbb412c99b08d8920d41e873fe5a7c2","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5","devices":6,"snips":35},
  "deviceInventory": ["leaf1_qfx5130-32cd","leaf2_qfx5130-32cd","leaf3_qfx5130-32cd","leaf4_qfx5130-32cd","spine1_qfx5220-32cd","spine2_qfx5220-32cd"],
  "snips": {
   "evo/interfaces/ifd-breakout-description-10g.conf": {"variables":["BREAKOUT_SUB_PORTS","DESCRIPTION","IFD"],"count":{"leaf1_qfx5130-32cd":1},"instances":{"leaf1_qfx5130-32cd":[{"binding":["4","\"Breakout et-0/0/8\"","et-0/0/8"],"equivalentBindings":1}]}},

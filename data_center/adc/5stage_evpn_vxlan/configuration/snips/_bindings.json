@@ -1,7 +1,7 @@
 {
  "schema": 2,
  "jvd": "5stage_evpn_vxlan",
- "generatedFrom": {"inputsSha256":"af15fa6f8cf3f30cbca5433269688ce7fb54b2efb48da1d4993f5cfb69419d99","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab","devices":15,"snips":218},
+ "generatedFrom": {"inputsSha256":"af15fa6f8cf3f30cbca5433269688ce7fb54b2efb48da1d4993f5cfb69419d99","registryVersion":4,"registrySha256":"dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43","toolsSha256":"931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5","devices":15,"snips":218},
  "deviceInventory": ["compute-leaf1_qfx5120-48ym","compute-leaf2_qfx5120-48ym","compute-spine1_qfx5210-64c","compute-spine2_qfx5210-64c","external-gw_mx","services-leaf1_qfx5130-48c","services-leaf2_qfx5130-48c","services-spine1_qfx5210-64c","services-spine2_qfx5210-64c","storage-leaf1_qfx5130-32cd","storage-leaf2_qfx5130-32cd","storage-spine1_qfx5220-32cd","storage-spine2_qfx5220-32cd","superspine1_qfx5230-64cd","superspine2_qfx5230-64cd"],
  "snips": {
   "evo/chassis/aggregated-devices-ethernet.conf": {"variables":["AE_DEVICE_COUNT"],"count":{"services-leaf1_qfx5130-48c":1,"services-leaf2_qfx5130-48c":1,"storage-leaf1_qfx5130-32cd":1,"storage-leaf2_qfx5130-32cd":1},"instances":{"services-leaf1_qfx5130-48c":[{"binding":["1"],"equivalentBindings":1}],"services-leaf2_qfx5130-48c":[{"binding":["1"],"equivalentBindings":1}],"storage-leaf1_qfx5130-32cd":[{"binding":["1"],"equivalentBindings":1}],"storage-leaf2_qfx5130-32cd":[{"binding":["1"],"equivalentBindings":1}]}},
