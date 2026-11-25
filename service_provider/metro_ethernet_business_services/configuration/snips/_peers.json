@@ -4,10 +4,10 @@
     "inputsSha256": "90a039ecf1a27d533147e58df6889305aad10115a86562aaf32f14fa0eb7fba2",
     "registryVersion": 4,
     "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
-    "toolsSha256": "7f597abe0aca109c70cb5bfb0b0dba98f69e036b80367952855f98328e124eab",
+    "toolsSha256": "931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5",
     "devices": 20,
     "snips": 585,
-    "relationshipsSha256": "50d201c40eca3fcdfcb0c37583b83f99763f6aad9cd98488dad8653541c78636",
+    "relationshipsSha256": "9e3a49b17821cc0a7470f2cfa7beb4bb24c8964fe490edb4157c3639d5249450",
     "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
   },
   "snips": {
