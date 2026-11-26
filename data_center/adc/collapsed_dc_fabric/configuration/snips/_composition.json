@@ -99,7 +99,7 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "e4ac7a5ffa095780dd5f2920f3123f84773f16b373f1b3386cae154145bd0e87"
+    "sha256": "5755eafbe134c225b34475677c09148439fc705b925f2f00a1daeaf118010ed1"
   },
   "occurrenceBindings": [
     {
@@ -190,6 +190,32 @@
       ],
       "slots": [
         "$COMMUNITY_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/route-filter-list-default-route.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/route-filter-list-4-upto-2-exact.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST"
       ],
       "presence": "required",
       "unbound": "required"

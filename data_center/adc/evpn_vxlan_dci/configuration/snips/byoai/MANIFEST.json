@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "ab9f1cae44378620c8154e5b515fbbd46188aaf601a2ed3c0f08f18f5a09447f",
+  "dependency_declaration_sha256": "5ab79478096d16fd0710a4f90ff33f58224592bb884d1bf2b6e6c8a5cf0a4623",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/evpn_vxlan_dci/configuration/snips",
   "snip_count": 269,
@@ -1367,6 +1367,25 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2",
+            "$ROUTE_FILTER_LIST_3",
+            "$ROUTE_FILTER_LIST_4",
+            "$ROUTE_FILTER_LIST_5",
+            "$ROUTE_FILTER_LIST_6"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-all-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-all-upto-128.conf"
+          ]
         }
       ]
     },
@@ -1447,7 +1466,35 @@
         "evo/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2",
+            "$ROUTE_FILTER_LIST_3",
+            "$ROUTE_FILTER_LIST_4",
+            "$ROUTE_FILTER_LIST_5",
+            "$ROUTE_FILTER_LIST_6"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-4-upto-128-5-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-3-exact.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-target-community-delete-reject.conf",
@@ -1805,6 +1852,22 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-all-upto-32.conf"
+          ]
         }
       ]
     },
@@ -1833,7 +1896,23 @@
         "evo/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
@@ -1872,6 +1951,21 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list-default-route.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf"
+          ]
         }
       ]
     },
@@ -1900,7 +1994,33 @@
         "evo/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-4-upto-128-5-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-3-exact.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "evo/policy-options/prefix-list/bgp-sources.conf",
@@ -6215,6 +6335,20 @@
           "providers": [
             "junos/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-default-route.conf",
+            "junos/policy-options/route-filter-list/rfl-inet-2-exact.conf"
+          ]
         }
       ]
     },
@@ -6235,7 +6369,21 @@
         "junos/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject.conf",
@@ -6254,7 +6402,21 @@
         "junos/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "junos/policy-options/prefix-list/bgp-sources.conf",

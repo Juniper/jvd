@@ -2004,6 +2004,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`, `$ROUTE_FILTER_LIST_3`, `$ROUTE_FILTER_LIST_4`, `$ROUTE_FILTER_LIST_5`, `$ROUTE_FILTER_LIST_6`): required, for each reference; one of `policy-options/route-filter-list/rfl-inet-all-upto-32`, `policy-options/route-filter-list/rfl-inet6-all-upto-128`
 
 ## evo/policy-options/policy-statement/ps-evpn-dci-l2-target-community-add-no-advertise-reject.conf
 
@@ -2226,6 +2227,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`, `$ROUTE_FILTER_LIST_3`, `$ROUTE_FILTER_LIST_4`, `$ROUTE_FILTER_LIST_5`, `$ROUTE_FILTER_LIST_6`): required, for each reference; one of 10 providers listed in MANIFEST.json
 
 ## evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-target-community-delete-reject.conf
 
@@ -2952,6 +2956,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; one of `policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32`, `policy-options/route-filter-list/rfl-inet-2-exact`, `policy-options/route-filter-list/rfl-inet-3-exact`, `policy-options/route-filter-list/rfl-inet-all-upto-32`
 
 ## evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject.conf
 
@@ -3003,6 +3008,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; one of `policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact`, `policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact`, `policy-options/route-filter-list/rfl-inet-3-upto-32`
 
 ## evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf
 
@@ -3073,6 +3081,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME_1`, `$COMMUNITY_NAME_2`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`): required, for each reference; one of `policy-options/route-filter-list-default-route`, `policy-options/route-filter-list/rfl-inet6-default-exact`
 
 ## evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf
 
@@ -3140,6 +3149,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`): required, for each reference; one of 12 providers listed in MANIFEST.json
 
 ## evo/policy-options/prefix-list/bgp-sources.conf
 
@@ -12418,6 +12430,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; one of `policy-options/route-filter-list-default-route`, `policy-options/route-filter-list/rfl-inet-2-exact`
 
 ## junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf
 
@@ -12461,6 +12474,9 @@ policy-options {
 }
 ```
 
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; `policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact`
+
 ## junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject.conf
 
 ```
@@ -12503,6 +12519,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; `policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact`
 
 ## junos/policy-options/prefix-list/bgp-sources.conf
 

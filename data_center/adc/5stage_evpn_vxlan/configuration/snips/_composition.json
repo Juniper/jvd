@@ -457,7 +457,7 @@
   "dependencyContract": {
     "schemaVersion": 3,
     "authority": "approved-declaration",
-    "sha256": "3e81944672e434cc8dcf4452d4ff9c07729e9284d3aaef97c89cfa94855050df"
+    "sha256": "ed36088f4831b393133fed05dd04ce0c7af4f96dadac73d68259e2bcc311457c"
   },
   "occurrenceBindings": [
     {
@@ -695,6 +695,40 @@
       "slots": [
         "$COMMUNITY_NAME_1",
         "$COMMUNITY_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/route-filter-list/rfl-inet-default-exact.conf",
+        "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST_1",
+        "$ROUTE_FILTER_LIST_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "evo/policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32.conf",
+        "evo/policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32.conf",
+        "evo/policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32.conf",
+        "evo/policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128.conf",
+        "evo/policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128.conf",
+        "evo/policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST_1",
+        "$ROUTE_FILTER_LIST_2"
       ],
       "presence": "required",
       "unbound": "required"

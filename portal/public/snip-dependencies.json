@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "8da1daf3b9ccc8838d894e8f3ff8728774d1faa38c5dfe4743ee9f9569c1e391",
+  "libraryDigest": "7c2c1a9d1664043e3e81e1d611fad022ae061bd27359679c4fed377ed9c3bb15",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-23T23:39:20.181Z",
+  "generatedAt": "2026-11-26T00:04:41.258Z",
   "resolutions": [
     {
       "jvd": "5stage_evpn_vxlan",
@@ -869,6 +869,32 @@
     {
       "jvd": "5stage_evpn_vxlan",
       "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-default-exact",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf1_qfx5130-48c",
       "snip": "5stage_evpn_vxlan/evo/protocols/bgp-group-ebgp-evpn-overlay-2-peers-bfd-export-2-policies",
       "requirement": "ref-policy-statement",
       "status": "resolved",
@@ -1189,6 +1215,32 @@
       "status": "resolved",
       "providers": [
         "5stage_evpn_vxlan/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-default-exact",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "5stage_evpn_vxlan",
+      "device": "services-leaf2_qfx5130-48c",
+      "snip": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128",
+        "5stage_evpn_vxlan/evo/policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128"
       ]
     },
     {
@@ -5235,6 +5287,26 @@
     {
       "jvd": "collapsed_dc_fabric",
       "device": "leaf1_qfx5120-48y",
+      "snip": "collapsed_dc_fabric/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric/junos/policy-options/route-filter-list-default-route"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric",
+      "device": "leaf1_qfx5120-48y",
+      "snip": "collapsed_dc_fabric/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric/junos/policy-options/route-filter-list-4-upto-2-exact"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric",
+      "device": "leaf1_qfx5120-48y",
       "snip": "collapsed_dc_fabric/junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd",
       "requirement": "ref-policy-statement",
       "status": "resolved",
@@ -5376,6 +5448,26 @@
       "status": "resolved",
       "providers": [
         "collapsed_dc_fabric/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric",
+      "device": "leaf2_qfx5120-48y",
+      "snip": "collapsed_dc_fabric/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric/junos/policy-options/route-filter-list-default-route"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric",
+      "device": "leaf2_qfx5120-48y",
+      "snip": "collapsed_dc_fabric/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric/junos/policy-options/route-filter-list-4-upto-2-exact"
       ]
     },
     {
@@ -5715,6 +5807,26 @@
     {
       "jvd": "collapsed_dc_fabric_with_access",
       "device": "leaf1_qfx5120-48y",
+      "snip": "collapsed_dc_fabric_with_access/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric_with_access/junos/policy-options/route-filter-list-default-route"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric_with_access",
+      "device": "leaf1_qfx5120-48y",
+      "snip": "collapsed_dc_fabric_with_access/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric_with_access/junos/policy-options/route-filter-list-4-upto-2-exact"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric_with_access",
+      "device": "leaf1_qfx5120-48y",
       "snip": "collapsed_dc_fabric_with_access/junos/protocols/bgp-group-ebgp-evpn-overlay-1-peer-bfd",
       "requirement": "ref-policy-statement",
       "status": "resolved",
@@ -5864,6 +5976,26 @@
       "status": "resolved",
       "providers": [
         "collapsed_dc_fabric_with_access/junos/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric_with_access",
+      "device": "leaf2_qfx5120-48y",
+      "snip": "collapsed_dc_fabric_with_access/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric_with_access/junos/policy-options/route-filter-list-default-route"
+      ]
+    },
+    {
+      "jvd": "collapsed_dc_fabric_with_access",
+      "device": "leaf2_qfx5120-48y",
+      "snip": "collapsed_dc_fabric_with_access/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "collapsed_dc_fabric_with_access/junos/policy-options/route-filter-list-4-upto-2-exact"
       ]
     },
     {
@@ -6202,11 +6334,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red"
       ]
     },
     {
@@ -6391,11 +6567,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red"
       ]
     },
     {
@@ -7207,11 +7427,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf1_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red"
       ]
     },
     {
@@ -7396,11 +7660,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc2_ott/dc2_borderleaf2_qfx5700",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red"
       ]
     },
     {
@@ -8235,11 +8543,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-red"
       ]
     },
     {
@@ -8471,11 +8823,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-red"
       ]
     },
     {
@@ -9347,6 +9743,37 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y",
       "snip": "evpn_vxlan_dci/junos/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export",
       "requirement": "ref-policy-statement",
       "status": "resolved",
@@ -9581,6 +10008,37 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
+      "snip": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/junos/policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y",
       "snip": "evpn_vxlan_dci/junos/protocols/bgp-group-ebgp-dci-link-1-peer-multihop-bfd-import-export",
       "requirement": "ref-policy-statement",
       "status": "resolved",
@@ -9786,6 +10244,32 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-dci-l2-l3-targets-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-all-upto-128"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-l3-targets-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32-1-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-3-upto-128-1-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-4-upto-128-5-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-3-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-accept-host-routes-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
@@ -9806,11 +10290,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-4-upto-128-5-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-3-exact"
       ]
     },
     {
@@ -10052,6 +10580,32 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-dci-l2-l3-targets-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-all-upto-128"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-l3-targets-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32-1-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-3-upto-128-1-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-4-upto-128-5-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-3-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-accept-host-routes-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
@@ -10072,11 +10626,55 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-4-upto-128-5-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-3-exact"
       ]
     },
     {
@@ -11535,6 +12133,30 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-dci-l2-l3-targets-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-all-upto-128"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-l3-targets-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-2-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-3-upto-128",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-accept-host-routes-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
@@ -11555,11 +12177,53 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-2-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-2-exact"
       ]
     },
     {
@@ -11834,6 +12498,30 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-dci-l2-l3-targets-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-all-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-all-upto-128"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-l3-targets-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-5-upto-32-2-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-3-upto-128",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-2-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-from-policy-bgp-evpn-accept-host-routes-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
@@ -11854,11 +12542,53 @@
     {
       "jvd": "evpn_vxlan_dci",
       "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-community-add-reject-inet",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-3-upto-32"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
       "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
       "requirement": "ref-community",
       "status": "resolved",
       "providers": [
         "evpn_vxlan_dci/evo/policy-options/community/community-2-members"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list-default-route",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-default-exact"
+      ]
+    },
+    {
+      "jvd": "evpn_vxlan_dci",
+      "device": "dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c",
+      "snip": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-2-exact",
+        "evpn_vxlan_dci/evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-2-exact"
       ]
     },
     {
@@ -38089,5 +38819,5 @@
       ]
     }
   ],
-  "exportDigest": "33ac224b227756d06728a38142cd76d20a9e85c841a335f3ed7024952fcdf04e"
+  "exportDigest": "caca0b54a27a76b6e1082a088e2b9e624357c875da238f45f2e9ad64029efb21"
 }

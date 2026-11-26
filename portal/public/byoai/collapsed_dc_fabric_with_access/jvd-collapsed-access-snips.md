@@ -824,6 +824,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; `policy-options/route-filter-list-default-route`
 
 ## junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet.conf
 
@@ -866,6 +867,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST`): required, for each reference; `policy-options/route-filter-list-4-upto-2-exact`
 
 ## junos/policy-options/route-filter-list-4-upto-2-exact.conf
 

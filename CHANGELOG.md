@@ -4,6 +4,104 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-25
+
+Four Data Center snippet libraries now declare the route filter lists that their routing
+policies match, so the dependency links, catalog and assistant bundles list them.
+
+### Fixes and maintenance
+
+- **Route filter list dependencies in four Data Center libraries**: a routing policy that
+  matches a route filter list (`from route-filter-list NAME`) now requires the snippet
+  that defines the list. The snippets that gain the requirement:
+  - [Collapsed Data Center Fabric](data_center/adc/collapsed_dc_fabric/configuration/snips): 2;
+  - [Collapsed Data Center Fabric with Access Switches](data_center/adc/collapsed_dc_fabric_with_access/configuration/snips): 2;
+  - [5-Stage EVPN-VXLAN Data Center](data_center/adc/5stage_evpn_vxlan/configuration/snips): 2;
+  - [EVPN-VXLAN Data Center Interconnect](data_center/adc/evpn_vxlan_dci/configuration/snips): 9.
+
+  The [per-router dependency links](portal/public/snip-dependencies.json) gain 66
+  answers, all resolved, and the four assistant bundles list the new Needs. No snippet
+  body, binding or peer changed, and no other library's dependencies changed.
+- The measurement records (`_bindings.json`, `_peers.json`) of the fourteen rebuilt
+  snippet libraries are refreshed. No snippet, binding, peer or dependency result changed.
+
+### What this means for you
+
+- When you build from these four libraries, include the route filter list snippet that a
+  routing policy needs, as listed in the Needs of the JVD AI Assistant bundle or in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json) for your router.
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundles and manifests.
+
+---
+
+### By the numbers
+
+Changes since the November 23 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Data Center / Collapsed Data Center Fabric | 0 | 0 | 0 | 5 | 0 |
+| Data Center / Collapsed Data Center Fabric with Access Switches | 0 | 0 | 0 | 5 | 0 |
+| Data Center / 5-Stage EVPN-VXLAN Data Center | 0 | 0 | 0 | 5 | 0 |
+| Data Center / EVPN-VXLAN Data Center Interconnect | 0 | 0 | 0 | 5 | 0 |
+| Data Center / AI Data Center Frontend Fabric for Inference | 0 | 0 | 0 | 2 | 0 |
+| Data Center / AI/ML Multitenancy Backend | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 0 | 0 | 0 | 2 | 0 |
+| Enterprise WAN / Finance | 0 | 0 | 0 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Metro Ethernet Business Services | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Broadband Edge | 0 | 0 | 0 | 2 | 0 |
+| Service Provider / Low Latency QoS Design for 5G | 0 | 0 | 0 | 2 | 0 |
+| Portal | 0 | 0 | 0 | 11 | 0 |
+| **Total** | **0** | **0** | **0** | **51** | **0** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Data Center / Collapsed Data Center Fabric | 62 | 5 | +57 |
+| Data Center / Collapsed Data Center Fabric with Access Switches | 62 | 5 | +57 |
+| Data Center / 5-Stage EVPN-VXLAN Data Center | 78 | 5 | +73 |
+| Data Center / EVPN-VXLAN Data Center Interconnect | 347 | 9 | +338 |
+| Data Center / AI Data Center Frontend Fabric for Inference | 2 | 2 | 0 |
+| Data Center / AI/ML Multitenancy Backend | 2 | 2 | 0 |
+| Enterprise WAN / Core and Edge | 2 | 2 | 0 |
+| Enterprise WAN / Advanced Core and Edge Services | 2 | 2 | 0 |
+| Enterprise WAN / Data Center Edge | 2 | 2 | 0 |
+| Enterprise WAN / Finance | 2 | 2 | 0 |
+| Optical / DCI over IPoDWDM | 2 | 2 | 0 |
+| Service Provider / Metro Ethernet Business Services | 3 | 3 | 0 |
+| Service Provider / Broadband Edge | 2 | 2 | 0 |
+| Service Provider / Low Latency QoS Design for 5G | 2 | 2 | 0 |
+| Portal | 1578 | 64 | +1514 |
+| **Total** | **2148** | **109** | **+2039** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet libraries (`configuration/snips/`, excluding assistant bundles) | 32 | 276 |
+| JVD AI Assistant bundle (with portal copy) | 16 | 588 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 551 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 733 |
+| **Total** | **51** | **2148** |
+
+</details>
+
+---
+
 ## 2026-11-23
 
 The **EVPN-VXLAN Data Center Interconnect** snippet library is rebuilt with measured
