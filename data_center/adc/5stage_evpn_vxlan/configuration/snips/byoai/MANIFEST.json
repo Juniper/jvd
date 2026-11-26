@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "3e81944672e434cc8dcf4452d4ff9c07729e9284d3aaef97c89cfa94855050df",
+  "dependency_declaration_sha256": "ed36088f4831b393133fed05dd04ce0c7af4f96dadac73d68259e2bcc311457c",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/5stage_evpn_vxlan/configuration/snips",
   "snip_count": 218,
@@ -1550,6 +1550,21 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-default-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf"
+          ]
         }
       ]
     },
@@ -1570,7 +1585,27 @@
         "evo/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "evo/policy-options/prefix-list/bgp-sources.conf",

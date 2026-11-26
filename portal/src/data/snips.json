@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-23T23:39:20.181Z",
+  "generatedAt": "2026-11-26T00:04:41.258Z",
   "snippetSourceDigest": "b648986a250677d53607b660ddc0d07cb903a1dd7a879bfa908cfa5a26808529",
   "counts": {
     "total": 2560,
@@ -9016,6 +9016,21 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-default-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: VRF import policy from the external router that accepts the IPv4 and IPv6 routes in two route-filter lists, each with a community added, and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: services-leaf1_qfx5130-48c services-leaf2_qfx5130-48c\n * Count:\n *   services-leaf1_qfx5130-48c 5\n *   services-leaf2_qfx5130-48c 5\n *   total 10\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from services-leaf1_qfx5130-48c):\n *   $BGP_IMPORT_POL       e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_1          e.g. RoutesFromExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST_1  e.g. RoutesFromExt-blue-external_router\n *   $COMMUNITY_NAME_1     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_2          e.g. RoutesFromExt-blue-external_router-20\n *   $ROUTE_FILTER_LIST_2  e.g. RoutesFromExtV6-blue-external_router\n *   $COMMUNITY_NAME_2     e.g. RoutesFromExtV6-blue-external_router\n *   $TERM_NAME_3          e.g. RoutesFromExt-blue-external_router-30\n *   $TERM_NAME_4          e.g. RoutesFromExt-blue-external_router-40\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community add $COMMUNITY_NAME_1;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                family inet6;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community add $COMMUNITY_NAME_2;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from family inet;\n            then reject;\n        }\n        term $TERM_NAME_4 {\n            from family inet6;\n            then reject;\n        }\n    }\n}\n",
@@ -9069,7 +9084,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "8c5ebf37cf7757dad2121399448068c85f4f27d5a0ce4369f5b87f56ec7eb666"
+      "recordSha256": "3de709a6185acaf55b0cdf7ae6025904bcab3e9d5e0305de6a1d1a614dfc045e"
     },
     {
       "id": "5stage_evpn_vxlan/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
@@ -9111,7 +9126,27 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: VRF export policy toward the external router that accepts the IPv4 and IPv6 routes in two route-filter lists with the fabric communities removed, and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: services-leaf1_qfx5130-48c services-leaf2_qfx5130-48c\n * Count:\n *   services-leaf1_qfx5130-48c 5\n *   services-leaf2_qfx5130-48c 5\n *   total 10\n * Pair with:\n *  - evo/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from services-leaf1_qfx5130-48c):\n *   $BGP_EXPORT_POL       e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_1          e.g. RoutesToExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST_1  e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_2          e.g. RoutesToExt-blue-external_router-20\n *   $ROUTE_FILTER_LIST_2  e.g. RoutesToExtV6-blue-external_router\n *   $TERM_NAME_3          e.g. RoutesToExt-blue-external_router-30\n *   $TERM_NAME_4          e.g. RoutesToExt-blue-external_router-40\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                family inet6;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from family inet;\n            then reject;\n        }\n        term $TERM_NAME_4 {\n            from family inet6;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -9155,7 +9190,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "1ecd0365dff2bf174f71e6a38a84632b898e7f366f1ad3a4d22ebec65e00cbd6"
+      "recordSha256": "fe90ded0f1733ef4ad88c00d52e0558597f080fd4428777d1de38c200e1cc895"
     },
     {
       "id": "5stage_evpn_vxlan/evo/policy-options/prefix-list/bgp-sources",
@@ -29033,6 +29068,19 @@
           "providers": [
             "junos/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-default-route.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: Import policy that accepts IPv4 routes in a route-filter list with a community added and rejects other IPv4 routes\n * Seen on:\n *   Junos: leaf1_qfx5120-48y leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48y 2\n *   leaf2_qfx5120-48y 2\n *   total 4\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5120-48y):\n *   $BGP_IMPORT_POL     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesFromExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesFromExt-blue-external_router\n *   $COMMUNITY_NAME     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesFromExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
@@ -29070,7 +29118,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "4bbb9c8b427657cd250fae8ebe7f6c90ec1add1ace4bbd85da58c2d492ab13dd"
+      "recordSha256": "a1b90a82eeadaaeae0da8710946bc2247ffcbc3db52b90d2927d28a64699ca3c"
     },
     {
       "id": "collapsed_dc_fabric/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
@@ -29112,7 +29160,21 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-4-upto-2-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: Export policy that accepts IPv4 routes in a route-filter list with the fabric communities removed and rejects other IPv4 routes\n * Seen on:\n *   Junos: leaf1_qfx5120-48y leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48y 2\n *   leaf2_qfx5120-48y 2\n *   total 4\n * Pair with:\n *  - junos/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5120-48y):\n *   $BGP_EXPORT_POL     e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesToExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesToExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -29144,7 +29206,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "8792f985450e788d101351ff17347e74e27b612031d8facdfc13b791b2ea499c"
+      "recordSha256": "961b1e03ef2c085be0f9440db0fa7ab9a56916bc7eb8fc1b996cc4b16f34beac"
     },
     {
       "id": "collapsed_dc_fabric/junos/policy-options/route-filter-list-4-upto-2-exact",
@@ -33195,6 +33257,19 @@
           "providers": [
             "junos/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-default-route.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: Import policy that accepts IPv4 routes in a route-filter list with a community added and rejects other IPv4 routes\n * Seen on:\n *   Junos: leaf1_qfx5120-48y leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48y 2\n *   leaf2_qfx5120-48y 2\n *   total 4\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5120-48y):\n *   $BGP_IMPORT_POL     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesFromExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesFromExt-blue-external_router\n *   $COMMUNITY_NAME     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesFromExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
@@ -33232,7 +33307,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "cbeca3981b6de149acfc507aa82eb80d88dec39256b8b6bc51a87f99f1c5f817"
+      "recordSha256": "d9c0b4632ed7d45e9d6792f8cc538aa9a249635df397c76c4d84fe45c6e826a9"
     },
     {
       "id": "collapsed_dc_fabric_with_access/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
@@ -33274,7 +33349,21 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-4-upto-2-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: Export policy that accepts IPv4 routes in a route-filter list with the fabric communities removed and rejects other IPv4 routes\n * Seen on:\n *   Junos: leaf1_qfx5120-48y leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   leaf1_qfx5120-48y 2\n *   leaf2_qfx5120-48y 2\n *   total 4\n * Pair with:\n *  - junos/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from leaf1_qfx5120-48y):\n *   $BGP_EXPORT_POL     e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesToExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesToExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -33306,7 +33395,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "a0985caa36f36aaf1c598bee408a49188934ec430be6027d33723f05b1683c47"
+      "recordSha256": "5629c9c75c861b4a6367ce858e5f93ec0fc2600955eeba333950a571944e9cbd"
     },
     {
       "id": "collapsed_dc_fabric_with_access/junos/policy-options/route-filter-list-4-upto-2-exact",
@@ -42171,6 +42260,25 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2",
+            "$ROUTE_FILTER_LIST_3",
+            "$ROUTE_FILTER_LIST_4",
+            "$ROUTE_FILTER_LIST_5",
+            "$ROUTE_FILTER_LIST_6"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-all-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-all-upto-128.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: EVPN import policy from the DCI gateway peers that accepts EVPN_DCI_L2_TARGET routes (adding a community and NO_ADVERTISE) and each VRF's EVPN_DCI_L3_TARGET routes in its route-filter lists (adding a community), and rejects other EVPN routes\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 1\n *   total 4\n * Pair with:\n *  - evo/policy-options/community/cm-instance-target.conf\n *  - evo/policy-options/community/no-advertise.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_IMPORT_POL       e.g. EVPN_GW_IN\n *   $TERM_NAME_1          e.g. EVPN_GW_IN-10\n *   $COMMUNITY_NAME       e.g. EVPN_GW_IN\n *   $TERM_NAME_2          e.g. EVPN_GW_IN-30\n *   $ROUTE_FILTER_LIST_1  e.g. EVPN_DCI_L3_IN-blue-blue-DCI\n *   $TERM_NAME_3          e.g. EVPN_GW_IN-35\n *   $ROUTE_FILTER_LIST_2  e.g. EVPN_DCI_L3_INV6-blue-blue-DCI\n *   $TERM_NAME_4          e.g. EVPN_GW_IN-40\n *   $ROUTE_FILTER_LIST_3  e.g. EVPN_DCI_L3_IN-red-red-DCI\n *   $TERM_NAME_5          e.g. EVPN_GW_IN-45\n *   $ROUTE_FILTER_LIST_4  e.g. EVPN_DCI_L3_INV6-red-red-DCI\n *   $TERM_NAME_6          e.g. EVPN_GW_IN-50\n *   $ROUTE_FILTER_LIST_5  e.g. EVPN_DCI_L3_IN-green-green-DCI\n *   $TERM_NAME_7          e.g. EVPN_GW_IN-55\n *   $ROUTE_FILTER_LIST_6  e.g. EVPN_DCI_L3_INV6-green-green-DCI\n *   $TERM_NAME_8          e.g. EVPN_GW_IN-60\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family evpn;\n                community EVPN_DCI_L2_TARGET;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                community add NO_ADVERTISE;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_blue;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_blue;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_4 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_red;\n                route-filter-list $ROUTE_FILTER_LIST_3;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_5 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_red;\n                route-filter-list $ROUTE_FILTER_LIST_4;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_6 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_green;\n                route-filter-list $ROUTE_FILTER_LIST_5;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_7 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_green;\n                route-filter-list $ROUTE_FILTER_LIST_6;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_8 {\n            from family evpn;\n            then reject;\n        }\n    }\n}\n",
@@ -42253,7 +42361,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "e5e0d7196464aa70073afb56e3d68c2ab739ffe7a6b019beb05feaeeeb53013e"
+      "recordSha256": "c7dff2eea1646e532d3a9f281aeb235e82ee9076f6f3185393ac5b866d2a6f1e"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-dci-l2-target-community-add-no-advertise-reject",
@@ -42483,7 +42591,35 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2",
+            "$ROUTE_FILTER_LIST_3",
+            "$ROUTE_FILTER_LIST_4",
+            "$ROUTE_FILTER_LIST_5",
+            "$ROUTE_FILTER_LIST_6"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-5-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-3-upto-128.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-4-upto-128-5-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-5-upto-128-3-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: EVPN export policy toward the DCI gateway peers that rejects routes tagged EVPN_GW_OUT, accepts EVPN_DCI_L2_TARGET routes and each VRF's EVPN_DCI_L3_TARGET routes in its route-filter lists with FABRIC_COMMUNITIES removed, and rejects other EVPN routes\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 1\n *   total 4\n * Pair with:\n *  - evo/policy-options/community/cm-instance-target.conf\n *  - evo/policy-options/community/evpn-gw-out.conf\n *  - evo/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_EXPORT_POL       e.g. EVPN_GW_OUT\n *   $TERM_NAME_1          e.g. EVPN_GW_OUT-10\n *   $TERM_NAME_2          e.g. EVPN_GW_OUT-20\n *   $TERM_NAME_3          e.g. EVPN_GW_OUT-40\n *   $ROUTE_FILTER_LIST_1  e.g. EVPN_DCI_L3_OUT-blue-blue-DCI\n *   $TERM_NAME_4          e.g. EVPN_GW_OUT-45\n *   $ROUTE_FILTER_LIST_2  e.g. EVPN_DCI_L3_OUTV6-blue-blue-DCI\n *   $TERM_NAME_5          e.g. EVPN_GW_OUT-50\n *   $ROUTE_FILTER_LIST_3  e.g. EVPN_DCI_L3_OUT-red-red-DCI\n *   $TERM_NAME_6          e.g. EVPN_GW_OUT-55\n *   $ROUTE_FILTER_LIST_4  e.g. EVPN_DCI_L3_OUTV6-red-red-DCI\n *   $TERM_NAME_7          e.g. EVPN_GW_OUT-60\n *   $ROUTE_FILTER_LIST_5  e.g. EVPN_DCI_L3_OUT-green-green-DCI\n *   $TERM_NAME_8          e.g. EVPN_GW_OUT-65\n *   $ROUTE_FILTER_LIST_6  e.g. EVPN_DCI_L3_OUTV6-green-green-DCI\n *   $TERM_NAME_9          e.g. EVPN_GW_OUT-70\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family evpn;\n                community EVPN_GW_OUT;\n            }\n            then reject;\n        }\n        term $TERM_NAME_2 {\n            from {\n                family evpn;\n                community EVPN_DCI_L2_TARGET;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_blue;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_4 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_blue;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_5 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_red;\n                route-filter-list $ROUTE_FILTER_LIST_3;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_6 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_red;\n                route-filter-list $ROUTE_FILTER_LIST_4;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_7 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_green;\n                route-filter-list $ROUTE_FILTER_LIST_5;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_8 {\n            from {\n                family evpn;\n                community EVPN_DCI_L3_TARGET_green;\n                route-filter-list $ROUTE_FILTER_LIST_6;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_9 {\n            from family evpn;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -42564,7 +42700,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "d32d2b69695bc228e33f76f5cc0ef248b0f407498ba04f6b93761449a52e4944"
+      "recordSha256": "2ab599a522886ddcde0e7fa7fd423a80ec97e695c55cb49ee2f2aaa264e0f49c"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-evpn-reject-gw-out-dci-l2-target-community-delete-reject",
@@ -43777,6 +43913,22 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-2-exact-all-upto-32.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-all-upto-32.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: Import policy that accepts IPv4 routes in a route-filter list with a community added and rejects other IPv4 routes\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd dc1-dc2_ott/dc2_borderleaf1_qfx5700 dc1-dc2_ott/dc2_borderleaf2_qfx5700 dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc2_ott/dc2_borderleaf1_qfx5700 1\n *   dc1-dc2_ott/dc2_borderleaf2_qfx5700 1\n *   dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 1\n *   total 10\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_IMPORT_POL     e.g. RoutesFromExt-default-DCI1\n *   $TERM_NAME_1        e.g. RoutesFromExt-default-DCI1-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesFromExt-default-DCI1\n *   $COMMUNITY_NAME     e.g. RoutesFromExt-default-DCI1\n *   $TERM_NAME_2        e.g. RoutesFromExt-default-DCI1-30\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
@@ -43815,7 +43967,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "86d3c0e426c23acf5b9873f308131cbb25e60d438dec192932e41563d7786996"
+      "recordSha256": "978b150d5ad92fadc30dd96d59774ea98af9368a0dcfdb04a809befbea206db8"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
@@ -43873,7 +44025,23 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-1-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-2-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-3-upto-32.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: Export policy on the DCI link toward the remote data center's gateway that accepts the IPv4 routes in a route-filter list with FABRIC_COMMUNITIES removed and next-hop self, and rejects other IPv4 routes\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd dc1-dc2_ott/dc2_borderleaf1_qfx5700 dc1-dc2_ott/dc2_borderleaf2_qfx5700 dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc2_ott/dc2_borderleaf1_qfx5700 1\n *   dc1-dc2_ott/dc2_borderleaf2_qfx5700 1\n *   dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 1\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 1\n *   total 10\n * Pair with:\n *  - evo/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_EXPORT_POL     e.g. RoutesToExt-default-DCI1\n *   $TERM_NAME_1        e.g. RoutesToExt-default-DCI1-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesToExt-default-DCI1\n *   $TERM_NAME_2        e.g. RoutesToExt-default-DCI1-30\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                next-hop self;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -43906,7 +44074,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "16699c4062f28b35e961cfdfbdebc23cbe8a84a75f68ff09beb867d86761395d"
+      "recordSha256": "6e16e790ded7bdcba06ca06911bd08cbefb15f4faa0fa314e07cff6ad77e055a"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-add-reject",
@@ -43972,6 +44140,21 @@
           "providers": [
             "evo/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list-default-route.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-default-exact.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: VRF import policy from the external router that accepts the IPv4 and IPv6 routes in two route-filter lists, each with a community added, and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd dc1-dc2_ott/dc2_borderleaf1_qfx5700 dc1-dc2_ott/dc2_borderleaf2_qfx5700 dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc2_ott/dc2_borderleaf1_qfx5700 2\n *   dc1-dc2_ott/dc2_borderleaf2_qfx5700 2\n *   dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 2\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 2\n *   total 20\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_IMPORT_POL       e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_1          e.g. RoutesFromExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST_1  e.g. RoutesFromExt-blue-external_router\n *   $COMMUNITY_NAME_1     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_2          e.g. RoutesFromExt-blue-external_router-20\n *   $ROUTE_FILTER_LIST_2  e.g. RoutesFromExtV6-blue-external_router\n *   $COMMUNITY_NAME_2     e.g. RoutesFromExtV6-blue-external_router\n *   $TERM_NAME_3          e.g. RoutesFromExt-blue-external_router-30\n *   $TERM_NAME_4          e.g. RoutesFromExt-blue-external_router-40\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community add $COMMUNITY_NAME_1;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                family inet6;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community add $COMMUNITY_NAME_2;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from family inet;\n            then reject;\n        }\n        term $TERM_NAME_4 {\n            from family inet6;\n            then reject;\n        }\n    }\n}\n",
@@ -44026,7 +44209,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "18f65ca89c1486f4dc62ae0065982cc2202cfabded4f3b781905b24bd48b0141"
+      "recordSha256": "28e5d3130b4ef6e1ea53724b7504ffc8c2170fc5cbaabd2915688ec0b880d7d4"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject",
@@ -44084,7 +44267,33 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST_1",
+            "$ROUTE_FILTER_LIST_2"
+          ],
+          "providers": [
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-3-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet-any-5-upto-32-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-3-upto-128-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-blue.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-1-32-5-upto-128-3-exact-red.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-4-upto-128-5-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-2-exact.conf",
+            "evo/policy-options/route-filter-list/rfl-inet6-any-5-upto-128-3-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: VRF export policy toward the external router that accepts the IPv4 and IPv6 routes in two route-filter lists with the fabric communities removed, and rejects everything else\n * Seen on:\n *   Junos: (none)\n *   EVO: dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd dc1-dc2_ott/dc2_borderleaf1_qfx5700 dc1-dc2_ott/dc2_borderleaf2_qfx5700 dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c\n * Count:\n *   dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc2_ott/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc2_ott/dc2_borderleaf1_qfx5700 2\n *   dc1-dc2_ott/dc2_borderleaf2_qfx5700 2\n *   dc1-dc3_type2_seamless/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc3_type2_seamless/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf1_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc1_borderleaf2_qfx5130-32cd 2\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf1_qfx5130-48c 2\n *   dc1-dc4_type2_type5_seamless/dc4_services-leaf2_qfx5130-48c 2\n *   total 20\n * Pair with:\n *  - evo/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc2_ott/dc1_borderleaf1_qfx5130-32cd):\n *   $BGP_EXPORT_POL       e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_1          e.g. RoutesToExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST_1  e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_2          e.g. RoutesToExt-blue-external_router-20\n *   $ROUTE_FILTER_LIST_2  e.g. RoutesToExtV6-blue-external_router\n *   $TERM_NAME_3          e.g. RoutesToExt-blue-external_router-30\n *   $TERM_NAME_4          e.g. RoutesToExt-blue-external_router-40\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST_1;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from {\n                family inet6;\n                route-filter-list $ROUTE_FILTER_LIST_2;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_3 {\n            from family inet;\n            then reject;\n        }\n        term $TERM_NAME_4 {\n            from family inet6;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -44129,7 +44338,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "0e5e980f19a54ce9e3b51abeae36cf50823208398b29ac30a8c410e744611ec3"
+      "recordSha256": "f4163772ef93662233e6d1f8b4f558b783125b5d0dd65942dba0d64b1f516bc2"
     },
     {
       "id": "evpn_vxlan_dci/evo/policy-options/prefix-list/bgp-sources",
@@ -60430,6 +60639,20 @@
           "providers": [
             "junos/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-default-route.conf",
+            "junos/policy-options/route-filter-list/rfl-inet-2-exact.conf"
+          ]
         }
       ],
       "sourceText": "/*\n * Topic: Import policy that accepts IPv4 routes in a route-filter list with a community added and rejects other IPv4 routes\n * Seen on:\n *   Junos: dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y 3\n *   dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y 3\n *   total 6\n * Pair with: none\n * Peers with: n/a\n * Variables (example values from dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y):\n *   $BGP_IMPORT_POL     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesFromExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesFromExt-blue-external_router\n *   $COMMUNITY_NAME     e.g. RoutesFromExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesFromExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_IMPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community add $COMMUNITY_NAME;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
@@ -60468,7 +60691,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "e54eafb60ead7c8604c4f30175ee21992b742826e03baa47db493bba474bcb30"
+      "recordSha256": "a0c0b688c9579c4502aa84e3dce16e50ddc0472836427216116c85bdc4a92bd8"
     },
     {
       "id": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-community-delete-reject-inet",
@@ -60510,7 +60733,21 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list/rfl-inet-any-2-upto-32-2-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: Export policy that accepts IPv4 routes in a route-filter list with the fabric communities removed and rejects other IPv4 routes\n * Seen on:\n *   Junos: dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y 2\n *   dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y 2\n *   total 4\n * Pair with:\n *  - junos/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y):\n *   $BGP_EXPORT_POL     e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_1        e.g. RoutesToExt-blue-external_router-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesToExt-blue-external_router\n *   $TERM_NAME_2        e.g. RoutesToExt-blue-external_router-30\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -60543,7 +60780,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "41743ede7b9e541e1b31f18a6661a295f4d4220676e9404b9c13c2126f6c8e49"
+      "recordSha256": "0636cc054513bc8f0187be8df51c6e6da2d5d48b051a4723c8e45ca2570dea15"
     },
     {
       "id": "evpn_vxlan_dci/junos/policy-options/policy-statement/ps-route-filter-list-inet-community-delete-next-hop-self-reject",
@@ -60585,7 +60822,21 @@
         }
       ],
       "dependencyContractVersion": 3,
-      "occurrenceRequires": [],
+      "occurrenceRequires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list/rfl-inet-1-upto-32-1-exact.conf"
+          ]
+        }
+      ],
       "sourceText": "/*\n * Topic: Export policy on the DCI link toward the remote data center's gateway that accepts the IPv4 routes in a route-filter list with FABRIC_COMMUNITIES removed and next-hop self, and rejects other IPv4 routes\n * Seen on:\n *   Junos: dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y\n *   EVO: (none)\n * Count:\n *   dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y 1\n *   dc1-dc3_type2_seamless/dc3_leaf2_qfx5120-48y 1\n *   total 2\n * Pair with:\n *  - junos/policy-options/community/fabric-communities.conf\n *\n * Peers with: n/a\n * Variables (example values from dc1-dc3_type2_seamless/dc3_leaf1_qfx5120-48y):\n *   $BGP_EXPORT_POL     e.g. RoutesToExt-default-DC3-DCI\n *   $TERM_NAME_1        e.g. RoutesToExt-default-DC3-DCI-10\n *   $ROUTE_FILTER_LIST  e.g. RoutesToExt-default-DC3-DCI\n *   $TERM_NAME_2        e.g. RoutesToExt-default-DC3-DCI-30\n */\npolicy-options {\n    policy-statement $BGP_EXPORT_POL {\n        term $TERM_NAME_1 {\n            from {\n                family inet;\n                route-filter-list $ROUTE_FILTER_LIST;\n            }\n            then {\n                community delete FABRIC_COMMUNITIES;\n                next-hop self;\n                accept;\n            }\n        }\n        term $TERM_NAME_2 {\n            from family inet;\n            then reject;\n        }\n    }\n}\n",
       "variables": [
         {
@@ -60618,7 +60869,7 @@
         "Apstra-Managed Fabric"
       ],
       "parseWarnings": [],
-      "recordSha256": "02c489da8a8b20168f4e0b99e77ebdcaa169a1814feee0dd626c2a95d3bb1508"
+      "recordSha256": "f35145bca8b226ccc3847c0fe33ca0cbdfba8aa0a36bdd7a7f91aa4a23cd70e5"
     },
     {
       "id": "evpn_vxlan_dci/junos/policy-options/prefix-list/bgp-sources",

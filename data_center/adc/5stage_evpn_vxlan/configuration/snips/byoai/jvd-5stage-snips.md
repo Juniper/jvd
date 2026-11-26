@@ -2651,6 +2651,7 @@ policy-options {
 
 Needs (MANIFEST.json occurrence_requires; same OS):
 - `community` (`$COMMUNITY_NAME_1`, `$COMMUNITY_NAME_2`): required, for each reference; `policy-options/community/community-2-members`
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`): required, for each reference; one of `policy-options/route-filter-list/rfl-inet-default-exact`, `policy-options/route-filter-list/rfl-inet6-default-exact`
 
 ## evo/policy-options/policy-statement/ps-route-filter-list-inet-inet6-community-delete-reject.conf
 
@@ -2710,6 +2711,9 @@ policy-options {
     }
 }
 ```
+
+Needs (MANIFEST.json occurrence_requires; same OS):
+- `route-filter-list` (`$ROUTE_FILTER_LIST_1`, `$ROUTE_FILTER_LIST_2`): required, for each reference; one of `policy-options/route-filter-list/rfl-inet-any-3-prefixes-upto-32`, `policy-options/route-filter-list/rfl-inet-any-4-prefixes-upto-32`, `policy-options/route-filter-list/rfl-inet-any-5-prefixes-upto-32`, `policy-options/route-filter-list/rfl-inet6-any-3-prefixes-upto-128`, `policy-options/route-filter-list/rfl-inet6-any-4-prefixes-upto-128`, `policy-options/route-filter-list/rfl-inet6-any-5-prefixes-upto-128`
 
 ## evo/policy-options/prefix-list/bgp-sources.conf
 

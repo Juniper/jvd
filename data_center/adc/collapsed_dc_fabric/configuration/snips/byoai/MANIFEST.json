@@ -4,7 +4,7 @@
     "dependencies": 3,
     "relationships": 2
   },
-  "dependency_declaration_sha256": "e4ac7a5ffa095780dd5f2920f3123f84773f16b373f1b3386cae154145bd0e87",
+  "dependency_declaration_sha256": "5755eafbe134c225b34475677c09148439fc705b925f2f00a1daeaf118010ed1",
   "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/data_center/adc/collapsed_dc_fabric/configuration/snips",
   "snip_count": 41,
@@ -449,6 +449,19 @@
           "providers": [
             "junos/policy-options/community/community-2-members.conf"
           ]
+        },
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-default-route.conf"
+          ]
         }
       ]
     },
@@ -469,7 +482,21 @@
         "junos/policy-options/community/fabric-communities.conf"
       ],
       "variant_requires": [],
-      "occurrence_requires": []
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list-4-upto-2-exact.conf"
+          ]
+        }
+      ]
     },
     {
       "path": "junos/policy-options/route-filter-list-4-upto-2-exact.conf",
