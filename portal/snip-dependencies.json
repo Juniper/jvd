@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
-  "libraryDigest": "dc0caebb37b4d25e0abaa6c9082f26bc9b6f99cde107debab2fd90a4a4e5b666",
+  "libraryDigest": "5d4f2b90d07e95a91a06f5932a1c077d32287b53598479cd35f184c4148ef6ba",
   "dependencyContractVersion": 3,
-  "generatedAt": "2026-11-27T00:19:14.315Z",
+  "generatedAt": "2026-11-27T21:06:19.506Z",
   "resolutions": [
     {
       "jvd": "5stage_evpn_vxlan",
@@ -39895,8 +39895,924 @@
         "scale_out_firewall_nat/junos/interfaces/ifl-vlan-inet",
         "scale_out_firewall_nat/junos/interfaces/ifl-vlan-inet-inet6"
       ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-ams-inside-disable-hash",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-ams-outside-disable-hash",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-unit-0-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-mtu-9192"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-client-static-next-hop-ams-inside-st0",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-ams-inside-disable-hash",
+        "scale_out_ipsec/junos/interfaces/ifl-unit-0-inet",
+        "scale_out_ipsec/junos/interfaces/ifl-unit-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-trust-vr-as-static-next-hop-ebgp-1-group",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-unit-0-inet",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-trust-vr-as-static-next-hop-ebgp-1-group",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-untrust-vr-as-ebgp-1-group-ams-outside-lo0",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-ams-outside-disable-hash",
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-5-addresses",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-untrust-vr-as-ebgp-1-group-ams-outside-lo0",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-direct-orlonger-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "ipsec_initiator_gateway_mx304",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:global",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re0",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re1",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast",
+        "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-bgp-route-filter-list-next-hop-self-accept-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/route-filter-list/rfl-inet-1-orlonger"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-route-filter-list-next-hop-self-reject",
+      "requirement": "ref-route-filter-list",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/route-filter-list/rfl-inet-1-orlonger"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-route-filter-list-next-hop-self-reject",
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-static-default-exact-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-bgp-route-filter-list-next-hop-self-accept-reject",
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-bgp-static-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "mx1_mx304",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-term-accept"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:global",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re0",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re1",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1a_srx4600",
+      "snip": "scale_out_ipsec/junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data",
+      "requirement": "ref-security-zone",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/security/zones-vr-1-trust-untrust-st0-mnha"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:global",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re0",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re1",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx1b_srx4600",
+      "snip": "scale_out_ipsec/junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data",
+      "requirement": "ref-security-zone",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/security/zones-vr-1-trust-any-service-untrust-st0-mnha"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-two",
+      "requirement": "source:group:global",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-two",
+      "requirement": "source:group:re0",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2a_srx4600",
+      "snip": "scale_out_ipsec/junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data",
+      "requirement": "ref-security-zone",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/security/zones-vr-1-trust-untrust-st0-mnha"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:global",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re0",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/groups/apply-global-three",
+      "requirement": "source:group:re1",
+      "status": "unresolved",
+      "providers": [],
+      "candidates": [],
+      "reason": "Not defined in the validated source (1 reference)"
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-interface-parent",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/interfaces/ifl-vlan-inet",
+      "requirement": "context-lag-member",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifd-lag-member-gigether"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject",
+      "requirement": "ref-condition",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route",
+        "scale_out_ipsec/junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-logical-interface",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/interfaces/ifl-loopback-inet-primary",
+        "scale_out_ipsec/junos/interfaces/ifl-vlan-inet"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/routing-options/forwarding-table-export",
+      "requirement": "ref-policy-statement",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/policy-options/policy-statement/per-packet-load-balance-no-term"
+      ]
+    },
+    {
+      "jvd": "scale_out_ipsec",
+      "device": "srx2b_srx4600",
+      "snip": "scale_out_ipsec/junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data",
+      "requirement": "ref-security-zone",
+      "status": "resolved",
+      "providers": [
+        "scale_out_ipsec/junos/security/zones-vr-1-trust-untrust-st0-mnha"
+      ]
     }
   ],
-  "exportDigest": "622132df8bc33e71634a86c675bd49e4cc030e0a8bc2eb84923aa0cf39873bcc",
-  "publishedCommit": "d437005449d65a2288d84ebbb7af4d6b674d7c59"
+  "exportDigest": "0bf24d54e5b44755207ebd100f7b03e0330ab8178aaa865ff7a5b30cec1df41d",
+  "publishedCommit": "2b3301aefeb6bdf1b02666fee85a3401052230d0"
 }
