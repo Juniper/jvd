@@ -1,0 +1,173 @@
+{
+ "schemaVersion": 1,
+ "entries": [
+  {
+   "id": "scope-gateway-emulator-version-24-4i-20240921-0-2131",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "gateway_emulator_mx304",
+   "sourceSha256": "b692f5caf8ec73f762d7692b6e1cc1005f912c664ab1c76ae763f2b629d37261",
+   "hierarchy": [
+    "version 24.4I-20240921.0.2131"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4I-20240921.0.2131",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  },
+  {
+   "id": "scope-mx1-version-24-4i-20241014-0-0829",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "mx1_mx304",
+   "sourceSha256": "eecfe10867f021bc9911fd67424ea9ee464788862d34577a65da04d459165748",
+   "hierarchy": [
+    "version 24.4I-20241014.0.0829"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4I-20241014.0.0829",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  },
+  {
+   "id": "scope-mx1-services-traffic-load-balance-traceoptions",
+   "classification": "excluded-model-scope",
+   "semanticClass": "diagnostic-traceoptions",
+   "device": "mx1_mx304",
+   "sourceSha256": "eecfe10867f021bc9911fd67424ea9ee464788862d34577a65da04d459165748",
+   "hierarchy": [
+    "services",
+    "traffic-load-balance",
+    "traceoptions"
+   ],
+   "sourceIds": [
+    29,
+    30,
+    31,
+    32
+   ],
+   "terminalSourceIds": [
+    30,
+    31,
+    32
+   ],
+   "evidence": {
+    "sourceStatement": "traceoptions",
+    "statements": 3
+   },
+   "reason": "Library policy: diagnostic traceoptions are excluded from reusable snippet libraries.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-10-09"
+  },
+  {
+   "id": "scope-srx1a-version-24-4r1-10",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "srx1a_srx4600",
+   "sourceSha256": "5c458c31e0eb278dd7a25e4c9edd4b4fec05d4066720f0f6c2009b444de23241",
+   "hierarchy": [
+    "version 24.4R1.10"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4R1.10",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  },
+  {
+   "id": "scope-srx1b-version-24-4r1-10",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "srx1b_srx4600",
+   "sourceSha256": "6d89048be9baadd9a946cc1343eeb42e764b680b554d1ddda7311e45b22b62bd",
+   "hierarchy": [
+    "version 24.4R1.10"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4R1.10",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  },
+  {
+   "id": "scope-srx2a-version-24-4r1-10",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "srx2a_srx4600",
+   "sourceSha256": "83c37c021e1ad94362fc11aa9c8a520501bf6a0f5cfe5731c6dda68a0d709b05",
+   "hierarchy": [
+    "version 24.4R1.10"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4R1.10",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  },
+  {
+   "id": "scope-srx2b-version-24-4r1-10",
+   "classification": "excluded-model-scope",
+   "semanticClass": "software-version-stamp",
+   "device": "srx2b_srx4600",
+   "sourceSha256": "8d84d58aa7a88c7dbacc2b0e097870452567ee36ac83e2141ed3a4d8c6f708ed",
+   "hierarchy": [
+    "version 24.4R1.10"
+   ],
+   "sourceIds": [
+    0
+   ],
+   "terminalSourceIds": [
+    0
+   ],
+   "evidence": {
+    "sourceStatement": "version 24.4R1.10",
+    "statements": 1
+   },
+   "reason": "Software version stamp of the captured device; release information, not reusable configuration.",
+   "approvedBy": "Kevin Brown",
+   "approvedOn": "2026-11-26"
+  }
+ ]
+}

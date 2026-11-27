@@ -1172,6 +1172,111 @@
       "example": "51",
       "notes": "Registered on 2026-11-23; introduced by EVPN-VXLAN Data Center Interconnect.",
       "establishedFrom": "data_center/adc/evpn_vxlan_dci/configuration/snips/junos/chassis/fpc-pic-0-port-50-and-1-port-100g.conf"
+    },
+    "ASN_LOCAL": {
+      "intent": "BGP `local-as` of a routing instance where it differs from the instance's `autonomous-system`.",
+      "use": "Used by `junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf`.",
+      "example": "65200",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf"
+    },
+    "MNHA_LOCAL_ID": {
+      "intent": "Local node identifier of an SRX Multinode High Availability (MNHA) node (`chassis high-availability local-id`).",
+      "use": "Used by `junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf`.",
+      "example": "1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf"
+    },
+    "MNHA_PEER_ID": {
+      "intent": "Node identifier of the MNHA peer node (`chassis high-availability peer-id`), also named by the services-redundancy group `peer-id`.",
+      "use": "Used by `junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf`.",
+      "example": "2",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf"
+    },
+    "MNHA_PEER_V4": {
+      "intent": "Loopback IPv4 address of the MNHA peer node (`chassis high-availability peer-id <n> peer-ip`).",
+      "use": "Used by `junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf`.",
+      "example": "192.168.0.2",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf"
+    },
+    "MNHA_MONITOR_DST_V4": {
+      "intent": "Destination IPv4 address of the BFD liveliness monitor of an MNHA services-redundancy group monitor object (`bfd-liveliness destination-ip`).",
+      "use": "Used by `junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf`.",
+      "example": "10.1.1.1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf"
+    },
+    "MNHA_MONITOR_SRC_V4": {
+      "intent": "Source IPv4 address of the BFD liveliness monitor of an MNHA services-redundancy group monitor object (`destination-ip <addr> src-ip`).",
+      "use": "Used by `junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf`.",
+      "example": "10.1.1.2",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf"
+    },
+    "NAT_POOL_V4_PFX": {
+      "intent": "IPv4 prefix of a source-NAT pool (`security nat source pool <name> address`), as configured and as routed or advertised for return traffic.",
+      "use": "Numbered _1.._n for the pools of one NAT configuration, in source order; the same number names the same pool in static discard routes and route filters.",
+      "example": "100.64.1.0/24",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-3-or-1-reject.conf"
+    },
+    "REAL_SERVICE_V4": {
+      "intent": "IPv4 address of a Traffic Load Balancer real service (`services traffic-load-balance instance <name> real-service <name> address`).",
+      "use": "Numbered _1.._n for the real services of one TLB instance, in source order.",
+      "example": "192.168.10.1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-tlb-sfw-trust.conf"
+    },
+    "REAL_SERVICE_V6": {
+      "intent": "IPv6 address of a Traffic Load Balancer real service (`services traffic-load-balance instance <name> real-service <name> address`).",
+      "use": "Numbered _1.._n for the real services of one TLB instance, in source order.",
+      "example": "2001:db8:1:255::1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-ipv6-tlb-sfw-trust.conf"
+    },
+    "SNMP_COMMUNITY": {
+      "intent": "SNMP community name (`snmp community`); a credential, supplied by the operator.",
+      "use": "Used by `junos/snmp/community-read-only-all-clients.conf`.",
+      "example": "<SNMP_COMMUNITY>",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/snmp/community-read-only-all-clients.conf"
+    },
+    "SNMP_TRAP_TARGET_V4": {
+      "intent": "IPv4 address of an SNMP trap target (`snmp trap-group <name> targets`).",
+      "use": "Used by `junos/snmp/trap-group-space-one-target.conf`.",
+      "example": "10.204.243.205",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_firewall_nat/configuration/snips/junos/snmp/trap-group-space-one-target.conf"
+    },
+    "CONDITION_NAME": {
+      "intent": "Name of a routing-policy condition (`policy-options condition`), as defined and as a policy term references it.",
+      "use": "Used by 6 snippets, for example `junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf`.",
+      "example": "Floating-PW-Condition",
+      "notes": "Registered on 2026-11-26; used by Metro Ethernet Business Services before this entry, and reused by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/policy-options/condition/condition-floating-pw.conf"
+    },
+    "GROUP_A": {
+      "intent": "First configuration-group name of an ordered `apply-groups` list.",
+      "use": "GROUP_A, GROUP_B and GROUP_C order the applied groups; preserve source list order.",
+      "example": "RI_CLASSIFIER",
+      "notes": "Registered on 2026-11-26; used by Metro Ethernet Business Services before this entry, and reused by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/apply-global-three.conf"
+    },
+    "GROUP_B": {
+      "intent": "Second configuration-group name of an ordered `apply-groups` list.",
+      "use": "GROUP_A, GROUP_B and GROUP_C order the applied groups; preserve source list order.",
+      "example": "l3vpn_ospf_serv_map",
+      "notes": "Registered on 2026-11-26; used by Metro Ethernet Business Services before this entry, and reused by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/apply-global-three.conf"
+    },
+    "GROUP_C": {
+      "intent": "Third configuration-group name of an ordered `apply-groups` list.",
+      "use": "GROUP_A, GROUP_B and GROUP_C order the applied groups; preserve source list order.",
+      "example": "GR-FATPW-LABEL",
+      "notes": "Registered on 2026-11-26; used by Metro Ethernet Business Services before this entry, and reused by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/apply-global-three.conf"
     }
   },
   "notes": [

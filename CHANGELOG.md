@@ -4,6 +4,146 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-26
+
+The **Scale-Out Stateful Firewall and NAT** snippet library is rebuilt with measured
+dependencies from the six validated device configurations, and the Config Explorer
+Roles view now includes it.
+
+### New content
+
+- **[Scale-Out Stateful Firewall and NAT snippet library](security/scale_out_firewall_nat/configuration/snips)**:
+  81 Junos OS snippets measured from the six published device configurations replace
+  the earlier 21 topic snippets. The configurations cover the two SRX4600 Multinode High
+  Availability pairs, the MX304 that distributes flows across them, and the gateway
+  emulator (MX304). The snippets cover:
+  - on the SRX4600s: the security zones, security policies, source NAT (NAPT44 and
+    NAT64 pools) and NAT64 destination NAT, and the global address book, each as a
+    whole; Multinode High Availability with its services-redundancy group, signal-route
+    condition and inter-chassis link virtual router;
+  - on the MX304: the Traffic Load Balancer instances (IPv4 and IPv6, trust and
+    untrust) with their network-monitoring profiles, the filters that redirect traffic
+    to the load-balancer forwarding instances, and the trust, untrust and MNHA virtual
+    routers with their eBGP groups to the SRX nodes;
+  - the routing policies that advertise the NAT pool and firewall prefixes with
+    AS-path prepending per node, aggregated Ethernet and VLAN interfaces, loopbacks,
+    SNMP and the chassis and system settings.
+
+  Security object names (zones, NAT pools and rule sets, address-book entries,
+  policies, Traffic Load Balancer groups and real services) stay as in the published
+  design; values that differ between devices are `$VAR` placeholders. Every active
+  statement in the six configurations is reproduced by a snippet; only each
+  configuration's software version stamp and one diagnostic `traceoptions` block are
+  excluded. Each snippet lists the devices it was validated on, its source instance
+  count and, where verified, its peer.
+- **Scale-Out Stateful Firewall and NAT dependencies**: 16 snippets list a measured
+  `Pair with` prerequisite (for example, a load-balancer filter needs its forwarding
+  instance, and the NAT and security-policy snippets need the security zones), and 24 snippets carry 35 typed requirements (for example, a routing policy
+  needs its signal-route condition or route filter list, and a security policy its
+  address-book entry). The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 104 answers
+  for this JVD: 86 resolved, and 18 references that the published configurations do
+  not define. The assistant bundle was regenerated: it lists each snippet's Needs and
+  offers the `minimum` form of 14 services, from source NAT and the security policies
+  to the Traffic Load Balancer instances and the scale-out virtual routers.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes Scale-Out
+  Stateful Firewall and NAT, with the three roles of the Device roles table of the
+  [JVD datasheet](security/scale_out_firewall_nat/documentation/datasheet.md#device-roles):
+  the MX304 forwarding and load-balancing router, the four SRX4600 security service
+  nodes and the gateway emulator.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 15 entries:
+  - Multinode High Availability: `$MNHA_LOCAL_ID`, `$MNHA_PEER_ID`, `$MNHA_PEER_V4`,
+    `$MNHA_MONITOR_SRC_V4` and `$MNHA_MONITOR_DST_V4`;
+  - NAT and the Traffic Load Balancer: `$NAT_POOL_V4_PFX`, `$REAL_SERVICE_V4` and
+    `$REAL_SERVICE_V6`;
+  - SNMP: `$SNMP_COMMUNITY` and `$SNMP_TRAP_TARGET_V4`;
+  - other: `$ASN_LOCAL`, and the names used earlier by Metro Ethernet Business Services
+    and not yet registered: `$CONDITION_NAME`, `$GROUP_A`, `$GROUP_B` and `$GROUP_C`.
+
+### Fixes and maintenance
+
+- **Source correction in the Scale-Out Stateful Firewall and NAT configurations**: each
+  of the six [published configurations](security/scale_out_firewall_nat/configuration/conf)
+  carried a lab-tool comment line after its version statement. The line is removed; no
+  configuration statement changed.
+
+### Known limitations
+
+- Every device applies the configuration groups `global` and `re0` (the MX304s also
+  `re1`), and the four MX Traffic Load Balancer instances name `lo0.0` as their
+  interface; the published configurations define none of these (18 references). The
+  snippets reproduce the references as configured, and the dependency links and the
+  assistant bundle list them as not defined. See the library
+  [README](security/scale_out_firewall_nat/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+- 31 constructs carry no peer claim (security, Traffic Load Balancer, network-monitoring,
+  SNMP and system constructs, the virtual-router eBGP sessions and the aggregated
+  Ethernet interfaces).
+
+### What this means for you
+
+- Build Scale-Out Stateful Firewall and NAT configurations from snippets that match the
+  published devices exactly, with `$VAR` placeholders for deployment values. See the
+  library [README](security/scale_out_firewall_nat/configuration/snips/README.md) and
+  [variable glossary](security/scale_out_firewall_nat/configuration/snips/_variables.md).
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier snippet file names no longer resolve; use the topic
+  index in the library
+  [README](security/scale_out_firewall_nat/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 25 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Security / Scale-Out Stateful Firewall and NAT | 87 | 0 | 21 | 20 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **87** | **0** | **21** | **34** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Security / Scale-Out Stateful Firewall and NAT | 13422 | 4703 | +8719 |
+| Shared variable glossary | 105 | 0 | +105 |
+| Portal | 19265 | 5089 | +14176 |
+| **Total** | **32792** | **9792** | **+23000** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet library (`configuration/snips/`, excluding assistant bundles) | 110 | 6131 |
+| JVD AI Assistant bundle (with portal copy) | 22 | 14738 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 10737 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 1081 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 105 |
+| Device configurations (source correction) | 6 | 0 |
+| **Total** | **142** | **32792** |
+
+</details>
+
+---
+
 ## 2026-11-25
 
 Four Data Center snippet libraries now declare the route filter lists that their routing

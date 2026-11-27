@@ -1,316 +1,2179 @@
 {
-  "schema_version": 1,
-  "description": "BYOAI snip manifest. Fetch the entries you need from raw_url; do NOT fetch every snip. See byoai/SYSTEM_PROMPT.md for the selection rules.",
+  "schema_version": 2,
+  "contract_versions": {
+    "dependencies": 3,
+    "relationships": 2
+  },
+  "dependency_declaration_sha256": "a35f11cabf0d9ff00b0436c7f553655523ff63b8ec3cb529a612664209a16ebe",
+  "description": "Fetch required native snippets and contract records. occurrence_requires projects the approved dependency declaration; candidate provider domains are selections, not unconditional unions. Unsupported versions or selection semantics fail closed.",
   "raw_url_base": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips",
-  "snip_count": 21,
+  "snip_count": 81,
   "snips": [
     {
-      "path": "junos/bootstrap/srx-system-services.conf",
+      "path": "junos/chassis/aggregated-devices-ethernet.conf",
       "os": "junos",
-      "category": "bootstrap",
-      "name": "srx-system-services",
-      "topic": "SRX management bootstrap: netconf/ssh + web-management on the TLB health-check port",
+      "category": "chassis",
+      "name": "aggregated-devices-ethernet",
+      "topic": "Aggregated Ethernet device-count for the chassis",
       "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304",
         "srx1a_srx4600",
         "srx1b_srx4600",
         "srx2a_srx4600",
         "srx2b_srx4600"
       ],
-      "size_bytes": 1042,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/bootstrap/srx-system-services.conf"
+      "size_bytes": 593,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/aggregated-devices-ethernet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/firewall/mx-fbf-tlb-redirect.conf",
+      "path": "junos/chassis/fpc-pic-0-1-pic-mode-100g-16-ports.conf",
       "os": "junos",
-      "category": "firewall",
-      "name": "mx-fbf-tlb-redirect",
-      "topic": "MX filter-based forwarding: redirect SFW/NAT traffic into the TLB forwarding instances (v4 + v6)",
+      "category": "chassis",
+      "name": "fpc-pic-0-1-pic-mode-100g-16-ports",
+      "topic": "FPC with PICs 0 and 1 in 100G mode, 16 ports each",
       "seen_on": [
         "mx1_mx304"
       ],
-      "size_bytes": 4360,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/mx-fbf-tlb-redirect.conf"
+      "size_bytes": 473,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/fpc-pic-0-1-pic-mode-100g-16-ports.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/high-availability/srx-mnha-chassis-srg.conf",
+      "path": "junos/chassis/fpc-pic-0-1-pic-mode-100g-2-ports.conf",
       "os": "junos",
-      "category": "high-availability",
-      "name": "srx-mnha-chassis-srg",
-      "topic": "SRX Multinode High Availability (MNHA) chassis config \u2014 SRG0 with BFD monitor + install-on-failure route",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 2499,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/high-availability/srx-mnha-chassis-srg.conf"
-    },
-    {
-      "path": "junos/high-availability/srx-signal-route-export-policies.conf",
-      "os": "junos",
-      "category": "high-availability",
-      "name": "srx-signal-route-export-policies",
-      "topic": "SRX active/backup route-signalling policies (as-path-prepend gated on the MNHA signal-route)",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 4503,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/high-availability/srx-signal-route-export-policies.conf"
-    },
-    {
-      "path": "junos/interfaces/mx-ae-scaleout-subunits.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "mx-ae-scaleout-subunits",
-      "topic": "MX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100), v4 + v6",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 1689,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/mx-ae-scaleout-subunits.conf"
-    },
-    {
-      "path": "junos/interfaces/mx-ae-uni-flexible.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "mx-ae-uni-flexible",
-      "topic": "MX north-side AC (flexible-ethernet-services) with the TLB FBF filters + health-check loopbacks",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 2859,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/mx-ae-uni-flexible.conf"
-    },
-    {
-      "path": "junos/interfaces/srx-ae-scaleout-subunits.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "srx-ae-scaleout-subunits",
-      "topic": "SRX aggregated-ethernet sub-units per plane (TRUST .0 / UNTRUST .1 / MNHA .100), v4 + v6",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 1996,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/srx-ae-scaleout-subunits.conf"
-    },
-    {
-      "path": "junos/interfaces/srx-lo0-hc-loopbacks.conf",
-      "os": "junos",
-      "category": "interfaces",
-      "name": "srx-lo0-hc-loopbacks",
-      "topic": "SRX loopbacks: MNHA node ID (lo0.0) + shared TLB health-check / anchor address (lo0.1)",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 1319,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/srx-lo0-hc-loopbacks.conf"
-    },
-    {
-      "path": "junos/load-balancing/network-monitoring-profiles.conf",
-      "os": "junos",
-      "category": "load-balancing",
-      "name": "network-monitoring-profiles",
-      "topic": "TLB health-check profiles (ICMP + TCP) for scale-out SRX liveness",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 1129,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/load-balancing/network-monitoring-profiles.conf"
-    },
-    {
-      "path": "junos/load-balancing/tlb-sfw-dsr.conf",
-      "os": "junos",
-      "category": "load-balancing",
-      "name": "tlb-sfw-dsr",
-      "topic": "RE-based Traffic Load Balancer (TLB) for scale-out SFW/NAT, Direct Server Return mode",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 4130,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/load-balancing/tlb-sfw-dsr.conf"
-    },
-    {
-      "path": "junos/nat/mx-napt44-route-advertise.conf",
-      "os": "junos",
-      "category": "nat",
-      "name": "mx-napt44-route-advertise",
-      "topic": "MX route-filter-list + export term advertising the SRX NAPT44 pool prefixes north to the GW",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 1801,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/mx-napt44-route-advertise.conf"
-    },
-    {
-      "path": "junos/nat/srx-nat64.conf",
-      "os": "junos",
-      "category": "nat",
-      "name": "srx-nat64",
-      "topic": "SRX NAT64 (IPv6->IPv4) source + destination NAT translating v6 clients to a v4 server",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 2721,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/srx-nat64.conf"
-    },
-    {
-      "path": "junos/nat/srx-source-nat-napt44.conf",
-      "os": "junos",
-      "category": "nat",
-      "name": "srx-source-nat-napt44",
-      "topic": "SRX source-NAT (NAPT44) into an RFC6598 100.64/10 pool with address-pooling paired",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 2390,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/nat/srx-source-nat-napt44.conf"
-    },
-    {
-      "path": "junos/security/srx-policies-sfw.conf",
-      "os": "junos",
-      "category": "security",
-      "name": "srx-policies-sfw",
-      "topic": "SRX stateful firewall policies + address-book for scale-out SFW/NAT (v4 + v6)",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 2836,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/srx-policies-sfw.conf"
-    },
-    {
-      "path": "junos/security/srx-zones-scaleout.conf",
-      "os": "junos",
-      "category": "security",
-      "name": "srx-zones-scaleout",
-      "topic": "SRX security zones for the scale-out planes (trust / untrust / MNHA-ICL)",
-      "seen_on": [
-        "srx1a_srx4600",
-        "srx1b_srx4600",
-        "srx2a_srx4600",
-        "srx2b_srx4600"
-      ],
-      "size_bytes": 1919,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/srx-zones-scaleout.conf"
-    },
-    {
-      "path": "junos/transport/enhanced-hash-key-symmetric.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "enhanced-hash-key-symmetric",
-      "topic": "Symmetric enhanced-hash-key so the MX computes identical forward/return hashes",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 704,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/enhanced-hash-key-symmetric.conf"
-    },
-    {
-      "path": "junos/transport/gw-emulator-bgp.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "gw-emulator-bgp",
-      "topic": "Gateway emulator: north-side TRUST/UNTRUST VRFs with static client/server routes + eBGP to the MX",
+      "category": "chassis",
+      "name": "fpc-pic-0-1-pic-mode-100g-2-ports",
+      "topic": "FPC with PICs 0 and 1 in 100G mode, two ports each",
       "seen_on": [
         "gateway_emulator_mx304"
       ],
-      "size_bytes": 3392,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/gw-emulator-bgp.conf"
+      "size_bytes": 511,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/fpc-pic-0-1-pic-mode-100g-2-ports.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     },
     {
-      "path": "junos/transport/mx-bgp-vrf-scaleout.conf",
+      "path": "junos/chassis/fpc-pic-0-ports-0-3-100g-pic-1-0-ports.conf",
       "os": "junos",
-      "category": "transport",
-      "name": "mx-bgp-vrf-scaleout",
-      "topic": "MX scale-out VRFs (TRUST_VR / UNTRUST_VR / MNHA-VR) with per-pair eBGP to the SRX farm and the GW",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 7618,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-bgp-vrf-scaleout.conf"
-    },
-    {
-      "path": "junos/transport/mx-forwarding-instance-tlb.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "mx-forwarding-instance-tlb",
-      "topic": "MX forwarding routing-instances that anchor the TLB virtual-services (trust + untrust)",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 835,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-forwarding-instance-tlb.conf"
-    },
-    {
-      "path": "junos/transport/mx-scaleout-export-policies.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "mx-scaleout-export-policies",
-      "topic": "MX export policies for scale-out (default, client, per-plane next-hop-self, per-packet LB)",
-      "seen_on": [
-        "mx1_mx304"
-      ],
-      "size_bytes": 2897,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/mx-scaleout-export-policies.conf"
-    },
-    {
-      "path": "junos/transport/srx-bgp-to-mx-scaleout.conf",
-      "os": "junos",
-      "category": "transport",
-      "name": "srx-bgp-to-mx-scaleout",
-      "topic": "SRX eBGP to the MX load balancer per plane (VR-1 trust/untrust v4+v6) + MNHA-VR ICL peering",
+      "category": "chassis",
+      "name": "fpc-pic-0-ports-0-3-100g-pic-1-0-ports",
+      "topic": "FPC with ports 0 to 3 of PIC 0 at 100G and PIC 1 set to zero ports",
       "seen_on": [
         "srx1a_srx4600",
         "srx1b_srx4600",
         "srx2a_srx4600",
         "srx2b_srx4600"
       ],
-      "size_bytes": 4878,
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/transport/srx-bgp-to-mx-scaleout.conf"
+      "size_bytes": 772,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/fpc-pic-0-ports-0-3-100g-pic-1-0-ports.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route",
+      "topic": "SRX Multinode High Availability (routing mode) with SRG 0, a BFD liveliness monitor and an install-on-failure signal route",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2580,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/high-availability-mnha-srg-0-bfd-monitor-install-on-failure-route.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-inet-primary.conf",
+        "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf",
+        "junos/routing-instances/virtual-router/ri-vr-1-nat-pool-discard-ebgp-trust-untrust-inet-inet6.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/chassis/network-services-enhanced-ip.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "network-services-enhanced-ip",
+      "topic": "Enhanced IP chassis network-services mode",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304"
+      ],
+      "size_bytes": 304,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/network-services-enhanced-ip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/chassis/redundancy-graceful-switchover.conf",
+      "os": "junos",
+      "category": "chassis",
+      "name": "redundancy-graceful-switchover",
+      "topic": "Graceful Routing Engine switchover",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 264,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/chassis/redundancy-graceful-switchover.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-ipv6-mx-tlb-lb-trust.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ipv6-mx-tlb-lb-trust",
+      "topic": "IPv6 filter IPv6_MX_TLB_LB_TRUST: count and redirect the NAT64 and SFW66 source prefixes to the TLB trust forwarding instance, accept the rest",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1139,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/filter-ipv6-mx-tlb-lb-trust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-ipv6-mx-tlb-lb-untrust.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-ipv6-mx-tlb-lb-untrust",
+      "topic": "IPv6 filter IPv6_MX_TLB_LB_UNTRUST: count and redirect return traffic to the NAT64 and SFW66 prefixes to the TLB untrust forwarding instance, accept the rest",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1164,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/filter-ipv6-mx-tlb-lb-untrust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-mx-tlb-lb-trust.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-mx-tlb-lb-trust",
+      "topic": "IPv4 filter MX_TLB_LB_TRUST: count and redirect the NAPT44 and SFW44 source prefixes to the TLB trust forwarding instance, accept the rest",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1457,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/filter-mx-tlb-lb-trust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/firewall/filter-mx-tlb-lb-untrust.conf",
+      "os": "junos",
+      "category": "firewall",
+      "name": "filter-mx-tlb-lb-untrust",
+      "topic": "IPv4 filter MX_TLB_LB_UNTRUST: count and redirect return traffic to the NAPT44 and SFW44 prefixes to the TLB untrust forwarding instance, accept the rest",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1487,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/firewall/filter-mx-tlb-lb-untrust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/forwarding-options/enhanced-hash-key-symmetric.conf",
+      "os": "junos",
+      "category": "forwarding-options",
+      "name": "enhanced-hash-key-symmetric",
+      "topic": "Symmetric enhanced hash key",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 408,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/forwarding-options/enhanced-hash-key-symmetric.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/groups/apply-global-three.conf",
+      "os": "junos",
+      "category": "groups",
+      "name": "apply-global-three",
+      "topic": "Ordered global three-group application",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304"
+      ],
+      "size_bytes": 417,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/groups/apply-global-three.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "gateway_emulator_mx304",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "gateway_emulator_mx304",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re1",
+          "name": "re1",
+          "device": "gateway_emulator_mx304",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re1",
+          "name": "re1",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/groups/apply-global-two.conf",
+      "os": "junos",
+      "category": "groups",
+      "name": "apply-global-two",
+      "topic": "Ordered global two-group application",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 433,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/groups/apply-global-two.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "srx1a_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "srx1a_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "srx1b_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "srx1b_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "srx2a_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "srx2a_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "global",
+          "name": "global",
+          "device": "srx2b_srx4600",
+          "reason": "Not defined in the validated source"
+        },
+        {
+          "kind": "group",
+          "slot": "re0",
+          "name": "re0",
+          "device": "srx2b_srx4600",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast",
+      "topic": "Aggregated Ethernet interface with flexible VLAN tagging, flexible Ethernet services and fast active LACP",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304"
+      ],
+      "size_bytes": 641,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-ae-vlan-tagging-lacp-fast.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-ae-vlan-tagging-lacp-fast",
+      "topic": "Aggregated Ethernet interface with VLAN tagging, one minimum link and fast active LACP",
+      "seen_on": [
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 636,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifd-ae-vlan-tagging-lacp-fast.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifd-lag-member-gigether.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-lag-member-gigether",
+      "topic": "Aggregated Ethernet member link through gigether-options",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 616,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifd-lag-member-gigether.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifd-mtu-9192.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifd-mtu-9192",
+      "topic": "Physical interface with MTU 9192",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 339,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifd-mtu-9192.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-description-inet-inet6",
+      "topic": "Loopback unit with a description and one IPv4 and one IPv6 address",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 859,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-inet-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet-inet6",
+      "topic": "Loopback unit with one IPv4 and one IPv6 address",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 709,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-loopback-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-loopback-inet-primary.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-loopback-inet-primary",
+      "topic": "Primary IPv4 loopback address",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 570,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-loopback-inet-primary.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/interfaces/ifl-unit-0-inet-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-unit-0-inet-inet6",
+      "topic": "Unit 0 with one IPv4 and one IPv6 address",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 593,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-unit-0-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-mtu-9192.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-trust.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-trust",
+      "topic": "VLAN unit with IPv4 and IPv6 addresses and the MX_TLB_LB_TRUST input filters",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1100,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-trust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/firewall/filter-ipv6-mx-tlb-lb-trust.conf",
+        "junos/firewall/filter-mx-tlb-lb-trust.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-untrust.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-untrust",
+      "topic": "VLAN unit with IPv4 and IPv6 addresses and the MX_TLB_LB_UNTRUST input filters",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1131,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-untrust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/firewall/filter-ipv6-mx-tlb-lb-untrust.conf",
+        "junos/firewall/filter-mx-tlb-lb-untrust.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet-inet6",
+      "topic": "VLAN logical interface with IPv4 and IPv6 addresses",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 860,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-vlan-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-flexible-vlan-tagging-flexible-ethernet-services-lacp-fast.conf",
+            "junos/interfaces/ifd-ae-vlan-tagging-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/interfaces/ifl-vlan-inet.conf",
+      "os": "junos",
+      "category": "interfaces",
+      "name": "ifl-vlan-inet",
+      "topic": "Single-tagged routed logical interface carrying an IPv4 customer address",
+      "seen_on": [
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 688,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/interfaces/ifl-vlan-inet.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "context-interface-parent",
+          "kind": "interface-parent",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:interface-parent"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-ae-vlan-tagging-lacp-fast.conf"
+          ]
+        },
+        {
+          "id": "context-lag-member",
+          "kind": "lag-member",
+          "scope": "object",
+          "selection": "all-related",
+          "presence": "conditional",
+          "when": "source-reference-or-related-context-present",
+          "slots": [
+            "@source:lag-member"
+          ],
+          "providers": [
+            "junos/interfaces/ifd-lag-member-gigether.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "condition/condition-if-route-exists-mnha-vr-signal-route",
+      "topic": "Policy condition true while the MNHA signal route exists in MNHA-VR.inet.0",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 758,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-flow-load-balance-term-accept.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-flow-load-balance-term-accept",
+      "topic": "Per-flow load-balance policy in one term with accept",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx2a_srx4600"
+      ],
+      "size_bytes": 554,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/per-flow-load-balance-term-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-flow-load-balance.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-flow-load-balance",
+      "topic": "Per-flow load-balance policy",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 495,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/per-flow-load-balance.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-packet-load-balance-no-term",
+      "topic": "Per-packet load-balancing policy without terms",
+      "seen_on": [
+        "srx1b_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 445,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/per-packet-load-balance-term-accept.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/per-packet-load-balance-term-accept",
+      "topic": "Per-packet load-balance policy in one term with accept",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 505,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/per-packet-load-balance-term-accept.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-default-route-inet-next-hop-self-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-default-route-inet-next-hop-self-accept-reject",
+      "topic": "Policy accepting the BGP IPv4 default route with next-hop self and rejecting everything else",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx2a_srx4600"
+      ],
+      "size_bytes": 791,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-default-route-inet-next-hop-self-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-default-route-inet6-next-hop-self-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-default-route-inet6-next-hop-self-accept-reject",
+      "topic": "Policy accepting the BGP IPv6 default route with next-hop self and rejecting everything else",
+      "seen_on": [
+        "srx1a_srx4600"
+      ],
+      "size_bytes": 750,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-default-route-inet6-next-hop-self-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-napt44-orlonger-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-napt44-orlonger-accept-reject",
+      "topic": "Policy accepting BGP routes within the NAPT44 prefix and rejecting everything else",
+      "seen_on": [
+        "srx2a_srx4600"
+      ],
+      "size_bytes": 692,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-napt44-orlonger-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-napt44-sfw44-orlonger-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-napt44-sfw44-orlonger-accept-reject",
+      "topic": "Policy accepting BGP routes within the NAPT44 and SFW44 prefixes and rejecting everything else",
+      "seen_on": [
+        "srx1a_srx4600"
+      ],
+      "size_bytes": 758,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-napt44-sfw44-orlonger-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-next-hop-self-accept-reject",
+      "topic": "Policy that accepts BGP routes with next-hop self and rejects everything else",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 649,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-bgp-sfw66-orlonger-next-hop-self-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-bgp-sfw66-orlonger-next-hop-self-accept-reject",
+      "topic": "Policy accepting BGP routes within the SFW66 prefix with next-hop self and rejecting everything else",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600"
+      ],
+      "size_bytes": 817,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-bgp-sfw66-orlonger-next-hop-self-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-next-hop-self-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-direct-route-filter-accept-bgp-next-hop-self-reject",
+      "topic": "Policy accepting one direct prefix and BGP routes with next-hop self, rejecting everything else",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 938,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-next-hop-self-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-3-or-1-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-3-or-1-reject",
+      "topic": "Policy advertising one direct prefix with next-hop self, prepending the AS three times while the MNHA signal route exists and once otherwise",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx2a_srx4600"
+      ],
+      "size_bytes": 1520,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-3-or-1-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-condition",
+          "kind": "condition",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CONDITION_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-4-or-2-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-4-or-2-reject",
+      "topic": "Policy advertising one direct prefix with next-hop self, prepending the AS four times while the MNHA signal route exists and twice otherwise",
+      "seen_on": [
+        "srx1b_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1534,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-4-or-2-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-condition",
+          "kind": "condition",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CONDITION_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-3-or-1-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-3-or-1-reject",
+      "topic": "Policy advertising the two NAT pool routes and one direct prefix with next-hop self, prepending the AS three times while the MNHA signal route exists and once otherwise",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx2a_srx4600"
+      ],
+      "size_bytes": 2997,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-3-or-1-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-condition",
+          "kind": "condition",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CONDITION_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-pool-2-signal-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-pool-2-signal-reject",
+      "topic": "Policy advertising the NAT pool routes and one direct prefix with AS-path prepends, rejecting the second pool route while the MNHA signal route exists",
+      "seen_on": [
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 2849,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-pool-2-signal-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-condition",
+          "kind": "condition",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CONDITION_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-reject",
+      "topic": "Policy advertising the two NAT pool routes and one direct prefix with next-hop self, prepending the AS four times while the MNHA signal route exists and twice otherwise",
+      "seen_on": [
+        "srx1b_srx4600"
+      ],
+      "size_bytes": 2867,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-condition",
+          "kind": "condition",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$CONDITION_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/condition/condition-if-route-exists-mnha-vr-signal-route.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-route-filter-next-hop-self-accept-reject",
+      "topic": "Policy accepting one prefix with next-hop self and rejecting everything else",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 836,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-static-nat64-sfw66-exact-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-static-nat64-sfw66-exact-accept-reject",
+      "topic": "Policy accepting the static NAT64 and SFW66 IPv6 prefixes (exact) and rejecting everything else",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 816,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-static-nat64-sfw66-exact-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-static-route-filter-exact-accept-reject",
+      "topic": "Policy accepting one static prefix (exact) and rejecting everything else",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304"
+      ],
+      "size_bytes": 768,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-static-sfw44-exact-bgp-route-filter-list-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-static-sfw44-exact-bgp-route-filter-list-accept-reject",
+      "topic": "Policy accepting the static SFW44 prefix and BGP routes in a route-filter list, rejecting everything else",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1029,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-static-sfw44-exact-bgp-route-filter-list-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-route-filter-list",
+          "kind": "route-filter-list",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$ROUTE_FILTER_LIST"
+          ],
+          "providers": [
+            "junos/policy-options/route-filter-list/rfl-inet-4-exact.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/policy-options/policy-statement/ps-static-sfw44-exact-napt44-orlonger-accept-reject.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "policy-statement/ps-static-sfw44-exact-napt44-orlonger-accept-reject",
+      "topic": "Policy accepting the static SFW44 prefix (exact) and NAPT44 prefix (orlonger) and rejecting everything else",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 812,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/policy-statement/ps-static-sfw44-exact-napt44-orlonger-accept-reject.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/policy-options/route-filter-list/rfl-inet-4-exact.conf",
+      "os": "junos",
+      "category": "policy-options",
+      "name": "route-filter-list/rfl-inet-4-exact",
+      "topic": "Route-filter list of four IPv4 prefixes (exact)",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 481,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/policy-options/route-filter-list/rfl-inet-4-exact.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "forwarding/ri-srx-mnha-group-tlb-trust-fi",
+      "topic": "Forwarding instance srx_mnha_group_tlb-trust_fi for the TLB trust virtual services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 475,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "forwarding/ri-srx-mnha-group-tlb-untrust-fi",
+      "topic": "Forwarding instance srx_mnha_group_tlb-untrust_fi for the TLB untrust virtual services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 331,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-mnha-vr-ebgp-4-icl-groups",
+      "topic": "MNHA-VR virtual router with one eBGP group per SRX node over the inter-chassis link units",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 3479,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3",
+            "$IFL_4"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-inet.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-mnha-vr-ebgp-icl-bfd",
+      "topic": "MNHA-VR virtual router with an eBGP inter-chassis link session to the MX and the lo0.0 node address",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1539,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-inet-primary.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-inet.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups",
+      "topic": "TRUST_VR virtual router with discard default routes, eBGP multipath groups to each SRX node and eBGP to the trust gateway",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 7075,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3",
+            "$IFL_4",
+            "$IFL_5",
+            "$LOOPBACK_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-trust.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2",
+            "$BGP_EXPORT_POL_3",
+            "$BGP_EXPORT_POL_4"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-next-hop-self-reject.conf",
+            "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-trust-vr-static-next-hop-ebgp-inet-inet6.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-trust-vr-static-next-hop-ebgp-inet-inet6",
+      "topic": "TRUST_VR virtual router with static client routes and IPv4 and IPv6 eBGP groups toward the MX",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 2443,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-trust-vr-static-next-hop-ebgp-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-unit-0-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-static-nat64-sfw66-exact-accept-reject.conf",
+            "junos/policy-options/policy-statement/ps-static-sfw44-exact-napt44-orlonger-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-default-ebgp-inet-inet6.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-untrust-vr-static-discard-default-ebgp-inet-inet6",
+      "topic": "UNTRUST_VR virtual router with discard default routes and IPv4 and IPv6 eBGP groups toward the MX",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 2188,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-default-ebgp-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-unit-0-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-sfw-ebgp-10-groups.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-untrust-vr-static-discard-sfw-ebgp-10-groups",
+      "topic": "UNTRUST_VR virtual router with discard SFW routes, eBGP multipath groups to each SRX node and eBGP to the untrust gateway",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 6904,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-sfw-ebgp-10-groups.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3",
+            "$IFL_4",
+            "$IFL_5",
+            "$LOOPBACK_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6-input-filter-mx-tlb-lb-untrust.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2",
+            "$BGP_EXPORT_POL_3",
+            "$BGP_EXPORT_POL_4"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-next-hop-self-reject.conf",
+            "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf",
+            "junos/policy-options/policy-statement/ps-static-sfw44-exact-bgp-route-filter-list-accept-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-instances/virtual-router/ri-vr-1-nat-pool-discard-ebgp-trust-untrust-inet-inet6.conf",
+      "os": "junos",
+      "category": "routing-instances",
+      "name": "virtual-router/ri-vr-1-nat-pool-discard-ebgp-trust-untrust-inet-inet6",
+      "topic": "VR-1 virtual router with NAT pool discard routes and IPv4 and IPv6 eBGP groups to the MX trust and untrust instances",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 3691,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-instances/virtual-router/ri-vr-1-nat-pool-discard-ebgp-trust-untrust-inet-inet6.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$LOOPBACK_IFL"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-loopback-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet-inet6.conf"
+          ],
+          "preferObject": true
+        },
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$BGP_EXPORT_POL_1",
+            "$BGP_EXPORT_POL_2",
+            "$BGP_EXPORT_POL_3",
+            "$BGP_EXPORT_POL_4"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-3-or-1-reject.conf",
+            "junos/policy-options/policy-statement/ps-direct-route-filter-signal-condition-as-path-prepend-4-or-2-reject.conf",
+            "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-3-or-1-reject.conf",
+            "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-pool-2-signal-reject.conf",
+            "junos/policy-options/policy-statement/ps-nat-pools-loopback-signal-condition-as-path-prepend-4-or-2-reject.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/autonomous-system.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "autonomous-system",
+      "topic": "Device autonomous-system number",
+      "seen_on": [
+        "srx1b_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 336,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-options/autonomous-system.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/routing-options/forwarding-table-export.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "forwarding-table-export",
+      "topic": "Forwarding-table export — per-packet load-balance applied to the forwarding table (minimal EVO form).",
+      "seen_on": [
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 546,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-options/forwarding-table-export.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-policy-statement",
+          "kind": "policy-statement",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$PPLB_NAME"
+          ],
+          "providers": [
+            "junos/policy-options/policy-statement/per-flow-load-balance.conf",
+            "junos/policy-options/policy-statement/per-packet-load-balance-term-accept.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/routing-options/nonstop-routing.conf",
+      "os": "junos",
+      "category": "routing-options",
+      "name": "nonstop-routing",
+      "topic": "Nonstop active routing",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 229,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/routing-options/nonstop-routing.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/address-book-global-napt44-sfw44-nat64-sfw66.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "address-book-global-napt44-sfw44-nat64-sfw66",
+      "topic": "Global address book with the NAPT44, SFW44, NAT64 and SFW66 source prefixes, in that order",
+      "seen_on": [
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 740,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/address-book-global-napt44-sfw44-nat64-sfw66.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/address-book-global-napt44-sfw44-sfw66-nat64.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "address-book-global-napt44-sfw44-sfw66-nat64",
+      "topic": "Global address book with the NAPT44, SFW44, SFW66 and NAT64 source prefixes, in that order",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600"
+      ],
+      "size_bytes": 740,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/address-book-global-napt44-sfw44-sfw66-nat64.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/alg-sip.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "alg-sip",
+      "topic": "SIP application layer gateway",
+      "seen_on": [
+        "srx1b_srx4600"
+      ],
+      "size_bytes": 226,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/alg-sip.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/nat-source-napt44-nat64-pools-destination-nat64.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "nat-source-napt44-nat64-pools-destination-nat64",
+      "topic": "Source NAT (NAPT44 and NAT64 pools with paired address pooling) and NAT64 destination NAT from the VR-1 trust zone",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 3032,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/nat-source-napt44-nat64-pools-destination-nat64.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/security/zones-vr-1-trust-untrust-mnha.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/security/policies-trust-to-untrust-permit-sfw-nat-default-permit-all.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "policies-trust-to-untrust-permit-sfw-nat-default-permit-all",
+      "topic": "Trust-to-untrust security policies permitting the NAPT44, NAT64, SFW66 and SFW44 source prefixes, default policy permit-all",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1936,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/policies-trust-to-untrust-permit-sfw-nat-default-permit-all.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/security/zones-vr-1-trust-untrust-mnha.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-address-book-entry",
+          "kind": "address-book-entry",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "sfw_source_prefix_172.80.0.0/12",
+            "sfw_source_prefix_2001:db8:172:80::/96",
+            "sfw_source_prefix_2001:db8:172:160::/96",
+            "sfw_source_prefix_172.160.0.0/12"
+          ],
+          "providers": [
+            "junos/security/address-book-global-napt44-sfw44-nat64-sfw66.conf",
+            "junos/security/address-book-global-napt44-sfw44-sfw66-nat64.conf"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "junos/security/zones-vr-1-trust-untrust-mnha.conf",
+      "os": "junos",
+      "category": "security",
+      "name": "zones-vr-1-trust-untrust-mnha",
+      "topic": "VR-1 trust and untrust security zones and the MNHA zone, all host-inbound services and protocols",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 1719,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/security/zones-vr-1-trust-untrust-mnha.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-inet-inet6.conf",
+        "junos/interfaces/ifl-loopback-inet-primary.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [
+        {
+          "id": "ref-logical-interface",
+          "kind": "logical-interface",
+          "scope": "whole",
+          "selection": "each-reference",
+          "presence": "required",
+          "slots": [
+            "$IFL_1",
+            "$IFL_2",
+            "$IFL_3"
+          ],
+          "providers": [
+            "junos/interfaces/ifl-vlan-inet-inet6.conf",
+            "junos/interfaces/ifl-vlan-inet.conf"
+          ],
+          "preferObject": true
+        }
+      ]
+    },
+    {
+      "path": "junos/services/network-monitoring-icmp-tcp-8088-profiles.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "network-monitoring-icmp-tcp-8088-profiles",
+      "topic": "Network-monitoring ICMP and TCP port 8088 health-check profiles with 1-second probes and single retries",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 638,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/network-monitoring-icmp-tcp-8088-profiles.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/services/traffic-load-balance-instance-ipv6-tlb-sfw-trust.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "traffic-load-balance-instance-ipv6-tlb-sfw-trust",
+      "topic": "TLB instance ipv6_tlb_sfw_trust: IPv6 direct-server-return virtual service hashing on source IP across two SRX real services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 1967,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-ipv6-tlb-sfw-trust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf",
+        "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf",
+        "junos/services/network-monitoring-icmp-tcp-8088-profiles.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "logical-interface",
+          "slot": "lo0.0",
+          "name": "lo0.0",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/services/traffic-load-balance-instance-ipv6-tlb-sfw-untrust.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "traffic-load-balance-instance-ipv6-tlb-sfw-untrust",
+      "topic": "TLB instance ipv6_tlb_sfw_untrust: IPv6 direct-server-return virtual service hashing on destination IP across two SRX real services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2011,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-ipv6-tlb-sfw-untrust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf",
+        "junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-sfw-ebgp-10-groups.conf",
+        "junos/services/network-monitoring-icmp-tcp-8088-profiles.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "logical-interface",
+          "slot": "lo0.0",
+          "name": "lo0.0",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/services/traffic-load-balance-instance-tlb-sfw-trust.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "traffic-load-balance-instance-tlb-sfw-trust",
+      "topic": "TLB instance tlb_sfw_trust: direct-server-return virtual service hashing on source IP across two SRX real services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2149,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-tlb-sfw-trust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-trust-fi.conf",
+        "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-10-groups.conf",
+        "junos/services/network-monitoring-icmp-tcp-8088-profiles.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "logical-interface",
+          "slot": "lo0.0",
+          "name": "lo0.0",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/services/traffic-load-balance-instance-tlb-sfw-untrust.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "traffic-load-balance-instance-tlb-sfw-untrust",
+      "topic": "TLB instance tlb_sfw_untrust: direct-server-return virtual service hashing on destination IP across two SRX real services",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 2075,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-instance-tlb-sfw-untrust.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [
+        "junos/interfaces/ifl-loopback-description-inet-inet6.conf",
+        "junos/routing-instances/forwarding/ri-srx-mnha-group-tlb-untrust-fi.conf",
+        "junos/routing-instances/virtual-router/ri-untrust-vr-static-discard-sfw-ebgp-10-groups.conf",
+        "junos/services/network-monitoring-icmp-tcp-8088-profiles.conf"
+      ],
+      "variant_requires": [],
+      "occurrence_requires": [],
+      "unresolved": [
+        {
+          "kind": "logical-interface",
+          "slot": "lo0.0",
+          "name": "lo0.0",
+          "device": "mx1_mx304",
+          "reason": "Not defined in the validated source"
+        }
+      ]
+    },
+    {
+      "path": "junos/services/traffic-load-balance-routing-engine-mode.conf",
+      "os": "junos",
+      "category": "services",
+      "name": "traffic-load-balance-routing-engine-mode",
+      "topic": "Traffic Load Balancer in routing-engine mode",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 405,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/services/traffic-load-balance-routing-engine-mode.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/snmp/community-read-only-all-clients.conf",
+      "os": "junos",
+      "category": "snmp",
+      "name": "community-read-only-all-clients",
+      "topic": "Read-only SNMP community open to all IPv4 and IPv6 clients",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 631,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/snmp/community-read-only-all-clients.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/snmp/trap-group-space-one-target.conf",
+      "os": "junos",
+      "category": "snmp",
+      "name": "trap-group-space-one-target",
+      "topic": "SNMP trap group with one target",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 469,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/snmp/trap-group-space-one-target.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/commit-synchronize.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "commit-synchronize",
+      "topic": "Commit synchronization between Routing Engines",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 228,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/commit-synchronize.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/ports-console-log-out.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "ports-console-log-out",
+      "topic": "Console log-out on disconnect",
+      "seen_on": [
+        "gateway_emulator_mx304",
+        "mx1_mx304",
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 437,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/ports-console-log-out.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/processes-sdk-service-enable.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "processes-sdk-service-enable",
+      "topic": "SDK service process enabled",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 235,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/processes-sdk-service-enable.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/services-netconf-ssh-root-login-allow.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "services-netconf-ssh-root-login-allow",
+      "topic": "NETCONF over SSH and SSH service with root login allowed",
+      "seen_on": [
+        "mx1_mx304"
+      ],
+      "size_bytes": 334,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/services-netconf-ssh-root-login-allow.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/services-netconf-ssh-web-management-http-8088.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "services-netconf-ssh-web-management-http-8088",
+      "topic": "NETCONF over SSH, SSH with root login allowed and HTTP web management on port 8088",
+      "seen_on": [
+        "srx1a_srx4600",
+        "srx1b_srx4600",
+        "srx2a_srx4600",
+        "srx2b_srx4600"
+      ],
+      "size_bytes": 682,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/services-netconf-ssh-web-management-http-8088.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
+    },
+    {
+      "path": "junos/system/services-ssh-root-login-allow.conf",
+      "os": "junos",
+      "category": "system",
+      "name": "services-ssh-root-login-allow",
+      "topic": "SSH service with root login allowed",
+      "seen_on": [
+        "gateway_emulator_mx304"
+      ],
+      "size_bytes": 294,
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/junos/system/services-ssh-root-login-allow.conf",
+      "dependency_contract_version": 3,
+      "pair_with": [],
+      "variant_requires": [],
+      "occurrence_requires": []
     }
   ],
   "reference_files": [
     {
       "path": "_variables.md",
       "kind": "glossary",
-      "topic": "Glossary of $VAR placeholders used across all snips",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/_variables.md"
+      "topic": "Template variable glossary",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/_variables.md",
+      "size_bytes": 13301,
+      "sha256": "6a89105155b9311ce88ace200eb3f1738e5047a189c6c3a2587e45794c10b932"
     },
     {
       "path": "byoai/TIERS.md",
       "kind": "reference",
-      "topic": "Per-role snip lists for `minimum` / `with-bgp` / `as-deployed` configuration form",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/TIERS.md"
+      "topic": "Generated service tier and selection requirements",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/TIERS.md",
+      "size_bytes": 28130,
+      "sha256": "d8bce32c0ccbd62ca6f04e14faff9ad5526a20f64cc7ffd00bbf99abec86a6ad"
     },
     {
       "path": "byoai/DEFAULTS.md",
       "kind": "reference",
-      "topic": "Auto-fill rules: lab-default anycast health-check IPs, AS numbers, per-plane /30s, NAPT44 pools, MNHA signal-routes",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/DEFAULTS.md"
+      "topic": "Validated lab defaults",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/DEFAULTS.md",
+      "size_bytes": 7165,
+      "sha256": "a1faa191a2350bdb101aa11025da9ed76e7d5c32122c508a14dc9ff5cc9dac59"
     },
     {
       "path": "byoai/OUTPUT_FORMAT.md",
       "kind": "reference",
-      "topic": "Required output format: YAML Inputs block, per-device fenced blocks, Notes section",
-      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/OUTPUT_FORMAT.md"
+      "topic": "Required output format",
+      "raw_url": "https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_firewall_nat/configuration/snips/byoai/OUTPUT_FORMAT.md",
+      "size_bytes": 2810,
+      "sha256": "54b0a3af543b2f78a0c9e094829acdf0653c163c9e6c09c8fb71d69efbe325a2"
     }
   ]
 }

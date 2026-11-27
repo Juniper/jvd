@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-so-fwnat-snips.md`](jvd-so-fwnat-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-so-fwnat-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,17 +9,15 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-bgp"
+# form: minimum
 # devices:
-#   - { name: <hostname>, os: junos, role: <MX-LB|SRX|GW> }
-# component:
-#   kind: <mx-load-balancer|srx-sfw-nat|srx-mnha|gw-emulator|add-feature>
-#   nat: { type: napt44, pool: srx_nat_pool1, prefix: 100.64.1.0/24, pooling: paired }
-#   as: { srx: 65000, trust: 65200, untrust: 65400, mnha: 65050 }
-#   planes: { trust: 10.1.1.x/30, untrust: 10.2.1.x/30, mnha: 10.3.1.x/30 }
+#   srx1a: { name: <hostname>, os: junos, mnha_node: <A|B>, loopback4: <lo0.0 addr> }
+#   mx1: { name: <hostname>, os: junos }
+# services:
+#   - { kind: <source-nat-napt44-nat64|security-policies-sfw-nat|mnha-srg-0-signal-route|srx-mnha-vr-icl|srx-vr-1-scale-out|mx-trust-vr-scale-out|mx-untrust-vr-scale-out|mx-mnha-vr-icl|tlb-sfw-trust|tlb-sfw-untrust|tlb-sfw-trust-ipv6|tlb-sfw-untrust-ipv6|tlb-fbf-trust|tlb-fbf-untrust>,
+#       values: { <$VAR>: <value>, ... } }
 # snips_used:
-#   - junos/load-balancing/tlb-sfw-dsr.conf
-#   - junos/firewall/mx-fbf-tlb-redirect.conf
+#   - junos/security/nat-source-napt44-nat64-pools-destination-nat64.conf
 #   - ...
 ```
 
@@ -38,19 +36,17 @@ Each device block starts with a `# device:` label and groups its snips with `/* 
 <rendered config block>
 ```
 
-For an end-to-end scale-out example, emit the **MX load-balancer** and the **SRX SFW/NAT gateway** as separate device blocks. Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
+- What is not included: the snip's "Not included" references (the `global`, `re0` and `re1` configuration groups; `lo0.0` on the MX), with the Report link.
 - Inputs defaulted because the user did not provide them.
-- Cross-device consistency the user must verify: per-plane /30s match between the MX and SRX sides; the SRX share one local-as (`$SRX_AS`) while the MX side uses `as-override`; the TLB TCP health-check port matches the SRX `web-management http` port (8088); the MNHA signal-route (`$SIG_ROUTE`) matches on both nodes; the health-check anchor (`$HC_SRC`, SRX lo0.1) is the same on both nodes of a pair.
-- NAT: the source-NAT NAPT44 pool `$NAPT_PREFIX` is **unique per MNHA pair** (100.64.1.0/24 on pair 1, 100.64.3.0/24 on pair 2) so translations never collide; `address-pooling paired` must stay set for endpoint-independent mapping.
-- Prerequisites: for **SRX**, MNHA needs `chassis high-availability` (SRG0 + BFD monitor + install-on-failure signal-route) plus the active/backup signal-route export policies. For **MX-LB**, RE-based TLB needs `services traffic-load-balance routing-engine-mode` on MX304/MX10000 (already in `tlb-sfw-dsr.conf`).
-- **NAT64 is a non-goal.** If NAT64 was requested and emitted, state clearly it is present in the lab configs but OUTSIDE the validated NAPT44 design.
-- Anything that is by-pattern rather than validated on that exact device (e.g. a user-supplied hostname not in any snip's `Seen on:` list).
+- Cross-device consistency the user must verify: the two nodes of an MNHA pair name each other (peer ID and peer loopback) and keep the security object names identical; each MNHA pair has its own NAT pool prefixes, which its VR-1 discard routes and untrust export policy advertise; the MX TLB real services are the SRX pairs' lo0.1 addresses; the MX and SRX eBGP neighbors and AS numbers match on each VLAN unit; the A and B nodes keep their different AS-path prepend lengths.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 
