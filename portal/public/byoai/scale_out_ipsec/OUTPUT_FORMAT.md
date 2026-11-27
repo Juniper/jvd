@@ -1,6 +1,6 @@
 # Output Format
 
-This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into [`jvd-so-ipsec-snips.md`](jvd-so-ipsec-snips.md) by `regenerate-bundle.sh`.
+This file is part of the [BYOAI](README.md) corpus. It defines the exact shape every generation must take. Bundled into `jvd-so-ipsec-snips.md` by `regenerate-bundle.sh`.
 
 ## 1. `Inputs used:` block (always first)
 
@@ -9,17 +9,15 @@ Every generation begins with a YAML comment block listing **every** value picked
 ```yaml
 # Inputs used:
 # mode: auto                   # or "interview"
-# form: as-deployed            # or "minimum" or "with-bgp"
+# form: minimum
 # devices:
-#   - { name: <hostname>, os: junos, role: <MX-LB|SRX|MX-INIT> }
-# component:
-#   kind: <mx-load-balancer|srx-secgw|srx-mnha|mx-initiator|add-feature>
-#   ike_vip: 10.100.0.1        # shared anycast IKE gateway
-#   as: { mx: 10000, srx: 65000, trust: 65200, untrust: 65400, mnha: 65050 }
-#   planes: { trust: 10.1.1.x/30, untrust: 10.2.1.x/30, mnha: 10.3.1.x/30 }
+#   srx1a: { name: <hostname>, os: junos, mnha_node: <preferred|backup>, loopback4: <lo0.0 addr> }
+#   mx1: { name: <hostname>, os: junos }
+# services:
+#   - { kind: <ike-autovpn-responder|ipsec-autovpn-st0|security-policies-ipsec-data|mnha-srg-1-ipsec-preferred|mnha-srg-1-ipsec-backup|srx-mnha-vr-icl|srx-bgp-to-mx-trust|srx-bgp-to-mx-untrust|mx-trust-vr-scale-out|mx-untrust-vr-scale-out|mx-mnha-vr-icl|tlb-ipsec-lb|tlb-fbf-ipsec-lb|ike-initiator-gateway|ipsec-initiator-vpns>,
+#       values: { <$VAR>: <value>, ... } }
 # snips_used:
-#   - junos/load-balancing/tlb-ipsec-dsr.conf
-#   - junos/firewall/fbf-ipsec-lb-redirect.conf
+#   - junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf
 #   - ...
 ```
 
@@ -38,18 +36,17 @@ Each device block starts with a `# device:` label and groups its snips with `/* 
 <rendered config block>
 ```
 
-For an end-to-end scale-out example, emit the **MX load-balancer** and the **SRX gateway** as separate device blocks. Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
+Drop the leading C-style `/* … */` documentation header from each snip when emitting. Keep one `/* snips/<path> */` line as the section comment.
 
 ## 3. `Notes:` section (always last)
 
 Bullets covering:
 
-- Snips intentionally omitted (and why).
-- Inputs defaulted because the user did not provide them.
-- Cross-device consistency the user must verify: the anycast IKE VIP is IDENTICAL on every SRX and the TLB virtual-service; per-plane /30s match between the MX and SRX sides; the SRX share one local-as while the MX TRUST group uses `as-override`; MNHA signal-routes match.
-- Secrets: `$IKE_PSK` / `$L3HA_PSK` / `$INIT_PSK` are placeholders — the user MUST supply real encrypted keys.
-- Prerequisites: for **SRX** MNHA, `chassis high-availability` + the HA-link-encryption VPN + signal policies must be present. For **MX-LB**, RE-based TLB needs `services traffic-load-balance routing-engine-mode` on MX304/MX10000.
-- Anything that is by-pattern rather than validated on that exact device (e.g. a user-supplied hostname not in any snip's `Seen on:` list).
+- The prerequisites the device must already run: the snip's `Pair with:` entries, the applicable entries of its Needs list and the requirements TIERS.md lists under the Blocked entry for that device. Name them; do not render them.
+- What is not included: the snip's "Not included" references (the `global`, `re0` and `re1` configuration groups), with the Report link.
+- Inputs defaulted because the user did not provide them; credentials are never defaulted.
+- Cross-device consistency the user must verify: the two nodes of an MNHA pair name each other (peer ID and peer loopback), share the pair's lo0.1 probe address and keep the security object names identical; every SRX node keeps the same IKE anycast address, responder identity and pre-shared key the initiators use; the MX TLB real services are the SRX pairs' lo0.1 probe addresses; the MX and SRX eBGP neighbors and AS numbers match on each VLAN unit; the preferred and backup nodes keep their different activeness priorities.
+- Anything that is by-pattern rather than validated on that exact device.
 
 ## Refusal
 

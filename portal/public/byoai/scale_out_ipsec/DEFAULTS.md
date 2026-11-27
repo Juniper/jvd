@@ -1,88 +1,65 @@
-# Auto-fill Defaults
+# DEFAULTS — Scale-Out IPsec
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default value for every `$VAR`, so `auto` mode (and the `all defaults` / `use defaults` / `skip` short-circuits) can generate without an interview. Values are drawn from the validated configs in [`../../conf/`](../../conf/). Bundled into [`jvd-so-ipsec-snips.md`](jvd-so-ipsec-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Scale-Out IPsec JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks a device and service and asks for lab values; otherwise ask for the deployment values. Credentials (pre-shared keys, passwords, RADIUS secrets, the SNMP community) are never auto-filled: ask the user, or emit the placeholder shown.
 
-## Device selection shortcuts
+## Device inventory
 
-| Shortcut | Device(s) | Role |
-|---|---|---|
-| `MX-LB` | `mx1_mx304` | MX304 stateless load balancer (TLB) |
-| `SRX` | `srx1a` (+ `srx1b` as the MNHA peer) | SRX4600 IPsec Security Gateway |
-| `MX-INIT` | `ipsec_initiator_gateway_mx304` | MX304 AMS IPsec initiator (test source) |
+| Role | Device | Platform | OS | Loopbacks | AS numbers (instance or group: local AS) |
+|------|--------|----------|----|-----------|------------------------------------------|
+| IPsec Initiator Gateway | ipsec_initiator_gateway_mx304 | MX304 | Junos | lo0.0 10.200.0.1/32, 10.200.0.2/32, 10.200.0.3/32, 10.200.0.4/32, 10.200.0.5/32 | TRUST_VR 65300 (instance AS 2500); UNTRUST_VR 65100 |
+| Forwarding / Load Balancer | mx1_mx304 | MX304 | Junos | lo0.1 192.168.10.251/32 | MNHA-VR 65050; TRUST_VR 65200; UNTRUST_VR 65400; routing-options 10000 |
+| Security Service (SECGW) | srx1a_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.1/32; lo0.1 10.100.0.1/32, 192.168.10.1/32 | MNHA-VR 65001; default instance 65000 |
+| Security Service (SECGW) | srx1b_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.2/32; lo0.1 10.100.0.1/32, 192.168.10.1/32 | MNHA-VR 65002; default instance 65000; routing-options 69 |
+| Security Service (SECGW) | srx2a_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.3/32; lo0.1 10.100.0.1/32, 192.168.10.2/32 | MNHA-VR 65001; default instance 65000 |
+| Security Service (SECGW) | srx2b_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.4/32; lo0.1 10.100.0.1/32, 192.168.10.2/32 | MNHA-VR 65002; default instance 65000; routing-options 69 |
 
-The SRX farm is two MNHA pairs: `srx1a`+`srx1b`, `srx2a`+`srx2b`.
+Every SRX node carries the IKE anycast address 10.100.0.1 on lo0.1. The two nodes of an MNHA pair share their second lo0.1 address (the pair's activeness-probe source and the MX TLB real service) and swap their MNHA local and peer IDs.
 
-## Anycast endpoint & load balancer
+## MNHA pairs
 
-| Variable | Default |
-|---|---|
-| `$TLB_VIP` / `$IKE_VIP` / `$SRX_VIP` | `10.100.0.1` (shared anycast IKE gateway) |
-| `$REAL1` / `$REAL2` | `192.168.10.1` / `192.168.10.2` |
-| `$LB_VRF` | `TRUST_VR` |
-| `$TPROXY_VRF` | `srx-tproxy-fi` |
-| `$HC_INT` / `$IKE_HC_INT` | `lo0.1` |
-| `$HC_SRC` | `192.168.10.1` (SRX health-check IP); `192.168.10.251/32` (MX health-check source) |
-| `$TCP_PORT` | `8088` |
+| MNHA pair | Nodes | Probe and TLB real-service address (lo0.1) | Activeness-probe destination (preferred / backup) |
+|-----------|-------|---------------------------------------------|---------------------------------------------------|
+| 1 | srx1a_srx4600 (preferred, local ID 1) and srx1b_srx4600 (backup, local ID 2) | 192.168.10.1/32 | 10.1.1.1 / 10.1.2.1 |
+| 2 | srx2a_srx4600 (preferred, local ID 1) and srx2b_srx4600 (backup, local ID 2) | 192.168.10.2/32 | 10.1.3.1 / 10.1.4.1 |
 
-## Autonomous systems
+## First validated instance per service and device
 
-| Variable | Default |
-|---|---|
-| `$MX_AS` | `10000` |
-| `$TRUST_AS` / `$UNTRUST_AS` / `$MNHA_AS` (MX side) | `65200` / `65400` / `65050` |
-| `$SRX_AS` | `65000` (shared across the SRX farm) |
-| `$MNHA_AS` (SRX MNHA-VR) | `65001` (pair 1) / `65002` (pair 2) |
-| `$GW_TRUST_AS` / `$GW_UNTRUST_AS` | `65100` / `65300` |
-| `$MX_TRUST_AS` / `$MX_UNTRUST_AS` / `$MX_MNHA_AS` (SRX view) | `65200` / `65400` / `65050` |
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| ike-autovpn-responder | srx1a_srx4600 | `$IKE_PSK_1` <IKE_PSK>, `$IKE_PSK_2` <IKE_PSK> |
+| ike-autovpn-responder | srx1b_srx4600 | `$IKE_PSK_1` <IKE_PSK>, `$IKE_PSK_2` <IKE_PSK> |
+| ike-autovpn-responder | srx2a_srx4600 | `$IKE_PSK_1` <IKE_PSK>, `$IKE_PSK_2` <IKE_PSK> |
+| ike-autovpn-responder | srx2b_srx4600 | `$IKE_PSK_1` <IKE_PSK>, `$IKE_PSK_2` <IKE_PSK> |
+| ipsec-autovpn-st0 | srx1a_srx4600 | (no variables: the snip is rendered as written) |
+| ipsec-autovpn-st0 | srx1b_srx4600 | (no variables: the snip is rendered as written) |
+| ipsec-autovpn-st0 | srx2a_srx4600 | (no variables: the snip is rendered as written) |
+| ipsec-autovpn-st0 | srx2b_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-ipsec-data | srx1a_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-ipsec-data | srx1b_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-ipsec-data | srx2a_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-ipsec-data | srx2b_srx4600 | (no variables: the snip is rendered as written) |
+| mnha-srg-1-ipsec-preferred | srx1a_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.1, `$MNHA_LOCAL_ID` 1, `$MNHA_MONITOR_DST_V4` 10.1.1.1, `$MNHA_MONITOR_SRC_V4` 10.1.1.2, `$MNHA_PEER_ID` 2 … |
+| mnha-srg-1-ipsec-preferred | srx2a_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.3, `$MNHA_LOCAL_ID` 1, `$MNHA_MONITOR_DST_V4` 10.1.3.1, `$MNHA_MONITOR_SRC_V4` 10.1.3.2, `$MNHA_PEER_ID` 2 … |
+| mnha-srg-1-ipsec-backup | srx1b_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.2, `$MNHA_LOCAL_ID` 2, `$MNHA_MONITOR_DST_V4` 10.1.2.1, `$MNHA_MONITOR_SRC_V4` 10.1.2.2, `$MNHA_PEER_ID` 1 … |
+| mnha-srg-1-ipsec-backup | srx2b_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.4, `$MNHA_LOCAL_ID` 2, `$MNHA_MONITOR_DST_V4` 10.1.4.1, `$MNHA_MONITOR_SRC_V4` 10.1.4.2, `$MNHA_PEER_ID` 1 … |
+| srx-mnha-vr-icl | srx1a_srx4600 | `$ASN` 65001, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.1.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.1.2 |
+| srx-mnha-vr-icl | srx1b_srx4600 | `$ASN` 65002, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.2.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.2.2 |
+| srx-mnha-vr-icl | srx2a_srx4600 | `$ASN` 65001, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.3.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.3.2 |
+| srx-mnha-vr-icl | srx2b_srx4600 | `$ASN` 65002, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.4.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.4.2 |
+| srx-bgp-to-mx-trust | srx1a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65200, `$BGP_EXPORT_POL` loopback_export_trust, `$CE_PEER_V4` 10.1.1.1, `$PE_LOCAL_V4` 10.1.1.2 |
+| srx-bgp-to-mx-trust | srx1b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65200, `$BGP_EXPORT_POL` loopback_export_trust, `$CE_PEER_V4` 10.1.2.1, `$PE_LOCAL_V4` 10.1.2.2 |
+| srx-bgp-to-mx-trust | srx2a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65200, `$BGP_EXPORT_POL` loopback_export_trust, `$CE_PEER_V4` 10.1.3.1, `$PE_LOCAL_V4` 10.1.3.2 |
+| srx-bgp-to-mx-trust | srx2b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65200, `$BGP_EXPORT_POL` loopback_export_trust, `$CE_PEER_V4` 10.1.4.1, `$PE_LOCAL_V4` 10.1.4.2 |
+| srx-bgp-to-mx-untrust | srx1a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65400, `$BGP_EXPORT_POL` ari_export_untrust, `$CE_PEER_V4` 10.2.1.1, `$PE_LOCAL_V4` 10.2.1.2 |
+| srx-bgp-to-mx-untrust | srx1b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65400, `$BGP_EXPORT_POL` ari_export_untrust, `$CE_PEER_V4` 10.2.2.1, `$PE_LOCAL_V4` 10.2.2.2 |
+| srx-bgp-to-mx-untrust | srx2a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65400, `$BGP_EXPORT_POL` ari_export_untrust, `$CE_PEER_V4` 10.2.3.1, `$PE_LOCAL_V4` 10.2.3.2 |
+| srx-bgp-to-mx-untrust | srx2b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER` 65400, `$BGP_EXPORT_POL` ari_export_untrust, `$CE_PEER_V4` 10.2.4.1, `$PE_LOCAL_V4` 10.2.4.2 |
+| mx-trust-vr-scale-out | mx1_mx304 | `$ASN` 65200, `$ASN_CUSTOMER_1` 65000, `$ASN_CUSTOMER_2` 65100, `$BGP_EXPORT_POL_1` MX1-to-SRX_trust_export, `$BGP_EXPORT_POL_2` default_export, `$CE_PEER_V4_1` 10.1.1.2 … |
+| mx-untrust-vr-scale-out | mx1_mx304 | `$ASN` 65400, `$ASN_CUSTOMER_1` 65000, `$ASN_CUSTOMER_2` 65300, `$BGP_EXPORT_POL_1` untrust-to-trust-export, `$BGP_EXPORT_POL_2` ipsec_ari_route_export, `$CE_PEER_V4_1` 10.2.1.2 … |
+| mx-mnha-vr-icl | mx1_mx304 | `$ASN` 65050, `$ASN_CUSTOMER_1` 65001, `$ASN_CUSTOMER_2` 65002, `$BGP_EXPORT_POL` mnha-mx-to-srx-export, `$CE_PEER_V4_1` 10.3.1.2, `$CE_PEER_V4_2` 10.3.2.2 … |
+| tlb-ipsec-lb | mx1_mx304 | `$REAL_SERVICE_V4_1` 192.168.10.1, `$REAL_SERVICE_V4_2` 192.168.10.2 |
+| tlb-fbf-ipsec-lb | mx1_mx304 | `$AC_ADDR_V4` 172.16.1.1/30, `$IFD` ae10, `$UNIT` 40, `$VLAN` 40 |
+| ike-initiator-gateway | ipsec_initiator_gateway_mx304 | `$IKE_PSK` <IKE_PSK> |
+| ipsec-initiator-vpns | ipsec_initiator_gateway_mx304 | (no variables: the snip is rendered as written) |
 
-## Per-plane addressing (per SRX/MNHA node, /30 point-to-point)
-
-| Plane | VLAN | MX side | SRX side |
-|---|---|---|---|
-| TRUST (unit .0) | 1 | `10.1.1.1/30` | `10.1.1.2/30` |
-| UNTRUST (unit .1) | 2 | `10.2.1.1/30` | `10.2.1.2/30` |
-| MNHA-ICL (unit .100) | 100 | `10.3.1.1/30` | `10.3.1.2/30` |
-
-North-side AC (MX ae10): TRUST VLAN 40 = `172.16.1.1/30`, UNTRUST VLAN 80 = `172.16.2.1/30`.
-
-## Prefixes
-
-| Variable | Default |
-|---|---|
-| `$ARI_CLIENT_PFX` / `$CLIENT_PFX` | `172.80.0.0/16` |
-| `$SERVER_PFX` | `172.160.0.0/16` |
-| `$IKE_SRC_PFX` | `10.200.0.0/16` |
-| `$MNHA_PFX` | `192.168.0.0/24` |
-
-## SRX identity / MNHA
-
-| Variable | Default |
-|---|---|
-| `$MNHA_NODE_IP` / `$LOCAL_IP` | `192.168.0.1` (srx*a); `192.168.0.2` (srx*b) |
-| `$PEER_IP` | `192.168.0.2` (peer of srx*a) |
-| `$ACT_SIG` / `$BKP_SIG` | `192.168.255.0` / `192.168.255.1` |
-| `$PROBE_DEST` / `$PROBE_SRC` | `10.1.1.1` / `192.168.10.1` |
-| `$MONITOR_SRC` / `$MON_INT` | `10.1.1.2` / `ae1.0` |
-| `$PRIO` | `200` |
-| `$LOCAL_ID` / `$REMOTE_ID` | `vsrx.juniper.net` |
-
-## IKE / IPsec
-
-| Variable | Default |
-|---|---|
-| Encryption | ESP **AES-256-GCM**, lifetime 3600 s, anti-replay-window 512 |
-| IKE | v2-only, PSK, DPD probe-idle-tunnel (interval 10, threshold 3); auto-VPN group-ike-id (responder) |
-| `$ST_UNIT` | `st0.1` |
-| Interfaces | `$AE` = `ae1` (to SRX), `$UNI_AE` = `ae10` (north AC), `$AMS` = `ams1` (initiator) |
-
-## Initiator (MX-INIT)
-
-| Variable | Default |
-|---|---|
-| `$LOCAL_EP` | `10.200.0.1` (per-tunnel: `.1`, `.2`, … on lo0.0) |
-| `$INIT_ID` | `peer1.juniper.net` (per-tunnel: peer1…peerN) |
-| `$TS_LOCAL` / `$TS_REMOTE` | `172.80.0.1/32` / `172.160.0.1/32` (per-tunnel /32 pair) |
-
-## Secrets (NEVER auto-filled with a real value)
-
-`$IKE_PSK`, `$L3HA_PSK`, `$INIT_PSK` — emit a clearly-placeholder value (e.g. `"<set-your-psk>"`) and flag in Notes that the user must supply a real encrypted key.
+The two nodes of an MNHA pair name each other: each node's `$MNHA_PEER_V4` is the other node's lo0.0 address and its `$MNHA_PEER_ID` the other node's `$MNHA_LOCAL_ID`. The MX TLB real services are the SRX pairs' shared lo0.1 probe addresses, and the MX eBGP neighbors are the SRX nodes' VLAN unit addresses.
