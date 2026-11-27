@@ -50,7 +50,8 @@ tested service-plane platform differ.
 | Forwarding / Load Balancer | MX distributes IPsec flows across the SRX/vSRX farm (ECMP CHASH or TLB), peers via eBGP+BFD, maintains flow symmetry |
 | IPsec Initiator Gateway | MX terminating/initiating IPsec on the initiator side of the test topology |
 | Security Service (SECGW) | SRX/vSRX terminates IKE/IPsec (responder-only auto-VPN), performs stateful firewalling, injects ARI routes |
-| Distribution (optional) | QFX aggregates many SRX/vSRX into bundled 400GE links (not part of this JVD) |
+
+> Note: Distribution (optional) — QFX aggregates many SRX/vSRX into bundled 400GE links (not part of this JVD).
 
 ## Featured platforms
 
