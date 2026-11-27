@@ -1,82 +1,394 @@
-# Configuration Form Tiers
+# Configuration form tiers
 
-This file is part of the [BYOAI](README.md) corpus. It tells the AI which snippet files to include for each device role at each verbosity tier. It is bundled into [`jvd-so-ipsec-snips.md`](jvd-so-ipsec-snips.md) by `regenerate-bundle.sh`.
+<!-- GENERATED FROM configuration/snips/_composition.json by the build tooling (generate-tiers). Do not edit by hand: run `JVD_REPO=<checkout> npm run tiers -- --jvd security/scale_out_ipsec`. -->
 
-For each role, the AI includes ONLY the snips listed for the chosen tier — and ONLY those — unless the user explicitly asks for more. Every device in this JVD is **Junos** (MX304 + SRX4600); there is no `evo/` tree.
-
----
+This file tells the assistant which snippet files to include for each service
+form at each tier. It is generated from the composition matrix, so every path
+below resolves to a real snippet and every device listed is one the form is
+validated on.
 
 ## What the tiers mean
 
-| Tier | Use when | What's included |
-|---|---|---|
-| **`minimum`** | Brownfield change. Device already has its scale-out BGP planes and interfaces. You just want the component. | The component's snips + its mandatory `Pair with:` snips. **No BGP/interfaces baseline.** |
-| **`with-bgp`** | Brownfield-ish. Interfaces are up but you want to (re)assert the device's scale-out eBGP peering + export policies. | `minimum` + the role's scale-out BGP plane snip(s) + export policies + AE sub-units. |
-| **`as-deployed`** | Greenfield turn-up, lab build, or "give me a working end-to-end example." Mirrors what the JVD validates. | Everything for the role: component + BGP planes + interfaces, plus (SRX) MNHA chassis + HA-link-encryption + signal policies, and (MX-LB) the FBF filter + symmetric enhanced-hash-key. |
+| Tier | What it includes |
+|---|---|
+| `minimum` | Only the service construct. Assumes the device already runs the underlay and the overlay the service needs. |
+| `self-contained` | Everything the emitted configuration names, resolved recursively for the target device. |
+| `as-deployed` | The self-contained set plus the validated baselines this JVD runs on that device. |
 
-> **Greenfield / bootstrap requests** are always treated as **`as-deployed`**.
+A tier never implies that a larger closure is a minimal protocol requirement.
+If a form's overlay, variant or dependency cannot be resolved for the target
+device, the request fails closed: say so and generate nothing for it.
 
 ---
 
-## MX load balancer (`MX-LB`)
+## IKEv2 AutoVPN responder on the SRX IKE anycast address, with the MNHA inter-chassis link IKE gateway
 
-The MX304 stateless load balancer (`mx1_mx304`).
+Family ipsec, form ike-autovpn-responder. OS mode Junos. Attachment: lo0.1, which carries the IKE anycast address 10.100.0.1 on every SRX node..
 
-- **`minimum`**
-  - `junos/load-balancing/tlb-ipsec-dsr.conf`
-  - `junos/load-balancing/network-monitoring-profiles.conf`
-  - `junos/transport/forwarding-instance-tproxy.conf`
-  - `junos/firewall/fbf-ipsec-lb-redirect.conf`
-  - `junos/interfaces/mx-ae-fbf-uni.conf`
-- **`with-bgp`** — `minimum` +
-  - `junos/transport/bgp-mx-vrf-scaleout.conf`
-  - `junos/policy/mx-scaleout-export-policies.conf`
-  - `junos/interfaces/mx-ae-scaleout-subunits.conf`
-- **`as-deployed`** — `with-bgp` +
-  - `junos/transport/enhanced-hash-key-symmetric.conf` (required for dual-MX)
+### srx1a_srx4600 (junos)
 
-## SRX IPsec Security Gateway (`SRX`)
+- `minimum`: `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-An SRX4600 responder-only IPsec Security Gateway (`srx1a` … `srx2b`).
+### srx1b_srx4600 (junos)
 
-- **`minimum`**
-  - `junos/ipsec/srx-ike-gateway-avpn-responder.conf`
-  - `junos/ipsec/srx-ipsec-vpn-aes256gcm.conf`
-  - `junos/interfaces/srx-lo0-ike-anycast.conf`
-  - `junos/interfaces/srx-st0-tunnels.conf`
-  - `junos/security/srx-zones-scaleout.conf`
-  - `junos/security/srx-policies-ipsec-data.conf`
-- **`with-bgp`** — `minimum` +
-  - `junos/transport/bgp-srx-to-mx-scaleout.conf`
-  - `junos/high-availability/mnha-signal-route-policies.conf`
-  - `junos/interfaces/srx-ae-scaleout-subunits.conf`
-- **`as-deployed`** — `with-bgp` + full MNHA:
-  - `junos/high-availability/mnha-chassis-srg.conf`
-  - `junos/high-availability/mnha-ha-link-encryption.conf`
+- `minimum`: `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-## SRX Multinode High Availability (`srx-mnha` — add-on)
+### srx2a_srx4600 (junos)
 
-Add MNHA to an existing SRX gateway. Always emit all three together.
+- `minimum`: `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-- **`minimum`** (== `as-deployed`)
-  - `junos/high-availability/mnha-chassis-srg.conf`
-  - `junos/high-availability/mnha-ha-link-encryption.conf`
-  - `junos/high-availability/mnha-signal-route-policies.conf`
+### srx2b_srx4600 (junos)
 
-## MX IPsec initiator (`MX-INIT`)
+- `minimum`: `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
 
-The MX304 AMS-based IPsec initiator / test traffic source (`ipsec_initiator_gateway_mx304`).
+---
 
-- **`minimum`** (== `as-deployed`)
-  - `junos/ipsec/mx-ike-ipsec-initiator.conf`
-  - `junos/ipsec/mx-ams-service-set.conf`
-  - `junos/interfaces/mx-initiator-ams-lo0-st0.conf`
+## IPsec AutoVPN on st0.1 with ARI traffic selectors, and the MNHA inter-chassis link encryption VPN on an SRX
 
-## Add a feature
+Family ipsec, form ipsec-autovpn-st0. OS mode Junos. Attachment: The st0.1 secure-tunnel unit and the IKE gateways of the AutoVPN responder form..
 
-Single-purpose additions to an existing device.
+### srx1a_srx4600 (junos)
 
-- **Scale-out BGP plane** — MX: `junos/transport/bgp-mx-vrf-scaleout.conf` + `junos/policy/mx-scaleout-export-policies.conf`; SRX: `junos/transport/bgp-srx-to-mx-scaleout.conf` + `junos/high-availability/mnha-signal-route-policies.conf`
-- **Filter-based forwarding redirect (MX)** — `junos/firewall/fbf-ipsec-lb-redirect.conf` + `junos/transport/forwarding-instance-tproxy.conf`
-- **Symmetric hashing (dual-MX)** — `junos/transport/enhanced-hash-key-symmetric.conf`
-- **TLB health-check profiles** — `junos/load-balancing/network-monitoring-profiles.conf`
+- `minimum`: `junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`, `junos/interfaces/ifl-unit-inet.conf`, `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`, `junos/interfaces/ifl-unit-inet.conf`, `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`, `junos/interfaces/ifl-unit-inet.conf`, `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-two-addresses.conf`, `junos/interfaces/ifl-unit-inet.conf`, `junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## Intra-zone security policies for IPsec data, the MNHA inter-chassis link and ESP to the trust zone on an SRX
+
+Family security-policy, form security-policies-ipsec-data. OS mode Junos. Attachment: The VR-1 trust, VR-1 untrust and MNHA security zones, the global address-book entries and the ESP application the policies name..
+
+### srx1a_srx4600 (junos)
+
+- `minimum`: `junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:vr-1_trust_zone
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:trust_zone_mnha
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+  - occurrence-selection-required: security-zone:vr-1_untrust_zone
+
+---
+
+## SRX MNHA with an encrypted inter-chassis link and IPsec SRG 1, preferred node (preemption, activeness priority 200)
+
+Family mnha, form mnha-srg-1-ipsec-preferred. OS mode Junos. Attachment: lo0.0 in MNHA-VR, the ike_lo0 prefix list, the L3HA_IPSEC_VPN inter-chassis link VPN and the trust-side unit that the BFD monitor uses..
+
+### srx1a_srx4600 (junos)
+
+- `minimum`: `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## SRX MNHA with an encrypted inter-chassis link and IPsec SRG 1, backup node (activeness priority 1)
+
+Family mnha, form mnha-srg-1-ipsec-backup. OS mode Junos. Attachment: lo0.0 in MNHA-VR, the ike_lo0 prefix list, the L3HA_IPSEC_VPN inter-chassis link VPN and the trust-side unit that the BFD monitor uses..
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## SRX MNHA-VR inter-chassis link routing with eBGP and BFD to the MX
+
+Family mnha, form srx-mnha-vr-icl. OS mode Junos. Attachment: The inter-chassis link VLAN unit toward the MX and lo0.0..
+
+### srx1a_srx4600 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL
+  - occurrence-selection-required: logical-interface:lo0.0
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## SRX eBGP group SRX-to-MX_TRUST with BFD toward the MX trust instance
+
+Family scale-out-routing, form srx-bgp-to-mx-trust. OS mode Junos. Attachment: The MX-facing trust VLAN unit; the export policy advertises the activeness-probe address with the SRG-state AS-path preference..
+
+### srx1a_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## SRX eBGP group SRX-to-MX_UNTRUST with BFD toward the MX untrust instance
+
+Family scale-out-routing, form srx-bgp-to-mx-untrust. OS mode Junos. Attachment: The MX-facing untrust VLAN unit; the export policy advertises the ARI routes with the SRG-state AS-path preference..
+
+### srx1a_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx1b_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2a_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+### srx2b_srx4600 (junos)
+
+- `minimum`: `junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## MX TRUST_VR scale-out routing with eBGP to every SRX node and to the trust-side gateway
+
+Family scale-out-routing, form mx-trust-vr-scale-out. OS mode Junos. Attachment: The SRX-facing trust VLAN units, the gateway-facing unit with the IPSEC_LB filter and lo0.1, the TLB instance interface..
+
+### mx1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_4
+  - occurrence-selection-required: logical-interface:$IFL_5
+  - occurrence-selection-required: logical-interface:$LOOPBACK_IFL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+
+---
+
+## MX UNTRUST_VR scale-out routing with eBGP to every SRX node and to the untrust-side gateway
+
+Family scale-out-routing, form mx-untrust-vr-scale-out. OS mode Junos. Attachment: The SRX-facing untrust VLAN units and the gateway-facing unit..
+
+### mx1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_4
+  - occurrence-selection-required: logical-interface:$IFL_5
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+
+---
+
+## MX MNHA-VR with eBGP to the inter-chassis link unit of every SRX node
+
+Family mnha, form mx-mnha-vr-icl. OS mode Junos. Attachment: The inter-chassis link VLAN unit toward each SRX node..
+
+### mx1_mx304 (junos)
+
+- `minimum`: `junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_4
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL
+
+---
+
+## MX TLB instance ipsec_lb (direct server return to the SRX MNHA pairs, source-IP hash)
+
+Family tlb, form tlb-ipsec-lb. OS mode Junos. Attachment: lo0.1 as the instance interface, TRUST_VR, the network-monitoring profiles and forwarding instance srx-tproxy-fi, which the IPSEC_LB filter feeds..
+
+### mx1_mx304 (junos)
+
+- `minimum`: `junos/services/traffic-load-balance-instance-ipsec-lb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: logical-interface:$IFL_1
+  - occurrence-selection-required: logical-interface:$IFL_2
+  - occurrence-selection-required: logical-interface:$IFL_3
+  - occurrence-selection-required: logical-interface:$IFL_4
+  - occurrence-selection-required: logical-interface:$IFL_5
+  - occurrence-selection-required: logical-interface:$LOOPBACK_IFL
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_1
+  - occurrence-selection-required: policy-statement:$BGP_EXPORT_POL_2
+
+---
+
+## MX gateway-facing unit with filter-based forwarding of IKE and IPsec traffic into the TLB forwarding instance
+
+Family tlb, form tlb-fbf-ipsec-lb. OS mode Junos. Attachment: The trust-gateway-facing VLAN unit of the aggregated Ethernet interface..
+
+### mx1_mx304 (junos)
+
+- `minimum`: `junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf`
+- `self-contained` / `as-deployed`: **Blocked until the complete bound dependency plan validates.**
+  - occurrence-selection-required: interface-parent:source-occurrence
+  - occurrence-selection-required: lag-member:source-occurrence
+
+---
+
+## MX IKEv2 initiator with five gateways to the SRX IKE anycast address
+
+Family ipsec, form ike-initiator-gateway. OS mode Junos. Attachment: lo0.0, which carries the five initiator addresses..
+
+### ipsec_initiator_gateway_mx304 (junos)
+
+- `minimum`: `junos/security/ike-initiator-5-gateways-ikev2-pre-shared-key.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-5-addresses.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---
+
+## MX IPsec initiator with five route-based VPNs established immediately
+
+Family ipsec, form ipsec-initiator-vpns. OS mode Junos. Attachment: The st0.1 to st0.5 secure-tunnel units, the five IKE gateways and the next-hop service-sets IPSEC_TUN_1 to IPSEC_TUN_5 on the AMS interface..
+
+### ipsec_initiator_gateway_mx304 (junos)
+
+- `minimum`: `junos/security/ipsec-initiator-5-vpns-aes-256-gcm-establish-immediately.conf`
+- `self-contained`: the above plus `junos/interfaces/ifl-loopback-inet-5-addresses.conf`, `junos/interfaces/ifl-unit-inet.conf`, `junos/security/ike-initiator-5-gateways-ikev2-pre-shared-key.conf`
+- `as-deployed`: the self-contained set plus the other snippets validated on this device.
+
+---

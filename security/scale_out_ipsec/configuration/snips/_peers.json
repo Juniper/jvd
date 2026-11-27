@@ -1,0 +1,1478 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": {
+    "inputsSha256": "1c450332093f8ee4de87543915badf144b64df8c05ef164cabdad31d5e8887bc",
+    "registryVersion": 4,
+    "registrySha256": "dcc6fa4b68fca507d18b024768ef6c60be97468942923266daba2ebcaeaf5e43",
+    "toolsSha256": "931a9d0fb040146f9bb0f5c44029df594b73facd7d0f3b0475f96fdce8f3e5c5",
+    "devices": 6,
+    "snips": 103,
+    "peerToolsSha256": "9d01f39d3b2e12077fc65d140665420dd77d6c7006ed71ccdd86c5e57e611561"
+  },
+  "snips": {
+    "junos/applications/application-esp.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 376
+          }
+        }
+      ]
+    },
+    "junos/chassis/aggregated-devices-ethernet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-1-pic-mode-100g-16-ports.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-1-pic-mode-100g-2-ports.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-pic-0-ports-0-3-100g-pic-1-0-ports.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/fpc-power-off.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/network-services-enhanced-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/chassis/redundancy-graceful-switchover.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/firewall/filter-ipsec-lb-ike-anycast-to-srx-tproxy-fi.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/forwarding-options/enhanced-hash-key-symmetric.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-three.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/groups/apply-global-two.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 2,
+          "devices": [
+            "ipsec_initiator_gateway_mx304",
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 237
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast.conf": {
+      "status": "unresolved",
+      "features": [
+        "lacp"
+      ],
+      "reasons": [
+        {
+          "reason": "lacp-remote-actor-not-configured",
+          "instances": 8,
+          "devices": [
+            "mx1_mx304",
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 101
+          }
+        }
+      ]
+    },
+    "junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-lag-member-gigether.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifd-mtu-9192.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ams-inside-disable-hash.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-ams-outside-disable-hash.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet-5-addresses.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet-primary.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet-two-addresses.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-loopback-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-unit-0-inet-address-inet6.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-unit-0-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-unit-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/interfaces/ifl-vlan-inet.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/per-packet-load-balance-term-accept.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-bgp-route-filter-list-next-hop-self-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-bgp-static-next-hop-self-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-direct-orlonger-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-route-filter-list-next-hop-self-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-static-default-exact-next-hop-self-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/policy-statement/ps-static-server-and-default-exact-accept-reject.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/prefix-list-active-probe-ip.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/prefix-list-ike-lo0.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/prefix-list/prefix-list-mnha-lo0.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/policy-options/route-filter-list/rfl-inet-1-orlonger.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "inherited-peer-context",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 387
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp"
+      ],
+      "reasons": [
+        {
+          "reason": "inherited-peer-context",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 398
+          }
+        }
+      ]
+    },
+    "junos/protocols/bgp-multipath.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/protocols/lldp-port-id-interface-name-interface-all.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:lldp"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:lldp",
+          "instances": 5,
+          "devices": [
+            "mx1_mx304",
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 420
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/forwarding/ri-srx-tproxy-fi.conf": {
+      "status": "unresolved",
+      "features": [
+        "vpn:forwarding"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 411
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-client-static-next-hop-ams-inside-st0.conf": {
+      "status": "unresolved",
+      "features": [
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 419
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 330
+          }
+        },
+        {
+          "reason": "inherited-peer-context",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 292
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 374
+          }
+        },
+        {
+          "reason": "inherited-peer-context",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 371
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-trust-vr-as-static-next-hop-ebgp-1-group.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 379
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 376
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 372
+          }
+        },
+        {
+          "reason": "inherited-peer-context",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 348
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-untrust-vr-as-ebgp-1-group-ams-outside-lo0.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 403
+          }
+        },
+        {
+          "reason": "incomplete-bgp-identity",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 395
+          }
+        }
+      ]
+    },
+    "junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:bgp",
+        "vpn:virtual-router"
+      ],
+      "reasons": [
+        {
+          "reason": "endpoint-not-resolved:evpn-l2-membership|bgp-vpls-membership|ldp-vpls",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 409
+          }
+        },
+        {
+          "reason": "inherited-peer-context",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 387
+          }
+        }
+      ]
+    },
+    "junos/routing-options/autonomous-system.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/forwarding-table-export.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/routing-options/nonstop-routing.conf": {
+      "status": "verified",
+      "peersWith": {
+        "state": "not-applicable"
+      }
+    },
+    "junos/security/address-book-global-mnha-ike-ipsec-client-server.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 162
+          }
+        }
+      ]
+    },
+    "junos/security/distribution-profile-fat-core.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 5,
+          "devices": [
+            "ipsec_initiator_gateway_mx304",
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 44
+          }
+        }
+      ]
+    },
+    "junos/security/flow-drop-flow-timeout-30.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 165
+          }
+        }
+      ]
+    },
+    "junos/security/flow-power-mode-ipsec.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 176
+          }
+        }
+      ]
+    },
+    "junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 127
+          }
+        }
+      ]
+    },
+    "junos/security/ike-initiator-5-gateways-ikev2-pre-shared-key.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 118
+          }
+        }
+      ]
+    },
+    "junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 156
+          }
+        }
+      ]
+    },
+    "junos/security/ipsec-initiator-5-vpns-aes-256-gcm-establish-immediately.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 171
+          }
+        }
+      ]
+    },
+    "junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 204
+          }
+        }
+      ]
+    },
+    "junos/security/zones-vr-1-trust-any-service-untrust-st0-mnha.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:all",
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:all",
+          "instances": 1,
+          "devices": [
+            "srx1b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1b_srx4600",
+            "sourceId": 221
+          }
+        },
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx1b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1b_srx4600",
+            "sourceId": 221
+          }
+        }
+      ]
+    },
+    "junos/security/zones-vr-1-trust-untrust-st0-mnha.conf": {
+      "status": "unresolved",
+      "features": [
+        "protocol:all",
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:protocol:all",
+          "instances": 3,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 234
+          }
+        },
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 3,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 234
+          }
+        }
+      ]
+    },
+    "junos/services/application-identification.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx2a_srx4600"
+          ],
+          "witness": {
+            "device": "srx2a_srx4600",
+            "sourceId": 65
+          }
+        }
+      ]
+    },
+    "junos/services/network-monitoring-icmp-tcp-8088-profiles-5-failure-retries.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 64
+          }
+        }
+      ]
+    },
+    "junos/services/service-set-ipsec-tun-1.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 21
+          }
+        }
+      ]
+    },
+    "junos/services/service-set-ipsec-tun-2.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 26
+          }
+        }
+      ]
+    },
+    "junos/services/service-set-ipsec-tun-3.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 31
+          }
+        }
+      ]
+    },
+    "junos/services/service-set-ipsec-tun-4.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 36
+          }
+        }
+      ]
+    },
+    "junos/services/service-set-ipsec-tun-5.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "ipsec_initiator_gateway_mx304"
+          ],
+          "witness": {
+            "device": "ipsec_initiator_gateway_mx304",
+            "sourceId": 41
+          }
+        }
+      ]
+    },
+    "junos/services/traffic-load-balance-instance-ipsec-lb.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 52
+          }
+        }
+      ]
+    },
+    "junos/services/traffic-load-balance-routing-engine-mode.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 31
+          }
+        }
+      ]
+    },
+    "junos/snmp/community-read-only-all-clients.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 4,
+          "devices": [
+            "srx1a_srx4600",
+            "srx1b_srx4600",
+            "srx2a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 283
+          }
+        }
+      ]
+    },
+    "junos/snmp/trap-group-space-one-target.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1b_srx4600",
+            "srx2a_srx4600"
+          ],
+          "witness": {
+            "device": "srx1b_srx4600",
+            "sourceId": 273
+          }
+        }
+      ]
+    },
+    "junos/system/authentication-order-password-radius.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 24
+          }
+        }
+      ]
+    },
+    "junos/system/commit-synchronize.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 2
+          }
+        }
+      ]
+    },
+    "junos/system/debugger-on-break.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 23
+          }
+        }
+      ]
+    },
+    "junos/system/debugger-on-panic.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 22
+          }
+        }
+      ]
+    },
+    "junos/system/domain-search-5-domains.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 20
+          }
+        }
+      ]
+    },
+    "junos/system/login-user-superuser-csh.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 10
+          }
+        }
+      ]
+    },
+    "junos/system/name-server-2-servers.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 27
+          }
+        }
+      ]
+    },
+    "junos/system/ports-console-log-out.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "mx1_mx304",
+            "srx2a_srx4600"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 7
+          }
+        }
+      ]
+    },
+    "junos/system/processes-net-monitord-enable.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 14
+          }
+        }
+      ]
+    },
+    "junos/system/radius-server-2-servers.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 30
+          }
+        }
+      ]
+    },
+    "junos/system/root-authentication-encrypted-password.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx1a_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 3
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-ssh-ftp-telnet-web-management-http-8088.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 19
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-ssh-max-sessions-64-web-management-http-8088.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx1b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1b_srx4600",
+            "sourceId": 9
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh-ssh-web-management-http-8088.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx2a_srx4600"
+          ],
+          "witness": {
+            "device": "srx2a_srx4600",
+            "sourceId": 8
+          }
+        }
+      ]
+    },
+    "junos/system/services-netconf-ssh.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "mx1_mx304"
+          ],
+          "witness": {
+            "device": "mx1_mx304",
+            "sourceId": 5
+          }
+        }
+      ]
+    },
+    "junos/system/syslog-default-log-messages-interactive-commands-messages.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 1,
+          "devices": [
+            "srx1b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1b_srx4600",
+            "sourceId": 19
+          }
+        }
+      ]
+    },
+    "junos/system/time-zone.conf": {
+      "status": "unresolved",
+      "features": [
+        "unclassified-construct"
+      ],
+      "reasons": [
+        {
+          "reason": "rule-coverage:unclassified-construct",
+          "instances": 2,
+          "devices": [
+            "srx1a_srx4600",
+            "srx2b_srx4600"
+          ],
+          "witness": {
+            "device": "srx1a_srx4600",
+            "sourceId": 21
+          }
+        }
+      ]
+    }
+  }
+}

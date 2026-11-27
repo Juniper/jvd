@@ -1,0 +1,950 @@
+{
+  "schemaVersion": 1,
+  "jvd": "scale_out_ipsec",
+  "description": "Canonical machine-readable composition matrix. Authored service forms, non-service asks and the device role vocabulary; this JVD declares no role bindings or capability selectors. The dependency-contract projection is written by the build tooling.",
+  "forms": [
+    {
+      "id": "ike-autovpn-responder",
+      "family": "ipsec",
+      "form": "ike-autovpn-responder",
+      "aliases": [
+        "IKEv2 AutoVPN responder on the SRX IKE anycast address, with the MNHA inter-chassis link IKE gateway"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "lo0.1, which carries the IKE anycast address 10.100.0.1 on every SRX node.",
+      "userInputs": [
+        "$IKE_PSK_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ikev2-autovpn-responder-on-the-srx-ike-anycast-address-with-the-mnha-inter-chassis-link-ike-gateway",
+      "status": "supported"
+    },
+    {
+      "id": "ipsec-autovpn-st0",
+      "family": "ipsec",
+      "form": "ipsec-autovpn-st0",
+      "aliases": [
+        "IPsec AutoVPN on st0.1 with ARI traffic selectors, and the MNHA inter-chassis link encryption VPN on an SRX"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/security/ipsec-autovpn-st0-1-mnha-icl-link-encryption-aes-256-gcm.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The st0.1 secure-tunnel unit and the IKE gateways of the AutoVPN responder form.",
+      "userInputs": [],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#ipsec-autovpn-on-st01-with-ari-traffic-selectors-and-the-mnha-inter-chassis-link-encryption-vpn-on-an-srx",
+      "status": "supported"
+    },
+    {
+      "id": "security-policies-ipsec-data",
+      "family": "security-policy",
+      "form": "security-policies-ipsec-data",
+      "aliases": [
+        "Intra-zone security policies for IPsec data, the MNHA inter-chassis link and ESP to the trust zone on an SRX"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The VR-1 trust, VR-1 untrust and MNHA security zones, the global address-book entries and the ESP application the policies name.",
+      "userInputs": [],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#intra-zone-security-policies-for-ipsec-data-the-mnha-inter-chassis-link-and-esp-to-the-trust-zone-on-an-srx",
+      "status": "supported"
+    },
+    {
+      "id": "mnha-srg-1-ipsec-preferred",
+      "family": "mnha",
+      "form": "mnha-srg-1-ipsec-preferred",
+      "aliases": [
+        "SRX MNHA with an encrypted inter-chassis link and IPsec SRG 1, preferred node (preemption, activeness priority 200)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "lo0.0 in MNHA-VR, the ike_lo0 prefix list, the L3HA_IPSEC_VPN inter-chassis link VPN and the trust-side unit that the BFD monitor uses.",
+      "userInputs": [
+        "$IFL",
+        "$LOOPBACK_V4",
+        "$MNHA_LOCAL_ID",
+        "$MNHA_MONITOR_DST_V4",
+        "$MNHA_MONITOR_SRC_V4",
+        "$MNHA_PEER_ID",
+        "$MNHA_PEER_V4",
+        "$MNHA_PROBE_DST_V4",
+        "$MNHA_PROBE_SRC_V4"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#srx-mnha-with-an-encrypted-inter-chassis-link-and-ipsec-srg-1-preferred-node-preemption-activeness-priority-200",
+      "status": "supported"
+    },
+    {
+      "id": "mnha-srg-1-ipsec-backup",
+      "family": "mnha",
+      "form": "mnha-srg-1-ipsec-backup",
+      "aliases": [
+        "SRX MNHA with an encrypted inter-chassis link and IPsec SRG 1, backup node (activeness priority 1)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "lo0.0 in MNHA-VR, the ike_lo0 prefix list, the L3HA_IPSEC_VPN inter-chassis link VPN and the trust-side unit that the BFD monitor uses.",
+      "userInputs": [
+        "$IFL",
+        "$LOOPBACK_V4",
+        "$MNHA_LOCAL_ID",
+        "$MNHA_MONITOR_DST_V4",
+        "$MNHA_MONITOR_SRC_V4",
+        "$MNHA_PEER_ID",
+        "$MNHA_PEER_V4",
+        "$MNHA_PROBE_DST_V4",
+        "$MNHA_PROBE_SRC_V4"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#srx-mnha-with-an-encrypted-inter-chassis-link-and-ipsec-srg-1-backup-node-activeness-priority-1",
+      "status": "supported"
+    },
+    {
+      "id": "srx-mnha-vr-icl",
+      "family": "mnha",
+      "form": "srx-mnha-vr-icl",
+      "aliases": [
+        "SRX MNHA-VR inter-chassis link routing with eBGP and BFD to the MX"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The inter-chassis link VLAN unit toward the MX and lo0.0.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4",
+        "$IFL",
+        "$PE_LOCAL_V4"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#srx-mnha-vr-inter-chassis-link-routing-with-ebgp-and-bfd-to-the-mx",
+      "status": "supported"
+    },
+    {
+      "id": "srx-bgp-to-mx-trust",
+      "family": "scale-out-routing",
+      "form": "srx-bgp-to-mx-trust",
+      "aliases": [
+        "SRX eBGP group SRX-to-MX_TRUST with BFD toward the MX trust instance"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The MX-facing trust VLAN unit; the export policy advertises the activeness-probe address with the SRG-state AS-path preference.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#srx-ebgp-group-srx-to-mx_trust-with-bfd-toward-the-mx-trust-instance",
+      "status": "supported"
+    },
+    {
+      "id": "srx-bgp-to-mx-untrust",
+      "family": "scale-out-routing",
+      "form": "srx-bgp-to-mx-untrust",
+      "aliases": [
+        "SRX eBGP group SRX-to-MX_UNTRUST with BFD toward the MX untrust instance"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The MX-facing untrust VLAN unit; the export policy advertises the ARI routes with the SRG-state AS-path preference.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4",
+        "$PE_LOCAL_V4"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#srx-ebgp-group-srx-to-mx_untrust-with-bfd-toward-the-mx-untrust-instance",
+      "status": "supported"
+    },
+    {
+      "id": "mx-trust-vr-scale-out",
+      "family": "scale-out-routing",
+      "form": "mx-trust-vr-scale-out",
+      "aliases": [
+        "MX TRUST_VR scale-out routing with eBGP to every SRX node and to the trust-side gateway"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The SRX-facing trust VLAN units, the gateway-facing unit with the IPSEC_LB filter and lo0.1, the TLB instance interface.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER_1",
+        "$BGP_EXPORT_POL_1",
+        "$CE_PEER_V4_1",
+        "$DESCRIPTION_1",
+        "$IFL_1",
+        "$LOOPBACK_IFL"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-trust_vr-scale-out-routing-with-ebgp-to-every-srx-node-and-to-the-trust-side-gateway",
+      "status": "supported"
+    },
+    {
+      "id": "mx-untrust-vr-scale-out",
+      "family": "scale-out-routing",
+      "form": "mx-untrust-vr-scale-out",
+      "aliases": [
+        "MX UNTRUST_VR scale-out routing with eBGP to every SRX node and to the untrust-side gateway"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The SRX-facing untrust VLAN units and the gateway-facing unit.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER_1",
+        "$BGP_EXPORT_POL_1",
+        "$CE_PEER_V4_1",
+        "$DESCRIPTION_1",
+        "$IFL_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-untrust_vr-scale-out-routing-with-ebgp-to-every-srx-node-and-to-the-untrust-side-gateway",
+      "status": "supported"
+    },
+    {
+      "id": "mx-mnha-vr-icl",
+      "family": "mnha",
+      "form": "mx-mnha-vr-icl",
+      "aliases": [
+        "MX MNHA-VR with eBGP to the inter-chassis link unit of every SRX node"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The inter-chassis link VLAN unit toward each SRX node.",
+      "userInputs": [
+        "$ASN",
+        "$ASN_CUSTOMER_1",
+        "$BGP_EXPORT_POL",
+        "$CE_PEER_V4_1",
+        "$IFL_1",
+        "$PE_LOCAL_V4_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-mnha-vr-with-ebgp-to-the-inter-chassis-link-unit-of-every-srx-node",
+      "status": "supported"
+    },
+    {
+      "id": "tlb-ipsec-lb",
+      "family": "tlb",
+      "form": "tlb-ipsec-lb",
+      "aliases": [
+        "MX TLB instance ipsec_lb (direct server return to the SRX MNHA pairs, source-IP hash)"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/services/traffic-load-balance-instance-ipsec-lb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "lo0.1 as the instance interface, TRUST_VR, the network-monitoring profiles and forwarding instance srx-tproxy-fi, which the IPSEC_LB filter feeds.",
+      "userInputs": [
+        "$REAL_SERVICE_V4_1"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-tlb-instance-ipsec_lb-direct-server-return-to-the-srx-mnha-pairs-source-ip-hash",
+      "status": "supported"
+    },
+    {
+      "id": "tlb-fbf-ipsec-lb",
+      "family": "tlb",
+      "form": "tlb-fbf-ipsec-lb",
+      "aliases": [
+        "MX gateway-facing unit with filter-based forwarding of IKE and IPsec traffic into the TLB forwarding instance"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The trust-gateway-facing VLAN unit of the aggregated Ethernet interface.",
+      "userInputs": [
+        "$AC_ADDR_V4",
+        "$IFD",
+        "$UNIT",
+        "$VLAN"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-gateway-facing-unit-with-filter-based-forwarding-of-ike-and-ipsec-traffic-into-the-tlb-forwarding-instance",
+      "status": "supported"
+    },
+    {
+      "id": "ike-initiator-gateway",
+      "family": "ipsec",
+      "form": "ike-initiator-gateway",
+      "aliases": [
+        "MX IKEv2 initiator with five gateways to the SRX IKE anycast address"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/security/ike-initiator-5-gateways-ikev2-pre-shared-key.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "lo0.0, which carries the five initiator addresses.",
+      "userInputs": [
+        "$IKE_PSK"
+      ],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-ikev2-initiator-with-five-gateways-to-the-srx-ike-anycast-address",
+      "status": "supported"
+    },
+    {
+      "id": "ipsec-initiator-vpns",
+      "family": "ipsec",
+      "form": "ipsec-initiator-vpns",
+      "aliases": [
+        "MX IPsec initiator with five route-based VPNs established immediately"
+      ],
+      "osMode": "Junos",
+      "entry": {
+        "junos": [
+          "junos/security/ipsec-initiator-5-vpns-aes-256-gcm-establish-immediately.conf"
+        ]
+      },
+      "pairedConstructs": [],
+      "attachment": "The st0.1 to st0.5 secure-tunnel units, the five IKE gateways and the next-hop service-sets IPSEC_TUN_1 to IPSEC_TUN_5 on the AMS interface.",
+      "userInputs": [],
+      "tiers": [
+        "minimum",
+        "self-contained",
+        "as-deployed"
+      ],
+      "generator": null,
+      "byoai": "TIERS.md#mx-ipsec-initiator-with-five-route-based-vpns-established-immediately",
+      "status": "supported"
+    }
+  ],
+  "nonServiceAsks": [
+    {
+      "id": "device-baseline",
+      "aliases": [
+        "Build the validated baseline for <device>"
+      ],
+      "status": "incomplete",
+      "reason": "Device baseline is the as-deployed tier, which has no resolvable service/device tuple in TIERS."
+    }
+  ],
+  "roles": {
+    "mx": "Forwarding / Load Balancer",
+    "ipsec_initiator_gateway": "IPsec Initiator Gateway",
+    "srx": "Security Service (SECGW)"
+  },
+  "occurrenceEntrySets": {},
+  "dependencyContract": {
+    "schemaVersion": 3,
+    "authority": "approved-declaration",
+    "sha256": "1c398d4fbdde14fb103ea6fc4a4602a714d86fd47d52b7a70c9d51a9d4674d16"
+  },
+  "occurrenceBindings": [
+    {
+      "consumer": "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-priority-1.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ams-inside-disable-hash.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-ams-outside-disable-hash.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-unit-0-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-mtu-9192.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "interface-parent",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-ae-flexible-vlan-tagging-mtu-9192-flexible-ethernet-services-lacp-fast.conf",
+        "junos/interfaces/ifd-ae-vlan-tagging-mtu-9130-lacp-fast.conf"
+      ],
+      "slots": [
+        "@source:interface-parent"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/interfaces/ifl-vlan-inet.conf",
+      "kind": "lag-member",
+      "scope": "object",
+      "providers": [
+        "junos/interfaces/ifd-lag-member-gigether.conf"
+      ],
+      "slots": [
+        "@source:lag-member"
+      ],
+      "presence": "conditional",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject.conf",
+      "kind": "condition",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route.conf",
+        "junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route.conf"
+      ],
+      "slots": [
+        "$CONDITION_NAME_1",
+        "$CONDITION_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-bgp-route-filter-list-next-hop-self-accept-reject.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/route-filter-list/rfl-inet-1-orlonger.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-route-filter-list-next-hop-self-reject.conf",
+      "kind": "route-filter-list",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/route-filter-list/rfl-inet-1-orlonger.conf"
+      ],
+      "slots": [
+        "$ROUTE_FILTER_LIST"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject.conf",
+      "kind": "condition",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/condition/condition-if-route-exists-mnha-vr-active-signal-route.conf",
+        "junos/policy-options/condition/condition-if-route-exists-mnha-vr-backup-signal-route.conf"
+      ],
+      "slots": [
+        "$CONDITION_NAME_1",
+        "$CONDITION_NAME_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-srx-to-mx-trust-ebgp-bfd.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-prefix-list-signal-condition-as-path-prepend-1-or-2-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/protocols/bgp-group-srx-to-mx-untrust-ebgp-bfd.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-ari-ts-signal-condition-as-path-prepend-1-or-2-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-client-static-next-hop-ams-inside-st0.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-ams-inside-disable-hash.conf",
+        "junos/interfaces/ifl-unit-0-inet.conf",
+        "junos/interfaces/ifl-unit-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3",
+        "$IFL_4",
+        "$IFL_5",
+        "$IFL_6",
+        "$IFL_7",
+        "$IFL_8",
+        "$IFL_9",
+        "$IFL_10",
+        "$IFL_11"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3",
+        "$IFL_4"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-4-icl-groups.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-bgp-next-hop-self-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-mnha-vr-ebgp-icl-bfd.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-route-filter-next-hop-self-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-trust-vr-as-static-next-hop-ebgp-1-group.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-unit-0-inet.conf",
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-trust-vr-as-static-next-hop-ebgp-1-group.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-static-route-filter-exact-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-loopback-inet.conf",
+        "junos/interfaces/ifl-vlan-inet-input-filter-ipsec-lb.conf",
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3",
+        "$IFL_4",
+        "$IFL_5",
+        "$LOOPBACK_IFL"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-trust-vr-static-discard-default-ebgp-srx-4-neighbors-gateway.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-direct-route-filter-accept-bgp-route-filter-list-next-hop-self-reject.conf",
+        "junos/policy-options/policy-statement/ps-static-default-exact-next-hop-self-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-untrust-vr-as-ebgp-1-group-ams-outside-lo0.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-ams-outside-disable-hash.conf",
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3",
+        "$IFL_4",
+        "$IFL_5",
+        "$IFL_6"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-untrust-vr-as-ebgp-1-group-ams-outside-lo0.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-direct-orlonger-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway.conf",
+      "kind": "logical-interface",
+      "scope": "whole",
+      "providers": [
+        "junos/interfaces/ifl-vlan-inet.conf"
+      ],
+      "slots": [
+        "$IFL_1",
+        "$IFL_2",
+        "$IFL_3",
+        "$IFL_4",
+        "$IFL_5"
+      ],
+      "presence": "required",
+      "unbound": "required",
+      "preferObject": true
+    },
+    {
+      "consumer": "junos/routing-instances/virtual-router/ri-untrust-vr-ebgp-srx-4-neighbors-gateway.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/ps-bgp-route-filter-list-next-hop-self-accept-reject.conf",
+        "junos/policy-options/policy-statement/ps-bgp-static-next-hop-self-accept-reject.conf"
+      ],
+      "slots": [
+        "$BGP_EXPORT_POL_1",
+        "$BGP_EXPORT_POL_2"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/routing-options/forwarding-table-export.conf",
+      "kind": "policy-statement",
+      "scope": "whole",
+      "providers": [
+        "junos/policy-options/policy-statement/per-packet-load-balance-no-term.conf",
+        "junos/policy-options/policy-statement/per-packet-load-balance-term-accept.conf"
+      ],
+      "slots": [
+        "$PPLB_NAME"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    },
+    {
+      "consumer": "junos/security/policies-intra-zone-esp-block-mnha-icl-ipsec-data.conf",
+      "kind": "security-zone",
+      "scope": "whole",
+      "providers": [
+        "junos/security/zones-vr-1-trust-any-service-untrust-st0-mnha.conf",
+        "junos/security/zones-vr-1-trust-untrust-st0-mnha.conf"
+      ],
+      "slots": [
+        "vr-1_trust_zone",
+        "trust_zone_mnha",
+        "vr-1_untrust_zone"
+      ],
+      "presence": "required",
+      "unbound": "required"
+    }
+  ],
+  "sourceRequirements": []
+}

@@ -8,6 +8,9 @@
 # system prompt, then greet the user per the prompt's own
 # instructions. Works in any AI with web fetch enabled.
 #
+# Run from anywhere; print to stdout. Used by the README and as a
+# sanity check that the URLs still encode correctly.
+#
 set -euo pipefail
 
 PROMPT_URL="https://raw.githubusercontent.com/Juniper/jvd/main/security/scale_out_ipsec/configuration/snips/byoai/jvd-so-ipsec-byoai-prompt.txt"
