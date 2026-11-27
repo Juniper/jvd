@@ -1277,6 +1277,48 @@
       "example": "GR-FATPW-LABEL",
       "notes": "Registered on 2026-11-26; used by Metro Ethernet Business Services before this entry, and reused by Scale-Out Firewall and NAT. Name and intent approved by Kevin Brown, 2026-11-26.",
       "establishedFrom": "service_provider/metro_ethernet_business_services/configuration/snips/junos/groups/apply-global-three.conf"
+    },
+    "AMS_MEMBER_IFD": {
+      "intent": "Member service interface of an aggregated multiservices (AMS) interface (`interfaces ams<n> load-balancing-options member-interface`).",
+      "use": "Numbered _1.._n for the members of one AMS interface, in source order.",
+      "example": "mams-3/0/0",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/interfaces/ifd-ams-2-members-drop-member-traffic-rejoin.conf"
+    },
+    "DOMAIN_SEARCH": {
+      "intent": "Domain in the system DNS search list (`system domain-search`).",
+      "use": "Numbered _1.._n in list order.",
+      "example": "englab.juniper.net",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/system/domain-search-5-domains.conf"
+    },
+    "IKE_PSK": {
+      "intent": "Pre-shared key of an IKE policy (`security ike policy <name> pre-shared-key ascii-text`); a credential, supplied by the operator.",
+      "use": "Numbered _1.._n for the IKE policies of one form, in source order; both ends of an IKE gateway use the same key.",
+      "example": "\"<IKE_PSK>\"",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/security/ike-autovpn-responder-group-ike-id-mnha-icl.conf"
+    },
+    "MNHA_PROBE_DST_V4": {
+      "intent": "Destination IPv4 address of the activeness probe of an MNHA services-redundancy group (`activeness-probe dest-ip`).",
+      "use": "Used by 2 snippets, for example `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf`.",
+      "example": "10.1.1.1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf"
+    },
+    "MNHA_PROBE_SRC_V4": {
+      "intent": "Source IPv4 address of the activeness probe of an MNHA services-redundancy group (`activeness-probe dest-ip <addr> src-ip`).",
+      "use": "Used by 2 snippets, for example `junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf`.",
+      "example": "192.168.10.1",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/chassis/high-availability-mnha-icl-encryption-srg-1-ipsec-activeness-probe-preemption-priority-200.conf"
+    },
+    "NAME_SERVER_V4": {
+      "intent": "IPv4 address of a DNS name server (`system name-server`).",
+      "use": "Numbered _1.._n in source order.",
+      "example": "10.92.236.2",
+      "notes": "Registered on 2026-11-26; introduced by Scale-Out IPsec. Name and intent approved by Kevin Brown, 2026-11-26.",
+      "establishedFrom": "security/scale_out_ipsec/configuration/snips/junos/system/name-server-2-servers.conf"
     }
   },
   "notes": [
