@@ -4,6 +4,149 @@ Release notes for the Juniper Validated Design (JVD) configuration repository.
 
 ---
 
+## 2026-11-27
+
+The **Scale-Out IPsec** snippet library is rebuilt with measured dependencies from the six
+validated device configurations, and the Config Explorer Roles view now includes it.
+
+### New content
+
+- **[Scale-Out IPsec snippet library](security/scale_out_ipsec/configuration/snips)**: 103
+  Junos OS snippets measured from the six published device configurations replace the
+  earlier 23 topic snippets. The configurations cover the two SRX4600 Multinode High
+  Availability pairs that terminate IKEv2 AutoVPN, the MX304 that distributes IPsec flows
+  across them, and the MX304 IPsec initiator gateway that emulates the remote sites. The
+  snippets cover:
+  - on the SRX4600s: the IKEv2 AutoVPN responder and the IPsec AutoVPN on `st0.1` with
+    Multinode High Availability link encryption, the security zones, intra-zone policies
+    and global address book (each as a whole), Multinode High Availability with its
+    services-redundancy group and activeness probe, the flow and distribution settings,
+    and the virtual routers with their eBGP groups to the MX;
+  - on the MX304: the Traffic Load Balancer instance for the IKE anycast address with its
+    network-monitoring profiles, the filter that redirects that traffic to the
+    load-balancer forwarding instance, and the trust, untrust and MNHA virtual routers;
+  - on the initiator gateway: the IKEv2 initiator with five gateways, five route-based
+    IPsec VPNs and their next-hop service sets on the AMS interface;
+  - the routing policies with signal-route conditions and AS-path prepending,
+    aggregated Ethernet, VLAN, AMS and tunnel interfaces, loopbacks, LLDP, SNMP and the
+    chassis and system settings.
+
+  Security and IKE/IPsec object names stay as in the published design; values that
+  differ between devices are `$VAR` placeholders, and every credential (pre-shared keys,
+  RADIUS secrets, encrypted passwords, the SNMP community) is a placeholder variable.
+  Every active statement in the six configurations is reproduced by a snippet; only
+  diagnostic `traceoptions` and deactivated configuration are excluded. Each snippet lists
+  the devices it was validated on, its source instance count and, where verified, its
+  peer.
+- **Scale-Out IPsec dependencies**: 22 snippets list a measured `Pair with` prerequisite
+  (for example, an IPsec VPN needs its IKE gateway and tunnel unit, and a service set needs
+  its AMS units and IPsec VPN), and 24 snippets carry 32 typed requirements (for example, a
+  routing policy needs its signal-route condition or route filter list, and the intra-zone
+  security policies need their zone). The
+  [per-router dependency links](portal/public/snip-dependencies.json) gain 89 answers for
+  this JVD: 75 resolved, and 14 references that the published configurations do not
+  define. The assistant bundle was regenerated: it lists each snippet's Needs and offers
+  the `minimum` form of 15 services, from the IKE and IPsec AutoVPN responder and the
+  initiator VPNs to the Traffic Load Balancer and the scale-out virtual routers.
+- **Device roles in the Config Explorer**: the Roles view of the
+  [Config Explorer](https://juniper.github.io/jvd/portal/) now includes Scale-Out IPsec,
+  with the three roles of the Device roles table of the
+  [JVD datasheet](security/scale_out_ipsec/documentation/datasheet.md#device-roles): the
+  MX304 forwarding and load-balancing router, the IPsec initiator gateway and the four
+  SRX4600 security gateways.
+- **Shared variable glossary**: [`var-glossary.json`](.github/glossary/var-glossary.json)
+  gains 6 entries: `$IKE_PSK`, `$MNHA_PROBE_SRC_V4`, `$MNHA_PROBE_DST_V4`,
+  `$AMS_MEMBER_IFD`, `$NAME_SERVER_V4` and `$DOMAIN_SEARCH`.
+
+### Fixes and maintenance
+
+- **Credentials in the Scale-Out IPsec configurations**: five of the six
+  [published configurations](security/scale_out_ipsec/configuration/conf) carried their
+  IKE pre-shared keys and RADIUS secrets in Junos `$9$` form, which is reversible. The 13
+  values are replaced by the `"$9$SANITIZED"` placeholder; no other statement changed.
+- **Scale-Out IPsec datasheet**: the optional QFX distribution row of the Device roles table
+  describes a device that is not part of this JVD; it is now a note below the table, with
+  its text unchanged.
+
+### Known limitations
+
+- The MX and the SRX nodes apply the configuration groups `global` and `re0` (all but one
+  SRX node also `re1`); the published configurations define none of them (14 references).
+  The snippets reproduce the references as configured, and the dependency links and the
+  assistant bundle list them as not defined. See the library
+  [README](security/scale_out_ipsec/configuration/snips/README.md#known-limitations-of-the-published-configurations).
+- The initiator gateway emulates the remote sites of the test bed; its snippets reproduce
+  that emulation as configured.
+- 53 constructs carry no peer claim (security, IKE/IPsec, Traffic Load Balancer,
+  network-monitoring, service-set, SNMP and system constructs, the virtual-router and
+  BGP-group eBGP sessions and the aggregated Ethernet interfaces).
+
+### What this means for you
+
+- Build Scale-Out IPsec configurations from snippets that match the published devices
+  exactly, with `$VAR` placeholders for deployment values and credentials. See the library
+  [README](security/scale_out_ipsec/configuration/snips/README.md) and
+  [variable glossary](security/scale_out_ipsec/configuration/snips/_variables.md).
+- If you copied credentials from the earlier published configurations, treat them as
+  exposed lab values and do not reuse them.
+- When building from these snippets, include every `Pair with` entry. For needs that
+  depend on your router's configuration, use the Needs list in the JVD AI Assistant
+  bundle, or look up your router in
+  [`snip-dependencies.json`](portal/public/snip-dependencies.json).
+- Links or bookmarks to the earlier snippet file names no longer resolve; use the topic
+  index in the library
+  [README](security/scale_out_ipsec/configuration/snips/README.md#topic-index).
+- Pull the latest `main` for the regenerated catalog, dependency links, assistant
+  bundle and manifest.
+
+---
+
+### By the numbers
+
+Changes since the November 26 entry, excluding this changelog.
+
+<details>
+<summary>Per-JVD / per-area changes</summary>
+
+| JVD / Area | Added | Renamed | Removed | Modified | READMEs |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Security / Scale-Out IPsec | 109 | 0 | 23 | 20 | 2 |
+| Shared variable glossary | 0 | 0 | 0 | 1 | 0 |
+| Portal | 0 | 0 | 0 | 13 | 1 |
+| **Total** | **109** | **0** | **23** | **34** | **3** |
+
+</details>
+
+<details>
+<summary>Net lines added/removed by area</summary>
+
+| Area | Lines added | Lines removed | Net |
+| --- | ---: | ---: | ---: |
+| Security / Scale-Out IPsec | 14386 | 4032 | +10354 |
+| Shared variable glossary | 42 | 0 | +42 |
+| Portal | 21165 | 4502 | +16663 |
+| **Total** | **35593** | **8534** | **+27059** |
+
+</details>
+
+<details>
+<summary>Content breakdown</summary>
+
+| Content | Files | Lines added |
+| --- | ---: | ---: |
+| Snippet library (`configuration/snips/`, excluding assistant bundles) | 134 | 6821 |
+| JVD AI Assistant bundle (with portal copy) | 22 | 15268 |
+| Snippet catalog (`snips.json`, two copies) | 2 | 12528 |
+| Per-router dependency links (`portal/public/snip-dependencies.json`) | 1 | 919 |
+| Shared variable glossary (`.github/glossary/var-glossary.json`) | 1 | 42 |
+| Device configurations (source correction) | 5 | 13 |
+| JVD datasheet | 1 | 2 |
+| **Total** | **166** | **35593** |
+
+</details>
+
+---
+
 ## 2026-11-26
 
 The **Scale-Out Stateful Firewall and NAT** snippet library is rebuilt with measured
