@@ -1,95 +1,59 @@
-# Auto-fill Defaults
+# DEFAULTS — Scale-Out Firewall and NAT
 
-This file is part of the [BYOAI](README.md) corpus. It gives the deterministic JVD lab-default value for every `$VAR`, so `auto` mode (and the `all defaults` / `use defaults` / `skip` short-circuits) can generate without an interview. Values are drawn from the validated configs in `../conf/`. Bundled into [`jvd-so-fwnat-snips.md`](jvd-so-fwnat-snips.md) by `regenerate-bundle.sh`.
+Lab auto-fill values for the Scale-Out Firewall and NAT JVD. Every value is measured from the published device configurations under [`configuration/conf/`](../../conf/). Use them when the user picks a device and service and asks for lab values; otherwise ask for the deployment values.
 
-## Device selection shortcuts
+## Device inventory
 
-| Shortcut | Device(s) | Role |
-|---|---|---|
-| `MX-LB` | `mx1_mx304` | MX304 stateless load balancer (TLB / DSR) |
-| `SRX` | `srx1a` (+ `srx1b` as the MNHA peer) | SRX4600 SFW + source-NAT (NAPT44) gateway |
-| `GW` | `gateway_emulator_mx304` | MX304 north-side test harness (client/server emulator) |
+| Role | Device | Platform | OS | Loopbacks | AS numbers (instance: local AS) |
+|------|--------|----------|----|-----------|---------------------------------|
+| Gateway / Emulator | gateway_emulator_mx304 | MX304 | Junos | — | TRUST_VR 65100; UNTRUST_VR 65300 |
+| Forwarding / Load Balancer | mx1_mx304 | MX304 | Junos | lo0.1 192.168.10.251/32, 2001:db8:1:255::251/128; lo0.2 192.168.10.252/32, 2001:db8:1:255::252/128 | MNHA-VR 65050; TRUST_VR 65200 (instance AS 1000); UNTRUST_VR 65400 |
+| Security Service (SFW/NAT) | srx1a_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.1/32; lo0.1 192.168.10.1/32, 2001:db8:1:255::1/128 | MNHA-VR 65001; VR-1 65000 |
+| Security Service (SFW/NAT) | srx1b_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.2/32; lo0.1 192.168.10.1/32, 2001:db8:1:255::1/128 | MNHA-VR 65002; VR-1 65000 |
+| Security Service (SFW/NAT) | srx2a_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.3/32; lo0.1 192.168.10.2/32, 2001:db8:1:255::2/128 | MNHA-VR 65001; VR-1 65000 |
+| Security Service (SFW/NAT) | srx2b_srx4600 | SRX4600 | Junos | lo0.0 192.168.0.4/32; lo0.1 192.168.10.2/32, 2001:db8:1:255::2/128 | MNHA-VR 65002; VR-1 65000 |
 
-The SRX farm is two MNHA pairs: `srx1a`+`srx1b`, `srx2a`+`srx2b`.
+The two nodes of an MNHA pair share their lo0.1 address (the TLB real service of the pair) and swap their MNHA local and peer IDs; the A nodes (srx1a, srx2a) prepend the AS path less than the B nodes (srx1b, srx2b).
 
-## Load balancer & health-check anchors
+## NAT pools
 
-| Variable | Default |
-|---|---|
-| `$REAL1` / `$REAL2` | `192.168.10.1` / `192.168.10.2` (per-pair anchor / health-check IPs) |
-| `$TRUST_VRF` / `$UNTRUST_VRF` | `TRUST_VR` / `UNTRUST_VR` |
-| `$TRUST_FI` / `$UNTRUST_FI` | `srx_mnha_group_tlb-trust_fi` / `srx_mnha_group_tlb-untrust_fi` |
-| `$HC_SRC` / `$HC_SRC6` | `192.168.10.1` / `2001:db8:1:255::1` (SRX lo0.1 anchor) |
-| `$HC_TRUST_SRC` / `$HC_UNTRUST_SRC` | `192.168.10.251/32` / `192.168.10.252/32` (MX lo0.1 / lo0.2 probe sources) |
-| `$HC_TRUST_SRC6` / `$HC_UNTRUST_SRC6` | `2001:db8:1:255::251/128` / `2001:db8:1:255::252/128` |
-| `$TCP_PORT` / `$WEB_PORT` | `8088` (TLB TCP probe = SRX web-management port — keep in sync) |
+| MNHA pair | Devices | NAPT44 pool (`$NAT_POOL_V4_PFX_1`) | NAT64 source pool (`$NAT_POOL_V4_PFX_2`) |
+|-----------|---------|------------------------------------|------------------------------------------|
+| 1 | srx1a_srx4600 and srx1b_srx4600 | 100.64.1.0/24 | 100.64.2.0/24 |
+| 2 | srx2a_srx4600 and srx2b_srx4600 | 100.64.3.0/24 | 100.64.4.0/24 |
 
-## Autonomous systems
+## First validated instance per service and device
 
-| Variable | Default |
-|---|---|
-| `$TRUST_AS` / `$UNTRUST_AS` / `$MNHA_AS` (MX side) | `65200` / `65400` / `65050` |
-| `$MX_TRUST_AS` / `$MX_UNTRUST_AS` / `$MX_MNHA_AS` (SRX view) | `65200` / `65400` / `65050` |
-| `$SRX_AS` | `65000` (shared across the SRX farm; MX uses `as-override`) |
-| `$SRX_MNHA_AS` | `65001` (MNHA-VR ICL local-as) |
-| `$SRX_MNHA_A_AS` / `$SRX_MNHA_B_AS` | `65001` / `65002` (A/B node AS as seen by the MX) |
-| `$GW_TRUST_AS` / `$GW_UNTRUST_AS` | `65100` / `65300` |
+| Service form | Device | Example values |
+|--------------|--------|----------------|
+| source-nat-napt44-nat64 | srx1a_srx4600 | `$NAT_POOL_V4_PFX_1` 100.64.1.0/24, `$NAT_POOL_V4_PFX_2` 100.64.2.0/24 |
+| source-nat-napt44-nat64 | srx1b_srx4600 | `$NAT_POOL_V4_PFX_1` 100.64.1.0/24, `$NAT_POOL_V4_PFX_2` 100.64.2.0/24 |
+| source-nat-napt44-nat64 | srx2a_srx4600 | `$NAT_POOL_V4_PFX_1` 100.64.3.0/24, `$NAT_POOL_V4_PFX_2` 100.64.4.0/24 |
+| source-nat-napt44-nat64 | srx2b_srx4600 | `$NAT_POOL_V4_PFX_1` 100.64.3.0/24, `$NAT_POOL_V4_PFX_2` 100.64.4.0/24 |
+| security-policies-sfw-nat | srx1a_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-sfw-nat | srx1b_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-sfw-nat | srx2a_srx4600 | (no variables: the snip is rendered as written) |
+| security-policies-sfw-nat | srx2b_srx4600 | (no variables: the snip is rendered as written) |
+| mnha-srg-0-signal-route | srx1a_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.1, `$MNHA_LOCAL_ID` 1, `$MNHA_MONITOR_DST_V4` 10.1.1.1, `$MNHA_MONITOR_SRC_V4` 10.1.1.2, `$MNHA_PEER_ID` 2 … |
+| mnha-srg-0-signal-route | srx1b_srx4600 | `$IFL` ae1.0, `$LOOPBACK_V4` 192.168.0.2, `$MNHA_LOCAL_ID` 2, `$MNHA_MONITOR_DST_V4` 10.1.2.1, `$MNHA_MONITOR_SRC_V4` 10.1.2.2, `$MNHA_PEER_ID` 1 … |
+| mnha-srg-0-signal-route | srx2a_srx4600 | `$IFL` ae2.0, `$LOOPBACK_V4` 192.168.0.3, `$MNHA_LOCAL_ID` 1, `$MNHA_MONITOR_DST_V4` 10.1.3.1, `$MNHA_MONITOR_SRC_V4` 10.1.3.2, `$MNHA_PEER_ID` 2 … |
+| mnha-srg-0-signal-route | srx2b_srx4600 | `$IFL` ae2.0, `$LOOPBACK_V4` 192.168.0.4, `$MNHA_LOCAL_ID` 2, `$MNHA_MONITOR_DST_V4` 10.1.4.1, `$MNHA_MONITOR_SRC_V4` 10.1.4.2, `$MNHA_PEER_ID` 1 … |
+| srx-mnha-vr-icl | srx1a_srx4600 | `$ASN` 65001, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.1.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.1.2 |
+| srx-mnha-vr-icl | srx1b_srx4600 | `$ASN` 65002, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.2.1, `$IFL` ae1.100, `$PE_LOCAL_V4` 10.3.2.2 |
+| srx-mnha-vr-icl | srx2a_srx4600 | `$ASN` 65001, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.3.1, `$IFL` ae2.100, `$PE_LOCAL_V4` 10.3.3.2 |
+| srx-mnha-vr-icl | srx2b_srx4600 | `$ASN` 65002, `$ASN_CUSTOMER` 65050, `$BGP_EXPORT_POL` mnha_ip, `$CE_PEER_V4` 10.3.4.1, `$IFL` ae2.100, `$PE_LOCAL_V4` 10.3.4.2 |
+| srx-vr-1-scale-out | srx1a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER_1` 65200, `$ASN_CUSTOMER_2` 65400, `$BGP_EXPORT_POL_1` trust_export_policy, `$BGP_EXPORT_POL_2` untrust_export_policy, `$BGP_EXPORT_POL_3` ipv6_trust_export_policy … |
+| srx-vr-1-scale-out | srx1b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER_1` 65200, `$ASN_CUSTOMER_2` 65400, `$BGP_EXPORT_POL_1` trust_export_policy, `$BGP_EXPORT_POL_2` untrust_export_policy, `$BGP_EXPORT_POL_3` ipv6_trust_export_policy … |
+| srx-vr-1-scale-out | srx2a_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER_1` 65200, `$ASN_CUSTOMER_2` 65400, `$BGP_EXPORT_POL_1` trust_export_policy, `$BGP_EXPORT_POL_2` untrust_export_policy, `$BGP_EXPORT_POL_3` ipv6_trust_export_policy … |
+| srx-vr-1-scale-out | srx2b_srx4600 | `$ASN` 65000, `$ASN_CUSTOMER_1` 65200, `$ASN_CUSTOMER_2` 65400, `$BGP_EXPORT_POL_1` trust_export_policy, `$BGP_EXPORT_POL_2` untrust_export_policy, `$BGP_EXPORT_POL_3` ipv6_trust_export_policy … |
+| mx-trust-vr-scale-out | mx1_mx304 | `$ASN` 1000, `$ASN_CUSTOMER_1` 65100, `$ASN_CUSTOMER_2` 65000, `$ASN_LOCAL` 65200, `$BGP_EXPORT_POL_1` def_route_export, `$BGP_EXPORT_POL_2` ipv4_mx_trust-to-srx_trust_export … |
+| mx-untrust-vr-scale-out | mx1_mx304 | `$ASN` 65400, `$ASN_CUSTOMER_1` 65300, `$ASN_CUSTOMER_2` 65000, `$BGP_EXPORT_POL_1` ipv4_mx_untrust_to_gw_export, `$BGP_EXPORT_POL_2` ipv4_mx_untrust-to-srx_untrust_export, `$BGP_EXPORT_POL_3` ipv6_mx_untrust-to-srx_untrust_export … |
+| mx-mnha-vr-icl | mx1_mx304 | `$ASN` 65050, `$ASN_CUSTOMER_1` 65001, `$ASN_CUSTOMER_2` 65002, `$BGP_EXPORT_POL` mnha-mx-to-srx-export, `$CE_PEER_V4_1` 10.3.1.2, `$CE_PEER_V4_2` 10.3.2.2 … |
+| tlb-sfw-trust | mx1_mx304 | `$REAL_SERVICE_V4_1` 192.168.10.1, `$REAL_SERVICE_V4_2` 192.168.10.2 |
+| tlb-sfw-untrust | mx1_mx304 | `$REAL_SERVICE_V4_1` 192.168.10.1, `$REAL_SERVICE_V4_2` 192.168.10.2 |
+| tlb-sfw-trust-ipv6 | mx1_mx304 | `$REAL_SERVICE_V6_1` 2001:db8:1:255::1, `$REAL_SERVICE_V6_2` 2001:db8:1:255::2 |
+| tlb-sfw-untrust-ipv6 | mx1_mx304 | `$REAL_SERVICE_V6_1` 2001:db8:1:255::1, `$REAL_SERVICE_V6_2` 2001:db8:1:255::2 |
+| tlb-fbf-trust | mx1_mx304 | `$AC_ADDR_V4` 172.16.1.1/30, `$AC_ADDR_V6` 2001:db8:172:1:1::1/126, `$IFD` ae10, `$UNIT` 41, `$VLAN` 41 |
+| tlb-fbf-untrust | mx1_mx304 | `$AC_ADDR_V4` 172.16.2.1/30, `$AC_ADDR_V6` 2001:db8:172:2:1::1/126, `$IFD` ae10, `$UNIT` 81, `$VLAN` 81 |
 
-## Per-plane addressing (per SRX/MNHA node, /30 v4 + /126 v6)
-
-| Plane | Sub-unit | MX side | SRX side |
-|---|---|---|---|
-| TRUST | `.0` | `10.1.1.1/30` · `2001:db8:1:1:1::1/126` | `10.1.1.2/30` · `2001:db8:1:1:1::2/126` |
-| UNTRUST | `.1` | `10.2.1.1/30` · `2001:db8:1:2:1::1/126` | `10.2.1.2/30` · `2001:db8:1:2:1::2/126` |
-| MNHA-ICL | `.100` | `10.3.1.1/30` | `10.3.1.2/30` |
-
-North-side AC (MX `ae10`, flexible-ethernet-services): TRUST unit `.41` = `172.16.1.1/30`, UNTRUST unit `.81` = `172.16.2.1/30` (v6 `2001:db8:172:1:1::1/126` / `2001:db8:172:2:1::1/126`).
-
-## NAT — source-NAT NAPT44 (the tested feature)
-
-| Variable | Default |
-|---|---|
-| `$NAPT_POOL` | `srx_nat_pool1` (SRX source-NAT pool name) |
-| `$NAPT_PREFIX` | `100.64.1.0/24` (pair 1) · `100.64.3.0/24` (pair 2) — **unique per MNHA pair** |
-| `$NAPT_POOL_1` … `$NAPT_POOL_4` | `100.64.1.0/24` … `100.64.4.0/24` (MX route-filter-list) |
-| pooling | `address-pooling paired` (endpoint-independent mapping) |
-
-## Stateful-firewall prefixes
-
-| Variable | Default |
-|---|---|
-| `$SFW_CLIENT_PFX` / `$SFW_SERVER_PFX` | `172.80.0.0/12` / `172.160.0.0/12` |
-| `$SFW_CLIENT_V6` / `$SFW_SERVER_V6` | `2001:db8:172:80::/96` / `2001:db8:172:160::/96` |
-| `$INSIDE_NH` | `172.16.8.1` (GW-emulator inside next-hop) |
-
-## Zones
-
-| Variable | Default |
-|---|---|
-| `$TRUST_ZONE` / `$UNTRUST_ZONE` | `VR-1_trust_zone` / `VR-1_untrust_zone` (MNHA-ICL zone: `trust_zone_mnha`) |
-
-## SRX identity / MNHA signalling
-
-| Variable | Default |
-|---|---|
-| `$LOCAL_IP` / `$MNHA_NODE` | `192.168.0.1` (srx*a); `192.168.0.2` (srx*b) |
-| `$PEER_IP` | `192.168.0.2` (peer of srx*a) |
-| `$SIG_ROUTE` | `192.168.255.0` (install-on-failure signal-route tested by the export conditions) |
-| `$MON_DEST` / `$MON_SRC` | `10.1.1.1` / `10.1.1.2` (SRG0 BFD monitor dest / src) |
-| `$MON_INT` | `ae1.0` |
-
-## Interfaces
-
-| Variable | Default |
-|---|---|
-| `$AE` | `ae1` (pair 1) · `ae2` (pair 2) — to the MX |
-| `$ETA` / `$ETB` | `et-1/0/0` / `et-1/0/1` (SRX member ports) |
-| BFD | 300 ms × 3 (sub-second detection); LACP active periodic-fast, minimum-links 1 |
-
-## NAT64 (off-design / non-goal — never auto-included)
-
-Present in the lab configs but scoped as a non-goal by the published design guides. Only rendered on an explicit "Add NAT64" request. Defaults: `$NAT64_SRC_POOL` = `nat_64_source_ipv4_pool`, `$NAT64_SRC_PREFIX` = `100.64.2.0/24`, `$NAT64_CLIENT_V6` = `2001:db8:172:80::/96`, `$NAT64_DST_V4` = `172.16.10.3/32`, `$NAT64_DST_V6` = `2001:db8:1::1/128`.
-
-## Secrets
-
-This JVD's validated lab configs contain **no secret material** (no `## SECRET-DATA`, PSKs, or encrypted passwords), so there are no secret placeholders to supply.
+The two nodes of an MNHA pair name each other: each node's `$MNHA_PEER_V4` is the other node's lo0.0 address and its `$MNHA_PEER_ID` the other node's `$MNHA_LOCAL_ID`. The MX TLB real services are the SRX pairs' lo0.1 addresses, and the MX eBGP neighbors are the SRX nodes' VLAN unit addresses.
